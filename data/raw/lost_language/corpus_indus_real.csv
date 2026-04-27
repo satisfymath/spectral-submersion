@@ -1,0 +1,1004 @@
+doc_id,line_id,position,token,features,description,source
+M-1A,1,1,P121,"[0, 1, 0, 1]",unicorn I seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-1A,1,2,P202,"[0, 1, 0, 0, 3]",unicorn I seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-1A,1,3,P385,"[0, 1, 0, 1]",unicorn I seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-1A,1,4,P073,"[0, 1, 0, 2, 1]",unicorn I seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-1A,1,5,P108,"[0, 1, 0, 0, 1, 0]",unicorn I seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-3A,2,1,P320,"[0, 1, 0, 3]",unicorn I seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-3A,2,2,P145,"[0, 1, 0]",unicorn I seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-3A,2,3,P094,"[0, 1, 0]",unicorn I seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-4A,3,1,P205,"[1410, 1, 10, 3, 4, 0, 2, 0]",unicorn I seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-4A,3,2,P186,"[0, 1, 10, 0, 0, 0, 0, 0]",unicorn I seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-4A,3,3,P147,"[0, 1, 0]",unicorn I seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-4A,3,4,P316,"[0, 1, 0, 1, 1, 1, 0]",unicorn I seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-4A,3,5,P056,"[0, 1, 0, 1]",unicorn I seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-4A,3,6,P122,"[0, 1, 0, 0]",unicorn I seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-4A,3,7,P237,"[0, 1, 0]",unicorn I seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-4A,3,8,P268,"[0, 1, 0, 2, 4]",unicorn I seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-4A,3,9,P268,"[0, 1, 0, 2, 4]",unicorn I seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-4A,3,10,P147,"[0, 1, 0]",unicorn I seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-5A,4,1,P324,"[80, 1, 50, 2, 0, 2, 1, 0]",unicorn I seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-5A,4,2,P096,"[20, 1, 10, 5, 3, 1]",unicorn I seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-5A,4,3,P062,"[10, 1, 0, 2, 0]",unicorn I seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-5A,4,4,P060,"[10, 1, 20]",unicorn I seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-5A,4,5,P120,"[0, 1, 0, 1, 0]",unicorn I seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-5A,4,6,P256,"[10, 1, 10, 1]",unicorn I seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-6A,5,1,P378,"[0, 1, 0, 0]",unicorn I seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-6A,5,2,P384,"[0, 1, 0]",unicorn I seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-6A,5,3,P201,"[0, 1, 0, 0]",unicorn I seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-6A,5,4,P065,"[0, 1, 0]",unicorn I seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-7A,6,1,P086,"[0, 1, 0, 2, 4, 2, 1]",unicorn I seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-7A,6,2,P352,"[0, 1, 0, 1, 0]",unicorn I seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-7A,6,3,P011,"[0, 1, 0, 0]",unicorn I seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-7A,6,4,P324,"[0, 1, 0, 0, 0, 1, 1, 0]",unicorn I seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-7A,6,5,P154,"[0, 1, 0, 0]",unicorn I seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-7A,6,6,P009,"[0, 1, 0, 1]",unicorn I seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-7A,6,7,P154,"[0, 1, 0, 0]",unicorn I seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-7A,6,8,P175,"[0, 1, 0]",unicorn I seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-7A,6,9,P062,"[0, 1, 0, 2, 0]",unicorn I seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-7A,6,10,P122,"[0, 1, 0, 0]",unicorn I seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-7A,6,11,P385,"[0, 1, 0, 1]",unicorn I seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-8A,7,1,P316,"[0, 1, 0, 1, 0, 0, 2]",unicorn I seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-8A,7,2,P011,"[0, 1, 0, 0]",unicorn I seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-8A,7,3,P270,"[0, 1, 0, 3, 0]",unicorn I seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-9A,8,1,P144,"[0, 1, 0]",unicorn I seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-9A,8,2,P205,"[0, 1, 0, 3, 3, 1, 0, 1]",unicorn I seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-9A,8,3,P327,"[0, 1, 0, 1, 2, 1, 1, 0, 0]",unicorn I seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-10A,9,1,P086,"[0, 1, 0, 2, 3, 2, 0]",unicorn I seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-10A,9,2,P204,"[0, 1, 0, 0, 1]",unicorn I seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-10A,9,3,P114,"[0, 1, 0, 1]",unicorn I seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-10A,9,4,P151,"[0, 1, 0]",unicorn I seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-10A,9,5,P316,"[0, 1, 0, 1, 0, 0, 2]",unicorn I seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-10A,9,6,P060,"[0, 1, 0]",unicorn I seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-10A,9,7,P364,"[0, 1, 0, 2, 0]",unicorn I seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-10A,9,8,P122,"[0, 1, 0, 0]",unicorn I seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-10A,9,9,P067,"[0, 1, 0, 0, 1, 1, 1]",unicorn I seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-10A,9,10,P221,"[20, 1, 30, 0]",unicorn I seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-12A,10,1,P324,"[20, 1, 30, 0, 0, 1, 1, 0]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-12A,10,2,P086,"[0, 1, 0, 3, 1, 0, 0]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-12A,10,3,P276,"[0, 1, 0]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-12A,10,4,P058,"[0, 1, 0, 1]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-12A,10,5,P122,"[0, 1, 0, 0]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-12A,10,6,P202,"[0, 1, 0, 1, 2]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-12A,10,7,P386,"[0, 1, 0, 0]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-12A,10,8,P182,"[0, 1, 0, 1, 1]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-12A,10,9,P108,"[0, 1, 0, 0, 1, 0]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-13A,11,1,P202,"[0, 1, 0, 0, 3]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-13A,11,2,P205,"[0, 1, 0, 3, 5, 1, 13, 0]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-13A,11,3,P035,"[0, 1, 0, 1, 1]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-14A,12,1,P324,"[10, 1, 10, 1, 0, 0, 1, 0]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-14A,12,2,P117,"[0, 1, 0, 0]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-14A,12,3,P210,"[0, 1, 0, 6]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-14A,12,4,P122,"[0, 1, 0, 0]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-14A,12,5,P385,"[0, 1, 0, 0]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-15A,13,1,P013,"[10, 1, 10]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-15A,13,2,P324,"[0, 1, 0, 1, 0, 2, 1, 0]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-15A,13,3,P194,"[0, 1, 0, 4, 0, 0]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-15A,13,4,P122,"[0, 1, 0, 0]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-15A,13,5,P385,"[0, 1, 0, 1]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-16A,14,1,P378,"[0, 1, 0, 0]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-16A,14,2,P026,"[0, 1, 0, 5]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-16A,14,3,P151,"[0, 1, 0]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-16A,14,4,P346,"[0, 1, 0]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-17A,15,1,P086,"[10, 1, 10, 3, 1, 0, 0]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-17A,15,2,P126,"[0, 1, 0, 0, 0]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-17A,15,3,P122,"[0, 1, 0, 0]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-17A,15,4,P369,"[0, 1, 0, 2]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-17A,15,5,P232,"[0, 1, 0, 0]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-18A,16,1,P341,"[0, 1, 0, 1]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-18A,16,2,P324,"[0, 1, 0, 1, 0, 0, 1, 0]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-18A,16,3,P142,"[0, 1, 0]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-19A,17,1,P000,"[0, 1, 0, 75]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-19A,17,2,P122,"[50, 1, 40, 0]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-19A,17,3,P385,"[0, 1, 0, 1]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-20A,18,1,P086,"[30, 1, 20, 3, 1, 0, 0]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-20A,18,2,P125,"[20, 1, 10, 2, 1]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-20A,18,3,P122,"[0, 1, 0, 0]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-20A,18,4,P385,"[0, 1, 0, 1]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-20A,18,5,P147,"[10, 1, 10]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-20A,18,6,P147,"[10, 1, 10]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-20A,18,7,P215,"[0, 1, 0, 1, 0]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-20A,18,8,P275,"[0, 1, 0, 0, 0, 2]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-21A,19,1,P091,"[0, 1, 0, 3, 0, 0]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-21A,19,2,P121,"[0, 1, 0, 1]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-21A,19,3,P324,"[0, 1, 0, 1, 0, 0, 1, 0]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-21A,19,4,P272,"[0, 1, 0, 0]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-21A,19,5,P256,"[0, 1, 0, 0]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-21A,19,6,P145,"[0, 1, 0]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-21A,19,7,P122,"[0, 1, 0, 0]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-21A,19,8,P385,"[0, 1, 0, 1]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-22A,20,1,P324,"[30, 1, 10, 1, 0, 2, 1, 0]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-22A,20,2,P172,"[0, 1, 0, 0]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-22A,20,3,P194,"[0, 1, 0, 4, 0, 0]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-22A,20,4,P050,"[10, 1, 10]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-22A,20,5,P145,"[10, 1, 10]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-22A,20,6,P230,"[20, 1, 10, 0, 0, 0, 1]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-22A,20,7,P000,"[0, 1, 0, 15]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-23A,21,1,P324,"[10, 1, 10, 1, 0, 0, 1, 0]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-23A,21,2,P197,"[0, 1, 0]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-23A,21,3,P120,"[0, 1, 0, 0, 1]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-23A,21,4,P256,"[0, 1, 0, 0]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-23A,21,5,P217,"[0, 1, 0, 0]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-23A,21,6,P050,"[0, 1, 0]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-23A,21,7,P060,"[0, 1, 0]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-23A,21,8,P121,"[0, 1, 0, 1]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-23A,21,9,P160,"[50, 1, 40]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-23A,21,10,P350,"[0, 2, 0, 0]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-23A,21,11,P390,"[10, 2, 20, 1, 1]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-23A,21,12,P076,"[0, 2, 0, 0, 1, 8]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-23A,21,13,P202,"[0, 2, 0, 1, 3]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-24A,22,1,P013,"[0, 1, 0]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-24A,22,2,P324,"[0, 1, 0, 1, 0, 1, 1, 0]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-24A,22,3,P062,"[0, 1, 0, 1, 0]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-24A,22,4,P060,"[0, 1, 0]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-24A,22,5,P122,"[0, 1, 0, 0]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-24A,22,6,P174,"[0, 1, 0]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-24A,22,7,P011,"[30, 1, 70, 0]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-25A,23,1,P268,"[10, 1, 0, 2, 7]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-25A,23,2,P268,"[20, 1, 10, 2, 7]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-25A,23,3,P050,"[0, 1, 50]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-25A,23,4,P316,"[0, 1, 0, 0, 0, 1, 2]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-25A,23,5,P276,"[0, 1, 0]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-26A,24,1,P013,"[0, 1, 0]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-26A,24,2,P324,"[0, 1, 0, 1, 0, 2, 1, 0]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-26A,24,3,P228,"[0, 1, 0, 1, 0]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-26A,24,4,P120,"[0, 1, 0, 0, 1]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-26A,24,5,P256,"[0, 1, 0, 1]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-27A,25,1,P238,"[0, 1, 0]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-27A,25,2,P060,"[0, 1, 0]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-27A,25,3,P364,"[0, 1, 0, 3, 0]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-27A,25,4,P325,"[0, 1, 0, 1, 0, 0, 1, 0]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-27A,25,5,P311,"[0, 1, 0, 0, 0]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-27A,25,6,P154,"[0, 1, 0, 0]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-27A,25,7,P123,"[80, 1, 50, 0]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-28A,26,1,P000,"[0, 1, 0, 10]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-28A,26,2,P103,"[0, 1, 0]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-28A,26,3,P324,"[0, 1, 0, 1, 0, 0, 1, 0]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-28A,26,4,P332,"[0, 1, 0, 2, 0, 3, 0]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-28A,26,5,P349,"[0, 1, 0]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-28A,26,6,P095,"[0, 1, 0, 5]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-28A,26,7,P122,"[0, 1, 0, 0]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-28A,26,8,P385,"[0, 1, 0, 1]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-29A,27,1,P324,"[10, 1, 0, 0, 0, 1, 1, 0]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-29A,27,2,P142,"[0, 1, 0]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-29A,27,3,P062,"[0, 1, 0, 1, 0]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-29A,27,4,P060,"[0, 1, 0]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-29A,27,5,P364,"[0, 1, 0, 3, 1]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-29A,27,6,P122,"[0, 1, 0, 0]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-29A,27,7,P050,"[0, 1, 0]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-29A,27,8,P221,"[0, 1, 0, 0]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-29A,27,9,P210,"[20, 1, 20, 3]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-30A,28,1,P324,"[0, 1, 0, 0, 0, 1, 1, 0]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-30A,28,2,P332,"[0, 1, 0, 2, 1, 2, 1]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-30A,28,3,P127,"[0, 1, 0, 0, 0]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-30A,28,4,P210,"[0, 1, 0, 4]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-30A,28,5,P062,"[0, 1, 0, 1, 0]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-30A,28,6,P060,"[0, 1, 0]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-30A,28,7,P364,"[0, 1, 0, 3, 1]",unicorn II seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-31A,29,1,P324,"[40, 1, 50, 1, 0, 0, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-31A,29,2,P067,"[0, 1, 0, 0, 1, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-31A,29,3,P275,"[0, 1, 0, 1, 1, 1]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-31A,29,4,P058,"[0, 1, 0, 1]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-31A,29,5,P120,"[0, 1, 0, 0, 1]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-31A,29,6,P378,"[0, 1, 0, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-32A,30,1,P086,"[0, 1, 0, 3, 1, 0, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-32A,30,2,P123,"[0, 1, 0, 2]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-32A,30,3,P122,"[0, 1, 0, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-32A,30,4,P385,"[0, 1, 0, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-33A,31,1,P324,"[20, 1, 10, 1, 0, 0, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-33A,31,2,P145,"[0, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-33A,31,3,P175,"[0, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-33A,31,4,P111,"[0, 1, 0, 1]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-33A,31,5,P058,"[0, 1, 0, 1]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-33A,31,6,P122,"[0, 1, 0, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-33A,31,7,P041,"[0, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-34A,32,1,P324,"[0, 1, 0, 1, 0, 1, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-34A,32,2,P309,"[0, 1, 0, 1, 2, 1, 1]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-34A,32,3,P194,"[0, 1, 0, 4, 0, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-34A,32,4,P122,"[0, 1, 0, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-34A,32,5,P086,"[0, 1, 0, 2, 3, 2, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-34A,32,6,P108,"[0, 1, 0, 0, 0, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-34A,32,7,P103,"[0, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-35A,33,1,P324,"[0, 1, 0, 1, 0, 1, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-35A,33,2,P086,"[0, 1, 0, 2, 3, 2, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-35A,33,3,P276,"[0, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-35A,33,4,P058,"[0, 1, 0, 1]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-35A,33,5,P056,"[0, 1, 0, 1]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-35A,33,6,P122,"[0, 1, 0, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-35A,33,7,P007,"[0, 1, 0, 1]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-36A,34,1,P324,"[40, 1, 50, 1, 0, 1, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-36A,34,2,P358,"[10, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-36A,34,3,P270,"[0, 1, 0, 2, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-36A,34,4,P050,"[0, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-36A,34,5,P145,"[0, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-36A,34,6,P122,"[0, 1, 0, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-36A,34,7,P202,"[0, 1, 0, 1, 2]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-36A,34,8,P174,"[0, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-36A,34,9,P307,"[0, 1, 0, 3]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-37A,35,1,P217,"[0, 1, 0, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-37A,35,2,P050,"[0, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-37A,35,3,P092,"[0, 1, 0, 5]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-38A,36,1,P324,"[10, 1, 10, 1, 0, 0, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-38A,36,2,P256,"[0, 1, 0, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-38A,36,3,P188,"[0, 1, 0, 0, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-38A,36,4,P073,"[0, 1, 0, 1, 1]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-38A,36,5,P050,"[0, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-38A,36,6,P145,"[0, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-38A,36,7,P062,"[0, 1, 0, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-38A,36,8,P060,"[0, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-38A,36,9,P122,"[0, 1, 0, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-38A,36,10,P086,"[0, 1, 0, 3, 1, 0, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-38A,36,11,P035,"[10, 1, 20, 0, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-38A,36,12,P270,"[0, 1, 0, 3, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-38A,36,13,P145,"[40, 1, 50]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-39A,37,1,P000,"[0, 1, 0, 15]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-39A,37,2,P316,"[40, 1, 50, 0, 1, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-39A,37,3,P062,"[0, 1, 0, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-39A,37,4,P060,"[0, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-39A,37,5,P139,"[0, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-39A,37,6,P083,"[10, 1, 10, 3]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-39A,37,7,P303,"[30, 1, 50, 2, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-40A,38,1,P089,"[10, 1, 10]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-40A,38,2,P122,"[0, 1, 0, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-40A,38,3,P301,"[0, 1, 0, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-40A,38,4,P186,"[0, 1, 0, 1, 3, 2, 1, 3]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-40A,38,5,P125,"[0, 1, 0, 1, 1]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-41A,39,1,P324,"[0, 1, 0, 1, 0, 2, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-41A,39,2,P270,"[0, 1, 0, 2, 2]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-41A,39,3,P062,"[0, 1, 0, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-41A,39,4,P060,"[0, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-41A,39,5,P122,"[0, 1, 0, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-41A,39,6,P086,"[0, 1, 0, 2, 3, 2, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-41A,39,7,P035,"[0, 1, 0, 0, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-41A,39,8,P378,"[20, 1, 10, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-42A,40,1,P301,"[0, 1, 0, 2, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-42A,40,2,P230,"[0, 1, 0, 1, 0, 0, 1]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-42A,40,3,P062,"[0, 1, 0, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-42A,40,4,P122,"[0, 1, 0, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-42A,40,5,P385,"[0, 1, 0, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-43A,41,1,P324,"[0, 1, 0, 1, 0, 1, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-43A,41,2,P230,"[0, 1, 0, 0, 0, 0, 1]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-43A,41,3,P056,"[0, 1, 0, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-43A,41,4,P122,"[0, 1, 0, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-43A,41,5,P142,"[0, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-43A,41,6,P360,"[0, 1, 0, 5, 1]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-44A,42,1,P324,"[0, 1, 0, 1, 0, 0, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-44A,42,2,P332,"[0, 1, 0, 2, 0, 0, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-44A,42,3,P147,"[0, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-44A,42,4,P316,"[0, 1, 0, 0, 1, 0, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-44A,42,5,P364,"[0, 1, 20, 3, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-44A,42,6,P122,"[0, 1, 0, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-44A,42,7,P154,"[0, 1, 0, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-44A,42,8,P296,"[0, 1, 0, 3]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-45A,43,1,P268,"[0, 1, 0, 2, 3]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-45A,43,2,P268,"[0, 1, 0, 2, 3]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-45A,43,3,P372,"[0, 1, 0, 3]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-45A,43,4,P139,"[0, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-45A,43,5,P205,"[0, 1, 0, 3, 4, 1, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-45A,43,6,P349,"[0, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-45A,43,7,P145,"[0, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-46A,44,1,P324,"[0, 1, 0, 1, 0, 1, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-46A,44,2,P230,"[0, 1, 0, 0, 0, 0, 1]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-46A,44,3,P062,"[0, 1, 0, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-46A,44,4,P060,"[0, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-46A,44,5,P122,"[0, 1, 0, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-46A,44,6,P050,"[0, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-46A,44,7,P201,"[0, 1, 0, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-46A,44,8,P353,"[0, 1, 0, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-47A,45,1,P324,"[30, 1, 20, 1, 0, 2, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-47A,45,2,P332,"[0, 1, 0, 3, 0, 0, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-47A,45,3,P060,"[0, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-47A,45,4,P122,"[0, 1, 0, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-47A,45,5,P385,"[0, 1, 0, 1]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-48A,46,1,P086,"[0, 1, 0, 3, 1, 0, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-48A,46,2,P378,"[0, 1, 0, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-48A,46,3,P215,"[0, 1, 0, 0, 1]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-48A,46,4,P120,"[0, 1, 0, 0, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-48A,46,5,P202,"[0, 1, 0, 1, 2]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-48A,46,6,P154,"[20, 1, 40, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-49A,47,1,P000,"[0, 1, 0, 10]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-49A,47,2,P230,"[0, 1, 0, 1, 0, 0, 2]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-49A,47,3,P062,"[20, 1, 10, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-49A,47,4,P050,"[0, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-49A,47,5,P145,"[0, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-49A,47,6,P122,"[0, 1, 0, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-49A,47,7,P205,"[0, 1, 0, 2, 4, 1, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-49A,47,8,P091,"[0, 1, 0, 3, 0, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-49A,47,9,P145,"[0, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-49A,47,10,P076,"[0, 1, 0, 1, 0, 8]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-50A,48,1,P324,"[20, 1, 20, 1, 0, 2, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-50A,48,2,P288,"[0, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-50A,48,3,P127,"[0, 1, 0, 0, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-50A,48,4,P147,"[0, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-50A,48,5,P316,"[0, 1, 0, 1, 1, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-50A,48,6,P062,"[0, 1, 0, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-50A,48,7,P230,"[0, 1, 0, 0, 0, 0, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-50A,48,8,P122,"[0, 1, 0, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-50A,48,9,P000,"[0, 1, 0, 10]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-51A,49,1,P324,"[20, 1, 20, 1, 0, 1, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-51A,49,2,P230,"[20, 1, 10, 0, 0, 0, 2]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-51A,49,3,P215,"[10, 1, 10, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-51A,49,4,P091,"[0, 1, 0, 3, 0, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-51A,49,5,P060,"[0, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-51A,49,6,P324,"[0, 1, 0, 1, 0, 1, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-51A,49,7,P086,"[0, 1, 0, 3, 1, 0, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-51A,49,8,P011,"[30, 1, 20, 1]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-52A,50,1,P324,"[20, 1, 20, 1, 0, 0, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-52A,50,2,P172,"[0, 1, 0, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-52A,50,3,P145,"[0, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-52A,50,4,P050,"[0, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-52A,50,5,P092,"[0, 1, 0, 5]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-52A,50,6,P060,"[0, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-52A,50,7,P364,"[0, 1, 0, 3, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-52A,50,8,P122,"[0, 1, 0, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-52A,50,9,P211,"[0, 1, 0, 2]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-52A,50,10,P320,"[30, 1, 10, 3]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-53A,51,1,P013,"[10, 1, 30]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-53A,51,2,P324,"[0, 1, 0, 1, 0, 0, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-53A,51,3,P050,"[0, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-53A,51,4,P126,"[0, 1, 0, 0, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-53A,51,5,P122,"[0, 1, 0, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-53A,51,6,P205,"[0, 1, 0, 3, 4, 1, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-53A,51,7,P076,"[0, 1, 0, 1, 0, 8]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-53A,51,8,P154,"[0, 1, 0, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-53A,51,9,P011,"[0, 1, 0, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-54A,52,1,P051,"[30, 1, 20]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-54A,52,2,P062,"[10, 1, 10, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-54A,52,3,P147,"[20, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-54A,52,4,P316,"[20, 1, 10, 0, 1, 0, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-54A,52,5,P230,"[0, 1, 0, 0, 0, 0, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-54A,52,6,P122,"[0, 1, 0, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-54A,52,7,P378,"[0, 1, 0, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-55A,53,1,P000,"[0, 1, 0, 10]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-55A,53,2,P332,"[20, 1, 50, 3, 0, 0, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-55A,53,3,P215,"[0, 1, 0, 0, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-55A,53,4,P275,"[0, 1, 0, 1, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-55A,53,5,P121,"[0, 1, 0, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-55A,53,6,P256,"[0, 1, 0, 1]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-56A,54,1,P324,"[40, 1, 30, 1, 0, 2, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-56A,54,2,P382,"[10, 1, 10]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-56A,54,3,P145,"[0, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-56A,54,4,P060,"[0, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-56A,54,5,P120,"[0, 1, 50, 2, 1]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-56A,54,6,P230,"[0, 1, 0, 1, 0, 0, 1]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-56A,54,7,P281,"[0, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-56A,54,8,P349,"[0, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-57A,55,1,P051,"[0, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-57A,55,2,P145,"[0, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-57A,55,3,P056,"[20, 1, 40, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-57A,55,4,P230,"[0, 1, 0, 0, 0, 0, 1]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-57A,55,5,P122,"[0, 1, 0, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-57A,55,6,P258,"[0, 1, 0, 0, 3]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-58A,56,1,P324,"[0, 1, 0, 1, 0, 0, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-58A,56,2,P215,"[0, 1, 0, 0, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-58A,56,3,P210,"[0, 1, 0, 7]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-58A,56,4,P122,"[0, 1, 0, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-58A,56,5,P385,"[0, 1, 0, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-59A,57,1,P202,"[0, 1, 0, 0, 2]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-59A,57,2,P123,"[0, 1, 0, 1]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-59A,57,3,P326,"[0, 1, 0, 1, 0, 0, 1, 0, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-59A,57,4,P120,"[0, 1, 0, 2, 1]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-59A,57,5,P160,"[0, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-60A,58,1,P001,"[20, 1, 70, 0, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-60A,58,2,P000,"[0, 1, 0, 40]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-61A,59,1,P324,"[30, 1, 20, 1, 0, 1, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-61A,59,2,P251,"[30, 1, 90, 1]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-61A,59,3,P056,"[0, 1, 0, 1]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-61A,59,4,P050,"[0, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-61A,59,5,P221,"[0, 1, 0, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-61A,59,6,P268,"[0, 1, 0, 3, 4]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-61A,59,7,P246,"[0, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-62A,60,1,P051,"[0, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-62A,60,2,P122,"[0, 1, 0, 1]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-62A,60,3,P325,"[0, 1, 0, 1, 0, 1, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-62A,60,4,P230,"[0, 1, 0, 1, 0, 0, 1]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-62A,60,5,P310,"[0, 1, 0, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-62A,60,6,P234,"[0, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-63A,61,1,P301,"[0, 1, 0, 3, 1]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-63A,61,2,P230,"[0, 1, 0, 1, 1, 0, 1]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-63A,61,3,P120,"[0, 1, 0, 2, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-63A,61,4,P230,"[0, 1, 0, 1, 0, 0, 1]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-64A,62,1,P217,"[0, 1, 0, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-64A,62,2,P147,"[0, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-64A,62,3,P316,"[0, 1, 0, 0, 1, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-64A,62,4,P120,"[0, 1, 0, 0, 1]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-64A,62,5,P050,"[0, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-64A,62,6,P124,"[0, 1, 0, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-65A,63,1,P217,"[0, 1, 0, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-65A,63,2,P050,"[0, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-65A,63,3,P144,"[0, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-65A,63,4,P121,"[0, 1, 0, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-65A,63,5,P316,"[0, 1, 0, 1, 1, 0, 2]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-65A,63,6,P289,"[0, 1, 0, 2]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-66A,64,1,P086,"[0, 1, 0, 3, 1, 0, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-66A,64,2,P276,"[0, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-66A,64,3,P060,"[0, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-66A,64,4,P122,"[0, 1, 0, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-66A,64,5,P103,"[0, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-66A,64,6,P206,"[0, 1, 0, 1, 1]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-66A,64,7,P091,"[0, 1, 0, 3, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-66A,64,8,P324,"[0, 2, 0, 1, 0, 1, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-67A,65,1,P324,"[10, 1, 10, 1, 0, 1, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-67A,65,2,P342,"[0, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-67A,65,3,P154,"[0, 1, 0, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-67A,65,4,P120,"[0, 1, 0, 2, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-67A,65,5,P040,"[0, 1, 0, 1, 1]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-67A,65,6,P289,"[0, 1, 0, 1]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-67A,65,7,P223,"[0, 2, 0, 0, 3]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-68A,66,1,P013,"[0, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-68A,66,2,P324,"[0, 1, 0, 1, 0, 1, 1, 1]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-68A,66,3,P194,"[0, 1, 0, 3, 0, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-68A,66,4,P326,"[0, 1, 0, 1, 0, 1, 1, 0, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-68A,66,5,P120,"[0, 1, 0, 2, 1]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-68A,66,6,P160,"[0, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-68A,66,7,P260,"[0, 2, 0, 1]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-68A,66,8,P047,"[0, 2, 0, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-69A,67,1,P324,"[10, 1, 20, 1, 0, 2, 1, 2]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-69A,67,2,P364,"[0, 1, 0, 2, 1]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-69A,67,3,P056,"[0, 1, 0, 1]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-69A,67,4,P120,"[0, 1, 0, 2, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-69A,67,5,P256,"[0, 1, 0, 1]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-70A,68,1,P051,"[20, 1, 40]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-70A,68,2,P145,"[0, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-70A,68,3,P122,"[0, 1, 0, 1]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-70A,68,4,P086,"[0, 1, 0, 3, 1, 0, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-70A,68,5,P256,"[60, 1, 30, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-71A,69,1,P001,"[20, 1, 40, 0, 1]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-71A,69,2,P108,"[0, 1, 0, 1, 0, 1]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-71A,69,3,P031,"[0, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-71A,69,4,P122,"[0, 1, 0, 1]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-71A,69,5,P086,"[0, 1, 0, 3, 1, 0, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-71A,69,6,P023,"[0, 1, 0, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-72A,70,1,P324,"[0, 1, 0, 1, 1, 0, 1, 1]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-72A,70,2,P073,"[0, 1, 0, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-72A,70,3,P316,"[0, 1, 0, 1, 0, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-72A,70,4,P011,"[0, 1, 0, 1]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-72A,70,5,P125,"[20, 1, 40, 0, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-72A,70,6,P385,"[0, 1, 0, 1]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-73A,71,1,P098,"[0, 1, 0, 5, 0, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-73A,71,2,P217,"[0, 1, 0, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-73A,71,3,P181,"[0, 1, 0, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-73A,71,4,P000,"[0, 1, 0, 20]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-74A,72,1,P280,"[30, 1, 10, 3]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-74A,72,2,P289,"[0, 1, 0, 1]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-74A,72,3,P316,"[0, 1, 0, 1, 0, 0, 1]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-74A,72,4,P011,"[0, 1, 0, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-75A,73,1,P217,"[0, 1, 0, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-75A,73,2,P050,"[0, 1, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-75A,73,3,P124,"[0, 1, 0, 1, 1]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-75A,73,4,P122,"[0, 1, 0, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-75A,73,5,P385,"[0, 1, 0, 0]",unicorn III seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-77A,74,1,P366,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-77A,74,2,P086,"[0, 1, 0, 3, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-77A,74,3,P364,"[0, 1, 0, 3, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-77A,74,4,P122,"[0, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-77A,74,5,P385,"[0, 1, 0, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-78A,75,1,P324,"[0, 1, 0, 1, 0, 0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-78A,75,2,P043,"[0, 1, 0, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-78A,75,3,P145,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-78A,75,4,P226,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-79A,76,1,P324,"[30, 1, 30, 1, 0, 0, 2, 2]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-79A,76,2,P012,"[10, 1, 20, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-79A,76,3,P062,"[0, 1, 0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-79A,76,4,P058,"[10, 1, 10, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-79A,76,5,P122,"[0, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-79A,76,6,P385,"[0, 1, 0, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-79A,76,7,P247,"[0, 2, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-80A,77,1,P004,"[0, 1, 0, 0, 0, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-80A,77,2,P123,"[0, 1, 0, 2]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-80A,77,3,P120,"[0, 1, 0, 2, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-80A,77,4,P202,"[0, 1, 0, 1, 2]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-80A,77,5,P385,"[0, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-81A,78,1,P301,"[0, 1, 0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-81A,78,2,P230,"[0, 1, 0, 1, 1, 0, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-81A,78,3,P062,"[0, 1, 0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-81A,78,4,P122,"[0, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-81A,78,5,P268,"[0, 1, 0, 2, 5]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-81A,78,6,P268,"[0, 1, 0, 2, 5]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-81A,78,7,P217,"[0, 1, 0, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-82A,79,1,P324,"[0, 1, 0, 1, 0, 0, 2, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-82A,79,2,P053,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-82A,79,3,P122,"[0, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-82A,79,4,P082,"[0, 1, 0, 0, 0, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-82A,79,5,P230,"[0, 1, 0, 1, 0, 0, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-82A,79,6,P086,"[0, 1, 0, 3, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-83A,80,1,P086,"[0, 1, 0, 3, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-83A,80,2,P128,"[0, 1, 0, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-83A,80,3,P180,"[0, 1, 0, 3, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-84A,81,1,P324,"[0, 1, 0, 1, 0, 0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-84A,81,2,P335,"[0, 1, 0, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-84A,81,3,P062,"[0, 1, 0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-84A,81,4,P121,"[0, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-84A,81,5,P202,"[0, 1, 40, 1, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-84A,81,6,P154,"[0, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-85A,82,1,P217,"[0, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-85A,82,2,P058,"[0, 1, 0, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-85A,82,3,P325,"[0, 1, 0, 1, 0, 2, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-85A,82,4,P251,"[0, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-85A,82,5,P070,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-86A,83,1,P217,"[0, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-86A,83,2,P147,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-86A,83,3,P316,"[0, 1, 0, 0, 1, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-86A,83,4,P056,"[0, 1, 0, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-86A,83,5,P122,"[0, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-86A,83,6,P378,"[0, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-86A,83,7,P310,"[0, 1, 0, 1, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-87A,84,1,P098,"[0, 1, 0, 5, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-87A,84,2,P178,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-87A,84,3,P020,"[20, 1, 20]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-88A,85,1,P301,"[0, 1, 0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-88A,85,2,P110,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-88A,85,3,P058,"[20, 1, 20, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-89A,86,1,P324,"[0, 1, 0, 2, 0, 0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-89A,86,2,P358,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-89A,86,3,P313,"[0, 1, 0, 1, 5]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-89A,86,4,P145,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-89A,86,5,P060,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-90A,87,1,P324,"[0, 1, 0, 1, 0, 0, 1, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-90A,87,2,P349,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-90A,87,3,P139,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-90A,87,4,P144,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-90A,87,5,P122,"[0, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-90A,87,6,P385,"[0, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-91A,88,1,P324,"[0, 1, 0, 1, 0, 1, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-91A,88,2,P009,"[0, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-91A,88,3,P230,"[0, 1, 0, 0, 0, 0, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-91A,88,4,P050,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-91A,88,5,P145,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-91A,88,6,P122,"[0, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-91A,88,7,P385,"[0, 1, 0, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-91A,88,8,P073,"[0, 1, 0, 1, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-91A,88,9,P095,"[0, 1, 0, 5]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-92A,89,1,P324,"[0, 1, 0, 0, 0, 2, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-92A,89,2,P075,"[0, 1, 0, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-92A,89,3,P215,"[0, 1, 0, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-92A,89,4,P091,"[0, 1, 0, 3, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-92A,89,5,P122,"[0, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-92A,89,6,P369,"[0, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-92A,89,7,P253,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-93A,90,1,P004,"[0, 1, 0, 0, 0, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-93A,90,2,P123,"[0, 1, 0, 2]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-93A,90,3,P062,"[0, 1, 0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-93A,90,4,P325,"[0, 1, 0, 1, 0, 0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-93A,90,5,P043,"[0, 1, 0, 7]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-94A,91,1,P324,"[0, 1, 0, 1, 0, 1, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-94A,91,2,P086,"[0, 1, 0, 3, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-94A,91,3,P276,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-94A,91,4,P050,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-94A,91,5,P123,"[0, 1, 0, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-95A,92,1,P086,"[0, 1, 0, 3, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-95A,92,2,P123,"[0, 1, 0, 2]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-95A,92,3,P122,"[0, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-95A,92,4,P040,"[0, 1, 0, 1, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-95A,92,5,P342,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-96A,93,1,P004,"[0, 1, 0, 0, 0, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-96A,93,2,P124,"[0, 1, 0, 1, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-97A,94,1,P004,"[0, 1, 0, 0, 0, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-97A,94,2,P188,"[0, 1, 0, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-97A,94,3,P073,"[0, 1, 0, 1, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-98A,95,1,P324,"[0, 1, 0, 1, 0, 0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-98A,95,2,P288,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-98A,95,3,P127,"[0, 1, 0, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-99A,96,1,P324,"[0, 1, 0, 0, 0, 0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-99A,96,2,P353,"[0, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-99A,96,3,P122,"[0, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-99A,96,4,P202,"[0, 1, 0, 1, 2]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-99A,96,5,P038,"[0, 1, 0, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-100A,97,1,P013,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-100A,97,2,P324,"[0, 1, 0, 1, 0, 0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-100A,97,3,P073,"[50, 1, 20, 0, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-100A,97,4,P316,"[0, 1, 0, 1, 1, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-100A,97,5,P122,"[0, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-100A,97,6,P385,"[0, 1, 0, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-101A,98,1,P086,"[0, 1, 0, 3, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-101A,98,2,P210,"[0, 1, 0, 6]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-101A,98,3,P324,"[0, 1, 0, 1, 0, 0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-101A,98,4,P003,"[0, 1, 0, 0, 0, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-101A,98,5,P122,"[0, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-101A,98,6,P385,"[0, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-102A,99,1,P004,"[0, 1, 0, 0, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-102A,99,2,P123,"[0, 1, 0, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-102A,99,3,P154,"[0, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-102A,99,4,P226,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-103A,100,1,P086,"[0, 1, 0, 3, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-103A,100,2,P124,"[0, 1, 0, 2, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-103A,100,3,P122,"[0, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-103A,100,4,P378,"[0, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-104A,101,1,P013,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-104A,101,2,P324,"[0, 1, 0, 1, 0, 0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-104A,101,3,P050,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-104A,101,4,P060,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-104A,101,5,P359,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-105A,102,1,P324,"[80, 1, 90, 1, 0, 0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-105A,102,2,P324,"[40, 1, 80, 1, 0, 0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-105A,102,3,P364,"[10, 1, 10, 3, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-105A,102,4,P056,"[0, 1, 0, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-105A,102,5,P326,"[0, 1, 0, 1, 1, 0, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-105A,102,6,P120,"[0, 1, 0, 2, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-105A,102,7,P154,"[0, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-106A,103,1,P324,"[30, 1, 50, 1, 0, 0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-106A,103,2,P332,"[10, 1, 10, 2, 0, 2, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-106A,103,3,P000,"[0, 1, 0, 70]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-107A,104,1,P324,"[0, 1, 0, 1, 0, 0, 1, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-107A,104,2,P238,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-107A,104,3,P058,"[0, 1, 0, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-107A,104,4,P122,"[0, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-107A,104,5,P054,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-107A,104,6,P071,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-108A,105,1,P099,"[0, 1, 0, 5, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-108A,105,2,P378,"[0, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-108A,105,3,P050,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-108A,105,4,P201,"[0, 1, 0, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-108A,105,5,P075,"[0, 1, 0, 1, 0, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-108A,105,6,P230,"[0, 1, 0, 1, 0, 0, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-108A,105,7,P378,"[0, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-109A,106,1,P324,"[0, 1, 0, 1, 0, 1, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-109A,106,2,P381,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-109A,106,3,P050,"[20, 1, 40]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-109A,106,4,P092,"[0, 1, 0, 5]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-109A,106,5,P122,"[0, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-109A,106,6,P084,"[0, 1, 0, 4, 3]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-109A,106,7,P011,"[0, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-110A,107,1,P000,"[0, 1, 0, 50]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-110A,107,2,P122,"[0, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-110A,107,3,P385,"[0, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-111A,108,1,P324,"[40, 1, 70, 1, 0, 0, 2, 2]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-111A,108,2,P160,"[20, 1, 10]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-111A,108,3,P303,"[0, 1, 0, 2, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-111A,108,4,P058,"[0, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-111A,108,5,P121,"[0, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-111A,108,6,P378,"[0, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-111A,108,7,P378,"[0, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-112A,109,1,P324,"[0, 1, 0, 1, 0, 0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-112A,109,2,P332,"[0, 1, 0, 2, 0, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-112A,109,3,P056,"[0, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-112A,109,4,P126,"[0, 1, 0, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-112A,109,5,P111,"[10, 1, 10, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-112A,109,6,P325,"[0, 1, 0, 1, 0, 0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-112A,109,7,P285,"[20, 1, 60]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-112A,109,8,P254,"[0, 1, 0, 3, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-113A,110,1,P324,"[0, 1, 0, 1, 0, 2, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-113A,110,2,P145,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-113A,110,3,P349,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-113A,110,4,P325,"[0, 1, 0, 1, 1, 1, 2, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-113A,110,5,P120,"[0, 1, 0, 0, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-113A,110,6,P156,"[0, 1, 0, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-114A,111,1,P324,"[0, 1, 0, 1, 0, 0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-114A,111,2,P332,"[0, 1, 0, 2, 0, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-114A,111,3,P283,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-114A,111,4,P122,"[0, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-114A,111,5,P205,"[0, 1, 0, 3, 4, 1, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-114A,111,6,P095,"[0, 1, 0, 5]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-115A,112,1,P086,"[0, 1, 0, 2, 2, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-115A,112,2,P352,"[0, 1, 0, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-115A,112,3,P011,"[0, 1, 0, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-115A,112,4,P194,"[0, 1, 0, 4, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-115A,112,5,P364,"[0, 1, 0, 3, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-115A,112,6,P122,"[0, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-115A,112,7,P205,"[0, 1, 0, 2, 4, 1, 4, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-115A,112,8,P076,"[0, 1, 0, 1, 0, 8]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-116A,113,1,P324,"[10, 1, 20, 1, 1, 1, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-116A,113,2,P009,"[0, 1, 0, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-116A,113,3,P194,"[0, 1, 0, 4, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-116A,113,4,P349,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-116A,113,5,P139,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-116A,113,6,P122,"[0, 1, 0, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-116A,113,7,P385,"[0, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-117A,114,1,P217,"[30, 1, 50, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-117A,114,2,P147,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-117A,114,3,P316,"[0, 1, 0, 0, 1, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-117A,114,4,P050,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-117A,114,5,P364,"[0, 1, 0, 3, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-117A,114,6,P142,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-117A,114,7,P122,"[0, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-117A,114,8,P378,"[0, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-118A,115,1,P324,"[20, 1, 20, 1, 0, 1, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-118A,115,2,P096,"[0, 1, 0, 5, 3, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-118A,115,3,P147,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-118A,115,4,P316,"[0, 1, 0, 0, 1, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-118A,115,5,P058,"[0, 1, 0, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-118A,115,6,P364,"[0, 1, 0, 2, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-118A,115,7,P122,"[0, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-118A,115,8,P385,"[0, 1, 0, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-119A,116,1,P001,"[10, 1, 40, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-119A,116,2,P309,"[0, 1, 0, 1, 1, 1, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-119A,116,3,P195,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-119A,116,4,P122,"[0, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-119A,116,5,P086,"[0, 1, 0, 3, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-119A,116,6,P035,"[0, 1, 0, 2, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-119A,116,7,P270,"[0, 1, 0, 3, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-119A,116,8,P145,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-119A,116,9,P154,"[0, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-119A,116,10,P230,"[0, 1, 0, 1, 0, 1, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-120A,117,1,P324,"[0, 1, 0, 0, 1, 0, 1, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-120A,117,2,P009,"[0, 1, 0, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-120A,117,3,P288,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-120A,117,4,P325,"[0, 1, 0, 0, 1, 0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-120A,117,5,P349,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-120A,117,6,P044,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-121A,118,1,P324,"[0, 1, 0, 1, 0, 0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-121A,118,2,P154,"[0, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-121A,118,3,P355,"[0, 1, 0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-121A,118,4,P058,"[0, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-121A,118,5,P075,"[0, 1, 0, 1, 0, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-122A,119,1,P217,"[0, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-122A,119,2,P147,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-122A,119,3,P316,"[0, 1, 0, 1, 1, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-123A,120,1,P098,"[0, 1, 0, 5, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-123A,120,2,P014,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-123A,120,3,P202,"[0, 1, 0, 0, 2]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-123A,120,4,P114,"[0, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-124A,121,1,P324,"[10, 1, 10, 1, 0, 0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-124A,121,2,P175,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-124A,121,3,P050,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-124A,121,4,P145,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-125A,122,1,P000,"[0, 1, 0, 30]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-125A,122,2,P144,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-125A,122,3,P108,"[10, 1, 10, 1, 1, 2]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-126A,123,1,P000,"[0, 1, 0, 10]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-126A,123,2,P230,"[0, 1, 0, 1, 0, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-126A,123,3,P234,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-126A,123,4,P120,"[0, 1, 0, 2, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-126A,123,5,P256,"[0, 1, 0, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-127A,124,1,P238,"[10, 1, 10]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-127A,124,2,P324,"[20, 1, 10, 1, 0, 0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-127A,124,3,P060,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-127A,124,4,P324,"[10, 1, 10, 1, 0, 0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-127A,124,5,P194,"[30, 1, 20, 4, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-128A,125,1,P324,"[10, 1, 10, 1, 0, 0, 1, 2]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-128A,125,2,P175,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-128A,125,3,P364,"[0, 1, 0, 3, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-128A,125,4,P324,"[0, 1, 0, 1, 0, 0, 1, 2]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-128A,125,5,P208,"[0, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-128A,125,6,P316,"[0, 1, 0, 0, 1, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-129A,126,1,P217,"[0, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-129A,126,2,P058,"[0, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-129A,126,3,P062,"[0, 1, 0, 2, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-129A,126,4,P060,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-129A,126,5,P325,"[0, 1, 0, 1, 1, 0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-129A,126,6,P293,"[0, 1, 0, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-130A,127,1,P324,"[10, 1, 10, 1, 0, 0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-130A,127,2,P003,"[0, 1, 0, 4, 2, 2, 2]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-130A,127,3,P050,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-130A,127,4,P145,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-130A,127,5,P122,"[0, 1, 0, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-130A,127,6,P032,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-131A,128,1,P324,"[0, 1, 0, 1, 0, 1, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-131A,128,2,P086,"[0, 1, 0, 3, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-131A,128,3,P276,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-131A,128,4,P325,"[0, 1, 0, 1, 0, 0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-131A,128,5,P086,"[0, 1, 0, 3, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-131A,128,6,P355,"[0, 1, 0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-132A,129,1,P004,"[0, 1, 0, 0, 1, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-132A,129,2,P123,"[0, 1, 0, 2]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-132A,129,3,P226,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-133A,130,1,P301,"[0, 1, 0, 2, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-133A,130,2,P230,"[0, 1, 0, 1, 0, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-133A,130,3,P062,"[0, 1, 30, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-133A,130,4,P050,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-133A,130,5,P073,"[0, 1, 0, 1, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-133A,130,6,P369,"[0, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-133A,130,7,P174,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-133A,130,8,P110,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-134A,131,1,P390,"[0, 1, 0, 2, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-134A,131,2,P145,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-134A,131,3,P256,"[0, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-135A,132,1,P217,"[0, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-135A,132,2,P147,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-135A,132,3,P316,"[0, 1, 0, 0, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-135A,132,4,P144,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-136A,133,1,P013,"[10, 1, 20]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-136A,133,2,P324,"[0, 1, 0, 1, 0, 0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-136A,133,3,P050,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-136A,133,4,P126,"[0, 1, 0, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-136A,133,5,P144,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-136A,133,6,P177,"[0, 1, 0, 5, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-136A,133,7,P226,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-137A,134,1,P379,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-138A,135,1,P324,"[10, 1, 10, 1, 0, 0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-138A,135,2,P154,"[0, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-138A,135,3,P125,"[0, 1, 0, 1, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-139A,136,1,P147,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-139A,136,2,P368,"[0, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-139A,136,3,P061,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-139A,136,4,P325,"[0, 1, 0, 0, 0, 1, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-139A,136,5,P294,"[0, 1, 0, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-140A,137,1,P324,"[0, 1, 0, 1, 0, 0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-140A,137,2,P309,"[0, 1, 0, 1, 4, 0, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-140A,137,3,P145,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-140A,137,4,P050,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-140A,137,5,P201,"[0, 1, 0, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-140A,137,6,P283,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-140A,137,7,P221,"[0, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-141A,138,1,P000,"[0, 1, 0, 40]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-141A,138,2,P122,"[0, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-141A,138,3,P000,"[0, 1, 0, 10]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-142A,139,1,P022,"[0, 1, 0, 6]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-142A,139,2,P011,"[0, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-142A,139,3,P122,"[0, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-142A,139,4,P385,"[0, 1, 0, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-143A,140,1,P324,"[0, 1, 0, 1, 0, 0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-143A,140,2,P082,"[0, 1, 0, 0, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-143A,140,3,P122,"[0, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-143A,140,4,P145,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-143A,140,5,P170,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-143A,140,6,P349,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-144A,141,1,P324,"[0, 1, 0, 0, 0, 0, 0, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-144A,141,2,P009,"[0, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-144A,141,3,P092,"[0, 1, 0, 5]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-144A,141,4,P062,"[0, 1, 0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-144A,141,5,P122,"[0, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-144A,141,6,P385,"[0, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-145A,142,1,P324,"[0, 1, 0, 1, 0, 1, 0, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-145A,142,2,P098,"[0, 1, 0, 8, 1, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-145A,142,3,P031,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-145A,142,4,P384,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-146A,143,1,P324,"[0, 1, 0, 0, 0, 0, 0, 2]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-146A,143,2,P073,"[0, 1, 0, 0, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-146A,143,3,P160,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-146A,143,4,P120,"[0, 1, 0, 2, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-146A,143,5,P256,"[0, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-147A,144,1,P051,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-147A,144,2,P364,"[0, 1, 0, 3, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-147A,144,3,P122,"[0, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-147A,144,4,P050,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-147A,144,5,P221,"[0, 1, 0, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-147A,144,6,P217,"[0, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-148A,145,1,P324,"[0, 1, 0, 1, 0, 0, 1, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-148A,145,2,P385,"[0, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-148A,145,3,P231,"[0, 1, 0, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-149A,146,1,P324,"[10, 1, 10, 0, 0, 1, 1, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-149A,146,2,P332,"[0, 1, 0, 3, 0, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-149A,146,3,P283,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-149A,146,4,P120,"[0, 1, 0, 0, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-149A,146,5,P230,"[0, 1, 0, 1, 0, 0, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-150A,147,1,P324,"[0, 1, 0, 1, 1, 1, 1, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-150A,147,2,P368,"[0, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-151A,148,1,P050,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-151A,148,2,P201,"[0, 1, 0, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-151A,148,3,P393,"[0, 1, 0, 3]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-152A,149,1,P324,"[0, 1, 0, 0, 0, 0, 1, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-152A,149,2,P096,"[0, 1, 0, 5, 3, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-152A,149,3,P122,"[0, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-152A,149,4,P385,"[0, 1, 0, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-153A,150,1,P067,"[20, 1, 10, 0, 2, 1, 2]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-153A,150,2,P026,"[0, 1, 0, 5]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-153A,150,3,P076,"[0, 1, 0, 0, 1, 8]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-154A,151,1,P217,"[10, 1, 10, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-154A,151,2,P050,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-154A,151,3,P092,"[0, 1, 0, 5]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-154A,151,4,P122,"[0, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-154A,151,5,P300,"[10, 1, 50]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-154A,151,6,P182,"[0, 1, 0, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-154A,151,7,P265,"[0, 2, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-155A,152,1,P324,"[10, 1, 20, 1, 0, 0, 1, 2]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-155A,152,2,P194,"[0, 1, 0, 3, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-155A,152,3,P144,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-157A,153,1,P324,"[0, 1, 0, 0, 0, 0, 1, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-157A,153,2,P154,"[0, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-157A,153,3,P355,"[0, 1, 0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-157A,153,4,P058,"[0, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-157A,153,5,P075,"[0, 1, 0, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-157A,153,6,P121,"[0, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-157A,153,7,P378,"[0, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-158A,154,1,P086,"[0, 1, 0, 3, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-158A,154,2,P126,"[0, 1, 0, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-158A,154,3,P120,"[0, 1, 0, 2, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-158A,154,4,P230,"[0, 1, 0, 1, 0, 0, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-159A,155,1,P324,"[0, 1, 0, 1, 0, 0, 1, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-159A,155,2,P136,"[0, 1, 0, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-159A,155,3,P325,"[0, 1, 0, 1, 1, 0, 1, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-159A,155,4,P166,"[0, 1, 0, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-159A,155,5,P290,"[0, 1, 0, 1, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-160A,156,1,P001,"[0, 1, 0, 0, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-160A,156,2,P048,"[0, 1, 0, 3]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-160A,156,3,P144,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-160A,156,4,P122,"[0, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-160A,156,5,P378,"[0, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-160A,156,6,P325,"[0, 1, 0, 1, 0, 1, 1, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-161A,157,1,P268,"[0, 1, 0, 2, 5]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-161A,157,2,P268,"[0, 1, 0, 2, 5]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-161A,157,3,P037,"[10, 1, 20]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-161A,157,4,P123,"[0, 1, 0, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-162A,158,1,P324,"[0, 1, 0, 0, 1, 1, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-162A,158,2,P332,"[0, 1, 0, 2, 0, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-162A,158,3,P349,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-162A,158,4,P230,"[0, 1, 0, 1, 0, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-162A,158,5,P234,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-162A,158,6,P123,"[0, 1, 0, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-163A,159,1,P217,"[0, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-163A,159,2,P050,"[0, 1, 20]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-163A,159,3,P092,"[0, 1, 0, 6]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-163A,159,4,P120,"[0, 1, 0, 2, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-163A,159,5,P378,"[0, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-164A,160,1,P324,"[0, 1, 0, 1, 0, 0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-164A,160,2,P031,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-164A,160,3,P204,"[0, 1, 0, 0, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-164A,160,4,P122,"[0, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-164A,160,5,P385,"[0, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-165A,161,1,P324,"[0, 1, 0, 1, 0, 1, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-165A,161,2,P332,"[10, 1, 10, 2, 0, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-165A,161,3,P121,"[0, 1, 0, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-165A,161,4,P325,"[0, 1, 0, 1, 1, 1, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-165A,161,5,P086,"[0, 1, 0, 3, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-165A,161,6,P122,"[0, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-165A,161,7,P385,"[0, 2, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-165A,161,8,P324,"[0, 2, 0, 1, 0, 0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-165A,161,9,P076,"[0, 2, 0, 0, 1, 2]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-166A,162,1,P086,"[0, 1, 0, 3, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-166A,162,2,P349,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-166A,162,3,P062,"[0, 1, 0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-166A,162,4,P364,"[10, 1, 50, 3, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-166A,162,5,P122,"[0, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-166A,162,6,P385,"[0, 1, 0, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-167A,163,1,P324,"[50, 1, 80, 1, 0, 0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-167A,163,2,P000,"[0, 1, 0, 60]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-167A,163,3,P385,"[30, 1, 30, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-169A,164,1,P324,"[0, 1, 0, 0, 0, 0, 1, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-169A,164,2,P289,"[0, 1, 0, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-169A,164,3,P127,"[10, 1, 20, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-169A,164,4,P000,"[0, 1, 0, 20]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-169A,164,5,P145,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-170A,165,1,P324,"[0, 1, 0, 1, 0, 0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-170A,165,2,P175,"[30, 1, 10]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-170A,165,3,P086,"[0, 1, 0, 2, 3, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-170A,165,4,P204,"[0, 1, 0, 0, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-170A,165,5,P114,"[0, 1, 20, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-170A,165,6,P145,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-170A,165,7,P325,"[10, 1, 20, 0, 1, 1, 1, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-170A,165,8,P385,"[30, 1, 20, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-171A,166,1,P086,"[0, 1, 0, 2, 3, 2, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-171A,166,2,P204,"[0, 1, 0, 0, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-171A,166,3,P324,"[0, 1, 0, 1, 0, 1, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-171A,166,4,P175,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-171A,166,5,P058,"[20, 1, 20, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-171A,166,6,P364,"[0, 1, 0, 2, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-171A,166,7,P120,"[0, 1, 0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-171A,166,8,P256,"[0, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-172A,167,1,P086,"[0, 1, 0, 2, 3, 2, 1]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-172A,167,2,P128,"[0, 1, 0, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-172A,167,3,P121,"[0, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-172A,167,4,P050,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-172A,167,5,P117,"[0, 1, 0, 2]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-172A,167,6,P355,"[0, 1, 0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-173A,168,1,P324,"[0, 1, 0, 1, 0, 1, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-173A,168,2,P110,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-173A,168,3,P160,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-173A,168,4,P303,"[0, 1, 0, 2, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-173A,168,5,P364,"[0, 1, 0, 3, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-174A,169,1,P324,"[20, 1, 20, 1, 0, 0, 2, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-174A,169,2,P175,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-174A,169,3,P050,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-174A,169,4,P145,"[0, 1, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-174A,169,5,P122,"[0, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-174A,169,6,P378,"[0, 1, 0, 0]",unicorn IV seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-175A,170,1,P000,"[0, 1, 0, 70]",unicorn V seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-175A,170,2,P122,"[50, 1, 80, 0]",unicorn V seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-175A,170,3,P385,"[0, 1, 0, 1]",unicorn V seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-176A,171,1,P000,"[0, 1, 0, 40]",unicorn V seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-176A,171,2,P255,"[0, 1, 0]",unicorn V seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-177A,172,1,P086,"[0, 1, 0, 3, 1, 0, 0]",unicorn V seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-177A,172,2,P123,"[0, 1, 0, 2]",unicorn V seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-177A,172,3,P122,"[0, 1, 0, 0]",unicorn V seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-177A,172,4,P385,"[0, 1, 0, 0]",unicorn V seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-178A,173,1,P086,"[0, 1, 0, 3, 1, 0, 0]",unicorn V seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-178A,173,2,P126,"[0, 1, 0, 0, 0]",unicorn V seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-179A,174,1,P086,"[0, 1, 0, 3, 1, 0, 0]",unicorn V seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-179A,174,2,P123,"[0, 1, 0, 2]",unicorn V seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-180A,175,1,P324,"[110, 1, 0, 2, 0, 0, 1, 0]",unicorn V seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-180A,175,2,P265,"[0, 1, 0, 0]",unicorn V seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-181A,176,1,P217,"[0, 1, 0, 0]",unicorn V seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-181A,176,2,P193,"[0, 1, 0, 0, 0]",unicorn V seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-181A,176,3,P122,"[0, 1, 0, 0]",unicorn V seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-181A,176,4,P205,"[0, 1, 0, 2, 4, 1, 0, 0]",unicorn V seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-181A,176,5,P207,"[0, 1, 0, 0, 1]",unicorn V seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-182A,177,1,P324,"[0, 1, 0, 1, 0, 0, 1, 0]",unicorn V seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-182A,177,2,P095,"[0, 1, 0, 5]",unicorn V seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-183A,178,1,P217,"[0, 1, 0, 1]",unicorn V seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-183A,178,2,P058,"[0, 1, 0, 1]",unicorn V seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-183A,178,3,P120,"[0, 1, 0, 2, 0]",unicorn V seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-183A,178,4,P205,"[0, 1, 0, 3, 4, 1, 1, 0]",unicorn V seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-184A,179,1,P013,"[0, 1, 0]",unicorn V seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-184A,179,2,P324,"[0, 1, 0, 1, 0, 0, 1, 0]",unicorn V seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-184A,179,3,P010,"[0, 1, 0, 0, 0]",unicorn V seal,indus_valley_corpus_parpola_cisi_mayig_2025
+M-184A,179,4,P359,"[0, 1, 0]",unicorn V seal,indus_valley_corpus_parpola_cisi_mayig_2025
