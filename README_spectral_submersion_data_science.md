@@ -1636,7 +1636,19 @@ No se inventaron corpus candidatos. Se usaron datos abiertos verificables:
 | P378 | 17 | **0.75** | 0.12 | **0.59** |
 
 - **Interpretación**: Los signos P324 y P217 muestran fuerte sesgo hacia el **inicio** de las inscripciones (>75% de las veces en primera posición). P385 muestra fuerte sesgo hacia el **final** (83% en última posición). Esto es consistente con la literatura epigráfica del Indus que describe signos funcionales posicionalmente restringidos (títulos al inicio, numerales al final).
-- **Validación**: El análisis aplicado al corpus sintético PCFG también detecta el sesgo posicional diseñado (determinantes al inicio, nombres/verbos en medio/final), confirmando que la métrica no genera falsos positivos.
+- **Validación con controles negativos**:
+
+| Signo | Métrica | Real | Permutado | Rand Freq | Rand Uniform |
+|-------|---------|------|-----------|-----------|--------------|
+| P324 | first_ratio | **0.778** | 0.162 | 0.212 | 0.000 |
+| P324 | last_ratio | 0.010 | 0.212 | 0.125 | 0.333 |
+| P385 | first_ratio | 0.000 | 0.171 | 0.133 | 0.125 |
+| P385 | last_ratio | **0.829** | 0.171 | 0.167 | 0.125 |
+| P217 | first_ratio | **0.778** | 0.444 | 0.130 | 0.167 |
+| P217 | last_ratio | 0.111 | 0.111 | 0.261 | 0.000 |
+
+- Las diferencias entre real y controles son masivas (+0.62 para P324 inicio, +0.66 para P385 final). Esto valida que el sesgo posicional es una **característica estructural genuina** del corpus Indus, no explicable por azar o frecuencia marginal.
+- **Validación sintética**: El análisis aplicado al corpus PCFG también detecta el sesgo posicional diseñado (determinantes al inicio, nombres/verbos en medio/final), confirmando que la métrica no genera falsos positivos.
 - **Output**: `reports/tables/positional_analysis_indus.csv`, `reports/figures/positional_bias_indus.png`.
 
 #### Exp P: Calibración de hiperparámetros via grid search
