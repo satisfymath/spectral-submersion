@@ -45,6 +45,51 @@ def cooccurrence_matrix_from_sequences(
     return C
 
 
+def directional_cooccurrence_matrix_from_sequences(
+    sequences: Sequence[Sequence[int]],
+    vocab_size: int,
+    window_size: int = 3,
+    inverse_distance: bool = True,
+) -> tuple[np.ndarray, np.ndarray]:
+    """Build left and right directional co-occurrence matrices.
+
+    Args:
+        sequences: List of token-ID sequences.
+        vocab_size: Size of vocabulary.
+        window_size: Context window radius (left and right).
+        inverse_distance: If True, weight by 1/distance.
+
+    Returns:
+        Tuple (C_left, C_right) each of shape (vocab_size, vocab_size).
+        C_left[i, j] = co-occurrences where token j appears to the LEFT of token i.
+        C_right[i, j] = co-occurrences where token j appears to the RIGHT of token i.
+    """
+    C_left = np.zeros((vocab_size, vocab_size), dtype=float)
+    C_right = np.zeros((vocab_size, vocab_size), dtype=float)
+
+    for token_ids in sequences:
+        n = len(token_ids)
+        for t, center in enumerate(token_ids):
+            # Left context
+            left_start = max(0, t - window_size)
+            for u in range(left_start, t):
+                context = token_ids[u]
+                distance = t - u
+                weight = 1.0 / distance if inverse_distance else 1.0
+                # center sees context on its left
+                C_left[center, context] += weight
+
+            # Right context
+            right_end = min(n, t + window_size + 1)
+            for u in range(t + 1, right_end):
+                context = token_ids[u]
+                distance = u - t
+                weight = 1.0 / distance if inverse_distance else 1.0
+                C_right[center, context] += weight
+
+    return C_left, C_right
+
+
 def cooccurrence_matrix(
     token_ids: list[int],
     vocab_size: int,

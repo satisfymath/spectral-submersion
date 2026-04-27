@@ -33,10 +33,22 @@ def main():
     parser.add_argument("--alpha", type=float, default=0.5, help="Singular value exponent")
     parser.add_argument("--window", type=int, default=3, help="Co-occurrence window size")
     parser.add_argument("--seed", type=int, default=42, help="Random seed")
+    parser.add_argument("--max-vocab", type=int, default=None, help="Keep only top N most frequent tokens")
     args = parser.parse_args()
 
     df = pd.read_csv(args.input)
     tokens = df["token"].tolist()
+
+    # If max_vocab specified, filter to top N frequent tokens
+    if args.max_vocab:
+        from collections import Counter
+        counts = Counter(tokens)
+        top_n = counts.most_common(args.max_vocab)
+        allowed = {tok for tok, _ in top_n}
+        df = df[df["token"].isin(allowed)].copy()
+        tokens = df["token"].tolist()
+        print(f"Filtered to top {args.max_vocab} tokens ({len(df)} rows remaining)")
+
     vocab = build_vocab(tokens)
     sequences = get_sequences_by_line(df)
     seq_ids = [tokens_to_ids(seq, vocab) for seq in sequences]
