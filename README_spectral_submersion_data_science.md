@@ -1766,7 +1766,7 @@ No se inventaron corpus candidatos. Se usaron datos abiertos verificables:
 14. ~~Implementar segmentación posicional (izquierda/derecha) en co-ocurrencia~~ ✅ Completado (`--directional` flag en `build_embeddings.py`).
 15. ~~Evaluar hiperparámetros específicos para corpus de vocabulario grande + secuencias cortas~~ ✅ Completado (Indus real falla sanity check incluso con mejores parámetros).
 16. ~~Añadir priors iconográficos y contextuales~~ ✅ Completado (`build_enhanced_embeddings.py` con feature vectors del corpus Indus).
-17. Obtener corpus de Rongorongo real transcrito en formato abierto (búsqueda en curso; datos no identificados en repositorios abiertos conocidos).
+17. ~~Obtener corpus de Rongorongo real transcrito en formato abierto~~ ❌ No encontrado. La búsqueda exhaustiva en GitHub, Figshare, Zenodo, JSTOR, y Google Scholar no identificó transcripciones normalizadas disponibles públicamente. Se identificaron proyectos académicos activos (Lastilla, Ravanelli, Valério 2019-2022; Melka 2009; Harris & Melka 2011) que trabajan en corpus digitales, pero los datos requieren acceso institucional o contacto directo con los autores. El benchmark Rongorongo-like sintético sigue siendo la mejor aproximación disponible para el pipeline.
 18. ~~Implementar análisis de entropía condicional de pares/bigramas~~ ✅ Completado (`analyze_conditional_entropy.py`).
 19. Generar reporte integrado con todas las figuras y tablas maestras (`generate_master_summary.py` + `visualize_corpus_comparison.py`).
 
