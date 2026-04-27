@@ -16,6 +16,7 @@ import pandas as pd
 from spectral_submersion.cooccurrence import (
     build_vocab,
     cooccurrence_matrix_from_sequences,
+    directional_cooccurrence_matrix_from_sequences,
 )
 from spectral_submersion.pmi import ppmi_matrix
 from spectral_submersion.spectral import spectral_embedding, effective_rank
@@ -34,6 +35,7 @@ def main():
     parser.add_argument("--window", type=int, default=3, help="Co-occurrence window size")
     parser.add_argument("--seed", type=int, default=42, help="Random seed")
     parser.add_argument("--max-vocab", type=int, default=None, help="Keep only top N most frequent tokens")
+    parser.add_argument("--directional", action="store_true", help="Use left/right directional co-occurrence matrices")
     args = parser.parse_args()
 
     df = pd.read_csv(args.input)
@@ -53,10 +55,19 @@ def main():
     sequences = get_sequences_by_line(df)
     seq_ids = [tokens_to_ids(seq, vocab) for seq in sequences]
 
-    C = cooccurrence_matrix_from_sequences(
-        seq_ids, vocab_size=len(vocab), window_size=args.window, inverse_distance=True
-    )
-    M = ppmi_matrix(C, epsilon=1e-9)
+    if args.directional:
+        C_left, C_right = directional_cooccurrence_matrix_from_sequences(
+            seq_ids, vocab_size=len(vocab), window_size=args.window, inverse_distance=True
+        )
+        M_left = ppmi_matrix(C_left, epsilon=1e-9)
+        M_right = ppmi_matrix(C_right, epsilon=1e-9)
+        M = np.hstack([M_left, M_right])
+        print(f"Directional mode: concatenated PPMI shape {M.shape}")
+    else:
+        C = cooccurrence_matrix_from_sequences(
+            seq_ids, vocab_size=len(vocab), window_size=args.window, inverse_distance=True
+        )
+        M = ppmi_matrix(C, epsilon=1e-9)
 
     E, S, Vt = spectral_embedding(M, k=args.k, alpha=args.alpha, random_state=args.seed)
     r_eff = effective_rank(S)

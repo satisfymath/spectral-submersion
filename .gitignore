@@ -105,3 +105,18 @@ reports/final/*
 *.npy
 *.pkl
 *.joblib
+
+# Large raw corpora (>50MB) - regenerate locally via scripts
+# Tatoeba monolingual dumps
+data/external/en_tatoeba_raw.txt
+data/external/ru_tatoeba_raw.txt
+data/external/de_tatoeba_raw.txt
+data/external/es_tatoeba_raw.txt
+data/external/fr_tatoeba_raw.txt
+data/external/it_tatoeba_raw.txt
+data/external/pt_tatoeba_raw.txt
+# Large candidate token files (>100MB)
+data/raw/candidate_languages/en_tokens.csv
+data/raw/candidate_languages/ru_tokens.csv
+data/raw/candidate_languages/de_tokens.csv
+data/raw/candidate_languages/es_tokens.csv
