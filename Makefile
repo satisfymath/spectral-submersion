@@ -90,6 +90,19 @@ compare-indus:
 	PYTHONPATH=src $(PYTHON) scripts/run_diverse_candidates.py --lost-embed data/processed/embeddings_indus_real.npy --output reports/tables/diverse_comparison_indus_real.csv
 
 # ------------------------------------------------------------------
+# Additional analyses
+# ------------------------------------------------------------------
+entropy-analysis:
+	PYTHONPATH=src $(PYTHON) scripts/analyze_conditional_entropy.py --input data/raw/lost_language/corpus_indus_real.csv --output reports/tables/entropy_analysis_indus_real.csv
+	PYTHONPATH=src $(PYTHON) scripts/analyze_conditional_entropy.py --input data/raw/lost_language/corpus_synthetic.csv --output reports/tables/entropy_analysis_synthetic.csv
+
+corpus-comparison:
+	PYTHONPATH=src $(PYTHON) scripts/visualize_corpus_comparison.py --output reports/figures/corpus_comparison.png
+
+master-summary:
+	PYTHONPATH=src $(PYTHON) scripts/generate_master_summary.py --output reports/final/master_experiment_summary.md
+
+# ------------------------------------------------------------------
 # Reports
 # ------------------------------------------------------------------
 report:
