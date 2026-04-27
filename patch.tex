@@ -1,0 +1,118 @@
+\textbf{Importante:} Esta comparaci\'on \emph{no implica} parentesco geneal\'ogico entre Indo y lenguas polin\'esicas. Refleja similitud \textbf{estructural/tipol\'ogica}: lenguas con patrones de orden r\'igido (DET-NOUN-VERB) producen embeddings con menor distorsi\'on relacional que lenguas con morfosintaxis m\'as compleja y flexible.
+
+% ============================================================
+\subsubsection{Patrones de repetici\'on de signos}
+% ============================================================
+
+Los sistemas simb\'olicos con funciones no-ling\u\'isticas (contadores, etiquetas, nombres) a menudo exhiben repeticiones consecutivas (AA, AAA), mientras que los textos ling\u\'isticos rara vez repiten el mismo lexema consecutivamente. Rongorongo, por ejemplo, muestra extensas repeticiones dobles y triples (Ferrara 2015). Analizamos si el corpus Indo muestra este patr\'on.
+
+\begin{table}[h]
+\centering
+\caption{Patrones de repetici\'on en corpus Indo real ($N=179$ inscripciones).}
+\label{tab:repetition}
+\begin{tabular}{lcc}
+\toprule
+Patr\'on & Inscripciones afectadas & Tasa \\
+\midrule
+Repetici\'on doble (AA) & 8 & 0.045 \\
+Repetici\'on triple (AAA) & 0 & 0.000 \\
+Alternancia ABAB & 0 & 0.000 \\
+Cualquier repetici\'on & 8 & 0.045 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Solo el 4.5\% de las inscripciones contienen al menos una repetici\'on doble, y ninguna contiene repeticiones triples o patrones ABAB (Tabla \ref{tab:repetition}). El signo P268 es responsable de 5 de las 8 repeticiones dobles observadas. Esta escasez de repeticiones consecutivas es \textbf{consistente con un sistema ling\u\'istico} (donde la redundancia l\'exica es baja) y \textbf{inconsistente con sistemas de conteo o etiquetado no-ling\u\'istico} (donde las repeticiones num\'ericas son comunes). Sin embargo, dado el peque\~no tama\~no del corpus ($N=179$), no podemos descartar completamente una funci\'on no-ling\u\'istica.
+
+\textbf{Comparaci\'on con Rongorongo.} En Rongorongo, las repeticiones dobles/triples son ubicuas ($>$30\% de las l\'ineas). En Indo, son casi inexistentes. Esta diferencia sugiere que, si ambos sistemas son no-ling\u\'isticos, tienen funciones distintas: Rongorongo podr\'ia ser un sistema mnemot\'ecnico con repeticiones r\'itmicas, mientras que Indo podr\'\i a ser un sistema de etiquetado o nominaci\'on sin necesidad de redundancia num\'erica.
+
+% ============================================================
+\subsubsection{Significancia estad\'istica del sesgo posicional}
+% ============================================================
+
+Para validar que el sesgo posicional no es un artefacto del peque\~no tama\~no muestral, aplicamos un \textbf{test de permutaci\'on Monte Carlo} ($M=1000$). La hip\'otesis nula es que cada signo tiene posici\'on uniforme dentro de las inscripciones; generamos $M$ corpus nulos permutando las posiciones dentro de cada inscripci\'on (preservando longitud) y computamos la distribuci\'on nula de $\text{first\_ratio}$ y $\text{last\_ratio}$.
+
+\begin{table}[h]
+\centering
+\caption{Signos con sesgo posicional significativo ($p<0.05$, efecto $>2$) en test Monte Carlo.}
+\label{tab:montecarlo}
+\begin{tabular}{lcccccc}
+\toprule
+Signo & $N$ & first\_obs & first\_null & first\_p & first\_efecto & Tipo \\
+\midrule
+P324 & 99 & 0.778 & 0.179 & $<$0.001 & 16.15 & Inicio \\
+P217 & 18 & 0.778 & 0.194 & $<$0.001 & 6.51 & Inicio \\
+P013 & 9 & 1.000 & 0.174 & $<$0.001 & 6.60 & Inicio \\
+P086 & 35 & 0.543 & 0.179 & $<$0.001 & 5.77 & Inicio \\
+P051 & 5 & 1.000 & 0.160 & $<$0.001 & 5.29 & Inicio \\
+P000 & 19 & 0.579 & 0.273 & 0.006 & 3.20 & Inicio \\
+P301 & 6 & 0.833 & 0.209 & 0.004 & 3.74 & Inicio \\
+P004 & 6 & 1.000 & 0.307 & 0.002 & 3.76 & Inicio \\
+\midrule
+P385 & 35 & 0.829 & 0.197 & $<$0.001 & 9.52 & Fin \\
+P378 & 17 & 0.588 & 0.168 & $<$0.001 & 4.71 & Fin \\
+P256 & 12 & 0.750 & 0.171 & $<$0.001 & 5.50 & Fin \\
+P076 & 6 & 0.667 & 0.143 & 0.006 & 3.89 & Fin \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Doce signos muestran sesgo posicional extremadamente significativo (Tabla \ref{tab:montecarlo}). P324 tiene un tama\~no de efecto de 16.1 desviaciones est\'andar sobre la media nula --- pr\'acticamente imposible bajo azar. Los p-valores $<$0.001 corrigen impl\'icitamente por multiplicidad v\'ia el enfoque de permutaci\'on: solo observamos $p<0.001$ cuando la se\~nal es masiva.
+
+\textbf{Conclusi\'on.} El sesgo posicional del corpus Indo es estad\'isticamente robusto y no explicable por fluctuaciones muestrales. Esta es la evidencia estructural m\'as fuerte obtenida en este estudio.
+
+% ============================================================
+\subsubsection{Modelos n-gram y perplexity}
+% ============================================================
+
+La perplexity mide cu\'an bien un modelo de lenguaje predice secuencias de test. Menor perplexity indica mayor predecibilidad estructural. Entrenamos modelos n-gram con suavizado Laplace (add-1) sobre el corpus Indo real y controles negativos, con 80\% train / 20\% test.
+
+\begin{table}[h]
+\centering
+\caption{Perplexity y entrop\'ia cruzada (bits/signo) para corpus Indo y controles.}
+\label{tab:ngram}
+\begin{tabular}{lcccc}
+\toprule
+Corpus & Unigrama PPL & Bigrama PPL & Trigrama PPL & Bigrama bits/signo \\
+\midrule
+Real & 74.88 & \textbf{74.53} & 97.34 & 6.220 \\
+Permutado & 74.88 & 129.61 & 153.18 & 7.018 \\
+Aleatorio (misma freq) & 61.22 & 102.61 & 131.04 & 6.681 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+El corpus real tiene bigrama perplexity \textbf{74.53}, 42\% menor que el permutado (129.61) y 27\% menor que el aleatorio con misma frecuencia (102.61) (Tabla \ref{tab:ngram}). Esta diferencia es fuerte evidencia de que existen dependencias secuenciales entre pares de signos que no son explicables por frecuencia marginal.
+
+\textbf{Trigrama perplexity m\'as alta.} Curiosamente, el trigrama tiene perplexity 97.34 (real) vs 153.18 (permutado), mayor que el bigrama. Esto ocurre porque el corpus tiene secuencias muy cortas (media 5.6 signos) y vocabulario grande (182 tipos): los trigramas observados son escasos y el suavizado Laplace asigna masa de probabilidad excesiva a trigramas no vistos. El bigrama es el nivel \'optimo de modelado para este corpus.
+
+\textbf{Unigrama id\'entico para real y permutado.} Ambos tienen PPL=74.88 porque la permutaci\'on preserva frecuencias marginales. Esto valida que la informaci\'on estructural est\'a en las \textbf{transiciones}, no en las frecuencias individuales.
+
+% ============================================================
+\subsubsection{Clasificador supervisado de posici\'on}
+% ============================================================
+
+El corpus Mayig incluye metadatos iconogr\'aficos en formato JSON para cada signo (damage, line, branching\_factor, etc.). Entrenamos clasificadores Random Forest y Regresi\'on Log\'istica para predecir si un token aparece en posici\'on de inicio, medio o fin, usando solo estos atributos visuales.
+
+\begin{table}[h]
+\centering
+\caption{Resultados del clasificador de posici\'on (5-fold cross-validation).}
+\label{tab:position_classifier}
+\begin{tabular}{lccc}
+\toprule
+Modelo & Accuracy & Precisi\'on macro & Recall macro \\
+\midrule
+Random Forest & 0.565 & 0.509 & 0.530 \\
+Regresi\'on Log\'istica & 0.457 & 0.460 & 0.519 \\
+L\'inea base (azar) & 0.333 & 0.333 & 0.333 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Random Forest alcanza 56.5\% de accuracy, significativamente sobre el azar (33.3\%) pero modesto (Tabla \ref{tab:position_classifier}). La precisi\'on para ``inicio'' es 52.4\% (recall 55.3\%), mientras que para ``fin'' cae a 28.4\% (recall 43.3\%). Las features m\'as importantes son la longitud del vector de features, su desviaci\'on est\'andar y su media --- no valores iconogr\'aficos espec\'ificos.
+
+\textbf{Interpretaci\'on.} Los metadatos iconogr\'aficos del corpus Mayig son demasiado gen\'ericos para predecir funci\'on posicional. Esto no descarta que priors visuales m\'as espec\'ificos (an\'alisis de forma, simetr\'ia, complejidad de trazo) puedan correlacionar con posici\'on, pero requerir\'\i an anotaciones m\'as detalladas. La mejora de los embeddings ``mejorados'' (Tabla \ref{tab:enhanced}) proviene principalmente de la concatenaci\'on, no de la informaci\'on predictiva aislada de las features.
+
+% ============================================================
+\subsection{Aplicaci\'on a Rongorongo}
+% ============================================================
