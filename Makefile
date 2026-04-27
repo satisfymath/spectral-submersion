@@ -84,7 +84,10 @@ validate-polysemy:
 	PYTHONPATH=src $(PYTHON) scripts/validate_polysemy.py --train-fraction 0.20 --seed 42
 
 compare-all:
-	PYTHONPATH=src $(PYTHON) scripts/run_all_candidates.py --lost-embed data/processed/embeddings_synthetic_v2.npy --output-dir reports/tables
+	PYTHONPATH=src $(PYTHON) scripts/run_diverse_candidates.py --lost-embed data/processed/embeddings_synthetic_v2.npy --output reports/tables/diverse_comparison_synthetic.csv
+
+compare-indus:
+	PYTHONPATH=src $(PYTHON) scripts/run_diverse_candidates.py --lost-embed data/processed/embeddings_indus_real.npy --output reports/tables/diverse_comparison_indus_real.csv
 
 # ------------------------------------------------------------------
 # Reports
