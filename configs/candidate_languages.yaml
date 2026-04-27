@@ -1,16 +1,12 @@
 # Candidate languages configuration
-# Data sources:
-#   - Maori (mi): OPUS-Tatoeba v2023-04-12, 424 sentences, 3542 tokens
-#   - Tahitian (ty): OPUS-Tatoeba v2023-04-12, 32 sentences, 95 tokens
-#   - Hawaiian (haw): OPUS-Tatoeba v2023-04-12, 164 sentences, 802 tokens
-#   - Samoan (sm): OPUS-Tatoeba v2023-04-12, 81 sentences, 354 tokens
-#   - Tongan (to): OPUS-Tatoeba v2023-04-12, 21 sentences, 101 tokens
-#   - Fijian (fj): OPUS-Tatoeba v2023-04-12, 38 sentences, 105 tokens
-#   - Rapa Nui (rap): OPUS-Tatoeba v2023-04-12, 35 sentences, 123 tokens
-# These are real Austronesian/Polynesian languages used as structural candidates.
-# They are NOT direct claims about Rongorongo decipherment.
+# Data sources: OPUS-Tatoeba v2023-04-12 (CC-BY 2.0 FR)
+# NOTE: Large raw/token files (>50MB raw, >100MB CSV) are in .gitignore.
+#       Regenerate locally via scripts/build_candidate_corpus.py if needed.
+# These are real modern languages used as STRUCTURAL candidates.
+# They are NOT direct claims about Rongorongo/Indus decipherment.
 
 candidates:
+  # Polynesian / Austronesian (small corpora, included in git)
   - name: maori
     code: mi
     corpus_path: data/raw/candidate_languages/maori_tokens.csv
@@ -74,3 +70,104 @@ candidates:
     license: "CC-BY 2.0 FR"
     sentences: 35
     tokens: 123
+
+  # European / Japonic / Semitic (large corpora, excluded from git)
+  - name: english
+    code: en
+    corpus_path: data/raw/candidate_languages/en_tokens.csv
+    family: germanic
+    type: modern_language
+    source: "OPUS-Tatoeba v2023-04-12"
+    license: "CC-BY 2.0 FR"
+    sentences: 1830223
+    tokens: 13705210
+    note: "Large file excluded from git; regenerate from data/external/en_tatoeba_raw.txt"
+  - name: spanish
+    code: es
+    corpus_path: data/raw/candidate_languages/es_tokens.csv
+    family: romance
+    type: modern_language
+    source: "OPUS-Tatoeba v2023-04-12"
+    license: "CC-BY 2.0 FR"
+    sentences: 402525
+    tokens: 2804739
+    note: "Large file excluded from git; regenerate from data/external/es_tatoeba_raw.txt"
+  - name: german
+    code: de
+    corpus_path: data/raw/candidate_languages/de_tokens.csv
+    family: germanic
+    type: modern_language
+    source: "OPUS-Tatoeba v2023-04-12"
+    license: "CC-BY 2.0 FR"
+    sentences: 642766
+    tokens: 4863023
+    note: "Large file excluded from git; regenerate from data/external/de_tatoeba_raw.txt"
+  - name: russian
+    code: ru
+    corpus_path: data/raw/candidate_languages/ru_tokens.csv
+    family: slavic
+    type: modern_language
+    source: "OPUS-Tatoeba v2023-04-12"
+    license: "CC-BY 2.0 FR"
+    sentences: 1017101
+    tokens: 5675418
+    note: "Large file excluded from git; regenerate from data/external/ru_tatoeba_raw.txt"
+  - name: french
+    code: fr
+    corpus_path: data/raw/candidate_languages/fr_tokens.csv
+    family: romance
+    type: modern_language
+    source: "OPUS-Tatoeba v2023-04-12"
+    license: "CC-BY 2.0 FR"
+    sentences: 570599
+    tokens: 4173122
+    note: "Large file excluded from git; regenerate from data/external/fr_tatoeba_raw.txt"
+  - name: italian
+    code: it
+    corpus_path: data/raw/candidate_languages/it_tokens.csv
+    family: romance
+    type: modern_language
+    source: "OPUS-Tatoeba v2023-04-12"
+    license: "CC-BY 2.0 FR"
+    sentences: 868674
+    tokens: 4916411
+    note: "Large file excluded from git; regenerate from data/external/it_tatoeba_raw.txt"
+  - name: portuguese
+    code: pt
+    corpus_path: data/raw/candidate_languages/pt_tokens.csv
+    family: romance
+    type: modern_language
+    source: "OPUS-Tatoeba v2023-04-12"
+    license: "CC-BY 2.0 FR"
+    sentences: 430585
+    tokens: 3034395
+    note: "Large file excluded from git; regenerate from data/external/pt_tatoeba_raw.txt"
+
+  # Medium / Small corpora (included in git)
+  - name: japanese
+    code: ja
+    corpus_path: data/raw/candidate_languages/ja_tokens.csv
+    family: japonic
+    type: modern_language
+    source: "OPUS-Tatoeba v2023-04-12"
+    license: "CC-BY 2.0 FR"
+    sentences: 261183
+    tokens: 262206
+  - name: arabic
+    code: ar
+    corpus_path: data/raw/candidate_languages/ar_tokens.csv
+    family: semitic
+    type: modern_language
+    source: "OPUS-Tatoeba v2023-04-12"
+    license: "CC-BY 2.0 FR"
+    sentences: 47471
+    tokens: 231511
+  - name: korean
+    code: ko
+    corpus_path: data/raw/candidate_languages/ko_tokens.csv
+    family: koreanic
+    type: modern_language
+    source: "OPUS-Tatoeba v2023-04-12"
+    license: "CC-BY 2.0 FR"
+    sentences: 11917
+    tokens: 52005

@@ -120,3 +120,6 @@ data/raw/candidate_languages/en_tokens.csv
 data/raw/candidate_languages/ru_tokens.csv
 data/raw/candidate_languages/de_tokens.csv
 data/raw/candidate_languages/es_tokens.csv
+data/raw/candidate_languages/fr_tokens.csv
+data/raw/candidate_languages/it_tokens.csv
+data/raw/candidate_languages/pt_tokens.csv
