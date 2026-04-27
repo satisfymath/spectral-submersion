@@ -1651,6 +1651,34 @@ No se inventaron corpus candidatos. Se usaron datos abiertos verificables:
 - **Validación sintética**: El análisis aplicado al corpus PCFG también detecta el sesgo posicional diseñado (determinantes al inicio, nombres/verbos en medio/final), confirmando que la métrica no genera falsos positivos.
 - **Output**: `reports/tables/positional_analysis_indus.csv`, `reports/figures/positional_bias_indus.png`.
 
+#### Exp W: Validación del método de sesgo posicional con benchmark controlado
+- **Script**: `scripts/generate_positional_corpus.py` + `scripts/analyze_positional_bias.py`
+- **Setup**: Corpus sintético de 2,000 secuencias, 60 signos, longitud media 5.02 tokens, con sesgo posicional explícito: TITLE al inicio (80%), NUMERAL al final (80%), SIGNATURE penúltimo (50%).
+- **Resultados de generación**:
+
+| Clase | Tokens | first_ratio | last_ratio |
+|-------|--------|-------------|------------|
+| TITLE | 1,907 | **0.835** | 0.869 |
+| OBJECT | 6,166 | 0.066 | 0.320 |
+| NUMERAL | 800 | 0.000 | **1.000** |
+| SIGNATURE | 1,173 | 0.000 | **0.932** |
+
+- **Resultados de detección** (top signos por positional bias):
+
+| Signo | Clase | first_ratio | last_ratio | Posición media |
+|-------|-------|-------------|------------|----------------|
+| T00 | TITLE | **0.812** | 0.000 | 0.09 |
+| T01 | TITLE | **0.841** | 0.000 | 0.08 |
+| T02 | TITLE | **0.876** | 0.000 | 0.06 |
+| N00 | NUMERAL | 0.000 | **1.000** | 1.00 |
+| N01 | NUMERAL | 0.000 | **1.000** | 1.00 |
+| S00 | SIGNATURE | 0.000 | **0.858** | 0.93 |
+| O00 | OBJECT | 0.059 | 0.030 | 0.49 |
+
+- **Sanity check espectral**: FALLA (`real_r=14.74 >= uniform_r=14.56`). Esto confirma que la co-ocurrencia ventanal es insuficiente para detectar estructura en corpus con vocabulario grande y secuencias cortas, **incluso cuando la estructura posicional es fuerte y conocida**.
+- **Conclusión**: El análisis de sesgo posicional detecta correctamente las clases funcionales con restricciones posicionales. El sanity check espectral falla porque la estructura es puramente posicional, no de contexto ventanal. Esto valida que para corpus como Indus, el análisis posicional es más apropiado que la co-ocurrencia local.
+- **Output**: `data/raw/lost_language/corpus_positional_synthetic.csv`, `reports/tables/positional_analysis_synthetic_pos.csv`, `reports/figures/positional_bias_synthetic_pos.png`.
+
 #### Exp P: Calibración de hiperparámetros via grid search
 - **Script**: `scripts/calibrate_hyperparameters.py`
 - **Setup**: Grid search sobre `window_size ∈ {2,3,5,7}`, `k ∈ {8,16,32,64}`, `alpha ∈ {0,0.5,1}`, `pmi_epsilon ∈ {1e-9,1e-6}`. Corpus: sintético v2 (112 tipos).

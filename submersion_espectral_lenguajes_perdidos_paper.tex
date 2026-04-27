@@ -1007,6 +1007,20 @@ Se compara evidencia marginal:
 o aproximaciones mediante criterios de distorsión y validación.
 
 % ============================================================
+\subsection{Validación empírica preliminar}
+% ============================================================
+
+El marco propuesto ha sido implementado y probado sobre tres tipos de corpus:
+
+\textbf{(i) Benchmark sintético PCFG.} Una mini-gramática con 112 tipos léxicos y 3.000 oraciones genera embeddings con rango efectivo $r_{\text{eff}}=11.2$, significativamente menor que controles permutados ($r_{\text{eff}}=14.1$) y uniformes ($r_{\text{eff}}=13.9$). Esto valida que el método detecta compresión espectral cuando la estructura sintáctica existe.
+
+\textbf{(ii) Corpus sintético con sesgo posicional.} Un corpus de 2.000 secuencias con signos ``título'' (80\% al inicio) y ``numeral'' (80\% al final) confirma que el análisis de sesgo posicional detecta estas clases funcionales: signos título tienen $\text{first\_ratio}\approx 0.84$ y signos numerales $\text{last\_ratio}=1.0$. Curiosamente, el sanity check espectral \emph{falla} en este corpus ($r_{\text{eff}}=14.7$ vs uniforme $14.6$), mostrando que la co-ocurrencia ventanal es insuficiente para detectar estructura puramente posicional.
+
+\textbf{(iii) Corpus real del Indo (Parpola CISI).} Se procesó una digitización abierta de 179 inscripciones (1.003 signos, 182 tipos). El sanity check espectral falla, consistente con corpus de vocabulario grande y secuencias cortas. Sin embargo, el análisis de sesgo posicional revela patrones fuertes: el signo P324 aparece al inicio el 77.8\% de las veces, mientras que P385 aparece al final el 82.9\% de las veces. Controles negativos (permutado, aleatorio) muestran ratios de inicio/final cercanos al azar ($\sim$0.15--0.25), validando que el sesgo es genuino y no explicable por frecuencia marginal. Esto es consistente con la literatura epigráfica del Indo que describe signos funcionales posicionalmente restringidos (títulos al inicio, numerales al final).
+
+Estos resultados sugieren que para sistemas de inscripciones cortas, el análisis posicional y la entropía condicional de bigramas son más informativas que la co-ocurrencia ventanal tradicional.
+
+% ============================================================
 \section{Teoría de identificabilidad parcial}
 % ============================================================
 
