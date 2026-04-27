@@ -1601,6 +1601,27 @@ No se inventaron corpus candidatos. Se usaron datos abiertos verificables:
 - **Conclusión**: El corpus Indus real muestra **evidencia débil pero no nula** de estructura secuencial a nivel de bigramas, consistente con Rao et al. (2009). La co-ocurrencia ventanal no la detecta; la entropía condicional sí la detecta parcialmente. Esto sugiere que el Indus podría tener dependencias de corto alcance (bigramas) pero no patrones de contexto extendidos.
 - **Output**: `reports/tables/entropy_analysis_indus_real.csv`, `reports/tables/entropy_analysis_synthetic.csv`.
 
+#### Exp U: Embeddings mejorados con priors iconográficos (Indus real)
+- **Script**: `scripts/build_enhanced_embeddings.py`
+- **Setup**: Concatenar embeddings espectrales (16-dim) con vectores de características iconográficas extraídos del JSON del corpus Indus (damage, line, uncertainty, branching_factor, branch_count, branch_direction, etc. → 9 features normalizadas).
+- **Resultados** (comparación con embeddings puramente espectrales):
+
+| Candidato | Rel Dist (espectral) | Rel Dist (mejorado) | Δ |
+|-----------|---------------------|---------------------|---|
+| rapa_nui | 2271.37 | **936.79** | -58.8% |
+| tahitian | 2317.05 | **983.24** | -57.6% |
+| fijian | 2329.61 | **996.84** | -57.2% |
+| tongan | 2513.14 | **1180.04** | -53.0% |
+| samoan | 2880.17 | **1542.63** | -46.4% |
+| hawaiian | 3188.22 | **1850.81** | -42.0% |
+| japanese | 3689.66 | **2346.02** | -36.4% |
+| maori | 3782.02 | **2437.21** | -35.5% |
+| spanish | 9547.74 | **8201.03** | -14.1% |
+| english | 11441.29 | **10095.29** | -11.8% |
+
+- **Interpretación**: El ranking de candidatos se preserva casi idénticamente, pero las distorsiones absolutas disminuyen significativamente para todos los candidatos (especialmente polinésicos, ~50% reducción). Esto indica que los priors iconográficos añaden información geométrica coherente con la estructura contextual, pero no cambian las conclusiones tipológicas. Los candidatos europeos se benefician menos (~12% reducción), sugiriendo que sus embeddings son menos compatibles con los priors visuales del Indus.
+- **Output**: `data/processed/embeddings_indus_real_enhanced.npy`, `reports/tables/diverse_comparison_indus_real_enhanced.csv`.
+
 #### Exp P: Calibración de hiperparámetros via grid search
 - **Script**: `scripts/calibrate_hyperparameters.py`
 - **Setup**: Grid search sobre `window_size ∈ {2,3,5,7}`, `k ∈ {8,16,32,64}`, `alpha ∈ {0,0.5,1}`, `pmi_epsilon ∈ {1e-9,1e-6}`. Corpus: sintético v2 (112 tipos).
