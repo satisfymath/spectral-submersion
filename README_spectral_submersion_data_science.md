@@ -1651,6 +1651,22 @@ No se inventaron corpus candidatos. Se usaron datos abiertos verificables:
 - **Validación sintética**: El análisis aplicado al corpus PCFG también detecta el sesgo posicional diseñado (determinantes al inicio, nombres/verbos en medio/final), confirmando que la métrica no genera falsos positivos.
 - **Output**: `reports/tables/positional_analysis_indus.csv`, `reports/figures/positional_bias_indus.png`.
 
+#### Exp U (bis): Detección de comunidades en red de co-ocurrencia (Indus real)
+- **Script**: `scripts/analyze_network_communities.py`
+- **Método**: Construir red de co-ocurrencia ponderada por PPMI, aplicar algoritmo Louvain para detección de comunidades.
+- **Resultados**: 12 comunidades detectadas (window=2, min_pmi=0.2). Tamaños: 25, 23, 23, 17, 17, 17, 15, 12, 12, 11, 9, 1 nodos.
+- **Correlación con sesgo posicional** (`scripts/correlate_communities_positional.py`):
+
+| Comunidad | Tamaño | mean_first_ratio | mean_last_ratio | Top signos |
+|-----------|--------|------------------|-----------------|------------|
+| 3 | 17 | **0.349** | 0.044 | **P324**, P062, P060, P013, P142 |
+| 4 | 17 | 0.268 | 0.036 | P325, P147, P056, P051, P007 |
+| 1 | 23 | 0.186 | 0.133 | P050, **P217**, P378, P092, P201 |
+| 0 | 25 | 0.144 | **0.251** | P122, **P385**, P123, P202, P073 |
+
+- **Interpretación**: La comunidad 3 es una **comunidad de inicio** que agrupa signos con fuerte sesgo hacia la primera posición, incluyendo a P324 (signo más frecuente, start-biased 78%). La comunidad 0 incluye a P385 (end-biased 83%) y muestra el mayor `mean_last_ratio` (0.251). Esto sugiere que la estructura de co-ocurrencia captura parcialmente las restricciones posicionales: signos que aparecen al inicio tienden a co-ocurrir entre sí (como títulos), mientras que signos de final están más dispersos.
+- **Output**: `reports/tables/network_communities_indus.csv`, `reports/figures/network_communities_indus.png`, `reports/tables/community_positional_correlation.csv`.
+
 #### Exp W: Validación del método de sesgo posicional con benchmark controlado
 - **Script**: `scripts/generate_positional_corpus.py` + `scripts/analyze_positional_bias.py`
 - **Setup**: Corpus sintético de 2,000 secuencias, 60 signos, longitud media 5.02 tokens, con sesgo posicional explícito: TITLE al inicio (80%), NUMERAL al final (80%), SIGNATURE penúltimo (50%).
