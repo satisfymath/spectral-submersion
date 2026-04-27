@@ -1413,6 +1413,20 @@ No se inventaron corpus candidatos. Se usaron datos abiertos verificables:
 - **Interpretación**: La degradación es significativa y esperada. Cuando la correspondencia no es 1-to-1, Procrustes ortogonal (que asume isometría exacta) pierde poder predictivo. Esto valida empíricamente la advertencia del paper: identificabilidad parcial requiere biyección o, al menos, anclajes que rompan la ambigüedad. En contextos arqueológicos reales, donde la polisemia es probable, el método debe complementarse con priors culturales y controles negativos más estrictos.
 - **Output**: `reports/tables/anchor_recovery_polysemy.json`.
 
+#### Exp N: Gromov-Wasserstein solver completo
+- **Script**: `scripts/run_gw_alignment.py`
+- **Método**: Iteración de punto fijo entrópica (Peyre et al., 2016) implementada en NumPy puro. En cada paso: (1) computar tensor de costo GW a partir de distancias relacionales, (2) actualizar acoplamiento vía Sinkhorn manual.
+- **Resultados** (sintético 112 vs. Rapa Nui 56):
+
+| Método | Geo Dist | Rel Dist | Entropía |
+|--------|----------|----------|----------|
+| OT directo | 2.0257 | 1490.54 | 8.00 |
+| **GW** | **3.0707** | **1489.36** | 8.12 |
+| Random | 326.68 | -17343.81 | 429.33 |
+
+- **Interpretación**: GW produce una distorsión relacional ligeramente menor que OT (1489.36 vs 1490.54) a costa de una distorsión geométrica mayor (3.07 vs 2.03). Esto es coherente con la teoría: GW prioriza la preservación de estructura relacional interna sobre la proximidad directa en el espacio latente. Para desciframiento, donde los espacios tienen dimensiones y tamaños diferentes, GW ofrece una alternativa teóricamente más apropiada que OT geométrico puro. La diferencia es pequeña en este benchmark sintético, pero el solver está validado y listo para escalarse.
+- **Output**: `reports/tables/gw_rapa_nui.json`, `reports/tables/gw_maori.json`.
+
 #### Exp J: Bootstrap de estabilidad espectral (corpus sintético rico)
 - **Script**: `scripts/run_bootstrap.py`
 - **Configuración**: 50 muestras bootstrap, remuestreo de oraciones con reemplazo, dimensión k=16.
@@ -1444,7 +1458,7 @@ No se inventaron corpus candidatos. Se usaron datos abiertos verificables:
 - **Alineamiento sin anclajes**: El teorema de no-desciframiento gratuito (paper, Sección 7) demuestra que sin anclajes no hay identificabilidad. Los resultados de alineamiento con Maorí (Exp E) muestran entropía máxima, coherente con la teoría.
 - **Tokenización candidata**: Espacios simples, con segmentación opcional de partículas funcionales. No se aplicó lematización real ni análisis morfológico profundo.
 - **Transporte óptimo**: Fallback manual de Sinkhorn en NumPy funciona pero es más lento que POT para matrices grandes (>1e3 x 1e3). No se dispone de compilador C++ en el entorno.
-- **Gromov-Wasserstein**: Implementado como métrica de distorsión relacional (`evaluation.py::relational_distortion`), no como solver completo. Permite comparar acoplamientos existentes.
+- **Gromov-Wasserstein**: Solver completo implementado (`transport.py::gromov_wasserstein_matrix`) con iteración de punto fijo y Sinkhorn manual. Validado en espacios isométricos y cross-size.
 - **Polysemy**: Se validó degradación bajo colapso (Exp M), pero el pipeline no tiene estrategia activa para recuperar mapeos no-biyectivos más allá de reportar incertidumbre.
 
 ### 24.7 Próximos pasos recomendados (actualizado)
@@ -1457,6 +1471,8 @@ No se inventaron corpus candidatos. Se usaron datos abiertos verificables:
 6. ~~Mejorar tokenización polinésica~~ ✅ Completado (segmentación de partículas, resultados mixtos documentados).
 7. ~~Integrar control negativo automático en el pipeline de reporte~~ ✅ Completado (`generate_integrated_report.py` + `make pipeline`).
 8. ~~Implementar anclajes con colapso (polysemy) para medir robustez bajo no-biyectividad~~ ✅ Completado (degradación ~49% documentada).
-9. Implementar GW solver completo para alineamiento relacional cross-size.
+9. ~~Implementar GW solver completo para alineamiento relacional cross-size~~ ✅ Completado.
 10. Obtener corpus perdido real (Rongorongo u otro) para aplicación exploratoria.
+11. Implementar CLI de alto nivel (`spectral-submersion run-pipeline --config ...`).
+12. Calibrar hiperparámetros (reg OT, dim embedding, window size) via cross-validation en benchmarks sintéticos.
 
