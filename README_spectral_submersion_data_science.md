@@ -1560,6 +1560,21 @@ No se inventaron corpus candidatos. Se usaron datos abiertos verificables:
 - **Interpretación**: El ranking es cualitativamente idéntico al obtenido con el corpus sintético Indus-like (Exp Q). Los polinésicos muestran menor distorsión que los europeos. Esto refuerza que el pipeline detecta **estructuras tipológicas similares** (patrones de orden rígido, morfología ligera), no parentesco genealógico. Los embeddings direccionales producen resultados casi idénticos ( ranking preservado, valores ligeramente mayores), indicando que la direccionalidad no aporta información discriminativa adicional en este corpus tan corto.
 - **Output**: `data/raw/lost_language/corpus_indus_real.csv`, `reports/tables/diverse_comparison_indus_real.csv`, `reports/tables/diverse_comparison_indus_real_dir.csv`.
 
+#### Exp S (bis): Calibración de hiperparámetros sobre corpus Indus real
+- **Script**: `scripts/calibrate_hyperparameters.py --input data/raw/lost_language/corpus_indus_real.csv`
+- **Setup**: Grid search de 96 configuraciones (`window ∈ {2,3,5,7}`, `k ∈ {8,16,32,64}`, `alpha ∈ {0,0.5,1}`, `pmi ∈ {1e-9,1e-6}`).
+- **Resultados**:
+
+| Métrica | Mejor config | Valor |
+|---------|-------------|-------|
+| Compresión máxima | window=3, k=8, alpha=0, pmi=1e-6 | **7.84** |
+| Señal máxima | window=7, k=16, alpha=0, pmi=1e-9 | **25.55** |
+
+- **Sanity check con mejores parámetros**: Real=7.84, Permutado=7.83, Rand_freq=7.81, Uniform=7.62. **Sigue fallando** (`real_r > uniform_r`).
+- **Análisis de espectro**: Los valores singulares del corpus real son sistemáticamente menores que los del uniforme (suma total 219 vs 284), pero su distribución normalizada es ligeramente más uniforme (entropía 2.752 vs 2.732), lo que eleva el rango efectivo. Esto indica que la matriz PPMI del corpus real tiene menor energía total pero mayor dispersión espectral que el azar.
+- **Interpretación**: Incluso con hiperparámetros óptimos, el corpus Indus real no muestra la compresión espectral característica de estructura sintáctica local. Esto es consistente con la hipótesis de Farmer, Sproat & Witzel (2004) de que las inscripciones del Indo podrían ser un sistema no-lingüístico o proto-escritura de muy baja entropía secuencial. Alternativamente, podría reflejar que 179 inscripciones son insuficientes para 182 signos distintos, o que la estructura es no-local (dependencias de largo alcance, contextos extra-textuales).
+- **Output**: `reports/tables/hyperparameter_grid_indus_real.csv`.
+
 #### Exp P: Calibración de hiperparámetros via grid search
 - **Script**: `scripts/calibrate_hyperparameters.py`
 - **Setup**: Grid search sobre `window_size ∈ {2,3,5,7}`, `k ∈ {8,16,32,64}`, `alpha ∈ {0,0.5,1}`, `pmi_epsilon ∈ {1e-9,1e-6}`. Corpus: sintético v2 (112 tipos).

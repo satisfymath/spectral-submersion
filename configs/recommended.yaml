@@ -2,16 +2,16 @@ best_compression:
   window_size: 3.0
   k: 8.0
   alpha: 0.0
-  pmi_epsilon: 1.0e-09
-  effective_rank: 6.091628295757963
-  top_sv: 31.79276115107339
-  sum_sv: 107.29898073380801
+  pmi_epsilon: 1.0e-06
+  effective_rank: 7.84339299414008
+  top_sv: 23.44937223466447
+  sum_sv: 124.09528443983278
 best_signal:
-  window_size: 2.0
+  window_size: 7.0
   k: 16.0
   alpha: 0.0
   pmi_epsilon: 1.0e-09
-  effective_rank: 11.133763235629207
-  top_sv: 34.852945540378535
-  sum_sv: 154.13063380318238
+  effective_rank: 15.693846792431254
+  top_sv: 25.54654172377664
+  sum_sv: 242.24110972294838
 note: Effective rank measures compressibility; lower is better for structured data.
