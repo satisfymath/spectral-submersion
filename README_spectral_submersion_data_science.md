@@ -1691,8 +1691,9 @@ No se inventaron corpus candidatos. Se usaron datos abiertos verificables:
 12. ~~Calibrar hiperparámetros via grid search~~ ✅ Completado (96 configs evaluadas).
 13. ~~Obtener corpus perdido **real** (transcripción arqueológica normalizada)~~ ✅ Completado (corpus Indus real desde `mayig/indus-valley-script-corpus`, 179 inscripciones, 182 signos).
 14. ~~Implementar segmentación posicional (izquierda/derecha) en co-ocurrencia~~ ✅ Completado (`--directional` flag en `build_embeddings.py`).
-15. Evaluar hiperparámetros específicos para corpus de vocabulario grande + secuencias cortas (Indus real falla sanity check con parámetros por defecto).
-16. Añadir priors iconográficos y contextuales al pipeline de hipótesis (ej. usar feature vectors del corpus Indus como priors posicionales).
-17. Obtener corpus de Rongorongo real transcrito en formato abierto (si existe).
-18. Implementar análisis de entropía condicional de pares/bigramas para corpus muy cortos (alternativa a co-ocurrencia ventanal).
+15. ~~Evaluar hiperparámetros específicos para corpus de vocabulario grande + secuencias cortas~~ ✅ Completado (Indus real falla sanity check incluso con mejores parámetros).
+16. ~~Añadir priors iconográficos y contextuales~~ ✅ Completado (`build_enhanced_embeddings.py` con feature vectors del corpus Indus).
+17. Obtener corpus de Rongorongo real transcrito en formato abierto (búsqueda en curso; datos no identificados en repositorios abiertos conocidos).
+18. ~~Implementar análisis de entropía condicional de pares/bigramas~~ ✅ Completado (`analyze_conditional_entropy.py`).
+19. Generar reporte integrado con todas las figuras y tablas maestras (`generate_master_summary.py` + `visualize_corpus_comparison.py`).
 
