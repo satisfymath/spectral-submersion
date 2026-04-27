@@ -1622,6 +1622,23 @@ No se inventaron corpus candidatos. Se usaron datos abiertos verificables:
 - **Interpretación**: El ranking de candidatos se preserva casi idénticamente, pero las distorsiones absolutas disminuyen significativamente para todos los candidatos (especialmente polinésicos, ~50% reducción). Esto indica que los priors iconográficos añaden información geométrica coherente con la estructura contextual, pero no cambian las conclusiones tipológicas. Los candidatos europeos se benefician menos (~12% reducción), sugiriendo que sus embeddings son menos compatibles con los priors visuales del Indus.
 - **Output**: `data/processed/embeddings_indus_real_enhanced.npy`, `reports/tables/diverse_comparison_indus_real_enhanced.csv`.
 
+#### Exp V: Análisis de sesgo posicional (Indus real)
+- **Script**: `scripts/analyze_positional_bias.py`
+- **Método**: Para cada signo, calcular la posición relativa media (0=inicio, 1=fin) y las fracciones de aparición en primera/última posición.
+- **Resultados** (Indus real, top signos por frecuencia):
+
+| Signo | Frecuencia | Posición media | Ratio inicio | Ratio fin |
+|-------|------------|----------------|--------------|-----------|
+| P324 | 99 | **0.08** | **0.78** | 0.01 |
+| P217 | 18 | **0.15** | **0.78** | 0.11 |
+| P086 | 35 | 0.24 | 0.54 | 0.03 |
+| P385 | 35 | **0.94** | 0.00 | **0.83** |
+| P378 | 17 | **0.75** | 0.12 | **0.59** |
+
+- **Interpretación**: Los signos P324 y P217 muestran fuerte sesgo hacia el **inicio** de las inscripciones (>75% de las veces en primera posición). P385 muestra fuerte sesgo hacia el **final** (83% en última posición). Esto es consistente con la literatura epigráfica del Indus que describe signos funcionales posicionalmente restringidos (títulos al inicio, numerales al final).
+- **Validación**: El análisis aplicado al corpus sintético PCFG también detecta el sesgo posicional diseñado (determinantes al inicio, nombres/verbos en medio/final), confirmando que la métrica no genera falsos positivos.
+- **Output**: `reports/tables/positional_analysis_indus.csv`, `reports/figures/positional_bias_indus.png`.
+
 #### Exp P: Calibración de hiperparámetros via grid search
 - **Script**: `scripts/calibrate_hyperparameters.py`
 - **Setup**: Grid search sobre `window_size ∈ {2,3,5,7}`, `k ∈ {8,16,32,64}`, `alpha ∈ {0,0.5,1}`, `pmi_epsilon ∈ {1e-9,1e-6}`. Corpus: sintético v2 (112 tipos).
