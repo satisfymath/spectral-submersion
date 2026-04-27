@@ -1,0 +1,450 @@
+[
+  {
+    "lost_token": "a01",
+    "candidate_token": "a10"
+  },
+  {
+    "lost_token": "a02",
+    "candidate_token": "n06"
+  },
+  {
+    "lost_token": "a03",
+    "candidate_token": "n17"
+  },
+  {
+    "lost_token": "a04",
+    "candidate_token": "n24"
+  },
+  {
+    "lost_token": "a05",
+    "candidate_token": "n16"
+  },
+  {
+    "lost_token": "a06",
+    "candidate_token": "v03"
+  },
+  {
+    "lost_token": "a07",
+    "candidate_token": "c04"
+  },
+  {
+    "lost_token": "a08",
+    "candidate_token": "n15"
+  },
+  {
+    "lost_token": "a09",
+    "candidate_token": "n25"
+  },
+  {
+    "lost_token": "a10",
+    "candidate_token": "v07"
+  },
+  {
+    "lost_token": "a11",
+    "candidate_token": "a04"
+  },
+  {
+    "lost_token": "a12",
+    "candidate_token": "c03"
+  },
+  {
+    "lost_token": "c01",
+    "candidate_token": "d04"
+  },
+  {
+    "lost_token": "c02",
+    "candidate_token": "v08"
+  },
+  {
+    "lost_token": "c03",
+    "candidate_token": "m05"
+  },
+  {
+    "lost_token": "c04",
+    "candidate_token": "a02"
+  },
+  {
+    "lost_token": "d01",
+    "candidate_token": "x06"
+  },
+  {
+    "lost_token": "d02",
+    "candidate_token": "v19"
+  },
+  {
+    "lost_token": "d03",
+    "candidate_token": "c01"
+  },
+  {
+    "lost_token": "d04",
+    "candidate_token": "a08"
+  },
+  {
+    "lost_token": "d05",
+    "candidate_token": "d07"
+  },
+  {
+    "lost_token": "d06",
+    "candidate_token": "n27"
+  },
+  {
+    "lost_token": "d07",
+    "candidate_token": "n18"
+  },
+  {
+    "lost_token": "d08",
+    "candidate_token": "v13"
+  },
+  {
+    "lost_token": "m01",
+    "candidate_token": "r04"
+  },
+  {
+    "lost_token": "m02",
+    "candidate_token": "n01"
+  },
+  {
+    "lost_token": "m03",
+    "candidate_token": "x07"
+  },
+  {
+    "lost_token": "m04",
+    "candidate_token": "p03"
+  },
+  {
+    "lost_token": "m05",
+    "candidate_token": "r05"
+  },
+  {
+    "lost_token": "m06",
+    "candidate_token": "x01"
+  },
+  {
+    "lost_token": "n01",
+    "candidate_token": "r08"
+  },
+  {
+    "lost_token": "n02",
+    "candidate_token": "m01"
+  },
+  {
+    "lost_token": "n03",
+    "candidate_token": "m06"
+  },
+  {
+    "lost_token": "n04",
+    "candidate_token": "q04"
+  },
+  {
+    "lost_token": "n05",
+    "candidate_token": "p06"
+  },
+  {
+    "lost_token": "n06",
+    "candidate_token": "n07"
+  },
+  {
+    "lost_token": "n07",
+    "candidate_token": "d06"
+  },
+  {
+    "lost_token": "n08",
+    "candidate_token": "a11"
+  },
+  {
+    "lost_token": "n09",
+    "candidate_token": "v09"
+  },
+  {
+    "lost_token": "n10",
+    "candidate_token": "n30"
+  },
+  {
+    "lost_token": "n11",
+    "candidate_token": "v02"
+  },
+  {
+    "lost_token": "n12",
+    "candidate_token": "v01"
+  },
+  {
+    "lost_token": "n13",
+    "candidate_token": "n29"
+  },
+  {
+    "lost_token": "n14",
+    "candidate_token": "r06"
+  },
+  {
+    "lost_token": "n15",
+    "candidate_token": "r01"
+  },
+  {
+    "lost_token": "n16",
+    "candidate_token": "d08"
+  },
+  {
+    "lost_token": "n17",
+    "candidate_token": "p05"
+  },
+  {
+    "lost_token": "n18",
+    "candidate_token": "n22"
+  },
+  {
+    "lost_token": "n19",
+    "candidate_token": "v17"
+  },
+  {
+    "lost_token": "n20",
+    "candidate_token": "v14"
+  },
+  {
+    "lost_token": "n21",
+    "candidate_token": "n09"
+  },
+  {
+    "lost_token": "n22",
+    "candidate_token": "v16"
+  },
+  {
+    "lost_token": "n23",
+    "candidate_token": "n21"
+  },
+  {
+    "lost_token": "n24",
+    "candidate_token": "p04"
+  },
+  {
+    "lost_token": "n25",
+    "candidate_token": "x05"
+  },
+  {
+    "lost_token": "n26",
+    "candidate_token": "q02"
+  },
+  {
+    "lost_token": "n27",
+    "candidate_token": "m04"
+  },
+  {
+    "lost_token": "n28",
+    "candidate_token": "n03"
+  },
+  {
+    "lost_token": "n29",
+    "candidate_token": "n12"
+  },
+  {
+    "lost_token": "n30",
+    "candidate_token": "n20"
+  },
+  {
+    "lost_token": "p01",
+    "candidate_token": "v04"
+  },
+  {
+    "lost_token": "p02",
+    "candidate_token": "m02"
+  },
+  {
+    "lost_token": "p03",
+    "candidate_token": "v06"
+  },
+  {
+    "lost_token": "p04",
+    "candidate_token": "v05"
+  },
+  {
+    "lost_token": "p05",
+    "candidate_token": "m03"
+  },
+  {
+    "lost_token": "p06",
+    "candidate_token": "r03"
+  },
+  {
+    "lost_token": "q01",
+    "candidate_token": "q01"
+  },
+  {
+    "lost_token": "q02",
+    "candidate_token": "v18"
+  },
+  {
+    "lost_token": "q03",
+    "candidate_token": "n10"
+  },
+  {
+    "lost_token": "q04",
+    "candidate_token": "x03"
+  },
+  {
+    "lost_token": "r01",
+    "candidate_token": "p01"
+  },
+  {
+    "lost_token": "r02",
+    "candidate_token": "n04"
+  },
+  {
+    "lost_token": "r03",
+    "candidate_token": "p02"
+  },
+  {
+    "lost_token": "r04",
+    "candidate_token": "v11"
+  },
+  {
+    "lost_token": "r05",
+    "candidate_token": "n08"
+  },
+  {
+    "lost_token": "r06",
+    "candidate_token": "a03"
+  },
+  {
+    "lost_token": "r07",
+    "candidate_token": "d01"
+  },
+  {
+    "lost_token": "r08",
+    "candidate_token": "d03"
+  },
+  {
+    "lost_token": "v01",
+    "candidate_token": "v10"
+  },
+  {
+    "lost_token": "v02",
+    "candidate_token": "a06"
+  },
+  {
+    "lost_token": "v03",
+    "candidate_token": "x04"
+  },
+  {
+    "lost_token": "v04",
+    "candidate_token": "n28"
+  },
+  {
+    "lost_token": "v05",
+    "candidate_token": "n11"
+  },
+  {
+    "lost_token": "v06",
+    "candidate_token": "v15"
+  },
+  {
+    "lost_token": "v07",
+    "candidate_token": "a09"
+  },
+  {
+    "lost_token": "v08",
+    "candidate_token": "x02"
+  },
+  {
+    "lost_token": "v09",
+    "candidate_token": "r07"
+  },
+  {
+    "lost_token": "v10",
+    "candidate_token": "x08"
+  },
+  {
+    "lost_token": "v11",
+    "candidate_token": "n26"
+  },
+  {
+    "lost_token": "v12",
+    "candidate_token": "a01"
+  },
+  {
+    "lost_token": "v13",
+    "candidate_token": "v20"
+  },
+  {
+    "lost_token": "v14",
+    "candidate_token": "n02"
+  },
+  {
+    "lost_token": "v15",
+    "candidate_token": "v12"
+  },
+  {
+    "lost_token": "v16",
+    "candidate_token": "w03"
+  },
+  {
+    "lost_token": "v17",
+    "candidate_token": "w04"
+  },
+  {
+    "lost_token": "v18",
+    "candidate_token": "w02"
+  },
+  {
+    "lost_token": "v19",
+    "candidate_token": "d02"
+  },
+  {
+    "lost_token": "v20",
+    "candidate_token": "d05"
+  },
+  {
+    "lost_token": "w01",
+    "candidate_token": "x10"
+  },
+  {
+    "lost_token": "w02",
+    "candidate_token": "n14"
+  },
+  {
+    "lost_token": "w03",
+    "candidate_token": "n13"
+  },
+  {
+    "lost_token": "w04",
+    "candidate_token": "r02"
+  },
+  {
+    "lost_token": "x01",
+    "candidate_token": "q03"
+  },
+  {
+    "lost_token": "x02",
+    "candidate_token": "n19"
+  },
+  {
+    "lost_token": "x03",
+    "candidate_token": "a05"
+  },
+  {
+    "lost_token": "x04",
+    "candidate_token": "c02"
+  },
+  {
+    "lost_token": "x05",
+    "candidate_token": "x09"
+  },
+  {
+    "lost_token": "x06",
+    "candidate_token": "n23"
+  },
+  {
+    "lost_token": "x07",
+    "candidate_token": "w01"
+  },
+  {
+    "lost_token": "x08",
+    "candidate_token": "a12"
+  },
+  {
+    "lost_token": "x09",
+    "candidate_token": "n05"
+  },
+  {
+    "lost_token": "x10",
+    "candidate_token": "a07"
+  }
+]

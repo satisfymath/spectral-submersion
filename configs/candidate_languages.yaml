@@ -1,0 +1,76 @@
+# Candidate languages configuration
+# Data sources:
+#   - Maori (mi): OPUS-Tatoeba v2023-04-12, 424 sentences, 3542 tokens
+#   - Tahitian (ty): OPUS-Tatoeba v2023-04-12, 32 sentences, 95 tokens
+#   - Hawaiian (haw): OPUS-Tatoeba v2023-04-12, 164 sentences, 802 tokens
+#   - Samoan (sm): OPUS-Tatoeba v2023-04-12, 81 sentences, 354 tokens
+#   - Tongan (to): OPUS-Tatoeba v2023-04-12, 21 sentences, 101 tokens
+#   - Fijian (fj): OPUS-Tatoeba v2023-04-12, 38 sentences, 105 tokens
+#   - Rapa Nui (rap): OPUS-Tatoeba v2023-04-12, 35 sentences, 123 tokens
+# These are real Austronesian/Polynesian languages used as structural candidates.
+# They are NOT direct claims about Rongorongo decipherment.
+
+candidates:
+  - name: maori
+    code: mi
+    corpus_path: data/raw/candidate_languages/maori_tokens.csv
+    family: polynesian
+    type: modern_language
+    source: "OPUS-Tatoeba v2023-04-12"
+    license: "CC-BY 2.0 FR"
+    sentences: 424
+    tokens: 3542
+  - name: tahitian
+    code: ty
+    corpus_path: data/raw/candidate_languages/tahitian_tokens.csv
+    family: polynesian
+    type: modern_language
+    source: "OPUS-Tatoeba v2023-04-12"
+    license: "CC-BY 2.0 FR"
+    sentences: 32
+    tokens: 95
+  - name: hawaiian
+    code: haw
+    corpus_path: data/raw/candidate_languages/haw_tokens.csv
+    family: polynesian
+    type: modern_language
+    source: "OPUS-Tatoeba v2023-04-12"
+    license: "CC-BY 2.0 FR"
+    sentences: 164
+    tokens: 802
+  - name: samoan
+    code: sm
+    corpus_path: data/raw/candidate_languages/sm_tokens.csv
+    family: polynesian
+    type: modern_language
+    source: "OPUS-Tatoeba v2023-04-12"
+    license: "CC-BY 2.0 FR"
+    sentences: 81
+    tokens: 354
+  - name: tongan
+    code: to
+    corpus_path: data/raw/candidate_languages/to_tokens.csv
+    family: polynesian
+    type: modern_language
+    source: "OPUS-Tatoeba v2023-04-12"
+    license: "CC-BY 2.0 FR"
+    sentences: 21
+    tokens: 101
+  - name: fijian
+    code: fj
+    corpus_path: data/raw/candidate_languages/fj_tokens.csv
+    family: austronesian
+    type: modern_language
+    source: "OPUS-Tatoeba v2023-04-12"
+    license: "CC-BY 2.0 FR"
+    sentences: 38
+    tokens: 105
+  - name: rapa_nui
+    code: rap
+    corpus_path: data/raw/candidate_languages/rap_tokens.csv
+    family: polynesian
+    type: modern_language
+    source: "OPUS-Tatoeba v2023-04-12"
+    license: "CC-BY 2.0 FR"
+    sentences: 35
+    tokens: 123

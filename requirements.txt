@@ -1,0 +1,14 @@
+numpy
+pandas
+scipy
+scikit-learn
+matplotlib
+seaborn
+networkx
+pyyaml
+tqdm
+rich
+jupyter
+ipykernel
+pytest
+pot

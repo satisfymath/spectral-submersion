@@ -1,0 +1,31 @@
+{
+  "n_sentences": 3000,
+  "n_tokens": 24324,
+  "vocab_size": 112,
+  "type_token_ratio": 0.0046,
+  "top_10": {
+    "d07": 838,
+    "d02": 831,
+    "d03": 822,
+    "d06": 796,
+    "d01": 785,
+    "d04": 766,
+    "d05": 760,
+    "d08": 756,
+    "p05": 255,
+    "p04": 250
+  },
+  "pos_distribution": {
+    "true_pos=DET": 6354,
+    "true_pos=NOUN": 6354,
+    "true_pos=VERB": 3338,
+    "true_pos=ADJ": 1463,
+    "true_pos=PREP": 1454,
+    "true_pos=PRON": 1414,
+    "true_pos=NUM": 1047,
+    "true_pos=ADV": 790,
+    "true_pos=NAME": 740,
+    "true_pos=QUANT": 697,
+    "true_pos=CONJ": 673
+  }
+}

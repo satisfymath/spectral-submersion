@@ -1,0 +1,1390 @@
+
+\documentclass[11pt,a4paper]{article}
+
+% ============================================================
+%  Paquetes
+% ============================================================
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-nodecimaldot]{babel}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{geometry}
+\usepackage{setspace}
+\usepackage{amsmath,amssymb,amsfonts,amsthm,mathtools}
+\usepackage{bm}
+\usepackage{bbm}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{enumitem}
+\usepackage{csquotes}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+\geometry{margin=2.5cm}
+\onehalfspacing
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue!60!black,
+    citecolor=blue!60!black,
+    urlcolor=blue!60!black,
+    pdftitle={Submersion Espectral de Lenguajes Perdidos},
+    pdfauthor={Autor}
+}
+
+% ============================================================
+%  Entornos matemáticos
+% ============================================================
+\newtheorem{theorem}{Teorema}[section]
+\newtheorem{lemma}[theorem]{Lema}
+\newtheorem{proposition}[theorem]{Proposición}
+\newtheorem{corollary}[theorem]{Corolario}
+\newtheorem{definition}[theorem]{Definición}
+\newtheorem{assumption}[theorem]{Supuesto}
+\newtheorem{axiom}[theorem]{Axioma}
+\newtheorem{remark}[theorem]{Observación}
+\newtheorem{example}[theorem]{Ejemplo}
+
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator{\rank}{rank}
+\DeclareMathOperator{\tr}{tr}
+\DeclareMathOperator{\diag}{diag}
+\DeclareMathOperator{\supp}{supp}
+\DeclareMathOperator{\softmax}{softmax}
+\DeclareMathOperator{\KL}{KL}
+\DeclareMathOperator{\MI}{I}
+\DeclareMathOperator{\Var}{Var}
+\DeclareMathOperator{\Cov}{Cov}
+\DeclareMathOperator{\dist}{dist}
+\DeclareMathOperator{\Span}{span}
+\DeclareMathOperator{\St}{St}
+\DeclareMathOperator{\Orth}{O}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Prob}{\mathbb{P}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\1}{\mathbbm{1}}
+\newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
+\newcommand{\inner}[2]{\left\langle #1,#2 \right\rangle}
+\newcommand{\transpose}{^{\top}}
+\newcommand{\pinv}{^{+}}
+\newcommand{\VX}{\mathcal{V}_X}
+\newcommand{\VY}{\mathcal{V}_Y}
+\newcommand{\MX}{\mathcal{M}_X}
+\newcommand{\MY}{\mathcal{M}_Y}
+\newcommand{\DX}{\Delta_X}
+\newcommand{\DY}{\Delta_Y}
+
+\numberwithin{equation}{section}
+
+% ============================================================
+%  Documento
+% ============================================================
+\title{
+\Large\textbf{Submersión Espectral de Lenguajes Perdidos}\\[0.35em]
+\large Pseudoinversa de Moore--Penrose, SVD, Procrustes, Transporte Óptimo y Geometría Latente para el Desciframiento Probabilístico de Sistemas Simbólicos de Bajo Recurso
+}
+
+\author{
+Autor: \textit{[Nombre del autor]}\\
+Afiliación: \textit{[Institución / Laboratorio]}\\
+Contacto: \textit{[correo]}
+}
+
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Este artículo propone un marco matemático para estudiar sistemas simbólicos perdidos o no descifrados mediante una combinación de análisis espectral, pseudoinversa de Moore--Penrose, alineamiento Procrustes, transporte óptimo relacional y modelos probabilísticos de lenguaje. La tesis central es que un sistema de signos funcional, si codifica regularidades de un mundo cultural o físico compartido, induce una geometría estadística interna parcialmente observable. Esta geometría puede extraerse desde matrices de co-ocurrencia, PMI/PPMI, grafos de transición y tensores de contexto; puede comprimirse mediante descomposición en valores singulares; y puede alinearse, bajo hipótesis explícitas, con espacios latentes de lenguas conocidas. El resultado no es un ``traductor mágico'' ni un desciframiento concluyente, sino una máquina de generación, ranking y falsación de hipótesis de equivalencia semántica. Formalizamos el problema como inferencia bajo simetrías, demostramos imposibilidades sin anclajes o restricciones externas, caracterizamos soluciones lineales de mínimos cuadrados mediante Moore--Penrose, derivamos el alineamiento ortogonal mediante SVD, y planteamos una extensión geométrica como submersión entre variedades semánticas de distinta dimensión. El caso Rongorongo se usa como motivación de bajo recurso extremo, no como afirmación de desciframiento. La contribución principal es una arquitectura rigurosa, verificable y falsable para pasar desde frecuencia de símbolos al estilo de Al-Kindi hacia una teoría moderna de desciframiento espectral probabilístico.
+\end{abstract}
+
+\noindent\textbf{Palabras clave:} Moore--Penrose, SVD, pseudoinversa, Procrustes, embeddings cross-linguales, traducción no supervisada, Rongorongo, Al-Kindi, geometría diferencial, transporte óptimo, inferencia bayesiana, lenguajes perdidos, análisis espectral.
+
+\tableofcontents
+\newpage
+
+% ============================================================
+\section{Introducción}
+% ============================================================
+
+El desciframiento de un sistema simbólico perdido puede entenderse como un problema inverso: se observa una secuencia finita de signos, pero se desconoce la aplicación que conecta esos signos con unidades semánticas, fonológicas, rituales, calendáricas o administrativas. En su versión más simple, el problema recuerda al criptoanálisis por frecuencia asociado históricamente a Al-Kindi: un texto cifrado conserva regularidades estadísticas del idioma original, y esas regularidades pueden explotarse para proponer correspondencias entre signos y letras \cite{broemeling2011alkindi}. Sin embargo, un sistema como Rongorongo no es un cifrado monoalfabético con una lengua original conocida; es un objeto de bajo recurso, culturalmente situado, con corpus pequeño, sin bilingües confirmados y con múltiples fuentes de incertidumbre \cite{ferrara2024rongorongo}.
+
+La pregunta de este trabajo es más general:
+
+\begin{quote}
+    \emph{¿Puede una geometría estadística inducida por un sistema simbólico perdido alinearse con la geometría estadística de una o varias lenguas conocidas, de modo que se generen hipótesis de traducción probabilísticas, auditables y falsables?}
+\end{quote}
+
+La respuesta propuesta es condicional. Sí, si se cumplen restricciones fuertes: existencia de estructura lingüística o semiótica no trivial, corpus suficiente para estimar relaciones de co-ocurrencia, espacios comparables, anclajes débiles, regularización cultural y validación negativa. No, si se espera recuperar significado completo desde frecuencias marginales aisladas.
+
+El marco que desarrollamos combina cinco niveles.
+
+\begin{enumerate}[label=\textbf{N\arabic*.}]
+    \item \textbf{Nivel estadístico:} frecuencias, co-ocurrencias, PMI, transición y grafos de contexto.
+    \item \textbf{Nivel espectral:} SVD, rango efectivo, pseudoinversa y aproximaciones de bajo rango.
+    \item \textbf{Nivel geométrico:} alineamientos ortogonales, Procrustes, variedades latentes, submersión y fibras semánticas.
+    \item \textbf{Nivel probabilístico:} diccionarios blandos, posterior semántico, decodificación secuencial y calibración.
+    \item \textbf{Nivel epistémico:} límites de identificabilidad, imposibilidad sin anclajes, validación por controles negativos.
+\end{enumerate}
+
+La idea central puede expresarse informalmente así:
+
+\begin{center}
+\emph{La traducción perdida no es una clave única; es una geometría latente parcialmente invertible.}
+\end{center}
+
+% ============================================================
+\section{Motivación histórica y técnica}
+% ============================================================
+
+\subsection{De Al-Kindi al aprendizaje no supervisado}
+
+El criptoanálisis por frecuencia parte de una observación simple: si una sustitución simbólica conserva el orden textual, entonces las letras más frecuentes del idioma base tienden a seguir siendo frecuentes, aunque aparezcan con otros símbolos. Esta idea no descifra por sí sola lenguajes completos, pero inaugura una familia de métodos estadísticos: inferir estructura invisible desde distribuciones observables.
+
+En NLP moderno, una idea análoga aparece en embeddings multilingües y traducción no supervisada. Métodos como los de Artetxe, Labaka y Agirre \cite{artetxe2017almost,artetxe2018framework}, Conneau et al. \cite{conneau2018word}, Lample et al. \cite{lample2018unsupervised} y Alvarez-Melis y Jaakkola \cite{alvarezmelis2018gw} exploran cómo alinear espacios vectoriales monolingües sin grandes corpus paralelos. Muchos de estos métodos dependen de una hipótesis geométrica: lenguas distintas que describen mundos comparables inducen espacios semánticos con estructura relacional parcialmente isomorfa.
+
+Este trabajo traslada esa intuición a un régimen más extremo: sistemas simbólicos pequeños, posiblemente no fonéticos, sin corpus paralelo y con semántica culturalmente densa.
+
+\subsection{Rongorongo como motivación de bajo recurso extremo}
+
+Rongorongo, escritura asociada a Rapa Nui, permanece sin descifrar. La literatura reciente destaca que los objetos conservados son escasos y que su origen histórico sigue siendo tema de investigación \cite{ferrara2024rongorongo}. Por ello, cualquier propuesta de desciframiento debe distinguir cuidadosamente entre:
+
+\begin{enumerate}[label=(\roman*)]
+    \item \textbf{desciframiento fuerte:} lectura semántica o fonética verificable;
+    \item \textbf{desciframiento débil:} segmentación, direccionalidad, clases funcionales, repeticiones;
+    \item \textbf{desciframiento probabilístico:} ranking de hipótesis con incertidumbre;
+    \item \textbf{análisis estructural:} evidencia de que el sistema posee regularidades no aleatorias.
+\end{enumerate}
+
+Nuestro marco apunta primero a los niveles débil, probabilístico y estructural. El nivel fuerte requiere evidencia externa adicional.
+
+% ============================================================
+\section{Planteamiento formal del problema}
+% ============================================================
+
+\subsection{Sistema simbólico observado}
+
+Sea \(X\) un sistema simbólico perdido. Observamos un corpus finito
+\begin{equation}
+    \mathcal{C}_X = (s_1,s_2,\dots,s_T), 
+    \qquad s_t \in \VX,
+\end{equation}
+donde \(\VX=\{x_1,\dots,x_{n_X}\}\) es el vocabulario de signos, glifos, variantes normalizadas o unidades segmentadas.
+
+Sea \(Y\) una lengua conocida o un conjunto de lenguas conocidas:
+\begin{equation}
+    \mathcal{C}_Y = (w_1,w_2,\dots,w_M),
+    \qquad w_m \in \VY,
+\end{equation}
+donde \(\VY=\{y_1,\dots,y_{n_Y}\}\).
+
+El objetivo no es encontrar una función determinista
+\[
+    \tau:\VX\to\VY
+\]
+sino una distribución posterior
+\begin{equation}
+    \Pi_{ij}=p(y_j\mid x_i,\mathcal{C}_X,\mathcal{C}_Y,\mathcal{K}),
+\end{equation}
+donde \(\mathcal{K}\) representa conocimiento adicional: iconografía, arqueología, lengua comparada, direccionalidad, soporte material, calendario, genealogía, tradición oral o restricciones antropológicas.
+
+\subsection{Matriz de co-ocurrencia}
+
+Definimos una función de contexto \(K:\N\to\R_{\geq 0}\), por ejemplo
+\[
+    K(d)=\1\{1\leq d\leq h\}
+    \quad\text{o}\quad
+    K(d)=\exp(-d/\rho).
+\]
+La matriz de co-ocurrencia de \(X\) es
+\begin{equation}
+    C^{(X)}_{ij}
+    =
+    \sum_{t=1}^{T}
+    \1\{s_t=x_i\}
+    \sum_{\substack{u=1\\u\neq t}}^{T}
+    K(|u-t|)
+    \1\{s_u=x_j\}.
+    \label{eq:cooc}
+\end{equation}
+
+Análogamente se define \(C^{(Y)}\). A partir de \(C\) se construyen probabilidades suavizadas:
+\begin{equation}
+    \widehat{p}_{ij}
+    =
+    \frac{C_{ij}+\epsilon}
+    {\sum_{a,b} C_{ab}+\epsilon n^2},
+    \qquad
+    \widehat{p}_{i\cdot}
+    =
+    \sum_j \widehat{p}_{ij},
+    \qquad
+    \widehat{p}_{\cdot j}
+    =
+    \sum_i \widehat{p}_{ij}.
+\end{equation}
+
+La matriz PMI es
+\begin{equation}
+    \operatorname{PMI}_{ij}
+    =
+    \log
+    \frac{\widehat{p}_{ij}}
+    {\widehat{p}_{i\cdot}\widehat{p}_{\cdot j}}.
+    \label{eq:pmi}
+\end{equation}
+
+La versión positiva se define como
+\begin{equation}
+    \operatorname{PPMI}_{ij}
+    =
+    \max\{\operatorname{PMI}_{ij},0\}.
+\end{equation}
+
+\subsection{Embedding espectral}
+
+Sea \(M_X\in\R^{n_X\times n_X}\) una matriz estructural del sistema perdido: co-ocurrencia normalizada, PMI, PPMI, transición, Laplaciano de grafo o una combinación ponderada. Su descomposición en valores singulares es
+\begin{equation}
+    M_X = U_X \Sigma_X V_X^\top.
+\end{equation}
+
+Para dimensión latente \(k\), definimos el embedding espectral
+\begin{equation}
+    E_X(k,\alpha)
+    =
+    U_{X,k}\Sigma_{X,k}^{\alpha},
+    \qquad \alpha\in[0,1].
+    \label{eq:spectral_embedding}
+\end{equation}
+
+Cuando \(M_X\) es simétrica positiva semidefinida, esto coincide con una descomposición espectral clásica. Cuando no lo es, \(U\) y \(V\) capturan roles direccionales distintos: contexto izquierdo/derecho, emisor/receptor, signo actual/siguiente signo.
+
+% ============================================================
+\section{Axiomas epistémicos}
+% ============================================================
+
+\begin{axiom}[Suficiencia descriptiva]
+Un sistema simbólico \(X\) es descifrable en sentido débil solo si existe una variable latente \(R\), representando estados relevantes del mundo cultural o físico, tal que
+\begin{equation}
+    \MI(X;R)>0.
+\end{equation}
+\end{axiom}
+
+Este axioma no dice que todo signo tenga significado léxico. Dice que el sistema completo debe transportar información no nula sobre algo externo o interno: eventos, nombres, conteos, clases rituales, secuencias, taxonomías o instrucciones.
+
+\begin{theorem}[Independencia implica imposibilidad inferencial]
+Si \(X\) y \(R\) son independientes, entonces ningún procedimiento basado únicamente en \(X\) puede actualizar racionalmente la creencia sobre \(R\). En particular,
+\begin{equation}
+    p(R\mid X)=p(R).
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+Por independencia,
+\[
+    p(X,R)=p(X)p(R).
+\]
+Si \(p(X)>0\), la regla de Bayes entrega
+\[
+    p(R\mid X)=\frac{p(X,R)}{p(X)}
+    =
+    \frac{p(X)p(R)}{p(X)}
+    =
+    p(R).
+\]
+Por lo tanto, observar \(X\) no modifica la distribución posterior de \(R\). Cualquier algoritmo que afirme recuperar \(R\) desde \(X\) en este caso está introduciendo información externa no declarada o ruido interpretativo.
+\end{proof}
+
+\begin{corollary}[Frecuencia sin estructura no basta]
+Las frecuencias marginales \(p(x_i)\) pueden sugerir clases funcionales, pero no identifican semántica por sí solas. Dos sistemas con las mismas frecuencias y estructuras relacionales distintas pueden tener interpretaciones incompatibles.
+\end{corollary}
+
+% ============================================================
+\section{Moore--Penrose y la inversión lineal mínima}
+% ============================================================
+
+\subsection{La pseudoinversa como solución canónica}
+
+Sea \(A\in\R^{m\times n}\). Si \(A\) es rectangular o singular, no existe en general una inversa clásica. La pseudoinversa de Moore--Penrose \(A^+\) es la única matriz que satisface las cuatro ecuaciones:
+\begin{align}
+    A A^+ A &= A,\\
+    A^+ A A^+ &= A^+,\\
+    (A A^+)^\top &= A A^+,\\
+    (A^+ A)^\top &= A^+ A.
+\end{align}
+
+\begin{theorem}[Pseudoinversa vía SVD]
+Sea \(A\in\R^{m\times n}\) una matriz de rango \(r\) con SVD
+\begin{equation}
+    A=U\Sigma V^\top,
+\end{equation}
+donde
+\[
+    \Sigma=\diag(\sigma_1,\dots,\sigma_r,0,\dots),
+    \qquad
+    \sigma_1\geq \cdots \geq \sigma_r>0.
+\]
+Entonces
+\begin{equation}
+    A^+=V\Sigma^+U^\top,
+    \label{eq:mp_svd}
+\end{equation}
+donde \(\Sigma^+\) reemplaza cada \(\sigma_i>0\) por \(1/\sigma_i\) y transpone la forma rectangular.
+\end{theorem}
+
+\begin{proof}
+Como \(U\) y \(V\) son ortogonales, basta verificar las cuatro condiciones de Moore--Penrose para \(\Sigma\). Para cada valor singular no nulo,
+\[
+    \sigma_i \cdot \sigma_i^{-1}\cdot \sigma_i=\sigma_i,
+    \qquad
+    \sigma_i^{-1}\cdot \sigma_i\cdot \sigma_i^{-1}=\sigma_i^{-1}.
+\]
+Para valores singulares nulos, los productos permanecen nulos. Además, \(\Sigma\Sigma^+\) y \(\Sigma^+\Sigma\) son matrices diagonales con entradas \(0\) o \(1\), luego son simétricas. Multiplicar por \(U,V\) preserva las identidades correspondientes, pues \(U^\top U=I\) y \(V^\top V=I\).
+\end{proof}
+
+\subsection{Traducción lineal de mínimos cuadrados}
+
+Supongamos que existen representaciones \(X\in\R^{n\times d_X}\) y \(Y\in\R^{n\times d_Y}\) de \(n\) unidades alineadas parcialmente. Buscamos
+\begin{equation}
+    W^\star=\argmin_{W\in\R^{d_X\times d_Y}}
+    \norm{XW-Y}_F^2.
+    \label{eq:ls_translation}
+\end{equation}
+
+\begin{theorem}[Solución Moore--Penrose matricial]
+El conjunto de minimizadores de \eqref{eq:ls_translation} contiene
+\begin{equation}
+    W^\star=X^+Y.
+\end{equation}
+Además, \(X^+Y\) es el minimizador de norma Frobenius mínima.
+\end{theorem}
+
+\begin{proof}
+El problema se separa por columnas. Sea \(Y=[y_1,\dots,y_{d_Y}]\) y \(W=[w_1,\dots,w_{d_Y}]\). Entonces
+\[
+    \norm{XW-Y}_F^2
+    =
+    \sum_{\ell=1}^{d_Y}
+    \norm{Xw_\ell-y_\ell}_2^2.
+\]
+Para cada columna, la solución de mínimos cuadrados de norma mínima es \(w_\ell=X^+y_\ell\). Apilando soluciones se obtiene \(W=X^+Y\). La minimalidad de norma se sigue de la descomposición ortogonal del espacio en \(\ker(X)\oplus\ker(X)^\perp\): cualquier solución puede escribirse como \(X^+y+z\), con \(z\in\ker(X)\); el término \(z\) no cambia el residuo pero aumenta la norma salvo que \(z=0\).
+\end{proof}
+
+\begin{corollary}[Decodificador lineal canónico]
+Si \(E_X\) y \(E_Y\) son embeddings espectrales comparables, entonces
+\begin{equation}
+    W_{\mathrm{MP}}=E_X^+E_Y
+\end{equation}
+es el traductor lineal de mínimos cuadrados de norma mínima entre ambos espacios.
+\end{corollary}
+
+\begin{remark}
+Este corolario no afirma que \(W_{\mathrm{MP}}\) sea una traducción semántica correcta. Afirma que, bajo la elección de representaciones y pares alineados, es el mapa lineal canónico que minimiza error cuadrático. Su valor científico depende de la calidad de los embeddings, anclajes y validaciones.
+\end{remark}
+
+% ============================================================
+\section{Bajo rango, compresión semántica y Eckart--Young}
+% ============================================================
+
+\begin{theorem}[Eckart--Young--Mirsky]
+Sea \(M\in\R^{m\times n}\) con SVD \(M=U\Sigma V^\top\). La mejor aproximación de rango \(k\) en norma Frobenius es
+\begin{equation}
+    M_k=U_k\Sigma_k V_k^\top,
+\end{equation}
+y satisface
+\begin{equation}
+    M_k=\argmin_{\rank(B)\leq k}\norm{M-B}_F.
+\end{equation}
+Además,
+\begin{equation}
+    \norm{M-M_k}_F^2
+    =
+    \sum_{i>k}\sigma_i^2.
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+Por invariancia unitaria de la norma Frobenius,
+\[
+    \norm{M-B}_F
+    =
+    \norm{\Sigma-U^\top B V}_F.
+\]
+Si \(\rank(B)\leq k\), entonces \(U^\top B V\) también tiene rango a lo más \(k\). La mejor matriz de rango \(k\) que aproxima una diagonal con entradas decrecientes conserva las \(k\) entradas diagonales más grandes y anula el resto. Esto entrega \(M_k\) y el error indicado.
+\end{proof}
+
+\begin{corollary}[Rango efectivo como complejidad simbólica]
+Si los valores singulares de \(M_X\) decaen rápidamente, entonces la estructura estadística observable del sistema \(X\) puede comprimirse en pocas dimensiones. Si decaen lentamente, el sistema requiere una geometría de mayor dimensión o contiene ruido, heterogeneidad o múltiples subsistemas mezclados.
+\end{corollary}
+
+Definimos el rango efectivo entrópico como
+\begin{equation}
+    r_{\mathrm{eff}}(M)
+    =
+    \exp\left(
+    -\sum_i p_i\log p_i
+    \right),
+    \qquad
+    p_i=
+    \frac{\sigma_i}{\sum_j \sigma_j}.
+\end{equation}
+
+Este número sirve como indicador de complejidad latente, aunque no debe interpretarse directamente como número de categorías semánticas.
+
+% ============================================================
+\section{Alineamiento Procrustes}
+% ============================================================
+
+\subsection{Mapa ortogonal}
+
+El mapa lineal general \(W\) puede deformar escalas, ángulos y distancias. Para traducción entre embeddings, muchas arquitecturas imponen una transformación ortogonal \(Q\in O(d)\):
+\begin{equation}
+    Q^\top Q=I.
+\end{equation}
+
+Esto conserva productos internos:
+\[
+    \inner{x_iQ}{x_jQ}=\inner{x_i}{x_j}.
+\]
+Por ello, si creemos que dos lenguas comparten estructura relacional, una rotación/reflexión es menos arbitraria que una transformación libre.
+
+\begin{theorem}[Procrustes ortogonal]
+Sean \(X,Y\in\R^{n\times d}\). El problema
+\begin{equation}
+    Q^\star
+    =
+    \argmin_{Q^\top Q=I}
+    \norm{XQ-Y}_F^2
+    \label{eq:procrustes}
+\end{equation}
+se resuelve mediante la SVD
+\begin{equation}
+    X^\top Y=U\Sigma V^\top,
+\end{equation}
+con
+\begin{equation}
+    Q^\star=UV^\top.
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+Expandimos:
+\[
+    \norm{XQ-Y}_F^2
+    =
+    \tr(Q^\top X^\top XQ)-2\tr(Q^\top X^\top Y)+\tr(Y^\top Y).
+\]
+Como \(Q^\top Q=I\),
+\[
+    \tr(Q^\top X^\top XQ)=\tr(X^\top X),
+\]
+que no depende de \(Q\). Minimizar equivale a maximizar
+\[
+    \tr(Q^\top X^\top Y).
+\]
+Sea \(X^\top Y=U\Sigma V^\top\). Entonces
+\[
+    \tr(Q^\top U\Sigma V^\top)
+    =
+    \tr(V^\top Q^\top U\Sigma).
+\]
+Definiendo \(Z=U^\top QV\), se tiene que \(Z\) es ortogonal y
+\[
+    \tr(V^\top Q^\top U\Sigma)=\tr(Z^\top \Sigma)=\sum_i \sigma_i Z_{ii}.
+\]
+Como \(|Z_{ii}|\leq 1\), el máximo es \(\sum_i\sigma_i\), alcanzado cuando \(Z=I\). Por tanto,
+\[
+    U^\top QV=I
+    \quad\Rightarrow\quad
+    Q=UV^\top.
+\]
+\end{proof}
+
+\begin{corollary}[Alineamiento exacto bajo isometría]
+Si existe \(Q_0\in O(d)\) tal que \(Y=XQ_0\), y \(X\) tiene rango columna completo, entonces el problema Procrustes recupera \(Q_0\) de manera única.
+\end{corollary}
+
+\begin{proof}
+Para \(Q=Q_0\), el residuo es cero:
+\[
+    \norm{XQ_0-Y}_F=0.
+\]
+Si otro \(Q\) también alcanza residuo cero, entonces \(XQ=XQ_0\), luego
+\[
+    X(Q-Q_0)=0.
+\]
+Como \(X\) tiene rango columna completo, su núcleo derecho es trivial y \(Q=Q_0\).
+\end{proof}
+
+% ============================================================
+\section{Teorema de no-desciframiento gratuito}
+% ============================================================
+
+\subsection{Simetría por permutación}
+
+Un peligro central en desciframiento es la ilusión de identificabilidad. Sin anclajes, todo sistema simbólico es invariante bajo renombramiento de símbolos.
+
+\begin{theorem}[No-free-decipherment]
+Sea \(X=(s_1,\dots,s_T)\) un corpus sobre vocabulario \(\VX\). Sea \(\pi:\VX\to\VX\) una permutación. Defina \(\pi(X)=(\pi(s_1),\dots,\pi(s_T))\). Cualquier estadístico puramente estructural que sea invariante a nombres de símbolos no puede distinguir \(X\) de \(\pi(X)\). Por tanto, no puede identificar una semántica absoluta sin anclajes externos.
+\end{theorem}
+
+\begin{proof}
+Un estadístico puramente estructural depende de patrones de igualdad, distancias, repeticiones, co-ocurrencias o topología relacional, pero no de los nombres arbitrarios de los símbolos. Si aplicamos \(\pi\), las relaciones de igualdad se preservan:
+\[
+    s_t=s_u
+    \quad\Longleftrightarrow\quad
+    \pi(s_t)=\pi(s_u).
+\]
+Las matrices de co-ocurrencia se transforman por conjugación:
+\[
+    C_{\pi(X)}=P_\pi C_X P_\pi^\top,
+\]
+donde \(P_\pi\) es una matriz de permutación. Los valores singulares, espectro del Laplaciano, distancias relacionales y rangos se preservan. Luego todo método que observe solo estructura interna obtiene la misma evidencia para \(X\) y \(\pi(X)\). Cualquier elección entre ambas requiere información externa.
+\end{proof}
+
+\begin{corollary}[Necesidad de anclajes]
+Para pasar de estructura a semántica se requiere al menos uno de los siguientes tipos de anclaje:
+\begin{enumerate}[label=(\roman*)]
+    \item anclaje bilingüe;
+    \item anclaje iconográfico;
+    \item anclaje arqueológico;
+    \item anclaje fonético;
+    \item anclaje numérico/calendárico;
+    \item anclaje comparativo con lenguas emparentadas;
+    \item anclaje por regularidad pragmática.
+\end{enumerate}
+\end{corollary}
+
+\begin{remark}
+Este resultado es deliberadamente restrictivo. Protege contra una mala práctica común: presentar una traducción única donde matemáticamente solo existe una clase de equivalencia bajo simetrías.
+\end{remark}
+
+% ============================================================
+\section{Diccionario blando y transporte óptimo}
+% ============================================================
+
+\subsection{Asignación probabilística}
+
+En lugar de una función \(\tau:\VX\to\VY\), usamos una matriz estocástica
+\begin{equation}
+    \Pi\in\R_{\geq 0}^{n_X\times n_Y},
+    \qquad
+    \sum_{j=1}^{n_Y}\Pi_{ij}=1.
+\end{equation}
+
+La interpretación es
+\[
+    \Pi_{ij}=p(y_j\mid x_i).
+\]
+
+Una versión con masas marginales \(a\in\Delta^{n_X}\), \(b\in\Delta^{n_Y}\) exige
+\begin{equation}
+    \Pi\mathbf{1}=a,
+    \qquad
+    \Pi^\top\mathbf{1}=b.
+\end{equation}
+
+\subsection{Costo geométrico}
+
+Dado un alineamiento ortogonal \(Q\), definimos
+\begin{equation}
+    D_{ij}(Q)=\norm{e_i^{(X)}Q-e_j^{(Y)}}_2^2.
+\end{equation}
+
+El transporte óptimo clásico resolvería
+\begin{equation}
+    \min_{\Pi\in U(a,b)}
+    \sum_{i,j}\Pi_{ij}D_{ij}(Q),
+    \label{eq:ot}
+\end{equation}
+donde
+\[
+    U(a,b)=\{\Pi\geq 0:\Pi\mathbf{1}=a,\Pi^\top\mathbf{1}=b\}.
+\]
+
+\subsection{Costo relacional tipo Gromov--Wasserstein}
+
+Si los espacios no son directamente comparables, se comparan relaciones internas:
+\begin{equation}
+    \min_{\Pi\in U(a,b)}
+    \sum_{i,i',j,j'}
+    \left|
+    \DX(i,i')-\DY(j,j')
+    \right|^2
+    \Pi_{ij}\Pi_{i'j'}.
+    \label{eq:gw}
+\end{equation}
+
+Esto es especialmente atractivo en desciframiento porque no exige coordenadas equivalentes: exige que pares de signos relacionados en \(X\) correspondan a pares de palabras relacionadas en \(Y\). Esta idea es coherente con el uso de distancias Gromov--Wasserstein para alineamiento de espacios de embeddings \cite{alvarezmelis2018gw}.
+
+\subsection{Regularización entrópica}
+
+Para evitar soluciones degeneradas, agregamos entropía:
+\begin{equation}
+    \min_{\Pi\in U(a,b)}
+    \langle \Pi,D\rangle
+    +
+    \varepsilon
+    \sum_{i,j}\Pi_{ij}(\log \Pi_{ij}-1).
+\end{equation}
+
+Cuando \(\varepsilon\) es grande, \(\Pi\) es difusa; cuando \(\varepsilon\to 0\), se aproxima a un acoplamiento duro.
+
+% ============================================================
+\section{Submersión entre variedades semánticas}
+% ============================================================
+
+\subsection{Lenguajes como variedades estadísticas}
+
+Modelamos un idioma o sistema simbólico como una nube de puntos en un espacio latente. En el límite ideal, esa nube aproxima una variedad:
+\[
+    \MX\subset\R^{d_X},
+    \qquad
+    \MY\subset\R^{d_Y}.
+\]
+
+Si \(Y\) es una lengua rica con gran corpus y \(X\) un sistema pequeño, es razonable suponer
+\[
+    \dim(\MY)\geq \dim(\MX).
+\]
+
+Una aplicación
+\[
+    F:\MY\to\MX
+\]
+puede interpretarse como una compresión semántica: muchas palabras o conceptos de \(Y\) colapsan a una unidad de \(X\).
+
+\begin{definition}[Submersión semántica]
+Sea \(F:\MY\to\MX\) suave. Decimos que \(F\) es una submersión semántica local si para todo \(y\in\MY\),
+\[
+    \rank(dF_y)=\dim(\MX).
+\]
+\end{definition}
+
+\begin{theorem}[Fibras de una submersión]
+Si \(F:\MY\to\MX\) es una submersión y \(x\in\MX\), entonces la fibra
+\[
+    F^{-1}(x)=\{y\in\MY:F(y)=x\}
+\]
+es una subvariedad de \(\MY\) de dimensión
+\[
+    \dim(F^{-1}(x))=\dim(\MY)-\dim(\MX).
+\]
+\end{theorem}
+
+\begin{proof}
+Este es un caso del teorema del valor regular. Como \(F\) es submersión, todo \(x\in\MX\) es valor regular. Por el teorema del valor regular, \(F^{-1}(x)\) es una subvariedad de codimensión \(\dim(\MX)\) dentro de \(\MY\). Por tanto su dimensión es \(\dim(\MY)-\dim(\MX)\).
+\end{proof}
+
+\begin{corollary}[La traducción como fibra]
+Si un glifo \(x\in\VX\) corresponde a una región comprimida de una lengua conocida, entonces su significado no es necesariamente un punto \(y\), sino una fibra semántica:
+\[
+    \mathcal{F}_x
+    =
+    \{y\in\MY:F(y)=x\}.
+\]
+Por tanto, un desciframiento responsable debe devolver conjuntos o distribuciones de significados, no equivalencias absolutas prematuras.
+\end{corollary}
+
+\subsection{Pseudoinversa diferencial}
+
+Si localmente
+\[
+    x\approx F(y_0)+J_F(y_0)(y-y_0),
+\]
+entonces recuperar \(y\) desde \(x\) requiere invertir \(J_F\), que puede ser rectangular. La solución de mínima norma es
+\begin{equation}
+    y-y_0
+    =
+    J_F(y_0)^+
+    (x-F(y_0)).
+\end{equation}
+
+Aquí aparece Moore--Penrose como inversa local de una submersión linealizada.
+
+% ============================================================
+\section{Regularización, estabilidad y ruido}
+% ============================================================
+
+\subsection{Tikhonov espectral}
+
+Para corpus pequeños, los valores singulares pequeños son inestables. La pseudoinversa cruda amplifica ruido:
+\[
+    \sigma_i \mapsto \frac{1}{\sigma_i}.
+\]
+Por eso se usa regularización de Tikhonov:
+\begin{equation}
+    W_\lambda
+    =
+    (X^\top X+\lambda I)^{-1}X^\top Y.
+\end{equation}
+
+Si \(X=U\Sigma V^\top\), entonces
+\begin{equation}
+    W_\lambda
+    =
+    V
+    \diag\left(
+    \frac{\sigma_i}{\sigma_i^2+\lambda}
+    \right)
+    U^\top Y.
+    \label{eq:tikhonov_svd}
+\end{equation}
+
+\begin{theorem}[Contracción espectral de Tikhonov]
+El operador regularizado reemplaza el factor \(1/\sigma_i\) de la pseudoinversa por
+\[
+    g_\lambda(\sigma_i)
+    =
+    \frac{\sigma_i}{\sigma_i^2+\lambda}.
+\]
+Además,
+\[
+    0\leq g_\lambda(\sigma_i)\leq \frac{1}{2\sqrt{\lambda}}.
+\]
+\end{theorem}
+
+\begin{proof}
+La expresión \eqref{eq:tikhonov_svd} se obtiene sustituyendo la SVD de \(X\):
+\[
+    X^\top X=V\Sigma^\top\Sigma V^\top.
+\]
+Luego
+\[
+    (X^\top X+\lambda I)^{-1}X^\top
+    =
+    V(\Sigma^\top\Sigma+\lambda I)^{-1}\Sigma^\top U^\top.
+\]
+Para cada \(\sigma\geq 0\),
+\[
+    g_\lambda(\sigma)=\frac{\sigma}{\sigma^2+\lambda}.
+\]
+La cota máxima se obtiene derivando:
+\[
+    g_\lambda'(\sigma)
+    =
+    \frac{\lambda-\sigma^2}{(\sigma^2+\lambda)^2},
+\]
+cuyo máximo ocurre en \(\sigma=\sqrt{\lambda}\), dando
+\[
+    g_\lambda(\sqrt{\lambda})
+    =
+    \frac{\sqrt{\lambda}}{2\lambda}
+    =
+    \frac{1}{2\sqrt{\lambda}}.
+\]
+\end{proof}
+
+\begin{corollary}[Bajo recurso exige regularización]
+En corpus pequeños, donde muchas direcciones espectrales tienen \(\sigma_i\) bajo, la pseudoinversa sin regularización puede transformar ruido en hipótesis semánticas artificiales. Tikhonov limita esta amplificación.
+\end{corollary}
+
+% ============================================================
+\section{Modelo probabilístico completo}
+% ============================================================
+
+\subsection{Posterior de traducción de signos}
+
+Proponemos el siguiente posterior no normalizado:
+\begin{equation}
+    p(y_j\mid x_i)
+    \propto
+    \exp\left(
+    -\frac{\norm{e_i^{(X)}Q-e_j^{(Y)}}^2}{\tau}
+    \right)
+    \cdot
+    \psi_{\mathrm{freq}}(x_i,y_j)
+    \cdot
+    \psi_{\mathrm{icon}}(x_i,y_j)
+    \cdot
+    \psi_{\mathrm{morph}}(x_i,y_j)
+    \cdot
+    \psi_{\mathrm{anth}}(x_i,y_j),
+    \label{eq:posterior_symbol}
+\end{equation}
+donde:
+\begin{enumerate}[label=(\roman*)]
+    \item \(\tau>0\) controla temperatura;
+    \item \(\psi_{\mathrm{freq}}\) compara frecuencias;
+    \item \(\psi_{\mathrm{icon}}\) incorpora semejanza visual o iconográfica;
+    \item \(\psi_{\mathrm{morph}}\) incorpora restricciones morfológicas;
+    \item \(\psi_{\mathrm{anth}}\) incorpora conocimiento cultural explícito.
+\end{enumerate}
+
+La normalización es
+\[
+    p(y_j\mid x_i)
+    =
+    \frac{\exp(-D_{ij}/\tau)\prod_r\psi_r(x_i,y_j)}
+    {\sum_{\ell}
+    \exp(-D_{i\ell}/\tau)\prod_r\psi_r(x_i,y_\ell)}.
+\]
+
+\subsection{Decodificación secuencial}
+
+Para una secuencia \(x_{1:T}\), buscamos una secuencia \(y_{1:T}\) maximizando:
+\begin{align}
+    \mathcal{S}(y_{1:T}\mid x_{1:T})
+    &=
+    \sum_{t=1}^{T}
+    \log p(y_t\mid x_t)
+    \nonumber\\
+    &\quad+
+    \beta
+    \sum_{t=1}^{T}
+    \log p_Y(y_t\mid y_{<t})
+    \nonumber\\
+    &\quad+
+    \gamma
+    \sum_{t=1}^{T}
+    \log \phi_{\mathrm{syntax}}(y_t,y_{t-1},x_t,x_{t-1})
+    \nonumber\\
+    &\quad-
+    \Omega(y_{1:T}).
+    \label{eq:sequence_decoder}
+\end{align}
+
+Aquí \(p_Y\) puede ser un modelo de lenguaje entrenado en lenguas candidatas; \(\phi_{\mathrm{syntax}}\) impone compatibilidad estructural; y \(\Omega\) penaliza soluciones demasiado libres, anacrónicas o semánticamente extravagantes.
+
+\subsection{Principio de auditabilidad}
+
+Cada hipótesis debe almacenar:
+\[
+    \text{hipótesis}
+    =
+    (\text{glifo},\text{candidatos},\text{probabilidades},\text{evidencia},\text{contraevidencia},\text{incertidumbre}).
+\]
+
+Nunca se debe reportar solo:
+\[
+    x_i = y_j.
+\]
+La forma correcta es:
+\[
+    p(y_j\mid x_i,\mathcal{E})=\rho,
+\]
+junto con la evidencia \(\mathcal{E}\).
+
+% ============================================================
+\section{Algoritmo propuesto}
+% ============================================================
+
+\begin{algorithm}[H]
+\caption{Spectral Submersion Decipherment}
+\begin{algorithmic}[1]
+\Require Corpus perdido \(\mathcal{C}_X\), corpus candidato \(\mathcal{C}_Y\), conocimiento externo \(\mathcal{K}\), dimensión \(k\)
+\Ensure Diccionario probabilístico \(\Pi\), hipótesis secuenciales, reporte de incertidumbre
+\State Normalizar signos de \(X\): variantes, orientación, segmentación, metadatos
+\State Construir matrices \(C_X\), \(C_Y\) de co-ocurrencia con múltiples ventanas
+\State Calcular \(M_X=\operatorname{PPMI}(C_X)\), \(M_Y=\operatorname{PPMI}(C_Y)\)
+\State Obtener SVD truncada: \(M_X\approx U_X\Sigma_XV_X^\top\), \(M_Y\approx U_Y\Sigma_YV_Y^\top\)
+\State Construir embeddings \(E_X=U_{X,k}\Sigma_{X,k}^{\alpha}\), \(E_Y=U_{Y,k}\Sigma_{Y,k}^{\alpha}\)
+\State Estimar anclajes débiles \(A=\{(x_i,y_j)\}\) desde \(\mathcal{K}\)
+\If{hay anclajes suficientes}
+    \State Resolver Procrustes \(Q^\star=\argmin_{Q^\top Q=I}\norm{E_X^AQ-E_Y^A}_F^2\)
+\Else
+    \State Inicializar \(Q\) por alineamiento relacional o Gromov--Wasserstein
+\EndIf
+\State Resolver transporte blando \(\Pi\) con costos geométricos, relacionales y priors
+\State Calibrar \(\Pi\) mediante bootstrap y controles negativos
+\State Decodificar secuencias con \eqref{eq:sequence_decoder}
+\State Reportar hipótesis rankeadas y falsables, no traducciones absolutas
+\end{algorithmic}
+\end{algorithm}
+
+% ============================================================
+\section{Diseño experimental}
+% ============================================================
+
+\subsection{Experimento sintético controlado}
+
+Para validar el método antes de aplicarlo a un sistema real, se crea una lengua conocida \(Y\), luego se genera una escritura artificial \(X\) mediante:
+\begin{equation}
+    x_t = g(y_t,\eta_t),
+\end{equation}
+donde \(g\) puede colapsar categorías, permutar símbolos, eliminar vocales, fusionar morfemas o introducir ruido.
+
+Se evalúa si el algoritmo recupera:
+\begin{enumerate}[label=(\roman*)]
+    \item clases funcionales;
+    \item vecinos semánticos;
+    \item anclajes;
+    \item secuencias probables;
+    \item fibras semánticas.
+\end{enumerate}
+
+\subsection{Controles negativos}
+
+Un marco serio debe fallar cuando debe fallar. Proponemos:
+\begin{enumerate}[label=(\roman*)]
+    \item \textbf{corpus permutado:} destruir orden pero mantener frecuencias;
+    \item \textbf{corpus aleatorio:} muestrear signos i.i.d.;
+    \item \textbf{lengua no relacionada:} usar corpus candidato incompatible;
+    \item \textbf{anclajes falsos:} introducir priors incorrectos;
+    \item \textbf{bootstrap extremo:} medir sensibilidad a subconjuntos del corpus.
+\end{enumerate}
+
+\subsection{Métricas}
+
+\begin{align}
+    \mathrm{GraphDistortion}
+    &=
+    \sum_{i,i',j,j'}
+    |\DX(i,i')-\DY(j,j')|^2\Pi_{ij}\Pi_{i'j'},\\
+    \mathrm{Entropy}(\Pi_i)
+    &=
+    -\sum_j\Pi_{ij}\log\Pi_{ij},\\
+    \mathrm{AnchorAcc@k}
+    &=
+    \frac{1}{|A|}
+    \sum_{(i,j)\in A}
+    \1\{j\in\operatorname{TopK}(\Pi_i)\},\\
+    \mathrm{Stability}
+    &=
+    \E_b
+    \left[
+    \operatorname{sim}(\Pi,\Pi^{(b)})
+    \right].
+\end{align}
+
+La entropía alta indica incertidumbre; entropía baja con controles negativos malos indica sobreconfianza.
+
+% ============================================================
+\section{Aplicación exploratoria a sistemas tipo Rongorongo}
+% ============================================================
+
+\subsection{Advertencia metodológica}
+
+Este artículo no afirma descifrar Rongorongo. Propone una metodología para estudiar su estructura bajo incertidumbre. Dado el bajo número de objetos conservados y la falta de bilingües confirmados, cualquier lectura semántica fuerte sería prematura sin evidencia externa robusta.
+
+\subsection{Unidades candidatas}
+
+Para un corpus rongorongo normalizado, se pueden construir varias granularidades:
+\begin{enumerate}[label=(\roman*)]
+    \item glifo individual;
+    \item variante paleográfica;
+    \item biglifo;
+    \item bloque repetido;
+    \item línea;
+    \item secuencia entre separadores visuales;
+    \item patrón direccional.
+\end{enumerate}
+
+Cada granularidad induce una matriz \(M_X^{(g)}\). El análisis espectral debe comparar la estabilidad entre granularidades:
+\[
+    \mathcal{S}_g
+    =
+    \{\sigma_1^{(g)},\dots,\sigma_k^{(g)}\}.
+\]
+
+\subsection{Hipótesis candidatas}
+
+Lenguas o espacios candidatos:
+\begin{enumerate}[label=(\roman*)]
+    \item rapanui moderno;
+    \item otras lenguas polinesias;
+    \item proto-polinesio reconstruido;
+    \item vocabularios rituales/calendáricos;
+    \item taxonomías de fauna, navegación, genealogía y parentesco;
+    \item sistemas numéricos o calendáricos.
+\end{enumerate}
+
+El método debe tratar estos candidatos como modelos rivales:
+\[
+    \mathcal{M}_1,\dots,\mathcal{M}_K.
+\]
+Se compara evidencia marginal:
+\[
+    p(\mathcal{C}_X\mid \mathcal{M}_k)
+\]
+o aproximaciones mediante criterios de distorsión y validación.
+
+% ============================================================
+\section{Teoría de identificabilidad parcial}
+% ============================================================
+
+\begin{definition}[Identificabilidad parcial]
+Un símbolo \(x_i\) es parcialmente identificable respecto a una familia de candidatos \(\mathcal{Y}_i\subseteq\VY\) si, para todo \(y\notin \mathcal{Y}_i\),
+\[
+    p(y\mid x_i,\mathcal{E})
+    <
+    \max_{y'\in\mathcal{Y}_i}
+    p(y'\mid x_i,\mathcal{E})
+\]
+de manera estable bajo bootstrap, controles negativos y perturbaciones razonables.
+\end{definition}
+
+\begin{theorem}[Identificabilidad exacta bajo anclajes e isometría]
+Suponga que existen embeddings \(E_X,E_Y\in\R^{n\times d}\), una permutación \(P_0\) y una matriz ortogonal \(Q_0\) tales que
+\[
+    E_Y=P_0E_XQ_0.
+\]
+Si se conoce un conjunto de anclajes que elimina toda simetría no trivial de \(P_0\), y \(E_X\) tiene rango columna completo sobre esos anclajes, entonces \(P_0\) y \(Q_0\) son identificables.
+\end{theorem}
+
+\begin{proof}
+Los anclajes fijan correspondencias de filas. Restringiendo a las filas ancladas \(A\), se tiene
+\[
+    E_Y^A=E_X^AQ_0.
+\]
+Por el corolario de Procrustes exacto, \(Q_0\) es único si \(E_X^A\) tiene rango columna completo. Una vez fijado \(Q_0\), cada fila \(E_X(i)Q_0\) se compara con las filas de \(E_Y\). Si los anclajes eliminan simetrías no triviales, no existe otra permutación \(P\neq P_0\) que preserve todas las relaciones y anclajes. Por tanto, \(P_0\) queda identificado.
+\end{proof}
+
+\begin{corollary}[Régimen realista]
+En sistemas perdidos reales, las condiciones exactas rara vez se cumplen. Por tanto, el objetivo científico razonable es identificabilidad parcial con incertidumbre calibrada, no equivalencia exacta símbolo-palabra.
+\end{corollary}
+
+% ============================================================
+\section{Relación con LLMs e inferencia moderna}
+% ============================================================
+
+\subsection{LLMs como priors, no como oráculos}
+
+Un modelo de lenguaje puede aportar:
+\begin{enumerate}[label=(\roman*)]
+    \item generación de hipótesis culturales;
+    \item expansión de vocabularios candidatos;
+    \item comparación semántica;
+    \item explicación de patrones;
+    \item búsqueda de analogías.
+\end{enumerate}
+
+Pero no debe usarse como autoridad final. En este marco, un LLM produce un prior:
+\[
+    p_{\mathrm{LLM}}(y\mid x,\mathcal{K}),
+\]
+que se combina con evidencia estadística:
+\[
+    p(y\mid x,\mathcal{E})
+    \propto
+    p_{\mathrm{stat}}(y\mid x)
+    p_{\mathrm{LLM}}(y\mid x,\mathcal{K})^\lambda.
+\]
+
+Si \(\lambda\) es alto, el sistema puede alucinar. Si \(\lambda=0\), se pierde conocimiento externo útil. La calibración de \(\lambda\) debe hacerse con controles.
+
+\subsection{RAG para desciframiento}
+
+Un sistema RAG puede recuperar evidencia desde:
+\begin{enumerate}[label=(\roman*)]
+    \item publicaciones arqueológicas;
+    \item diccionarios históricos;
+    \item gramáticas comparadas;
+    \item corpus polinesios;
+    \item bases de iconografía;
+    \item reportes paleográficos.
+\end{enumerate}
+
+Toda hipótesis generada debe guardar trazabilidad documental. La forma correcta no es:
+\[
+    \text{``el glifo significa X''},
+\]
+sino:
+\[
+    \text{``el glifo tiene candidatos } \{X_1,X_2,X_3\}
+    \text{ con evidencia } \mathcal{E}
+    \text{ y contraevidencia } \mathcal{E}^{-}.''
+\]
+
+% ============================================================
+\section{Arquitectura computacional reproducible}
+% ============================================================
+
+\subsection{Estructura de repositorio}
+
+\begin{verbatim}
+spectral-submersion-decipherment/
+  README.md
+  pyproject.toml
+  data/
+    raw/
+    interim/
+    processed/
+  configs/
+    rongorongo.yaml
+    synthetic.yaml
+  src/
+    normalization/
+    cooccurrence/
+    spectral/
+    alignment/
+    transport/
+    decoding/
+    evaluation/
+    reporting/
+  notebooks/
+  tests/
+  reports/
+    figures/
+    tables/
+    hypotheses/
+\end{verbatim}
+
+\subsection{Componentes}
+
+\begin{enumerate}[label=\textbf{C\arabic*.}]
+    \item \textbf{Normalizer:} convierte imágenes, transcripciones o variantes a tokens normalizados.
+    \item \textbf{ContextBuilder:} genera \(C_X\), PMI, PPMI y tensores direccionales.
+    \item \textbf{SpectralEngine:} calcula SVD, rango efectivo, embeddings y estabilidad.
+    \item \textbf{AlignmentEngine:} ejecuta Procrustes, Moore--Penrose, GW y OT.
+    \item \textbf{Decoder:} genera hipótesis símbolo-palabra y secuencia-secuencia.
+    \item \textbf{Evaluator:} aplica controles negativos, bootstrap y métricas.
+    \item \textbf{ReportGenerator:} produce reportes auditables.
+\end{enumerate}
+
+% ============================================================
+\section{Discusión}
+% ============================================================
+
+\subsection{Qué puede demostrar el método}
+
+El método puede demostrar:
+\begin{enumerate}[label=(\roman*)]
+    \item que un corpus tiene estructura no aleatoria;
+    \item que ciertos signos cumplen roles funcionales;
+    \item que ciertas segmentaciones son más estables que otras;
+    \item que una lengua candidata explica mejor la estructura que controles;
+    \item que ciertos candidatos semánticos son más plausibles que otros;
+    \item que algunas hipótesis deben descartarse.
+\end{enumerate}
+
+\subsection{Qué no puede demostrar solo}
+
+El método no puede demostrar por sí solo:
+\begin{enumerate}[label=(\roman*)]
+    \item una traducción definitiva;
+    \item pronunciación;
+    \item correspondencia uno-a-uno entre glifos y palabras;
+    \item intención cultural exacta;
+    \item historicidad de una lectura sin evidencia externa.
+\end{enumerate}
+
+\subsection{Belleza matemática del enfoque}
+
+La pseudoinversa aparece como una forma de humildad matemática: cuando una inversión exacta no existe, se elige la solución mínima compatible con la evidencia. La SVD aparece como instrumento de visión: separa direcciones dominantes de ruido. Procrustes aparece como respeto geométrico: no deforma arbitrariamente una lengua para que encaje con otra. La submersión aparece como metáfora formal: un sistema pequeño puede ser sombra de una semántica más rica, y cada signo puede corresponder a una fibra, no a un punto.
+
+% ============================================================
+\section{Conclusión}
+% ============================================================
+
+Este trabajo formula un marco matemático para el desciframiento probabilístico de sistemas simbólicos perdidos mediante geometría espectral. La propuesta parte de una intuición antigua, la frecuencia como huella estadística, y la eleva a una arquitectura moderna basada en SVD, Moore--Penrose, Procrustes, transporte óptimo, submersión de variedades e inferencia bayesiana.
+
+La conclusión principal es doble. Primero, la estadística interna de un sistema simbólico puede revelar estructura significativa si el sistema codifica información no trivial. Segundo, esa estructura no basta para traducción fuerte sin anclajes externos. Por ello, el método propuesto no busca reemplazar a la filología, arqueología o lingüística histórica; busca entregarles una máquina rigurosa de hipótesis, falsación y ranking probabilístico.
+
+En una frase:
+
+\begin{center}
+\Large
+\emph{descifrar no es invertir una matriz; es construir una inversa regularizada de la evidencia.}
+\end{center}
+
+% ============================================================
+\appendix
+\section{Apéndice A: derivación matricial del gradiente de mínimos cuadrados}
+% ============================================================
+
+Sea
+\[
+    f(W)=\norm{XW-Y}_F^2.
+\]
+Usando traza:
+\begin{align}
+    f(W)
+    &=
+    \tr((XW-Y)^\top(XW-Y))\\
+    &=
+    \tr(W^\top X^\top XW)
+    -2\tr(W^\top X^\top Y)
+    +
+    \tr(Y^\top Y).
+\end{align}
+El gradiente es
+\[
+    \nabla_W f
+    =
+    2X^\top XW-2X^\top Y.
+\]
+La ecuación normal es
+\[
+    X^\top XW=X^\top Y.
+\]
+Si \(X^\top X\) es invertible:
+\[
+    W=(X^\top X)^{-1}X^\top Y.
+\]
+Si no es invertible, la solución de norma mínima es
+\[
+    W=X^+Y.
+\]
+
+% ============================================================
+\section{Apéndice B: índice de anisotropía espectral}
+% ============================================================
+
+Definimos
+\[
+    A_k(M)=
+    \frac{\sigma_1}
+    {\frac{1}{k}\sum_{i=1}^{k}\sigma_i}.
+\]
+Si \(A_k\) es alto, una dirección domina la estructura. En lenguaje, esto puede corresponder a:
+\begin{enumerate}[label=(\roman*)]
+    \item frecuencia extrema de signos funcionales;
+    \item artefactos de segmentación;
+    \item direccionalidad mal normalizada;
+    \item tema ritual repetitivo;
+    \item corpus demasiado pequeño.
+\end{enumerate}
+
+% ============================================================
+\section{Apéndice C: plantilla de reporte de hipótesis}
+% ============================================================
+
+Para cada signo \(x_i\), el sistema debe producir:
+
+\begin{verbatim}
+glyph_id: x_i
+frequency_rank: ...
+spectral_coordinates: [...]
+top_candidates:
+  - candidate: y_1
+    probability: 0.31
+    evidence:
+      - geometric_nearest_neighbor
+      - compatible_frequency_class
+      - supported_by_iconographic_prior
+    counterevidence:
+      - unstable_under_bootstrap_window_3
+  - candidate: y_2
+    probability: 0.22
+uncertainty:
+  entropy: ...
+  bootstrap_variance: ...
+decision:
+  status: partial / unstable / rejected / strong_candidate
+\end{verbatim}
+
+% ============================================================
+\section{Apéndice D: glosario}
+% ============================================================
+
+\begin{description}[leftmargin=3.3cm,style=nextline]
+    \item[Pseudoinversa] Generalización de la inversa para matrices rectangulares o singulares.
+    \item[SVD] Factorización \(A=U\Sigma V^\top\) que separa direcciones ortogonales y escalas.
+    \item[Procrustes] Problema de encontrar la rotación/reflexión que mejor alinea dos nubes de puntos.
+    \item[PMI] Medida de asociación entre dos eventos basada en cuánto supera su co-ocurrencia a la independencia.
+    \item[Transporte óptimo] Marco para acoplar distribuciones minimizando costo.
+    \item[Gromov--Wasserstein] Variante de transporte que compara estructuras relacionales internas.
+    \item[Submersión] Mapa suave cuyo diferencial tiene rango máximo en el codominio.
+    \item[Fibra] Conjunto de puntos que colapsan a un mismo valor bajo una aplicación.
+    \item[Anclaje] Evidencia externa que rompe simetrías de permutación.
+\end{description}
+
+% ============================================================
+\begin{thebibliography}{99}
+
+\bibitem{broemeling2011alkindi}
+L. D. Broemeling.
+\newblock An account of early statistical inference in Arab cryptology.
+\newblock \emph{The American Statistician}, 65(4):255--257, 2011.
+
+\bibitem{ferrara2024rongorongo}
+S. Ferrara, R. S. R. et al.
+\newblock The invention of writing on Rapa Nui (Easter Island). New radiocarbon dates on the Rongorongo script.
+\newblock \emph{Scientific Reports}, 14, 2024.
+
+\bibitem{moore1920}
+E. H. Moore.
+\newblock On the reciprocal of the general algebraic matrix.
+\newblock \emph{Bulletin of the American Mathematical Society}, 26:394--395, 1920.
+
+\bibitem{penrose1955}
+R. Penrose.
+\newblock A generalized inverse for matrices.
+\newblock \emph{Mathematical Proceedings of the Cambridge Philosophical Society}, 51(3):406--413, 1955.
+
+\bibitem{golubvanloan}
+G. H. Golub and C. F. Van Loan.
+\newblock \emph{Matrix Computations}.
+\newblock Johns Hopkins University Press, 4th edition, 2013.
+
+\bibitem{eckart1936}
+C. Eckart and G. Young.
+\newblock The approximation of one matrix by another of lower rank.
+\newblock \emph{Psychometrika}, 1:211--218, 1936.
+
+\bibitem{schonemann1966}
+P. H. Sch{\"o}nemann.
+\newblock A generalized solution of the orthogonal Procrustes problem.
+\newblock \emph{Psychometrika}, 31:1--10, 1966.
+
+\bibitem{artetxe2017almost}
+M. Artetxe, G. Labaka, and E. Agirre.
+\newblock Learning bilingual word embeddings with (almost) no bilingual data.
+\newblock In \emph{Proceedings of ACL}, pages 451--462, 2017.
+
+\bibitem{artetxe2018framework}
+M. Artetxe, G. Labaka, and E. Agirre.
+\newblock Generalizing and improving bilingual word embedding mappings with a multi-step framework of linear transformations.
+\newblock In \emph{Proceedings of AAAI}, 2018.
+
+\bibitem{conneau2018word}
+A. Conneau, G. Lample, M. Ranzato, L. Denoyer, and H. J{\'e}gou.
+\newblock Word translation without parallel data.
+\newblock In \emph{International Conference on Learning Representations}, 2018.
+
+\bibitem{lample2018unsupervised}
+G. Lample, A. Conneau, L. Denoyer, and M.-A. Ranzato.
+\newblock Unsupervised machine translation using monolingual corpora only.
+\newblock In \emph{International Conference on Learning Representations}, 2018.
+
+\bibitem{alvarezmelis2018gw}
+D. Alvarez-Melis and T. S. Jaakkola.
+\newblock Gromov-Wasserstein alignment of word embedding spaces.
+\newblock In \emph{Proceedings of EMNLP}, pages 1881--1890, 2018.
+
+\bibitem{dinu2015hubness}
+G. Dinu, A. Lazaridou, and M. Baroni.
+\newblock Improving zero-shot learning by mitigating the hubness problem.
+\newblock In \emph{ICLR Workshop}, 2015.
+
+\bibitem{mikolov2013}
+T. Mikolov, K. Chen, G. Corrado, and J. Dean.
+\newblock Efficient estimation of word representations in vector space.
+\newblock \emph{arXiv:1301.3781}, 2013.
+
+\bibitem{levy2014}
+O. Levy and Y. Goldberg.
+\newblock Neural word embedding as implicit matrix factorization.
+\newblock In \emph{Advances in Neural Information Processing Systems}, 2014.
+
+\bibitem{peyre2019}
+G. Peyr{\'e} and M. Cuturi.
+\newblock Computational optimal transport.
+\newblock \emph{Foundations and Trends in Machine Learning}, 11(5--6):355--607, 2019.
+
+\bibitem{villani2009}
+C. Villani.
+\newblock \emph{Optimal Transport: Old and New}.
+\newblock Springer, 2009.
+
+\bibitem{lee2013}
+J. M. Lee.
+\newblock \emph{Introduction to Smooth Manifolds}.
+\newblock Springer, 2nd edition, 2013.
+
+\bibitem{coverthomas}
+T. M. Cover and J. A. Thomas.
+\newblock \emph{Elements of Information Theory}.
+\newblock Wiley, 2nd edition, 2006.
+
+\end{thebibliography}
+
+\end{document}

@@ -1,0 +1,37 @@
+project:
+  name: spectral-submersion
+  seed: 42
+
+data:
+  lost_corpus_path: data/raw/lost_language/corpus.csv
+  candidate_corpus_path: data/raw/candidate_languages/rapanui_tokens.csv
+
+tokenization:
+  lowercase: true
+  min_frequency: 1
+  use_bigrams: true
+  use_trigrams: false
+
+cooccurrence:
+  window_size: 3
+  direction: both
+  weighting: inverse_distance
+  epsilon: 1.0e-9
+
+pmi:
+  positive: true
+  smoothing: 1.0e-9
+
+spectral:
+  embedding_dim: 16
+  alpha: 0.5
+  svd_solver: randomized
+
+alignment:
+  method: procrustes
+  use_anchors: false
+  regularization: 1.0e-3
+
+evaluation:
+  bootstrap_samples: 100
+  negative_controls: true
