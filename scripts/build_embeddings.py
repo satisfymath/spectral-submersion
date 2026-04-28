@@ -39,6 +39,7 @@ def main():
     args = parser.parse_args()
 
     df = pd.read_csv(args.input)
+    df["token"] = df["token"].fillna("").astype(str)
     tokens = df["token"].tolist()
 
     # If max_vocab specified, filter to top N frequent tokens

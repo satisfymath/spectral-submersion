@@ -5,6 +5,8 @@ import pytest
 from spectral_submersion.transport import (
     optimal_transport_matrix,
     gromov_wasserstein_matrix,
+    multi_marginal_gw,
+    consensus_from_multi_gw,
 )
 
 
@@ -51,3 +53,68 @@ def test_gromov_wasserstein_vs_ot_different_sizes():
     assert Pi.shape == (n_x, n_y)
     assert np.allclose(Pi.sum(axis=1), 1.0 / n_x, atol=1e-3)
     assert np.all(Pi >= 0)
+
+
+def test_multi_marginal_gw_shapes():
+    m = 3
+    sizes = [4, 5, 6]
+    rng = np.random.default_rng(42)
+    embeddings = [rng.random((n, 3)) for n in sizes]
+    dist_mats = []
+    for E in embeddings:
+        D = np.linalg.norm(E[:, None, :] - E[None, :, :], axis=2)
+        dist_mats.append(D)
+
+    couplings = multi_marginal_gw(dist_mats, reg=1.0, max_iter=3, sinkhorn_iter=50)
+
+    for i in range(m):
+        assert couplings[i][i].shape == (sizes[i], sizes[i])
+        for j in range(m):
+            if i != j:
+                assert couplings[i][j].shape == (sizes[i], sizes[j])
+                assert couplings[j][i].shape == (sizes[j], sizes[i])
+                np.testing.assert_allclose(couplings[i][j], couplings[j][i].T, atol=1e-6)
+
+
+def test_multi_marginal_gw_coupling_properties():
+    m = 3
+    sizes = [4, 5, 6]
+    rng = np.random.default_rng(42)
+    embeddings = [rng.random((n, 3)) for n in sizes]
+    dist_mats = []
+    for E in embeddings:
+        D = np.linalg.norm(E[:, None, :] - E[None, :, :], axis=2)
+        dist_mats.append(D)
+
+    couplings = multi_marginal_gw(dist_mats, reg=1.0, max_iter=3, sinkhorn_iter=50)
+
+    for i in range(m):
+        for j in range(m):
+            if i != j:
+                Pi = couplings[i][j]
+                assert np.all(Pi >= 0)
+                assert pi_sum_rows_close(Pi, 1.0 / sizes[i])
+
+
+def pi_sum_rows_close(Pi, expected, atol=1e-3):
+    return np.allclose(Pi.sum(axis=1), expected, atol=atol)
+
+
+def test_consensus_from_multi_gw():
+    m = 3
+    sizes = [4, 5, 6]
+    d = 3
+    rng = np.random.default_rng(42)
+    embeddings = [rng.random((n, d)) for n in sizes]
+    dist_mats = []
+    for E in embeddings:
+        D = np.linalg.norm(E[:, None, :] - E[None, :, :], axis=2)
+        dist_mats.append(D)
+
+    couplings = multi_marginal_gw(dist_mats, reg=1.0, max_iter=3, sinkhorn_iter=50)
+    consensus, projections = consensus_from_multi_gw(couplings, embeddings, dist_mats)
+
+    assert consensus.shape[1] == d
+    assert len(projections) == m
+    for P in projections:
+        assert P.shape == (d, d)

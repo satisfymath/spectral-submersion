@@ -28,10 +28,10 @@ from spectral_submersion.spectral import spectral_embedding, effective_rank
 from spectral_submersion.tokenization import get_sequences_by_line, tokens_to_ids
 
 
-def build_svd_pipeline(sequences: list[list[str]], k: int = 16, seed: int = 42):
+def build_svd_pipeline(sequences: list[list[str]], k: int = 16, window: int = 3, seed: int = 42):
     vocab = build_vocab([tok for seq in sequences for tok in seq])
     seq_ids = [tokens_to_ids(seq, vocab) for seq in sequences]
-    C = cooccurrence_matrix_from_sequences(seq_ids, len(vocab), window_size=3)
+    C = cooccurrence_matrix_from_sequences(seq_ids, len(vocab), window_size=window)
     M = ppmi_matrix(C)
     E, S, Vt = spectral_embedding(M, k=k, alpha=0.5, random_state=seed)
     r_eff = effective_rank(S)
@@ -48,6 +48,8 @@ def main():
     parser = argparse.ArgumentParser(description="Run negative controls")
     parser.add_argument("--input", default="data/raw/lost_language/corpus_synthetic.csv")
     parser.add_argument("--output", default="reports/tables/control_comparison.csv")
+    parser.add_argument("--k", type=int, default=16)
+    parser.add_argument("--window", type=int, default=3)
     args = parser.parse_args()
 
     df = pd.read_csv(args.input)
@@ -56,26 +58,26 @@ def main():
     results = []
 
     # Real corpus
-    real_stats = build_svd_pipeline(sequences)
+    real_stats = build_svd_pipeline(sequences, k=args.k, window=args.window)
     real_stats["variant"] = "real"
     results.append(real_stats)
 
     # Permuted
     perm_seqs = permute_corpus(sequences)
-    perm_stats = build_svd_pipeline(perm_seqs)
+    perm_stats = build_svd_pipeline(perm_seqs, k=args.k, window=args.window)
     perm_stats["variant"] = "permuted"
     results.append(perm_stats)
 
     # Random same frequency
     rand_freq_seqs = random_corpus_same_frequency(sequences)
-    rand_freq_stats = build_svd_pipeline(rand_freq_seqs)
+    rand_freq_stats = build_svd_pipeline(rand_freq_seqs, k=args.k, window=args.window)
     rand_freq_stats["variant"] = "random_same_freq"
     results.append(rand_freq_stats)
 
     # Random uniform
     vocab_list = sorted({tok for seq in sequences for tok in seq})
     rand_unif_seqs = random_corpus_uniform(sequences, vocab_list)
-    rand_unif_stats = build_svd_pipeline(rand_unif_seqs)
+    rand_unif_stats = build_svd_pipeline(rand_unif_seqs, k=args.k, window=args.window)
     rand_unif_stats["variant"] = "random_uniform"
     results.append(rand_unif_stats)
 
