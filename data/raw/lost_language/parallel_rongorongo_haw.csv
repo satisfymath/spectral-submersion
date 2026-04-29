@@ -1,0 +1,160 @@
+sent_id,source_lang,source_text,target_glyphs,source_len,target_len
+1,haw,e hele mai au,g014 g058 g097 g016,4,4
+2,haw,he kumu o ia,g002 g016 g013 g039 g039,4,5
+3,haw,ulaula ka pua liilii,g017 g015 g029 g029 g106,4,5
+4,haw,aole au akamai,g029 g029 g047 g108,3,4
+5,haw,minoaka ke kanaka,g016 g019 g054,3,3
+6,haw,elua ou kaikunāne,g023 g024 g107,3,3
+7,haw,keokeo ka pua nui,g052 g001 g016 g016 g016,4,5
+8,haw,keokeo ka pua liilii,g016 g001 g016 g052,4,4
+9,haw,polū ka pua nui,g057 g010 g020 g020 g016,4,5
+10,haw,ke kālai nei ke keiki,g017 g018 g018 g033 g016 g055 g055,5,7
+11,haw,maka kēia kūlina,g016 g019 g051,3,3
+12,haw,lena ka pua liilii,g016 g007 g032 g032 g051 g051,4,6
+13,haw,aloha o wikoli kou inoa,g057 g001 g017 g017 g018 g062,5,6
+14,haw,nui kēia īlio,g027 g051 g056,3,3
+15,haw,hāawi ke alii i ka ipukukui i ke kanaka,g018 g016 g051 g051 g096 g006 g106 g106 g096 g096 g016 g053,9,12
+16,haw,keokeo ka pūpū liilii,g117 g117 g003 g054 g016,4,5
+17,haw,he hapa au,g001 g022 g022 g017,3,4
+18,haw,he pōpoki au,g002 g002 g065 g041,3,4
+19,haw,he haumāna maikai o ia,g001 g001 g053 g053 g001 g017,5,6
+20,haw,poni ka pua liilii,g051 g015 g029 g108 g108,4,5
+21,haw,aole ōmaomao ka āpala,g034 g051 g010 g057,4,4
+22,haw,ua hīmeni o pua i ka halepule,g023 g114 g114 g003 g016 g016 g103 g001 g109,7,9
+23,haw,melemele ka pua nui,g056 g003 g003 g016 g016 g042,4,6
+24,haw,hāawi ke alii i ka makana i ke kanaka,g053 g018 g051 g096 g012 g068 g096 g017 g056,9,9
+25,haw,aole au i lawe i ka puke a koma,g028 g016 g097 g016 g103 g103 g007 g018 g005 g025,9,10
+26,haw,keokeo kēia īlio,g113 g034 g051,3,3
+27,haw,loa kou makua kāne,g016 g027 g017 g019 g019,4,5
+28,haw,uē ke kanaka,g034 g016 g016 g020,3,4
+29,haw,hīmeni o pua,g017 g007 g007 g018,3,4
+30,haw,e hele e kaiulani,g001 g051 g002 g108,4,4
+31,haw,aloha e kaiulani,g016 g002 g042,3,3
+32,haw,akaaka ke kanaka,g016 g037 g019,3,3
+33,haw,hāawi ke akua i he pūpū i ke kanaka,g020 g016 g055 g097 g006 g051 g098 g017 g031,9,9
+34,haw,o kou makuahine kēia,g013 g025 g022 g022 g051,4,5
+35,haw,i maui hāawi ke alii i ka ipukukui i ke kanaka,g096 g017 g029 g016 g016 g051 g105 g004 g058 g097 g035 g108,11,12
+36,haw,he manu o ia,g005 g005 g053 g053 g003 g038,4,6
+37,haw,aole au he kauka,g054 g017 g006 g018,4,4
+38,haw,he wahine maikai o ia,g002 g106 g033 g002 g026,5,5
+39,haw,he kaikamahine au,g002 g024 g016 g016,3,4
+40,haw,aloha kakahiaka,g016 g107,2,2
+41,haw,he noho o ia,g002 g052 g002 g016,4,4
+42,haw,liilii ka penikala,g051 g010 g054,3,3
+43,haw,i hele au ma ka panakō,g097 g063 g031 g097 g006 g112,6,6
+44,haw,ua hāawi ke alii i ka ipukukui i ke kanaka,g028 g057 g031 g065 g105 g003 g064 g098 g022 g016,10,10
+45,haw,aole oe he wahine,g018 g018 g031 g002 g026 g026,4,6
+46,haw,hana nā kaikamahine,g067 g016 g016,3,3
+47,haw,ua noho ke kanaka i kīlauea,g016 g053 g016 g118 g097 g051,6,6
+48,haw,ke ai nei ke kanaka nui i ka niu liilii,g017 g054 g040 g020 g064 g017 g104 g001 g001 g020 g113,10,11
+49,haw,aole au pōloli,g051 g022 g016,3,3
+50,haw,he kanaka au,g002 g063 g018,3,3
+51,haw,e kū kēia hale,g004 g021 g065 g058,4,4
+52,haw,ke hīmeni nei o pua,g016 g041 g017 g002 g026,5,5
+53,haw,e akaaka,g002 g017,2,2
+54,haw,he haumāna o ia,g004 g035 g003 g019,4,4
+55,haw,kauka lāua,g016 g053,2,2
+56,haw,hāawi ke akua i ka pua i ke kanaka,g016 g017 g052 g096 g004 g017 g098 g017 g120,9,9
+57,haw,he wahine au,g005 g016 g025,3,3
+58,haw,hāawi ke alii i ka pua i ke kanaka,g020 g020 g047 g031 g096 g002 g017 g017 g099 g099 g016 g051,9,12
+59,haw,uliuli ka pua liilii,g017 g017 g014 g014 g016 g061,4,6
+60,haw,loloa ke kanaka,g056 g016 g016 g029,3,4
+61,haw,makemake au e hele i aukekulelia me kou ohana,g054 g018 g004 g004 g054 g100 g100 g107 g037 g017 g020 g020,9,12
+62,haw,o au ke kumu,g001 g019 g016 g016 g052,4,5
+63,haw,ua noho ke kanaka i honolulu,g017 g061 g016 g106 g106 g096 g028 g028,6,8
+64,haw,aole au makemake e hele i ke kula,g051 g016 g051 g007 g054 g101 g039 g052,8,8
+65,haw,hāawi ke alii i ka poi i ke kanaka,g057 g021 g051 g096 g005 g033 g098 g016 g026,9,9
+66,haw,e hīmeni ana o pua i ka halepule,g008 g119 g018 g002 g017 g017 g096 g096 g001 g107 g107,8,11
+67,haw,nani ke kaikamahine,g058 g058 g033 g113,3,4
+68,haw,āhinahina ka pua nui,g051 g003 g003 g021 g019 g019,4,6
+69,haw,o kou makuakāne kēia,g001 g035 g053 g016,4,4
+70,haw,ua hāawi ke alii i ka makana i ke kanaka,g016 g052 g016 g061 g096 g013 g013 g109 g096 g040 g106 g106,10,12
+71,haw,aloha ahiahi,g016 g112,2,2
+72,haw,makemake au e ao i ka ōlelo hawaii,g059 g016 g001 g025 g101 g003 g055 g062,8,8
+73,haw,o keoni kou inoa,g001 g052 g032 g018,4,4
+74,haw,ulaula ka pua nui,g048 g007 g007 g022 g016,4,5
+75,haw,i maui ua hāawi ke alii i ka makana i ke kanaka,g096 g032 g032 g016 g038 g016 g051 g102 g014 g051 g100 g016 g109,12,13
+76,haw,e ai lohi ana ke kanaka nui i ka niu liilii,g005 g051 g051 g051 g016 g047 g026 g024 g096 g001 g017 g051,11,12
+77,haw,aia he pua i ka hale,g023 g003 g020 g096 g004 g053 g053,6,7
+78,haw,elua au keiki,g066 g048 g051,3,3
+79,haw,aole au he kumu,g051 g050 g009 g016,4,4
+80,haw,hauoli ke kanaka,g016 g016 g030 g017,3,4
+81,haw,he haumāna au,g014 g038 g025,3,3
+82,haw,polū ka pua liilii,g051 g007 g016 g051,4,4
+83,haw,he kanaka au,g001 g001 g016 g021 g021,3,5
+84,haw,ano nā kanaka,g017 g016 g116,3,3
+85,haw,makemake au e hele i ke kulanui,g058 g034 g002 g053 g096 g016 g064 g064,7,8
+86,haw,melemele ili alani ka pua liilii,g057 g016 g016 g056 g005 g017 g017 g032,6,8
+87,haw,eleele ka pua liilii,g057 g001 g017 g055,4,4
+88,haw,e ike oe nā haumāna,g012 g017 g021 g022 g022 g109 g109,5,7
+89,haw,momona loa kēia pōpoki,g016 g050 g051 g106,4,4
+90,haw,hāawi ke akua i ka pūpū i ke kanaka,g056 g019 g020 g099 g010 g055 g101 g021 g041,9,9
+91,haw,ikaika ke kāne,g022 g016 g051,3,3
+92,haw,aole e ai nei ke kanaka nui i ka niu liilii,g016 g001 g055 g046 g016 g106 g049 g100 g001 g030 g054,11,11
+93,haw,o wauo ricardo,g001 g062 g106,3,3
+94,haw,ua ai ke kanaka nui i ka niu liilii,g016 g051 g016 g018 g016 g096 g002 g017 g109 g109,9,10
+95,haw,maomao ka pua liilii,g120 g009 g018 g016,4,4
+96,haw,i maui hāawi ke alii i ka makana i ke kanaka,g096 g096 g016 g055 g020 g024 g097 g004 g051 g097 g018 g112,11,12
+97,haw,ai ke kanaka nui i ka niu liilii,g051 g017 g051 g043 g043 g099 g099 g002 g016 g051,8,10
+98,haw,hāawi ke akua i he mau ia i ke kanaka,g052 g034 g066 g097 g011 g016 g016 g017 g096 g016 g019,10,11
+99,haw,maka kēia hua,g027 g021 g023,3,3
+100,haw,he nūpepa kēia,g005 g051 g051,3,3
+101,haw,e ai wiki ana ke kanaka nui i ka niu liilii,g001 g051 g055 g016 g025 g119 g016 g097 g097 g002 g002 g018 g051,11,13
+102,haw,pehea oe,g021 g018,2,2
+103,haw,he niu kēia,g002 g016 g056,3,3
+104,haw,ke ai nei oe,g016 g069 g016 g016,4,4
+105,haw,ke hīmeni nei o pua i ka halepule,g016 g053 g018 g001 g019 g096 g096 g003 g022,8,9
+106,haw,imi o ia he hōkele,g017 g004 g017 g002 g068,5,5
+107,haw,kauka lākou,g018 g051,2,2
+108,haw,ōpio ke kāne,g051 g034 g025 g025,3,4
+109,haw,hāawi ke akua i ka ia i ke kanaka,g021 g019 g016 g100 g002 g002 g044 g098 g016 g051,9,10
+110,haw,ōmaomao kēia puke,g054 g056 g062,3,3
+111,haw,e ōlelo e kawika,g014 g052 g002 g053,4,4
+112,haw,elua au pōpoki,g016 g018 g106,3,3
+113,haw,hinahina ka pua liilii,g047 g001 g020 g017 g017,4,5
+114,haw,he kāne mea wahine au,g011 g054 g016 g054 g019,5,5
+115,haw,ua hīmeni o pua,g016 g109 g001 g024,4,4
+116,haw,he wilikī au,g011 g107 g107 g027,3,4
+117,haw,hāawi ke kanaka i ka makana i ke alii,g017 g017 g017 g020 g097 g001 g061 g104 g104 g021 g016 g016,9,12
+118,haw,o kau hana kēia,g003 g022 g052 g016,4,4
+119,haw,hāawi ke alii i ka pūpū i ke kanaka,g051 g022 g053 g096 g001 g067 g096 g026 g106,9,9
+120,haw,huikau au,g034 g021,2,2
+121,haw,aole maikai kō lāua kaa,g016 g016 g023 g021 g037 g024,5,6
+122,haw,loloa ke kaa ōhua,g026 g027 g016 g051,4,4
+123,haw,alani ka pua nui,g056 g003 g018 g027,4,4
+124,haw,noho au ma honolulu,g051 g021 g102 g051,4,4
+125,haw,aole maka ka palaoa,g053 g016 g001 g051 g051,4,5
+126,haw,ke hele nei au ma he hale kūai,g038 g038 g060 g035 g040 g040 g097 g002 g052 g052 g052 g052,8,12
+127,haw,maka ka palaoa,g038 g002 g113,3,3
+128,haw,ua hānau au ma ka āina pilipino,g037 g051 g016 g016 g096 g012 g054 g052 g052,7,9
+129,haw,elua au puke,g060 g019 g019,3,3
+130,haw,aia he mau pua i nā hale,g017 g001 g017 g020 g096 g022 g022 g019,7,8
+131,haw,aole ula kēia āpala,g051 g017 g017 g017 g057,4,5
+132,haw,kaumaha ke kanaka,g051 g051 g020 g111,3,4
+133,haw,elua ou kaa,g022 g030 g023,3,3
+134,haw,holaehia kēia,g051 g024 g024,2,3
+135,haw,he alani kēia,g001 g028 g035,3,3
+136,haw,nui nā wāhine i ka manao o ka noho ilihune,g029 g018 g051 g098 g001 g033 g001 g004 g051 g028,10,10
+137,haw,hīmeni o pua i ka halepule,g051 g051 g002 g018 g105 g001 g106,6,7
+138,haw,e ai ana ke kanaka nui i ka niu liilii,g002 g052 g025 g038 g054 g054 g018 g098 g007 g016 g016 g055,10,12
+139,haw,he manu o ia,g004 g052 g013 g016,4,4
+140,haw,hāawi ke akua i he ia i ke kanaka,g051 g016 g016 g017 g096 g001 g044 g096 g016 g108,9,10
+141,haw,hoomana au i ka kilo hōkū a me ka mōhihio ai au i ka manapua,g051 g016 g096 g005 g050 g029 g014 g048 g005 g056 g053 g017 g096 g096 g001 g056 g056,15,17
+142,haw,aole oe he kāne,g017 g024 g002 g002 g018,4,5
+143,haw,o koma kou inoa,g001 g018 g019 g016,4,4
+144,haw,halakea ka pua liilii,g016 g003 g033 g113,4,4
+145,haw,he wilikī oe,g001 g118 g118 g019,3,4
+146,haw,aole keokeo ka lio,g043 g043 g106 g004 g021,4,5
+147,haw,he kula kēia,g001 g021 g037 g037,3,4
+148,haw,he wahine au,g009 g106 g042,3,3
+149,haw,he kaikamahine au,g003 g054 g016,3,3
+150,haw,hāawi ke akua i nā ia i ke kanaka,g051 g016 g016 g029 g097 g018 g023 g096 g018 g107,9,10
+151,haw,he āpala ōmaomao kēia,g001 g001 g051 g051 g106 g052,4,6
+152,haw,hanuu ke kanaka,g018 g044 g116,3,3
+153,haw,he āpala kēia,g001 g051 g050,3,3
+154,haw,makemake au e hele i kioko,g051 g017 g002 g051 g098 g016 g016,6,7
+155,haw,he noho o ia,g001 g051 g051 g001 g001 g017,4,6
+156,haw,e hele au,g002 g051 g017,3,3
+157,haw,e hīmeni ana o pua,g004 g054 g016 g001 g001 g017,5,6
+158,haw,elua au pōpoki,g052 g016 g051,3,3
+159,haw,he pea kēia,g001 g036 g016,3,3

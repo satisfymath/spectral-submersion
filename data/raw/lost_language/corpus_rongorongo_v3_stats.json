@@ -1,0 +1,12 @@
+{
+  "n_tablets": 1000,
+  "n_lines": 7453,
+  "n_tokens": 40179,
+  "vocab_size": 120,
+  "mean_line_length": 5.39,
+  "mean_tablet_lines": 7.45,
+  "double_repetitions": 7898,
+  "triple_repetitions": 1346,
+  "seed": 42,
+  "version": "v3_realistic"
+}

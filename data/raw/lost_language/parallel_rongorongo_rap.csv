@@ -1,0 +1,28 @@
+sent_id,source_lang,source_text,target_glyphs,source_len,target_len
+1,rap,he oho au he hī,g004 g016 g016 g016 g001 g025 g025,5,7
+2,rap,i hē a koe,g096 g019 g001 g016,4,4
+3,rap,ka oho mai,g008 g016 g101,3,3
+4,rap,ko haa 'ana au mo oho ki te hare komo,g013 g017 g016 g016 g101 g021 g101 g006 g006 g053 g068,10,11
+5,rap,pehe koe,g016 g016 g016,2,3
+6,rap,pehe korua,g021 g017,2,2
+7,rap,o te aha no,g001 g012 g022 g098,4,4
+8,rap,maruaki a au,g070 g004 g020,3,3
+9,rap,rohi-rohi a au,g051 g001 g017,3,3
+10,rap,tahi rua toru hā rima ono hitu va'u iva angahuru,g077 g071 g073 g017 g078 g072 g071 g071 g051 g051 g073 g073 g051,10,13
+11,rap,ka oho mai,g007 g018 g096,3,3
+12,rap,pe hē 'iorana,g046 g033 g051,3,3
+13,rap,hanga rahi au kia koe,g051 g055 g016 g018 g018,5,5
+14,rap,pe hē a koe,g038 g034 g001 g021,4,4
+15,rap,pēhē koe,g027 g027 g019,2,3
+16,rap,pahe koe,g051 g040,2,2
+17,rap,ko ai tu'u 'ingoa,g001 g001 g051 g062 g062 g118,4,6
+18,rap,ka oho riva-riva,g006 g016 g107,3,3
+19,rap,ko angi-angi 'ana au,g002 g016 g053 g025,4,4
+20,rap,kai angi-angi 'ana au,g052 g053 g051 g016,4,4
+21,rap,ana hanga koe,g016 g021 g016 g016,3,4
+22,rap,kai 'ite 'ana au,g051 g022 g051 g016,4,4
+23,rap,mai hē a koe,g101 g016 g001 g018,4,4
+24,rap,pē hē a koe,g048 g016 g002 g017,4,4
+25,rap,ki hē a koe,g097 g016 g001 g039 g039,4,5
+26,rap,he oho au ki tō'oku hare,g015 g031 g045 g103 g103 g032 g016,6,7
+27,rap,tahi rua toru hā rima ono hitu va'u iva angahuru,g071 g075 g072 g018 g079 g079 g080 g073 g024 g071 g106,10,11
