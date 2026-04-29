@@ -120,6 +120,43 @@ pipeline: test embed-synthetic negative-controls bootstrap validate-anchors vali
 # ------------------------------------------------------------------
 # Paper
 # ------------------------------------------------------------------
+# ---------------------------------------------------------------------------
+# PhD upgrade: auditable pipeline targets
+# ---------------------------------------------------------------------------
+phd-stability:
+	PYTHONPATH=src $(PYTHON) scripts/run_phd_stability.py --config configs/phd_upgrade.yaml
+
+phd-experiments:
+	PYTHONPATH=src $(PYTHON) scripts/run_phd_experiments.py --config configs/phd_upgrade.yaml
+
+phd-ledger:
+	PYTHONPATH=src $(PYTHON) scripts/run_phd_ledger.py --config configs/phd_upgrade.yaml
+
+phd-audit:
+	PYTHONPATH=src $(PYTHON) scripts/run_phd_audit.py --config configs/phd_upgrade.yaml
+
+phd-audit-v2:
+	PYTHONPATH=src $(PYTHON) scripts/run_phd_audit_v2.py --config configs/phd_upgrade.yaml
+
+# ---------------------------------------------------------------------------
+# Reproducible run (Section 38-40)
+# ---------------------------------------------------------------------------
+RUN_ID := $(shell date +%Y%m%d_%H%M%S)
+RUN_DIR := runs/$(RUN_ID)
+
+run-init:
+	mkdir -p $(RUN_DIR)
+	git rev-parse HEAD > $(RUN_DIR)/git_commit.txt 2>/dev/null || echo "unknown" > $(RUN_DIR)/git_commit.txt
+	cp configs/phd_upgrade.yaml $(RUN_DIR)/config.yaml
+	PYTHONPATH=src $(PYTHON) -m pip freeze > $(RUN_DIR)/environment.yml 2>/dev/null || true
+	echo '{"seed": 42, "run_id": "$(RUN_ID)"}' > $(RUN_DIR)/random_seeds.json
+
+reproduce_all: run-init test phd-stability phd-experiments phd-ledger phd-audit
+	@echo "Reproducible pipeline complete. See $(RUN_DIR)/"
+
+# ---------------------------------------------------------------------------
+# Paper
+# ---------------------------------------------------------------------------
 paper:
 	pdflatex -interaction=nonstopmode submersion_espectral_lenguajes_perdidos_paper.tex
 	pdflatex -interaction=nonstopmode submersion_espectral_lenguajes_perdidos_paper.tex

@@ -1,3 +1,11 @@
-"""Spectral Submersion: framework for lost language decipherment."""
+"""Spectral Submersion: framework for lost language decipherment.
 
-__version__ = "0.1.0"
+Implements the PhD upgrade framework for auditable hypothesis generation:
+- Claims (C0-C5): hierarchical claim levels with admissibility
+- Identifiability: no-free-decipherment theorem, anchor power
+- Stability: spectral reliability, co-occurrence concentration, SPPMI
+- Audit: negative control gaps, calibration, overclaim risk
+- Generative model: Rongorongo hypothesis generation with claim blocking
+"""
+
+__version__ = "0.2.0"

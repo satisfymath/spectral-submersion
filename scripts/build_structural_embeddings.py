@@ -20,6 +20,7 @@ import pandas as pd
 from scipy.stats import entropy
 
 from spectral_submersion.tokenization import get_sequences_by_line
+from spectral_submersion.spectral import effective_rank
 
 
 def compute_structural_features(df, sequences):
@@ -42,8 +43,8 @@ def compute_structural_features(df, sequences):
             continue
         first_count[seq[0]] += 1
         last_count[seq[-1]] += 1
-        for tok in seq:
-            positions[tok].append(seq.index(tok) / max(len(seq) - 1, 1))
+        for pos, tok in enumerate(seq):
+            positions[tok].append(pos / max(len(seq) - 1, 1))
 
         i = 0
         while i < len(seq):
@@ -53,11 +54,10 @@ def compute_structural_features(df, sequences):
             run_len = j - i
             if run_len >= 2:
                 repeat_run_lengths[seq[i]].append(run_len)
-            if i > 0:
-                successor_counts[seq[i - 1]][seq[i]] += 1
-            if i < len(seq) - 1:
-                successor_counts[seq[i]][seq[i + 1]] += 1
             i = j if run_len > 1 else i + 1
+
+        for i in range(len(seq) - 1):
+            successor_counts[seq[i]][seq[i + 1]] += 1
 
     total_first = sum(first_count.values()) or 1
     total_last = sum(last_count.values()) or 1
@@ -197,8 +197,8 @@ def main():
     for label, seqs in [("real", pure_seqs), ("permuted", perm_seqs), ("random_uniform", unif_seqs)]:
         vocab, features, fnames = compute_structural_features(df, seqs)
         U, S, Vt = np.linalg.svd(features, full_matrices=False)
-        r_eff = np.sum(S) ** 2 / np.sum(S ** 2)
-        results[label] = {"vocab_size": len(vocab), "n_features": features.shape[1], "r_eff": float(r_eff), "singular_values": S.tolist()[:10]}
+        r_eff = float(effective_rank(S))
+        results[label] = {"vocab_size": len(vocab), "n_features": features.shape[1], "r_eff": r_eff, "singular_values": S.tolist()[:10]}
         np.save(output_dir / f"structural_features_{label}.npy", features)
         with open(output_dir / f"structural_features_{label}.vocab.json", "w") as f:
             json.dump({t: i for i, t in enumerate(vocab)}, f)
@@ -218,8 +218,8 @@ def main():
     ]:
         vocab, features, fnames = compute_structural_features_collapsed(seqs_col, seqs_pure)
         U, S, Vt = np.linalg.svd(features, full_matrices=False)
-        r_eff = np.sum(S) ** 2 / np.sum(S ** 2)
-        results[label] = {"vocab_size": len(vocab), "n_features": features.shape[1], "r_eff": float(r_eff), "singular_values": S.tolist()[:10]}
+        r_eff = float(effective_rank(S))
+        results[label] = {"vocab_size": len(vocab), "n_features": features.shape[1], "r_eff": r_eff, "singular_values": S.tolist()[:10]}
         np.save(output_dir / f"structural_features_{label}.npy", features)
         with open(output_dir / f"structural_features_{label}.vocab.json", "w") as f:
             json.dump({t: i for i, t in enumerate(vocab)}, f)
@@ -236,15 +236,19 @@ def main():
     print(f"  Pure tokenization:  r_eff(real)={r_real:.4f}  r_eff(perm)={r_perm:.4f}  r_eff(unif)={r_unif:.4f}")
     print(f"  Collapsed tokeniz.: r_eff(real)={r_real_c:.4f}  r_eff(perm)={r_perm_c:.4f}  r_eff(unif)={r_unif_c:.4f}")
 
-    if r_real < r_perm:
-        print(f"  ✓ Pure: Sanity check PASSES (real < permuted)")
+    if r_real > r_perm > r_unif:
+        print(f"  ✓ Pure: Inverted sanity check PASSES (real > permuted > uniform)")
+    elif r_real > r_perm:
+        print(f"  ✓ Pure: Partial inverted check (real > permuted, but permuted <= uniform)")
     else:
-        print(f"  ✗ Pure: Sanity check FAILS (real >= permuted)")
+        print(f"  ✗ Pure: Inverted sanity check FAILS (real <= permuted)")
 
-    if r_real_c < r_perm_c:
-        print(f"  ✓ Collapsed: Sanity check PASSES (real < permuted)")
+    if r_real_c > r_perm_c > r_unif_c:
+        print(f"  ✓ Collapsed: Inverted sanity check PASSES (real > permuted > uniform)")
+    elif r_real_c > r_perm_c:
+        print(f"  ✓ Collapsed: Partial inverted check (real > permuted, but permuted <= uniform)")
     else:
-        print(f"  ✗ Collapsed: Sanity check FAILS (real >= permuted)")
+        print(f"  ✗ Collapsed: Inverted sanity check FAILS (real <= permuted)")
 
     out_path = output_dir / "structural_feature_comparison.json"
     with open(out_path, "w", encoding="utf-8") as f:

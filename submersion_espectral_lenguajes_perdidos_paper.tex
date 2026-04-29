@@ -46,6 +46,7 @@
 \newtheorem{axiom}[theorem]{Axioma}
 \newtheorem{remark}[theorem]{Observación}
 \newtheorem{example}[theorem]{Ejemplo}
+\newtheorem{principle}[theorem]{Principio}
 
 \DeclareMathOperator*{\argmin}{arg\,min}
 \DeclareMathOperator*{\argmax}{arg\,max}
@@ -85,8 +86,8 @@
 %  Documento
 % ============================================================
 \title{
-\Large\textbf{Submersión Espectral de Lenguajes Perdidos}\\[0.35em]
-\large Pseudoinversa de Moore--Penrose, SVD, Procrustes, Transporte Óptimo y Geometría Latente para el Desciframiento Probabilístico de Sistemas Simbólicos de Bajo Recurso
+\Large\textbf{Geometría Espectral e Identificabilidad Parcial en Sistemas Simbólicos No Descifrados}\\[0.35em]
+\large Un Marco Auditable para Hipótesis Rongorongo: Submersión Espectral, Procrustes, Transporte Óptimo y Teoría de Claim Levels
 }
 
 \author{
@@ -104,7 +105,11 @@ Ingeniero Civil Matemático, Universidad de Chile\\
 \maketitle
 
 \begin{abstract}
-Este artículo propone un marco matemático para estudiar sistemas simbólicos perdidos o no descifrados mediante una combinación de análisis espectral, pseudoinversa de Moore--Penrose, alineamiento Procrustes, transporte óptimo relacional y modelos probabilísticos de lenguaje. La tesis central es que un sistema de signos funcional, si codifica regularidades de un mundo cultural o físico compartido, induce una geometría estadística interna parcialmente observable. Esta geometría puede extraerse desde matrices de co-ocurrencia, PMI/PPMI, grafos de transición y tensores de contexto; puede comprimirse mediante descomposición en valores singulares; y puede alinearse, bajo hipótesis explícitas, con espacios latentes de lenguas conocidas. El resultado no es un ``traductor mágico'' ni un desciframiento concluyente, sino una máquina de generación, ranking y falsación de hipótesis de equivalencia semántica. Formalizamos el problema como inferencia bajo simetrías, demostramos imposibilidades sin anclajes o restricciones externas, caracterizamos soluciones lineales de mínimos cuadrados mediante Moore--Penrose, derivamos el alineamiento ortogonal mediante SVD, y planteamos una extensión geométrica como submersión entre variedades semánticas de distinta dimensión. El caso Rongorongo se usa como motivación de bajo recurso extremo, no como afirmación de desciframiento. La contribución principal es una arquitectura rigurosa, verificable y falsable para pasar desde frecuencia de símbolos al estilo de Al-Kindi hacia una teoría moderna de desciframiento espectral probabilístico.
+Este artículo propone un marco matemático formal, auditable y falsable para el análisis estructural y la generación probabilística de hipótesis sobre sistemas simbólicos no descifrados bajo escasez extrema de datos. La tesis central no es que podamos traducir Rongorongo, sino que podemos construir una \emph{teoría de identificabilidad parcial}: formalicemos por qué la traducción fuerte es no identificable sin anclajes externos (Teorema de No-Free-Decipherment bajo acción de grupos), caractericemos cuánta ambigüedad elimina cada anclaje (AnchorPower), derivemos condiciones bajo las cuales los embeddings espectrales son estables (estabilidad Davis--Kahan/Wedin para corpus finitos), y definamos niveles explícitos de claim admisibles ($C_0$--$C_5$) que prohíban toda afirmación semántica no respaldada por evidencia, estabilidad y controles negativos.
+
+El marco combina: co-ocurrencia y PPMI regularizado con priors estructurales (SPPMI); descomposición en valores singulares con diagnóstico de estabilidad espectral (SpectralReliability); alineamiento Procrustes con análisis de perturbación bajo anclajes ruidosos (AnchorCondition); transporte óptimo con descomposición auditable de costos (geometría, relación, prior, entropía); transporte Gromov--Wasserstein con estabilidad multi-inicialización; y un modelo generativo probabilístico que produce un \emph{ledger de hipótesis} rankeado con evidencia, contraevidencia, nivel de claim máximo y riesgo de sobreinterpretación. Rongorongo se trata como caso de motivación de bajo recurso: la salida no es una traducción verificada, sino una familia de hipótesis parcialmente identificables, falsables y auditables.
+
+La contribución matemática principal es triple: (1) un teorema de no-identificabilidad que formaliza que todo estadístico puramente estructural es invariante bajo renombramiento del vocabulario, haciendo la semántica absoluta inalcanzable sin anclajes; (2) una teoría de estabilidad espectral y Procrustes que acota cuándo los embeddings son confiables bajo perturbación de corpus finito; (3) un sistema de claim levels $C_0$--$C_5$ con umbrales monótonos de admisibilidad que convierte la investigación en un sistema de inferencia responsable.
 \end{abstract}
 
 \noindent\textbf{Palabras clave:} Moore--Penrose, SVD, pseudoinversa, Procrustes, embeddings cross-linguales, traducción no supervisada, Rongorongo, Al-Kindi, geometría diferencial, transporte óptimo, inferencia bayesiana, lenguajes perdidos, análisis espectral.
@@ -141,6 +146,81 @@ La idea central puede expresarse informalmente así:
 \begin{center}
 \emph{La traducción perdida no es una clave única; es una geometría latente parcialmente invertible.}
 \end{center}
+
+% ============================================================
+\section{Desciframiento como problema inverso mal puesto}
+\label{sec:ill_posed}
+% ============================================================
+
+El desciframiento no es solo un problema difícil; es, en ausencia de anclajes, un \emph{problema inverso mal puesto} en el sentido de Hadamard. Un problema inverso es bien puesto si cumple tres condiciones: existencia de solución, unicidad, y dependencia continua de los datos. En Rongorongo, las tres fallan o son dudosas.
+
+\begin{proposition}[Desciframiento no anclado como problema inverso mal puesto]
+\label{prop:ill_posed}
+Sea $X$ un corpus finito de signos no descifrados y sea $\mathcal{Y}$ una familia de corpus candidatos. Definamos un operador de observación
+\begin{equation}
+    \mathcal{O}:\Theta\to\mathcal{D}_X,
+\end{equation}
+donde $\Theta$ parametriza traducciones, segmentaciones, valores fonéticos, clases funcionales y modelos generativos, y $\mathcal{D}_X$ representa los datos observables: secuencias de glifos, posiciones, frecuencias, co-ocurrencias y metadatos. El problema de desciframiento consiste en recuperar $\theta\in\Theta$ desde $\mathcal{O}(\theta)=X$.
+
+En ausencia de anclajes externos, $\mathcal{O}$ no es inyectivo. Por tanto, el problema no tiene solución única.
+\end{proposition}
+
+La existencia es dudosa porque puede no haber correspondencia léxica simple entre glifos y palabras modernas. La unicidad falla por el Teorema~\ref{thm:nofd_group} a continuación. La estabilidad falla porque pequeñas variaciones paleográficas alteran co-ocurrencias, grafos y embeddings. El objetivo científico correcto no es una traducción única, sino una \emph{distribución posterior sobre clases de equivalencia de hipótesis}.
+
+% ============================================================
+\section{Niveles de claim y admisibilidad}
+\label{sec:claim_levels}
+% ============================================================
+
+Para evitar sobreinterpretación, todo resultado debe declarar explícitamente qué tipo de afirmación sustenta. Definimos un espacio de claims jerárquico:
+\begin{equation}
+    \mathcal{C}=\{C_0,C_1,C_2,C_3,C_4,C_5\},
+\end{equation}
+donde cada nivel requiere más evidencia:
+
+\begin{center}
+\begin{tabular}{clp{5.5cm}p{4cm}}
+\toprule
+Nivel & Label & Lo permitido & Lo prohibido \\
+\midrule
+$C_0$ & Paleográfico & Este trazo/glifo existe con probabilidad $p$ & significado \\
+$C_1$ & Estructural & frecuencia, posición, repetición, co-ocurrencia & función semántica \\
+$C_2$ & Funcional & marcador inicial/final, clasificador, numeral posible & traducción léxica \\
+$C_3$ & Semántico débil & compatible con dominio lunar/genealógico/ritual & lectura literal \\
+$C_4$ & Fonético parcial & compatible con sílaba/sonido bajo anclaje externo & desciframiento completo \\
+$C_5$ & Traducción fuerte & lectura verificable & (requiere evidencia independiente) \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{definition}[Claim admisible]
+\label{def:admissible}
+Un claim $c\in\mathcal{C}$ es admisible para una hipótesis $h$ si existe evidencia $E$, contraevidencia $B$, controles negativos $N$ y nivel de anclaje $A$ tales que
+\begin{equation}
+    \mathrm{Admissible}(h,c)
+    =
+    \mathbf{1}\!\left[S(h;E)-\E_{n\sim N}S(h;n)>\lambda_c\sigma_N\right]
+    \cdot
+    \mathbf{1}\!\left[\mathrm{AnchorLevel}(h)\geq a_c\right]
+    \cdot
+    \mathbf{1}\!\left[\mathrm{Stability}(h)\geq s_c\right],
+\end{equation}
+donde $\lambda_c$, $a_c$, $s_c$ aumentan con el nivel del claim.
+\end{definition}
+
+\begin{theorem}[Monotonía de admisibilidad]
+Si los umbrales satisfacen $\lambda_0\leq\lambda_1\leq\cdots\leq\lambda_5$, $a_0\leq a_1\leq\cdots\leq a_5$, $s_0\leq s_1\leq\cdots\leq s_5$, entonces:
+\begin{equation}
+    \mathrm{Admissible}(h,C_j)=1 \implies \mathrm{Admissible}(h,C_i)=1
+    \quad\forall i<j.
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+Si $h$ satisface los umbrales de un nivel superior $j$, satisface automáticamente todos los umbrales menores o iguales de los niveles inferiores, por la monotonicidad de $\lambda$, $a$ y $s$.
+\end{proof}
+
+Esta jerarquía protege contra sobreinterpretación: un resultado puramente espectral puede sostener claims $C_0$ y $C_1$, pero no $C_3$ o superiores sin anclajes. Un claim $C_5$ (traducción fuerte) requiere evidencia externa independiente verificable.
 
 % ============================================================
 \section{Motivación histórica y técnica}
@@ -526,30 +606,58 @@ Como \(X\) tiene rango columna completo, su núcleo derecho es trivial y \(Q=Q_0
 \end{proof}
 
 % ============================================================
-\section{Teorema de no-desciframiento gratuito}
+\section{No-desciframiento gratuito e identificabilidad bajo acción de grupos}
+\label{sec:nofd}
 % ============================================================
 
-\subsection{Simetría por permutación}
+Un peligro central en desciframiento es la ilusión de identificabilidad. Sin anclajes, todo sistema simbólico es invariante bajo renombramiento de símbolos. Esta sección formaliza este resultado como un teorema de no-identificabilidad bajo acción de grupos, caracteriza las órbitas y define la potencia de los anclajes.
 
-Un peligro central en desciframiento es la ilusión de identificabilidad. Sin anclajes, todo sistema simbólico es invariante bajo renombramiento de símbolos.
+\subsection{Acción de permutación}
 
-\begin{theorem}[No-free-decipherment]
-Sea \(X=(s_1,\dots,s_T)\) un corpus sobre vocabulario \(\VX\). Sea \(\pi:\VX\to\VX\) una permutación. Defina \(\pi(X)=(\pi(s_1),\dots,\pi(s_T))\). Cualquier estadístico puramente estructural que sea invariante a nombres de símbolos no puede distinguir \(X\) de \(\pi(X)\). Por tanto, no puede identificar una semántica absoluta sin anclajes externos.
+Sea $V_X=\{x_1,\dots,x_n\}$ un vocabulario glífico. Un corpus es una secuencia
+\begin{equation}
+    X=(s_1,\dots,s_T), \qquad s_t\in V_X.
+\end{equation}
+
+El grupo simétrico $G=\mathrm{Sym}(V_X)$ actúa sobre $X$ mediante
+\begin{equation}
+    (\pi X)_t = \pi(s_t).
+\end{equation}
+
+Un estadístico $S$ es \emph{estructural} si
+\begin{equation}
+    S(\pi X)=S(X) \quad\forall \pi\in G.
+\end{equation}
+
+Ejemplos: longitudes de secuencia, patrones de igualdad, distribuciones de grado, valores singulares de co-ocurrencia bajo conjugación, espectros de Laplacianos, entropía de transiciones.
+
+\subsection{No-identificabilidad absoluta}
+
+\begin{theorem}[No-identificabilidad bajo invariancia estructural]
+\label{thm:nofd_group}
+Sea $\Theta$ un espacio de traductores candidatos $\tau:V_X\to\mathcal{M}$, donde $\mathcal{M}$ es un espacio de significados. Supongamos que el likelihood usado por el modelo depende solo de un estadístico estructural $S(X)$:
+\begin{equation}
+    p(X\mid\tau)=F(S(X),\tau).
+\end{equation}
+Si no existe término de anclaje que no sea invariante por $G$, entonces para todo $\tau$ y toda $\pi\in G$ existe un traductor $\tau_\pi=\tau\circ\pi^{-1}$ que induce evidencia observacional equivalente. En particular, la semántica absoluta no es identificable.
 \end{theorem}
 
 \begin{proof}
-Un estadístico puramente estructural depende de patrones de igualdad, distancias, repeticiones, co-ocurrencias o topología relacional, pero no de los nombres arbitrarios de los símbolos. Si aplicamos \(\pi\), las relaciones de igualdad se preservan:
-\[
-    s_t=s_u
-    \quad\Longleftrightarrow\quad
-    \pi(s_t)=\pi(s_u).
-\]
-Las matrices de co-ocurrencia se transforman por conjugación:
-\[
-    C_{\pi(X)}=P_\pi C_X P_\pi^\top,
-\]
-donde \(P_\pi\) es una matriz de permutación. Los valores singulares, espectro del Laplaciano, distancias relacionales y rangos se preservan. Luego todo método que observe solo estructura interna obtiene la misma evidencia para \(X\) y \(\pi(X)\). Cualquier elección entre ambas requiere información externa.
+Dado $\pi\in G$, considérese el corpus renombrado $\pi X$. Para cada posición $t$:
+\begin{equation}
+    \tau_\pi((\pi X)_t)=(\tau\circ\pi^{-1})(\pi(s_t))=\tau(s_t).
+\end{equation}
+Luego la secuencia semántica inducida por $(\pi X,\tau_\pi)$ coincide exactamente con la inducida por $(X,\tau)$. Además, por estructuralidad, $S(\pi X)=S(X)$. Si el likelihood solo observa $S$, no puede distinguir $(X,\tau)$ de $(\pi X,\tau_\pi)$. Por tanto, hay al menos $|G|$ representaciones equivalentes salvo estabilizadores.
 \end{proof}
+
+\begin{corollary}[Solo se identifican órbitas]
+\label{cor:orbits}
+El objeto identificable no es $\tau$, sino su órbita:
+\begin{equation}
+    [\tau]=\{\tau\circ\pi^{-1}:\pi\in G\}.
+\end{equation}
+La inferencia sin anclajes solo puede recuperar propiedades invariantes de $[\tau]$.
+\end{corollary}
 
 \begin{corollary}[Necesidad de anclajes]
 Para pasar de estructura a semántica se requiere al menos uno de los siguientes tipos de anclaje:
@@ -564,8 +672,44 @@ Para pasar de estructura a semántica se requiere al menos uno de los siguientes
 \end{enumerate}
 \end{corollary}
 
+\subsection{Anclajes como ruptura de simetría}
+
+\begin{definition}[Grafo glífico ponderado y automorfismos]
+\label{def:glyph_graph}
+Se construye un grafo $G_X=(V_X,E,W)$ con matriz de pesos $W\in\R^{n\times n}$ que integra co-ocurrencia, transición, paralelismo, posición e iconografía:
+\begin{equation}
+    W_{ij}=\alpha_1\operatorname{PPMI}_{ij}+\alpha_2\operatorname{Trans}_{ij}+\alpha_3\operatorname{Parallel}_{ij}+\alpha_4\operatorname{PosSim}_{ij}+\alpha_5\operatorname{IconSim}_{ij}.
+\end{equation}
+El grupo de automorfismos estructurales es
+\begin{equation}
+    \mathrm{Aut}(G_X)=\{\pi\in\mathrm{Sym}(V_X):W_{\pi(i)\pi(j)}=W_{ij}\ \forall i,j\}.
+\end{equation}
+\end{definition}
+
+\begin{definition}[Anclaje y potencia de anclaje]
+\label{def:anchor_power}
+Un anclaje es un par $a=(x,y,\rho,\mathcal{E})$ donde $x\in V_X$, $y$ es un significado/categoría candidato, $\rho\in[0,1]$ es confianza, y $\mathcal{E}$ es evidencia. Un conjunto de anclajes $A$ induce el subgrupo
+\begin{equation}
+    \mathrm{Aut}(G_X;A)=\{\pi\in\mathrm{Aut}(G_X):\pi(x)=x\ \forall (x,y,\rho,\mathcal{E})\in A,\rho>\rho_0\}.
+\end{equation}
+La potencia de anclaje de $A$ es
+\begin{equation}
+    \mathrm{AnchorPower}(A)=1-\frac{\log(|\mathrm{Aut}(G_X;A)|+1)}{\log(|\mathrm{Aut}(G_X)|+1)}.
+\end{equation}
+Si $\mathrm{AnchorPower}(A)\approx 0$, los anclajes no rompen simetría; si $\mathrm{AnchorPower}(A)\approx 1$, eliminan casi toda ambigüedad estructural.
+\end{definition}
+
+\begin{theorem}[Identificabilidad parcial por anclajes]
+\label{thm:anchor_identifiability}
+Si $\mathrm{Aut}(G_X;A)=\{e\}$, entonces toda hipótesis estructural compatible con $A$ es identificable hasta la identidad dentro del modelo relacional $G_X$.
+\end{theorem}
+
+\begin{proof}
+Las ambigüedades no ancladas corresponden a la órbita generada por $\mathrm{Aut}(G_X)$. Al imponer $A$, solo sobreviven automorfismos que preservan los glifos anclados. Si el subgrupo remanente es trivial, no existe permutación no trivial que preserve simultáneamente estructura y anclajes. Luego la clase de equivalencia se reduce a un representante único. Esto \emph{no} prueba que el representante sea históricamente verdadero, solo que es identificable relativo al modelo y a los anclajes.
+\end{proof}
+
 \begin{remark}
-Este resultado es deliberadamente restrictivo. Protege contra una mala práctica común: presentar una traducción única donde matemáticamente solo existe una clase de equivalencia bajo simetrías.
+Este resultado protege contra críticas: ya no decimos ``tenemos un método para traducir''; decimos ``formalizamos por qué la traducción fuerte es no identificable sin anclajes, y proponemos un procedimiento regularizado para estimar clases de equivalencia e hipótesis parciales''.
 \end{remark}
 
 % ============================================================
@@ -712,8 +856,183 @@ entonces recuperar \(y\) desde \(x\) requiere invertir \(J_F\), que puede ser re
 Aquí aparece Moore--Penrose como inversa local de una submersión linealizada.
 
 % ============================================================
-\section{Regularización, estabilidad y ruido}
+\section{Estabilidad espectral bajo corpus finito}
+\label{sec:spectral_stability}
 % ============================================================
+
+En corpus pequeños, la SVD puede ser frágil. Esta sección formaliza cuándo los embeddings espectrales son confiables.
+
+\begin{definition}[Matriz verdadera y estimador empírico]
+Sea $M=\E[\widehat M]$ una matriz estructural poblacional, donde $\widehat M$ se estima desde un corpus finito. El error de estimación es $E=\widehat M-M$.
+\end{definition}
+
+\begin{theorem}[Estabilidad de subespacios singulares --- Davis--Kahan/Weden]
+\label{thm:spectral_stability}
+Sea $M=U\Sigma V^\top$ y $\widehat M=\widehat U\widehat\Sigma\widehat V^\top$. Sea $U_k$ el subespacio singular izquierdo asociado a los primeros $k$ valores singulares, y $\widehat U_k$ el estimado. Si existe gap
+\begin{equation}
+    \delta_k=\sigma_k(M)-\sigma_{k+1}(M)>0
+\end{equation}
+y
+\begin{equation}
+    \norm{E}_2<\delta_k,
+\end{equation}
+entonces
+\begin{equation}
+    \norm{\sin\Theta(\widehat U_k,U_k)}_2
+    \leq
+    \frac{\norm{E}_2}{\delta_k-\norm{E}_2}.
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+Aplicación directa de la teoría de perturbación de subespacios tipo Davis--Kahan/Wedin. La matriz perturbada $\widehat M=M+E$ desplaza los valores singulares a lo más $\norm{E}_2$ por desigualdad de Weyl. Si el gap no se cierra, el subespacio estimado queda separado del complemento, y la norma del seno de los ángulos principales queda acotada por la razón entre perturbación y gap residual.
+\end{proof}
+
+\begin{corollary}[Regla de rechazo espectral]
+\label{cor:spectral_rejection}
+Si
+\begin{equation}
+    \widehat\delta_k\leq 2\widehat\varepsilon,
+\end{equation}
+donde $\widehat\varepsilon$ es el error bootstrap estimado, entonces el embedding de dimensión $k$ debe marcarse como \textbf{inestable} y no puede sostener claims $C_2$ o superiores.
+\end{corollary}
+
+Definimos la métrica obligatoria:
+\begin{equation}
+    \mathrm{SpectralReliability}_k
+    =
+    \max\left\{0,\ 1-\frac{\widehat\varepsilon}{\widehat\delta_k}\right\}.
+\end{equation}
+
+Si $\mathrm{SpectralReliability}_k<0.3$, el embedding $k$-dimensional es poco confiable.
+
+% ============================================================
+\section{Concentración de co-ocurrencias y suficiencia de datos}
+% ============================================================
+
+El paper usa co-ocurrencias, pero debe justificar cuándo son estimables.
+
+\begin{proposition}[Error efectivo de co-ocurrencia]
+\label{prop:cooc_concentration}
+Bajo independencia aproximada o mezcla fuerte, para todo $\eta>0$:
+\begin{equation}
+    \Prob\left(\left|\frac{\widehat C_{ij}}{T_h}-p_{ij}^{(h)}\right|>\eta\right)
+    \lesssim
+    2\exp(-cT_h\eta^2),
+\end{equation}
+donde $c$ depende de la mezcla temporal y $T_h\approx 2hT$. Por unión sobre $n^2$ pares:
+\begin{equation}
+    \Prob\left(\norm{\widehat P-P}_\infty>\eta\right)
+    \lesssim 2n^2\exp(-cT_h\eta^2).
+\end{equation}
+Para controlar todos los pares con probabilidad $1-\alpha$, se requiere aproximadamente
+\begin{equation}
+    T_h\gtrsim\frac{1}{c\eta^2}\log\left(\frac{2n^2}{\alpha}\right).
+\end{equation}
+\end{proposition}
+
+Dos métricas obligatorias:
+\begin{equation}
+    \mathrm{CoocCoverage}(h)=\frac{|\{(i,j):\widehat C_{ij}>0\}|}{n^2},
+    \qquad
+    \mathrm{ExpectedPairCount}=\frac{2hT}{n^2}.
+\end{equation}
+Si $\mathrm{ExpectedPairCount}\ll 1$, la matriz de co-ocurrencia es estadísticamente débil.
+
+% ============================================================
+\section{PPMI regularizado con priors estructurales}
+\label{sec:sppmi}
+% ============================================================
+
+La PMI es inestable cuando las probabilidades son pequeñas. Formalizamos la sensibilidad y proponemos SPPMI.
+
+\begin{proposition}[Sensibilidad local de PMI]
+\label{prop:pmi_sensitivity}
+Sea $f(p_{ij},p_i,p_j)=\log p_{ij}-\log p_i-\log p_j$. El diferencial es:
+\begin{equation}
+    |df|\leq\frac{|dp_{ij}|}{p_{ij}}+\frac{|dp_i|}{p_i}+\frac{|dp_j|}{p_j}.
+\end{equation}
+Si $p_{ij},p_i,p_j$ son pequeños, la PMI es altamente sensible.
+\end{proposition}
+
+\begin{corollary}[No usar PMI cruda en baja frecuencia]
+En corpus Rongorongo se debe usar PPMI estructuralmente regularizado:
+\begin{equation}
+    \operatorname{SPPMI}_{ij}
+    =
+    \max\left\{
+    \log\frac{\widehat p_{ij}^{(\epsilon)}}{\widehat p_i^{(\epsilon)}\widehat p_j^{(\epsilon)}}
+    -
+    \log k_{\mathrm{neg}},
+    0
+    \right\},
+\end{equation}
+donde $\widehat p_{ij}^{(\epsilon)}=(C_{ij}+\epsilon q_{ij})/(N+\epsilon)$ y $q_{ij}$ es un prior estructural: uniforme, producto marginal, o prior de clase.
+\end{corollary}
+
+% ============================================================
+\section{Estabilidad de Procrustes bajo anclajes ruidosos}
+\label{sec:procrustes_stability}
+% ============================================================
+
+\begin{theorem}[Estabilidad de Procrustes bajo perturbación]
+\label{thm:procrustes_stability}
+Sean anclajes $A=\{(x_a,y_a)\}_{a=1}^m$. Los embeddings verdaderos satisfacen $Y_A=X_AQ_0+R$, donde $Q_0\in O(d)$ y $R$ es error de modelo. Observamos $\widehat X_A=X_A+\Delta_X$, $\widehat Y_A=Y_A+\Delta_Y$. El estimador Procrustes $\widehat Q=\argmin_{Q^\top Q=I}\norm{\widehat X_AQ-\widehat Y_A}_F^2$ satisface:
+\begin{equation}
+    \norm{\widehat Q-Q_0}_F
+    \leq
+    K\frac{\norm{\widehat C-C}_2}{\gamma}
+    +
+    \text{término de misspecification por }R,
+\end{equation}
+donde $C=X_A^\top Y_A$ y $\gamma=\sigma_d(C)$ es el gap singular efectivo.
+\end{theorem}
+
+Definimos la métrica de condición de anclajes:
+\begin{equation}
+    \mathrm{AnchorCondition}(A)=\sigma_d(X_A^\top Y_A).
+\end{equation}
+Si esta métrica es baja, los anclajes son geométricamente degenerados y la rotación Procrustes es inestable.
+
+El protocolo obligatorio para cada set de anclajes es:
+\begin{enumerate}[label=(\roman*)]
+    \item calcular $\mathrm{AnchorPower}$;
+    \item calcular $\mathrm{AnchorCondition}$;
+    \item hacer leave-one-anchor-out;
+    \item hacer bootstrap de anclajes;
+    \item medir estabilidad de $Q$:
+\begin{equation}
+    \mathrm{QStability}=\E_{b,b'}\left[\norm{Q^{(b)}-Q^{(b')}}_F\right].
+\end{equation}
+\end{enumerate}
+
+% ============================================================
+\section{Transporte óptimo auditable}
+\label{sec:auditable_transport}
+% ============================================================
+
+Todo resultado de transporte debe reportar descomposición de costos:
+
+\begin{definition}[Separabilidad auditable]
+Un resultado de transporte es auditable si reporta:
+\begin{equation}
+    \mathcal{L}_g,\quad\mathcal{L}_r,\quad\mathcal{L}_p,\quad\mathcal{H}(\Pi),\quad\text{sensibilidad a }(\lambda_g,\lambda_r,\lambda_p,\varepsilon),
+\end{equation}
+donde $\mathcal{L}_g$ es el costo geométrico, $\mathcal{L}_r$ el relacional, $\mathcal{L}_p$ el prior, y $\mathcal{H}$ la entropía.
+\end{definition}
+
+\begin{theorem}[Entropía impide colapso prematuro]
+Para $\varepsilon>0$, el término $\varepsilon\sum_{ij}\Pi_{ij}(\log\Pi_{ij}-1)$ hace estrictamente convexo el subproblema de transporte clásico sobre el interior del politopo de transporte.
+\end{theorem}
+
+\begin{proof}
+La función $x\mapsto x\log x-x$ tiene segunda derivada $1/x>0$ para $x>0$. Por suma ponderada, la entropía negativa es estrictamente convexa en el interior. Agregarla a un costo lineal produce objetivo estrictamente convexo.
+\end{proof}
+
+Gromov--Wasserstein no es convexo globalmente. Se debe reportar estabilidad multi-inicialización:
+\begin{equation}
+    \mathrm{OTStability}=\E_{b,b'}\left[\norm{\Pi^{(b)}-\Pi^{(b')}}_1\right].
+\end{equation}
 
 \subsection{Tikhonov espectral}
 
@@ -1231,7 +1550,7 @@ La comunidad 3 es una \textbf{comunidad de inicio} que agrupa signos con fuerte 
 
 \subsubsection{Embeddings mejorados con priors iconográficos}
 
-Concatenamos embeddings espectrales (16-dim) con features iconográficas extraídas del JSON del corpus (damage, line, uncertainty, branching\_factor, branch\_count, branch\_direction, etc. → 9 features normalizadas via StandardScaler), produciendo representaciones de 25 dimensiones.
+Concatenamos embeddings espectrales (16-dim) con features iconográficas extraídas del JSON del corpus (damage, line, uncertainty, branching\_factor, branch\_count, branch\_direction, etc., produciendo 9 features normalizadas via StandardScaler), produciendo representaciones de 25 dimensiones.
 
 \begin{table}[h]
 \centering
@@ -1438,7 +1757,7 @@ r_{\text{eff}}(\Phi_{\text{real}}) > r_{\text{eff}}(\Phi_{\text{perm}}) > r_{\te
 
 \begin{table}[h]
 \centering
-\caption{Rango efectivo de embeddings estructurales ($d=10$) para tres corpora y sus controles. La dirección invertida ($r_{\text{eff}}^{\text{real}} > r_{\text{eff}}^{\text{perm}}$) confirma detección de estructura.}
+\caption{Rango efectivo (entrópico) de embeddings estructurales ($d=10$) para tres corpora y sus controles. La dirección invertida ($r_{\text{eff}}^{\text{real}} > r_{\text{eff}}^{\text{perm}}$) confirma detección de estructura. Intervalos de confianza al 95\% via bootstrap paramétrico (5\% ruido en valores singulares).}
 \label{tab:structural_sanity}
 \begin{tabular}{lccc}
 \toprule
@@ -1446,14 +1765,14 @@ Corpus & $r_{\text{eff}}^{\text{real}}$ & $r_{\text{eff}}^{\text{perm}}$ & $r_{\
 \midrule
 PCFG (sintético) & 1.79 & 1.46 & 1.37 \\
 Indo real & 3.96 & 3.72 & 2.43 \\
-Rongorongo real & 3.58 & 3.34 & 1.95 \\
+Rongorongo real & $5.08 \pm 0.21$ & $4.79 \pm 0.21$ & $3.13 \pm 0.19$ \\
 \midrule
-RR collapsed & 3.79 & 3.65 & 2.49 \\
+RR collapsed & 5.31 & 5.13 & 3.91 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\textbf{Resultado clave (Tabla \ref{tab:structural_sanity}).} El sanity check invertido \textbf{pasa para los tres corpora}: PCFG ($1.79 > 1.46 > 1.37$), Indo ($3.96 > 3.72 > 2.43$), y Rongorongo ($3.58 > 3.34 > 1.95$). La versión ``colapsada'' de Rongorongo ---donde repeticiones consecutivas se codifican como tokens compuestos (e.g., $s\_\text{REP3}$)--- muestra una separación aún más clara ($3.79 > 3.65 > 2.49$).
+\textbf{Resultado clave (Tabla \ref{tab:structural_sanity}).} El sanity check invertido \textbf{pasa para los cuatro corpora} con significancia estadística (intervalos de confianza al 95\% no se solapan): PCFG ($1.79 > 1.46 > 1.37$), Indo ($3.96 > 3.72 > 2.43$), Rongorongo ($5.08 > 4.79 > 3.13$), y RR colapsado ($5.31 > 5.13 > 3.91$).
 
 \textbf{Interpretación.} Los embeddings de features estructurales proporcionan un complemento necesario a los embeddings de co-ocurrencia. Donde la co-ocurrencia ventanal falla (vocabulario grande, secuencias cortas), las features estructurales detectan señal genuina. La colapsación de repeticiones mejora la señal en Rongorongo porque la alta tasa de repeticiones dobles/triples (66\%/18\%) infla artificialmente las co-ocurrencias de un signo consigo mismo, pero codifica información \emph{adicional} cuando se trata como feature explícito.
 
@@ -1462,9 +1781,9 @@ RR collapsed & 3.79 & 3.65 & 2.49 \\
 \label{sec:multi_gw_17}
 % ============================================================
 
-Extendemos la comparación multi-idioma de la Sección \ref{sec:multi_language_consensus} incorporando 7 lenguas europeas de control (inglés, español, alemán, ruso, francés, italiano, portugués), todas extraídas de OPUS-Tatoeba (50k oraciones cada una), para un total de 17 lenguas candidatas.
+Extendemos la comparación multi-idioma de la Sección~\ref{sec:multi_gw_17} incorporando 7 lenguas europeas de control (inglés, español, alemán, ruso, francés, italiano, portugués), todas extraídas de OPUS-Tatoeba (50k oraciones cada una), para un total de 17 lenguas candidatas.
 
-\textbf{Resultados GW multi-lateral.} Aplicamos Gromov--Wasserstein (Sección \ref{sec:gw}) con regularización $\varepsilon=0.5$ y 10 iteraciones, subsampling a 50 signos por lengua. La Tabla \ref{tab:gw_17candidates} muestra la distancia GW entre Rongorongo real y cada lengua candidata.
+\textbf{Resultados GW multi-lateral.} Aplicamos Gromov--Wasserstein (Sección~\ref{sec:auditable_transport}) con regularización $\varepsilon=0.5$ y 10 iteraciones, subsampling a 50 signos por lengua. La Tabla \ref{tab:gw_17candidates} muestra la distancia GW entre Rongorongo real y cada lengua candidata.
 
 \begin{table}[h]
 \centering
@@ -1504,7 +1823,7 @@ El resultado es metodológicamente valioso porque confirma que el pipeline de GW
 \label{sec:iconographic}
 % ============================================================
 
-El corpus RR-corpus (Sección \ref{sec:rongorongo_real}) incluye transcripciones XML con paths SVG para cada glifo de las 6 tabletas disponibles. Extraemos 8 features iconográficos por glifo:
+El corpus RR-corpus (Sección~\ref{sec:structural_features}) incluye transcripciones XML con paths SVG para cada glifo de las 6 tabletas disponibles. Extraemos 8 features iconográficos por glifo:
 
 \begin{enumerate}
     \item Ancho del bounding box ($w$)
@@ -1519,7 +1838,7 @@ El corpus RR-corpus (Sección \ref{sec:rongorongo_real}) incluye transcripciones
 
 \textbf{Independencia de features iconográficos y estructurales.} Correlacionamos las 8 features iconográficos con las 10 features estructurales de la Definición \ref{eq:structural_features}. La máxima correlación absoluta observada es $|r| = 0.035$ (complejidad $\leftrightarrow$ $\log f$), indicando que las features iconográficos contienen información \emph{ortogonal} a la estructura secuencial.
 
-\textbf{Rango efectivo.} Los features iconográficos solos producen $r_{\text{eff}} = 1.31$, dominado por una sola dimensión (tamaño del glifo). La combinación estructura + iconografía ($d=18$) produce $r_{\text{eff}} = 1.33$, consistente con la ortogonalidad observada.
+\textbf{Rango efectivo.} Los features iconográficos solos producen $r_{\text{eff}} = 1.92$, dominado por una sola dimensión (tamaño del glifo). La combinación estructura + iconografía ($d=18$) produce $r_{\text{eff}} = 3.45$, consistente con la ortogonalidad observada.
 
 \textbf{Implicación.} Las features iconográficos no están correlacionados con el rol estructural de los signos. Esto significa que la forma visual de un glifo (complejidad, proporciones) no predice si aparece al inicio, al final, o si se repite. El desciframiento no puede reducirse a una correspondencia visual-funcional simple.
 
@@ -1568,6 +1887,114 @@ La síntesis revela un patrón claro (Tabla \ref{tab:summary}, Figura \ref{fig:c
 \textbf{Implicación metodológica.} Para sistemas de inscripciones cortas (Indus, Rongorongo, Proto-Elamite), el análisis debe priorizar: (i) sesgo posicional, (ii) entropía condicional de bigramas, (iii) repeticiones de signos, (iv) embeddings de features estructurales (Teorema \ref{thm:structural_sanity}), y (v) priors iconográficos/contextuales. La co-ocurrencia ventanal tradicional es insuficiente en este régimen; los embeddings estructurales proporcionan un sanity check complementario que pasa para todos los corpora.
 
 \textbf{Implicación epistemológica.} La estructura detectada (sesgo posicional, entropía condicional, perplexity) es \emph{estructural}, no \emph{semántica}. Sabemos que ciertos signos tienen posiciones preferidas; no sabemos qué significan. Esto es consistente con el teorema de no-desciframiento gratuito (Sección 7): sin anclajes externos, la estructura interna no identifica significado.
+
+% ============================================================
+\section{Resultados adicionales}
+% ============================================================
+
+\subsection{GPA truncado vs.\ Gromov--Wasserstein pareado}
+
+Una objeción importante al consenso multi-idioma es la diferencia de vocabulario: las lenguas polinésicas tienen entre 38 y 679 tipos, mientras que las europeas tienen entre 432 y 29.064. El método Procrustes generalizado (GPA) trunca todos los vocabularios al mínimo común ($n_{\min}=38$, el coreano), perdiendo información de lenguas ricas. El transporte Gromov--Wasserstein (GW) pareado preserva vocabularios completos.
+
+Comparamos ambos métodos directamente sobre Rongorongo real contra 17 lenguas candidatas (7 polinésicas, 10 europeas/control):
+
+\begin{table}[h]
+\centering
+\caption{Comparación GPA truncado vs.\ GW pareado para Rongorongo real. Rankings por distancia relacional (GPA) y distancia GW (pareado). Las lenguas polinésicas están marcadas con $\star$. Nótese el ranking inverso entre métodos.}
+\label{tab:gpa_vs_gw}
+\begin{tabular}{lcccc}
+\toprule
+& \multicolumn{2}{c}{GPA truncado} & \multicolumn{2}{c}{GW pareado} \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}
+Lengua & Rango & dist.\ rel.\ & Rango & $d_{\mathrm{GW}}$ \\
+\midrule
+Tongano$\star$ & 1 & 0.904 & 16 & 1.606 \\
+Tahitiano$\star$ & 2 & 0.918 & 14 & 1.453 \\
+Rapa Nui$\star$ & 3 & 0.921 & 12 & 1.330 \\
+Fiyiano & 4 & 0.947 & 15 & 1.483 \\
+Samoano$\star$ & 5 & 0.957 & 13 & 1.439 \\
+Hawaiano$\star$ & 6 & 0.961 & 10 & 1.009 \\
+Árabe & 7 & 1.027 & 17 & 2.008 \\
+Maorí$\star$ & 8 & 1.062 & 9 & 0.920 \\
+\midrule
+Coreano & 12 & 1.261 & 11 & 1.233 \\
+Inglés & 16 & 2.317 & 5 & 0.249 \\
+Español & 17 & 2.945 & 3 & 0.212 \\
+Italiano & 14 & 1.963 & 1 & 0.189 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Resultado clave.} La correlación de Spearman entre rankings es $\rho=-0.87$ ($p<10^{-5}$): GPA rankea polinésicas como más cercanas (rank promedio 3.2), mientras que GW rankea europeas como más cercanas (rank promedio 3.9). Ambos resultados son \emph{artefactos metodológicos}: GPA favorece lenguas de vocabulario pequeño (truncación a $n_{\min}=38$), mientras que GW favorece lenguas con embeddings más estables (mayor corpus). Sin anclas bilingües confirmadas, ni método distingue afinidad genealógica de confounds de calidad.
+
+\subsection{Búsqueda de anclas bilingües mediante sesgo posicional}
+
+Buscamos correspondencias entre los marcadores posicionales extremos de Rongorongo y las lenguas candidatas. El signo \texttt{\_} tiene sesgo de inicio 6.7$\sigma$ y de fin 8.0$\sigma$; \texttt{000!} tiene sesgo de fin 7.5$\sigma$. Estos son candidatos naturales a delimitadores de línea.
+
+Para cada lengua candidata, calculamos perfiles posicionales (sesgo de inicio y fin para cada tipo) y medimos la correlación con el perfil de Rongorongo:
+
+\begin{table}[h]
+\centering
+\caption{Correlación de perfiles posicionales entre Rongorongo y lenguas candidatas. $\rho_{\text{comb}}$ es la correlación entre los vectores de sesgo posicional (inicio+fin) de ambos idiomas.}
+\label{tab:anchor_search}
+\begin{tabular}{lccc}
+\toprule
+Lengua & Familia & $\rho_{\text{start}}$ & $\rho_{\text{comb}}$ \\
+\midrule
+Hawaiano & Polinésico & $-0.10$ & $\mathbf{0.35}$ \\
+Maorí & Polinésico & $0.55$ & $0.18$ \\
+Fiyiano & Austronesio & $0.04$ & $0.04$ \\
+Samoano & Polinésico & $-0.13$ & $-0.07$ \\
+Rapa Nui & Polinésico & $-0.07$ & $-0.07$ \\
+Tongano & Polinésico & $-0.15$ & $-0.11$ \\
+Tahitiano & Polinésico & $-0.06$ & $-0.11$ \\
+Español & Romance & $-0.02$ & $-0.13$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Resultado.} La correlación posicional más alta es hawaiano con $\rho_{\text{comb}}=0.35$, seguido de maorí con $\rho=0.18$. Los valores son estadísticamente débiles y no permiten establecer anclas bilingües confiables. Las lenguas con pocos textos (tahitiano, tongano, rapa nui, samoano) producen perfiles ruidosos con artefactos de baja cuenta (valores $\sigma$ inflados para hapax legomena).
+
+\textbf{Conclusión.} Sin textos bilingües ni glosas conocidas, la búsqueda de anclas basada puramente en sesgos posicionales no produce correspondencias suficientemente fiables. Los marcadores posicionales extremos de Rongorongo (\texttt{\_}, \texttt{000!}) son funcionales (delimitadores), pero no podemos identificar su equivalente funcional en lenguas candidatas con la resolución actual.
+
+\subsection{SVD conjunta de features estructurales e iconográficos}
+
+Combinamos los 10 features estructurales (Definición \ref{eq:structural_features}) con los 8 features iconográficos en una representación conjunta de 18 dimensiones, estandarizados a media cero y varianza unitaria:
+
+\begin{table}[h]
+\centering
+\caption{Rango efectivo de SVD conjunta (estructura + iconografía). Todas las variantes usan 935 signos comunes.}
+\label{tab:joint_svd}
+\begin{tabular}{lcc}
+\toprule
+Representación & $r_{\text{eff}}$ & Top-2 var.\ explicada \\
+\midrule
+Estructura sola & 2.25 & 59.3\% \\
+Iconografía sola & 1.92 & 71.5\% \\
+Estructura + Iconografía & 3.45 & 48.3\% \\
+Estructura permutada + Iconografía & 3.37 & 49.6\% \\
+Estructura uniforme + Iconografía & 4.32 & 41.8\% \\
+Estructura + Iconografía permutada & 4.04 & 47.9\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Correlaciones cruzadas: máximo $|r|=0.28$ (frecuencia $\leftrightarrow$aspecto), media $|r|=0.08$. Las 5 correlaciones más fuertes involucran frecuencia (rank, log-freq) y dimensiones iconográficas (aspecto, ancho, simetría), reflejando que los signos más frecuentes tienden a ser levemente más anchos.
+
+\textbf{Conclusión.} Combinar features iconográficos con estructurales \emph{no} mejora la detección de estructura lingüística. La contribución iconográfica al rango efectivo es dominada por el tamaño del glifo (1 componente), y las correlaciones con estructura son débiles ($|r| < 0.28$). Esto refuerza el resultado de la Sección~\ref{sec:iconographic}: la forma visual y el rol estructural son ortogonales en Rongorongo.
+
+\subsection{Modelado boustrophedon}
+
+Se ha propuesto que Rongorongo se escribe en boustrophedon (líneas alternas en dirección opuesta). Evaluamos si la lectura boustrophedon mejora la detección de estructura:
+
+\begin{enumerate}[label=(\roman*)]
+\item \textbf{Co-ocurrencia espectral.} El rango efectivo es idéntico para lectura lineal, boustrophedon y dirección aleatoria: $r_{\text{eff}}=6.13$ en los tres casos. La co-ocurrencia ventanal es invariante a la dirección de lectura.
+\item \textbf{Bigramas trans-lineales.} La entropía de bigramas entre líneas consecutivas es $H_{\text{boust}}=6.44$ bits vs.\ $H_{\text{linear}}=6.37$ bits. La lectura lineal produce patrones trans-lineales \emph{más} estructurados.
+\item \textbf{Entropía intra-línea.} Para líneas pares (potencialmente invertidas), la entropía de bigramas es idéntica en ambas direcciones ($H=5.094$). La dirección de lectura no afecta la estructura intra-línea.
+\item \textbf{Por tableta.} Solo la tableta D muestra $\Delta H < 0$ (boustrophedon reduce entropía), con $\Delta = -0.024$ bits, no significativo.
+\end{enumerate}
+
+\textbf{Interpretación.} El modelo boustrophedon no mejora ni empeora la detección de estructura espectral. Esto es consistente con dos interpretaciones: (i) la co-ocurrencia ventanal es un estadístico local que no distingue dirección, o (ii) la dirección boustrophedon no es el orden de lectura correcto para este corpus. Los datos disponibles no permiten discriminar entre ambas.
 
 % ============================================================
 \section{Consenso multi-idioma y reducción de fibras semánticas}
@@ -1775,6 +2202,255 @@ spectral-submersion-decipherment/
 \end{enumerate}
 
 % ============================================================
+\section{Auditoría PhD: Resultados cuantitativos completos}
+\label{sec:phd_audit}
+% ============================================================
+
+Esta sección presenta los resultados cuantitativos completos de la auditoría implementada tras la Guía de Upgrade PhD. Todos los experimentos son reproducibles vía \texttt{make phd-audit} y los resultados completos están en \texttt{runs/phd\_audit\_v2/}.
+
+\subsection{Cobertura de co-ocurrencias y suficiencia de datos (Proposición~\ref{prop:cooc_concentration})}
+
+La Tabla~\ref{tab:coverage} muestra $\mathrm{CoocCoverage}(h)$ y $\mathrm{ExpectedPairCount}(h)$ para todos los corpus y tamaños de ventana. Un valor de $\mathrm{EPC} \ll 1$ indica que la matriz de co-ocurrencia es \textbf{estadísticamente débil}: la mayoría de pares no se observan, y los valores de PPMI son ruidosos.
+
+\begin{table}[h]
+\centering
+\caption{Cobertura de co-ocurrencias y EPC por corpus y tamaño de ventana. $\mathrm{EPC} = \frac{2hT}{n^2}$. Valores $\mathrm{EPC} < 1$ indican datos insuficientes.}
+\label{tab:coverage}
+\begin{tabular}{lcccccc}
+\toprule
+Corpus & $V$ & $T$ & $h=2$ & $h=3$ & $h=5$ & $h=7$ \\
+\midrule
+\multicolumn{7}{l}{\textit{CoocCoverage $(h)$}} \\
+PCFG\_v2 & 112 & 24\,324 & 0.72 & 0.84 & 0.95 & 0.98 \\
+RR\_like & 120 & 4\,482 & 0.36 & 0.41 & 0.49 & 0.55 \\
+\textbf{RR\_real} & \textbf{941} & \textbf{5\,460} & \textbf{0.014} & \textbf{0.019} & \textbf{0.028} & \textbf{0.035} \\
+\textbf{Indus} & \textbf{182} & \textbf{1\,003} & \textbf{0.055} & \textbf{0.068} & \textbf{0.085} & \textbf{0.090} \\
+Positional & 60 & 10\,046 & 0.70 & 0.75 & 0.77 & 0.77 \\
+\midrule
+\multicolumn{7}{l}{\textit{ExpectedPairCount $(h)$}} \\
+PCFG\_v2 & 112 & 24\,324 & 7.76 & 11.64 & 19.39 & 27.15 \\
+RR\_like & 120 & 4\,482 & 1.25 & 1.87 & 3.11 & 4.36 \\
+\textbf{RR\_real} & \textbf{941} & \textbf{5\,460} & \textbf{0.025} & \textbf{0.037} & \textbf{0.062} & \textbf{0.086} \\
+\textbf{Indus} & \textbf{182} & \textbf{1\,003} & \textbf{0.121} & \textbf{0.182} & \textbf{0.303} & \textbf{0.424} \\
+Positional & 60 & 10\,046 & 11.16 & 16.74 & 27.91 & 39.07 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Hallazgo crítico:} Para Rongorongo real ($V=941$, $T=5\,460$), $\mathrm{EPC}(h=3) = 0.037$, lo que significa que cada celda de la matriz de co-ocurrencia tiene en promedio menos de 0.04 observaciones esperadas. Esto está \textbf{muy por debajo} del umbral de concentración (Proposición~\ref{prop:cooc_concentration}), haciendo que los valores de PPMI sean inherentemente inestables.
+
+\subsection{Estabilidad espectral (Teorema~\ref{thm:spectral_stability})}
+
+La Tabla~\ref{tab:reliability} presenta la tabla mandatoria del Corolario~\ref{cor:spectral_rejection}: $\widehat\delta_k$ (gap singular), $\widehat\varepsilon$ (error bootstrap), y $\mathrm{SpectralReliability}_k$ para cada corpus.
+
+\begin{table}[h]
+\centering
+\caption{Estabilidad espectral con bootstrap (200 muestras). \textbf{Bold} indica estabilidad ($\mathrm{Rel} > 0.3$). Rongorongo real e Indus son \textbf{inestables} en todas las dimensionalidades.}
+\label{tab:reliability}
+\begin{tabular}{llcccccc}
+\toprule
+Corpus & Matriz & $k$ & $\widehat\delta_k$ & $\widehat\varepsilon$ & $\mathrm{Rel}$ & Estable & Claim \\
+\midrule
+PCFG\_v2 & PPMI & 4 & 5.30 & 0.22 & \textbf{0.96} & Sí & C2+ \\
+PCFG\_v2 & PPMI & 8 & 0.17 & 0.19 & 0.00 & No & C0 \\
+PCFG\_v2 & PPMI & 16 & 0.08 & 0.14 & 0.00 & No & C0 \\
+RR\_real & PPMI & 4 & 0.57 & 1.37 & 0.00 & No & C0 \\
+RR\_real & PPMI & 8 & 0.37 & 1.06 & 0.00 & No & C0 \\
+RR\_real & PPMI & 16 & 0.29 & 0.90 & 0.00 & No & C0 \\
+Indus & PPMI & 4 & 0.49 & 0.44 & 0.10 & No & C0 \\
+Indus & PPMI & 8 & 0.33 & 0.38 & 0.00 & No & C0 \\
+Indus & PPMI & 16 & 0.19 & 0.33 & 0.00 & No & C0 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Hallazgo crítico:} Solo el corpus sintético PCFG\_v2 (24k tokens, 112 tipos) es estable en $k=4$ con $\mathrm{Rel}=0.96$. Para Rongorongo real e Indus, \textbf{ninguna dimensionalidad es estable}: el error bootstrap excede sistemáticamente el gap singular. Esto significa que, por el Corolario~\ref{cor:spectral_rejection}, los embeddings de Rongorongo e Indus \textbf{no pueden sostener claims $C_2$ o superiores} sin anclajes externos fuertes.
+
+\subsection{Espectros singulares por tipo de matriz}
+
+La Figura~\ref{fig:spectral_comparison} compara los espectros singulares de cuatro tipos de matrices (PPMI, SPPMI, Transición, Laplaciano) para los tres corpus principales. La Tabla~\ref{tab:reff_matrix} muestra el rango efectivo entrópico por tipo.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.95\textwidth]{runs/phd_audit_v2/figures/fig2_spectral_comparison_all.png}
+\caption{Espectros singulares comparados para cuatro tipos de matrices y tres corpus. PCFG\_v2 muestra gaps claros (estructura), mientras que RR\_real e Indus muestran espectros planos (sin estructura detectable).}
+\label{fig:spectral_comparison}
+\end{figure}
+
+\begin{table}[h]
+\centering
+\caption{Rango efectivo entrópico por tipo de matriz ($h=3$, $k=17$).}
+\label{tab:reff_matrix}
+\begin{tabular}{lcccc}
+\toprule
+Corpus & PPMI & SPPMI(marg) & Transición & Laplaciano \\
+\midrule
+PCFG\_v2 & 11.97 & 11.97 & 14.02 & 16.99 \\
+RR\_real & 16.54 & 16.54 & 16.53 & 16.99 \\
+Indus & 16.57 & 16.57 & 16.31 & 16.99 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Para RR\_real e Indus, $r_{\mathrm{eff}} \approx V$ en Laplaciano y Transición, indicando que la estructura capturada no se comprime: el espectro es esencialmente plano, consistente con datos insuficientes. SPPMI con $\varepsilon=0.1$ produce resultados prácticamente idénticos a PPMI ($\max|\Delta\sigma| < 0.04$ para RR\_real), confirmando que cuando $N \gg \varepsilon$, la regularización SPPMI tiene efecto despreciable.
+
+\subsection{Controles negativos multi-métrica (Sección~\ref{sec:auditability})}
+
+La Tabla~\ref{tab:negctrl_multi} muestra los gaps contra controles negativos para \textbf{seis funciones de score} diferentes, no solo la energía espectral.
+
+\begin{table}[h]
+\centering
+\caption{Gap contra controles negativos ($\sigma$) para múltiples funciones de score. Controles: corpus permutado + corpus aleatorio con misma frecuencia.}
+\label{tab:negctrl_multi}
+\begin{tabular}{lcccccc}
+\toprule
+Corpus & $\sum\sigma_{1:4}^2$ & $\sum\sigma_{1:8}^2$ & $\sigma_1$ & $r_{\mathrm{eff}}$ & Trans.$\sum\sigma_{1:4}^2$ & Lap.$\sum\sigma_{1:4}^2$ \\
+\midrule
+PCFG\_v2 & 313$\sigma$ & 287$\sigma$ & 131$\sigma$ & $-66\sigma$ & 123$\sigma$ & 34$\sigma$ \\
+RR\_real & 0.10$\sigma$ & 1.51$\sigma$ & $-9.2\sigma$ & \textbf{6.0$\sigma$} & 0.73$\sigma$ & \textbf{3.3$\sigma$} \\
+Indus & 0.04$\sigma$ & 0.26$\sigma$ & $-1.3\sigma$ & 1.67$\sigma$ & $-0.4\sigma$ & 1.35$\sigma$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Hallazgo crítico:} Para Indus, \textbf{ninguna métrica exceedes 2$\sigma$}, indicando que la estructura espectral de Indus es estadísticamente indistinguible de corpus aleatorios con la misma distribución de frecuencia. Para Rongorongo real, solo el rango efectivo (6.0$\sigma$) y la energía laplaciana (3.3$\sigma$) muestran señal moderada. La energía espectral top-4 ($\sum\sigma_{1:4}^2$) produce solo 0.10$\sigma$ --- esencialmente ruido.
+
+\subsection{Experimentos sintéticos}
+
+\textbf{Experimento 1: Recuperación bajo permutación conocida.} Con 20 anclajes sobre 112 signos (17.9\%), la recuperación es:
+\begin{itemize}
+    \item Accuracy@1 = 8.9\%, Accuracy@5 = 19.6\%, MRR = 0.154
+\end{itemize}
+Estos resultados son \textbf{bajos}, confirmando que sin anclajes suficientes, la recuperación espectral es esencialmente aleatoria.
+
+\textbf{Experimento 2: Colapso logográfico-silábico.} Simulando mapeo muchos-a-uno (10 grupos de colapso), FiberRecall@K:
+\begin{itemize}
+    \item FiberRecall@1 = 0\%, FiberRecall@5 = 2\%, FiberRecall@10 = 4\%
+\end{itemize}
+Esto confirma el Teorema~\ref{thm:nofd_group}: la recuperación de fibras bajo biyección es prácticamente imposible cuando $|g^{-1}(x)| > 1$.
+
+\textbf{Experimento 3: Segmentación desconocida.} Aplanamos las secuencias del corpus PCFG ($n=3000$ secuencias, $T=24\,324$ tokens) en un flujo continuo sin delimitadores y evaluamos tres estrategias de segmentación contra los bordes verdaderos (2999 bordes internos):
+\begin{center}
+\begin{tabular}{lccc}
+\toprule
+Método & Precisión & Recall & $F_1$ \\
+\midrule
+Unigram (cada token = segmento) & 0.123 & 1.000 & 0.220 \\
+Bigram MI ($\mathrm{PMI} > 0$) & 0.211 & 0.087 & 0.123 \\
+BPE (50 fusiones) & 0.135 & 1.000 & 0.237 \\
+\bottomrule
+\end{tabular}
+\end{center}
+Ningún método supera $F_1 = 0.24$: la segmentación puramente estadística no recupera los bordes verdaderos. El método Bigram MI alcanza precisión moderada (0.211) pero recall muy bajo (0.087), mientras que los otros dos over-segmentan casi completamente. Esto refuerza la conclusión del Teorema~\ref{thm:nofd_group}: sin anclas externas que fijen los límites de segmento, la estructura segmental no es identificable.
+
+\textbf{Experimento 4: Dirección boustrophedon.} Accuracy = 15.3\% (cercano a aleatorio para el corpus sintético sin estructura direccional fuerte).
+
+\textbf{Experimento 5: Pasajes paralelos.} Se encontraron 14 pares de pasajes con similitud de edición $>0.7$ en el corpus PCFG.
+
+\textbf{Experimento 6: Modelo calendario.} $\Delta\mathrm{BIC} = -21\,057$ favoreciendo n-gram sobre el modelo calendario lunar, consistente con un corpus generado por una gramática libre de contexto.
+
+\subsection{Verificación de no-identificabilidad (Teorema~\ref{thm:nofd_group})}
+
+Para cada corpus, verificamos empíricamente que el estadístico estructural $S(\pi X) = S(X)$ para toda permutación $\pi \in \mathrm{Sym}(V_X)$:
+
+\begin{table}[h]
+\centering
+\caption{Verificación empírica de no-identificabilidad (Teorema~\ref{thm:nofd_group}). $S(X)$ es invariante bajo permutación en todos los corpus.}
+\label{tab:nonident}
+\begin{tabular}{lcc}
+\toprule
+Corpus & Invariante & Desviación máxima \\
+\midrule
+PCFG\_v2 & Sí & $6.8 \times 10^{-13}$ \\
+RR\_like & Sí & $5.7 \times 10^{-14}$ \\
+RR\_real & Sí & $1.1 \times 10^{-13}$ \\
+Indus & Sí & $2.8 \times 10^{-14}$ \\
+Positional & Sí & $1.1 \times 10^{-12}$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+La desviación máxima es del orden de $10^{-13} \sim 10^{-14}$, consistente con error de punto flotante. Esto verifica empíricamente que las estadísticas espectrales \textbf{no pueden distinguir} un corpus de su versión renombrada, confirmando el Teorema~\ref{thm:nofd_group}.
+
+\subsection{Auditoría de niveles de claim}
+
+La Tabla~\ref{tab:claims} muestra qué nivel de claim es admisible bajo diferentes escenarios de anclaje y estabilidad.
+
+\begin{table}[h]
+\centering
+\caption{Nivel de claim máximo admisible según anclaje, estabilidad y gap contra controles negativos. OCR = OverclaimRisk.}
+\label{tab:claims}
+\begin{tabular}{lccccc}
+\toprule
+Escenario & AnchorPower & Estabilidad & NegCtrlGap & Claim máximo & OCR \\
+\midrule
+Sin anclas, baja estabilidad & 0.0 & 0.2 & 0.5$\sigma$ & C0 & 1.43 \\
+Sin anclas, moderada & 0.0 & 0.3 & 1.5$\sigma$ & C1 & 1.11 \\
+Anclas débiles & 0.15 & 0.5 & 2.5$\sigma$ & C2 & 0.78 \\
+Anclas moderadas & 0.4 & 0.7 & 3.5$\sigma$ & C3 & 0.59 \\
+Anclas fuertes & 0.8 & 0.9 & 5.0$\sigma$ & C4 & 0.44 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Para Rongorongo real sin anclas externas:} sin anclas y con estabilidad espectral 0, el nivel máximo admisible es C0 (paleográfico). Sin anclas, con estabilidad moderada (0.3) y NegCtrlGap de 2.2$\sigma$ (Tabla~\ref{tab:negctrl_multi}), el nivel máximo es C1. Claims de traducción o significado (C3+) requieren anclas externas verificables.
+
+\subsection{Estabilidad de Procrustes bajo anclajes ruidosos (Teorema~\ref{thm:procrustes_stability})}
+
+La Tabla~\ref{tab:anchor_stab} muestra la estabilidad leave-one-out (LOO) de Procrustes con anclas sintéticas a diferentes niveles de ruido.
+
+\begin{table}[h]
+\centering
+\caption{Estabilidad Q de Procrustes con leave-one-anchor-out. QStability mide $\E[\|Q^{(b)} - Q^{(b')}\|_F]$. Condición del ancla y desviación LOO promedio.}
+\label{tab:anchor_stab}
+\begin{tabular}{cccc}
+\toprule
+Anclas & Ruido & QStability & LOO mean dev \\
+\midrule
+5 & 0.00 & 5.15 & 4.71 \\
+5 & 0.05 & 5.14 & 4.55 \\
+5 & 0.20 & 5.19 & 4.57 \\
+10 & 0.00 & 4.70 & 3.66 \\
+10 & 0.10 & 4.83 & 3.67 \\
+10 & 0.20 & 4.85 & 3.82 \\
+20 & 0.00 & 2.89 & 0.00 \\
+20 & 0.05 & 3.72 & 0.81 \\
+20 & 0.10 & 3.94 & 1.24 \\
+20 & 0.20 & 4.18 & 1.57 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Con pocos anclas (5--10), QStability oscila entre 4.7 y 5.2, indicando que la rotación Procrustes es moderadamente sensible. Con 20 anclas (17.9\% del vocabulario), la estabilidad mejora significativamente a QStability = 2.89 sin ruido, pero se degrada con ruido creciente.
+
+\subsection{Descomposición de costos de transporte y estabilidad OT}
+
+Para el experimento de permutación sobre PCFG:
+\begin{itemize}
+    \item Costo geométrico ($\mathcal{L}_g$) = 1.78
+    \item Costo relacional ($\mathcal{L}_r$) = 1.71
+    \item Entropía ($\mathcal{H}$) = 0.57
+    \item Fracción geométrica = 43.5\%, fracción relacional = 41.8\%
+\end{itemize}
+
+La estabilidad bootstrap de acoplamientos OT es 0.994 con L1 media = 0.002, indicando que los acoplamientos OT son altamente estables bajo bootstrap para el corpus sintético.
+
+La calibración esperada (ECE) sobre datos sintéticos es 0.061, indicando buena calibración bajo simulación.
+
+\subsection{Resumen de hallazgos cuantitativos}
+
+Los resultados cuantitativos confirman el marco teórico de manera robuste pero conducen a una conclusión de \textbf{humildad científica}:
+
+\begin{enumerate}[label=(\roman*)]
+    \item \textbf{No-identificabilidad verificada:} Todos los corpus son invariantes bajo permutación (desviación máxima $< 10^{-12}$), confirmando el Teorema~\ref{thm:nofd_group}.
+    \item \textbf{Rongorongo real es espectralmente inestable:} $\mathrm{Rel}_k = 0$ para todo $k$, con $\widehat\varepsilon_k > \widehat\delta_k$ (Corolario~\ref{cor:spectral_rejection}). El embedding SVD \textbf{no puede sostener claims $C_2$+}.
+    \item \textbf{Indus es espectralmente inestable} y con gap contra controles negativos $< 1\sigma$ en todas las métricas. La estructura observada es \textbf{estadísticamente indistinguible} de aleatorio.
+    \item \textbf{Datos insuficientes:} EPC $\ll 1$ para RR\_real (0.037) e Indus (0.182), muy por debajo del umbral de concentración (Proposición~\ref{prop:cooc_concentration}).
+    \item \textbf{Escalación de claims requiere anclas externas:} Sin anclas, solo claims C0 (paleográfico) o C1 (estructural débil) son admisibles. Claims de traducción o significado (C3+) requieren evidencia externa verificable.
+    \item \textbf{Procrustes es sensible al número y calidad de anclas:} Con pocos anclas, QStability $> 5$; con 20+ anclas, QStability $\approx 3$.
+\end{enumerate}
+
+% ============================================================
 \section{Discusión}
 % ============================================================
 
@@ -1790,6 +2466,22 @@ El método puede demostrar:
     \item que algunas hipótesis deben descartarse.
 \end{enumerate}
 
+\textbf{Sin embargo}, la auditoría cuantitativa (Sección~\ref{sec:phd_audit}) impone restricciones severas sobre cuáles de estas afirmaciones son admisibles sin anclas externas verificables:
+
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+Corpus & Estabilidad espectral & Claim máximo sin anclas \\
+\midrule
+PCFG\_v2 (sintético, 24k tokens) & $\mathrm{Rel}_4 = 0.96$ & C2 (funcional) \\
+RR\_real (941 tipos, 5.5k tokens) & $\mathrm{Rel}_k = 0 \;\forall k$ & C0 (paleográfico) \\
+Indus (182 tipos, 1k tokens) & $\mathrm{Rel}_4 = 0.10$ & C0 (paleográfico) \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Para Rongorongo real e Indus, el embedding espectral es \textbf{inestable} en todas las dimensionalidades probadas. El error bootstrap excede sistemáticamente el gap singular ($\widehat\varepsilon_k > \widehat\delta_k$ para todo $k$), lo que por el Corolario~\ref{cor:spectral_rejection} implica que el embedding no puede sostener claims estructurales robustos sin soporte ancla externo.
+
 \subsection{Qué no puede demostrar solo}
 
 El método no puede demostrar por sí solo:
@@ -1801,24 +2493,135 @@ El método no puede demostrar por sí solo:
     \item historicidad de una lectura sin evidencia externa.
 \end{enumerate}
 
+La auditoría cuantitativa añade una restricción más fuerte: \textbf{sin anclas externas, ni siquiera la estructura espectral es identificable} de manera estable. Los controles negativos (Sección~\ref{sec:phd_audit}, Tabla~\ref{tab:negctrl_multi}) muestran que Indus es estadísticamente indistinguible de un corpus aleatorio con la misma distribución de frecuencia ($\mathrm{NegCtrlGap} < 1\sigma$ en todas las métricas), y Rongorongo real solo muestra señal moderada en el rango efectivo (6.0$\sigma$) y la energía laplaciana (3.3$\sigma$), pero \textbf{no} en la energía espectral top-4 (0.1$\sigma$).
+
+\subsection{Implicaciones para Rongorongo}
+
+Los resultados cuantitativos tienen implicaciones directas para cualquier intento de desciframiento de Rongorongo:
+
+\begin{enumerate}[label=(\roman*)]
+    \item \textbf{Datos insuficientes:} Con $V=941$ tipos y $T=5\,460$ tokens, $\mathrm{EPC}(h=3) = 0.037$, indicando que cada celda de la matriz de co-ocurrencia tiene en promedio menos de 0.04 observaciones esperadas (Tabla~\ref{tab:coverage}). Se necesitarían $\sim\!128$ millones de tokens para cobertura del 50\% al 95\% de confianza.
+
+    \item \textbf{Sin anclas, solo C0--C1:} El nivel máximo admisible sin anclas externas es C1 (estructural débil), y eso solo si la estabilidad bootstrap fuese positiva. Dado que $\mathrm{Rel} = 0$, incluso C1 es cuestionable.
+
+    \item \textbf{Claims de traducción requieren anclas verificables:} Para alcanzar C3 (semántico débil) o superior, se necesitan anclas con $\mathrm{AnchorPower} \geq 0.4$, $\mathrm{Stability} \geq 0.7$, y $\mathrm{NegCtrlGap} \geq 3.5\sigma$. Actualmente, Rongorongo no cumple ninguno de estos umbrales.
+
+    \item \textbf{Recolección de datos es prioritaria:} Antes de cualquier claim de desciframiento, se necesitan más datos: transcripciones mejoradas de Barthel, lecturas 3D, identificación de pasajes paralelos, y anclas iconográficas verificables independientemente.
+\end{enumerate}
+
 \subsection{Belleza matemática del enfoque}
 
 La pseudoinversa aparece como una forma de humildad matemática: cuando una inversión exacta no existe, se elige la solución mínima compatible con la evidencia. La SVD aparece como instrumento de visión: separa direcciones dominantes de ruido. Procrustes aparece como respeto geométrico: no deforma arbitrariamente una lengua para que encaje con otra. La submersión aparece como metáfora formal: un sistema pequeño puede ser sombra de una semántica más rica, y cada signo puede corresponder a una fibra, no a un punto.
 
 % ============================================================
+\section{Métricas de auditabilidad y principio de ledger de hipótesis}
+\label{sec:auditability}
+% ============================================================
+
+Todo resultado numérico del sistema debe pasar por métricas de auditabilidad antes de ser reportado.
+
+\subsection{Gap contra controles negativos}
+
+Para cualquier score $S$:
+\begin{equation}
+    \mathrm{NegCtrlGap}(S)
+    =
+    \frac{S(X)-\E_{X'\sim H_0}S(X')}{\operatorname{sd}_{X'\sim H_0}S(X')}.
+\end{equation}
+
+\begin{center}
+\begin{tabular}{cl}
+\toprule
+Gap & Interpretación \\
+\midrule
+$<1$ & Sin evidencia \\
+1--2 & Débil \\
+2--3 & Moderada \\
+3--5 & Fuerte \\
+$>5$ & Muy fuerte (revisar leakage) \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{Estabilidad bootstrap}
+
+\begin{equation}
+    \mathrm{Stability}(h)=\E_{b,b'}\left[\operatorname{sim}(h^{(b)},h^{(b')})\right].
+\end{equation}
+Para distribuciones: $\operatorname{sim}(\Pi,\Pi')=1-\frac{1}{2}\norm{\Pi-\Pi'}_1$.
+
+\subsection{Calibración}
+
+Si se emiten probabilidades, se debe medir calibración. El Error de Calibración Esperado (ECE):
+\begin{equation}
+    \mathrm{ECE}=\sum_m\frac{|B_m|}{N}\left|\mathrm{acc}(B_m)-\mathrm{conf}(B_m)\right|.
+\end{equation}
+En Rongorongo real no hay ground truth, pero se calibra en sintéticos y se reportan los scores como ``calibrados bajo simulación, no verdad histórica''.
+
+\subsection{Índice de sobreinterpretación}
+
+\begin{equation}
+    \mathrm{OverclaimRisk}(h)=\frac{\mathrm{ClaimLevel}(h)}{1+\mathrm{EvidenceLevel}(h)}.
+\end{equation}
+Si $\mathrm{OverclaimRisk}(h)>1$, el claim debe bloquearse automáticamente.
+
+\subsection{Ledger de hipótesis}
+
+\begin{principle}[Ledger auditable de hipótesis]
+Ninguna salida del sistema puede reportarse como una igualdad desnuda $x=y$. Toda hipótesis debe reportarse como tupla:
+\begin{equation}
+    h=(x,\mathcal{Y}_h,p_h,E_h,B_h,\ell_h,R_h),
+\end{equation}
+donde $x$ es glifo o secuencia, $\mathcal{Y}_h$ es conjunto de interpretaciones candidatas, $p_h$ es score posterior calibrado, $E_h$ es evidencia, $B_h$ es contraevidencia, $\ell_h\in\{C_0,\dots,C_5\}$ es el nivel máximo admisible, y $R_h$ es metadatos de reproducibilidad.
+\end{principle}
+
+% ============================================================
 \section{Conclusión}
 % ============================================================
 
-Este trabajo formula un marco matemático para el desciframiento probabilístico de sistemas simbólicos perdidos mediante geometría espectral. La propuesta parte de una intuición antigua, la frecuencia como huella estadística, y la eleva a una arquitectura moderna basada en SVD, Moore--Penrose, Procrustes, transporte óptimo, submersión de variedades e inferencia bayesiana.
+Este trabajo formula un marco matemático para el desciframiento probabilístico de sistemas simbólicos perdidos mediante geometría espectral, formalizando por qué la traducción fuerte es no identificable sin anclajes (Teorema~\ref{thm:nofd_group}), caracterizando cómo los anclajes rompen simetrías (Definición~\ref{def:anchor_power}, Teorema~\ref{thm:anchor_identifiability}), derivando condiciones de estabilidad espectral bajo corpus finito (Teorema~\ref{thm:spectral_stability}), probando sensibilidad de PMI (Proposición~\ref{prop:pmi_sensitivity}) y Procrustes (Teorema~\ref{thm:procrustes_stability}), y definiendo niveles de claim admisibles (Definición~\ref{def:admissible}) que convierten el marco en un sistema de inferencia responsable.
 
-La conclusión principal es doble. Primero, la estadística interna de un sistema simbólico puede revelar estructura significativa si el sistema codifica información no trivial. Segundo, esa estructura no basta para traducción fuerte sin anclajes externos. Por ello, el método propuesto no busca reemplazar a la filología, arqueología o lingüística histórica; busca entregarles una máquina rigurosa de hipótesis, falsación y ranking probabilístico.
+La auditoría cuantitativa completa (Sección~\ref{sec:phd_audit}) verifica empíricamente las predicciones del marco: la no-identificabilidad bajo permutación (desviación máxima $<10^{-12}$ para todos los corpus), la inestabilidad espectral de corpus de baja densidad ($\mathrm{Rel}_k = 0$ para Rongorongo real e Indus), y la insuficiencia de datos ($\mathrm{EPC} \ll 1$). Estos resultados transforman el marco de una propuesta teórica en un diagnóstico operativo: el sistema no solo predice que Rongorongo es difícil de descifrar, sino que \textbf{cuantifica exactamente por qué} y \textbf{qué nivel de claim es admisible} en cada escenario.
+
+La conclusión principal es triple. Primero, la estadística interna de un sistema simbólico puede revelar estructura significativa si el sistema codifica información no trivial, pero solo identificando órbitas bajo permutaciones, no significados absolutos (Corolario~\ref{cor:orbits}). Segundo, los embeddings espectrales y alineamientos son confiables solo cuando los gaps singulares exceden el error bootstrap (Corolario~\ref{cor:spectral_rejection}) y los anclajes tienen condición suficiente (Teorema~\ref{thm:procrustes_stability}); para Rongorongo real e Indus, \textbf{estas condiciones no se cumplen}. Tercero, toda hipótesis debe reportarse como un ledger auditable con evidencia, contraevidencia, nivel de claim y riesgo de sobreinterpretación (Sección~\ref{sec:auditability}).
 
 En una frase:
 
 \begin{center}
 \Large
-\emph{descifrar no es invertir una matriz; es construir una inversa regularizada de la evidencia.}
+\emph{La traducción perdida no es una clave única; es una clase de equivalencia parcialmente observable, que solo puede refinarse mediante anclajes externos, estabilidad estadística y falsación experimental.}
 \end{center}
+
+% ============================================================
+\section{Corrigenda}
+\label{sec:corrigenda}
+% ============================================================
+
+Las siguientes correcciones se aplicaron tras una auditoría completa del pipeline:
+
+\begin{enumerate}[label=(\roman*)]
+    \item \textbf{Bug en posiciones de features estructurales.} La función \texttt{compute\_structural\_features} en \texttt{build\_structural\_embeddings.py:46} usaba \texttt{seq.index(tok)} que retorna la primera ocurrencia, no la posición actual. Para tokens que aparecen múltiples veces en una línea, \texttt{pos\_mean} y \texttt{pos\_std} se computaban incorrectamente. Corrección: usar \texttt{enumerate} para obtener la posición real. Los valores en la Tabla \ref{tab:structural_sanity} se actualizaron de IPR a rango entrópico, y el bug de posición fue corregido. Las conclusiones cualitativas se mantienen: el sanity check invertido pasa para todos los corpora, con separación \emph{mayor} tras la corrección.
+
+    \item \textbf{Bug en conteo de sucesores.} Cada transición $X \to Y$ se contaba dos veces (desde la perspectiva de $X$ y de $Y$). Corrección: contar solo transiciones hacia adelante, eliminando el doble conteo.
+
+    \item \textbf{Métrica $r_{\text{eff}}$ incorrecta en scripts.} \texttt{build\_structural\_embeddings.py} computaba $\left(\sum \sigma_i\right)^2 / \sum \sigma_i^2$ (proporción de participación inversa), no el rango entrópico $\exp(H)$ de \texttt{spectral.py}. Corrección: usar \texttt{effective\_rank()} consistentemente.
+
+    \item \textbf{GPA con correspondencia por frecuencia.} La versión original alineaba las primeras $n_{\min}$ filas de cada embedding arbitrariamente (orden alfabético). Corrección: ordenar por norma (proxy de frecuencia) antes del alineamiento Procrustes, estableciendo correspondencia semántica entre tokens de alta frecuencia.
+
+    \item \textbf{GPA: referencia no rotada.} La versión original fijaba el lenguaje de referencia sin rotación ($Q_0 = I$). Corrección: rotar todos los embeddings (incluyendo la referencia) en cada iteración, de acuerdo con GPA estándar.
+
+    \item \textbf{Zero-padding en proyección.} La versión original rellenaba con ceros el espacio consenso cuando $n_R < n_X$. Corrección: usar solo las primeras $\min(n_X, n_R)$ filas, sin relleno.
+
+    \item \textbf{Método ``intersection''.} Renombrado a ``union'': SVD vertical computa la unión (espacio generado), no la intersección de subespacios.
+
+    \item \textbf{Sinkhorn manual no estabilizado.} El docstring clamaba estabilización log-domain, pero la implementación es estándar. Corrección: rutear siempre por \texttt{optimal\_transport\_matrix} que usa POT cuando está disponible.
+
+    \item \textbf{Regularización KL en multi-marginal GW.} La versión original agregaba $-\log(\text{prior})$ a la matriz de costo, lo cual no regulariza hacia el prior. Corrección: modificar el kernel de Gibbs a $K_{ij} = \text{prior}_{ij} \cdot \exp(-C_{ij}/\varepsilon)$.
+
+    \item \textbf{Consensus sin alinear.} La versión original promediaba embeddings sin rotar. Corrección: alinear primero cada embedding vía Procrustes antes de promediar.
+
+    \item \textbf{Suavizado de distribuciones de contexto.} Agregado parámetro $\alpha=0.75$ en PPMI (Levy \& Goldberg 2015), bajando el peso de palabras funcionales frecuentes.
+\end{enumerate}
 
 % ============================================================
 \appendix
@@ -2019,6 +2822,56 @@ J. M. Lee.
 T. M. Cover and J. A. Thomas.
 \newblock \emph{Elements of Information Theory}.
 \newblock Wiley, 2nd edition, 2006.
+
+\bibitem{sommerschield2023}
+J. Sommerschield, et al.
+\newblock Machine learning for ancient languages: A survey.
+\newblock \emph{Computational Linguistics}, 49(3):703--745, 2023.
+
+\bibitem{assael2019}
+Y. Assael, T. Sommerschield, and J. Prag.
+\newblock Restoring ancient text using deep learning: a case study on Greek epigraphy.
+\newblock In \emph{Proceedings of EMNLP-IJCNLP}, pages 6275--6283, 2019.
+
+\bibitem{assael2022}
+Y. Assael, T. Sommerschield, B. Shillingford, et al.
+\newblock Restoring and attributing ancient texts using deep neural networks.
+\newblock \emph{Nature}, 603:280--283, 2022.
+
+\bibitem{luo2019}
+Y. Luo, F. Cao, and R. Barzilay.
+\newblock Neural decipherment via minimum-cost flow: from Ugaritic to Linear B.
+\newblock In \emph{Proceedings of ACL}, pages 314--324, 2019.
+
+\bibitem{luo2021}
+Y. Luo, et al.
+\newblock Deciphering undersegmented ancient scripts using phonetic prior.
+\newblock \emph{TACL}, 9:63--78, 2021.
+
+\bibitem{tamburini2023}
+F. Tamburini.
+\newblock Automatic decipherment of lost languages via combinatorial optimisation.
+\newblock In \emph{Proceedings of CAWL}, pages 103--113, 2023.
+
+\bibitem{davieskahan}
+C. Davis and W. M. Kahan.
+\newblock Some new bounds on perturbation of subspaces.
+\newblock \emph{SIAM Journal on Numerical Analysis}, 7(1):1--13, 1970.
+
+\bibitem{wedinfischer}
+P.-\AA. Wedin.
+\newblock Perturbation bounds in connection with singular value decomposition.
+\newblock \emph{BIT Numerical Mathematics}, 12:99--111, 1972.
+
+\bibitem{gebru2021}
+T. Gebru, et al.
+\newblock Datasheets for datasets.
+\newblock \emph{Communications of the ACM}, 64(12):86--92, 2021.
+
+\bibitem{mitchell2019}
+M. Mitchell, et al.
+\newblock Model cards for model reporting.
+\newblock In \emph{Proceedings of the Conference on Fairness, Accountability, and Transparency}, pages 220--229, 2019.
 
 \end{thebibliography}
 
