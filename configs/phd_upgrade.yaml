@@ -1,0 +1,145 @@
+# PhD Upgrade Configuration: Full auditable pipeline
+# Follows guia_phd_upgrade_submersion_espectral_rongorongo
+
+project:
+  name: spectral-submersion-phd
+  version: "0.2.0"
+  seed: 42
+  git_track: true
+
+# Corpus configuration with uncertainty
+corpus:
+  source: barthel_numeric
+  include_uncertain: false
+  direction_correction: true
+  paleographic_uncertainty: true
+  min_confidence: 0.5
+
+# Rongorongo-specific
+rongorongo:
+  artifacts:
+    - id: A
+      name: Tahua
+      side: r
+      direction: reverse_boustrophedon
+    - id: B
+      name: Aruku Kurenga
+      side: r
+      direction: reverse_boustrophedon
+    - id: C
+      name: Mamari
+      side: r
+      direction: reverse_boustrophedon
+    - id: D
+      name: Échancrée
+      side: r
+      direction: reverse_boustrophedon
+    - id: E
+      name: Keiti
+      side: r
+      direction: reverse_boustrophedon
+    - id: H
+      name: Honolulu
+      side: r
+      direction: reverse_boustrophedon
+
+# Co-occurrence and PMI with PhD upgrades
+cooccurrence:
+  window_sizes: [1, 2, 3, 5]
+  direction: both
+  weighting: inverse_distance
+
+matrix:
+  type: sppmi
+  epsilon: 0.1
+  prior_type: marginal_product
+  alpha: 0.75
+  k_neg: 1.0
+
+# Spectral embedding with stability analysis
+spectral:
+  k_values: [4, 8, 16, 32]
+  alpha: 0.5
+  bootstrap_samples: 200
+  rejection_rule: true
+  min_reliability: 0.3
+
+# Alignment with Procrustes stability
+alignment:
+  method: gromov_wasserstein
+  procrustes_stability:
+    n_bootstrap: 200
+    leave_one_out: true
+  anchor_testing:
+    fractions: [0.1, 0.2, 0.3, 0.5]
+
+# Transport with auditable decomposition
+transport:
+  method: gromov_wasserstein
+  entropy_epsilon: [0.01, 0.05, 0.1]
+  seeds: 20
+  cost_decomposition: true
+  report_sensitivity: true
+
+# Claim levels and auditability
+claims:
+  max_claim_level_without_external_anchor: C2_FUNCTIONAL
+  require_negative_control_gap: 2.0
+  require_bootstrap_stability: 0.7
+  require_spectral_reliability: 0.3
+  block_c5_without_external_evidence: true
+
+# Negative controls
+negative_controls:
+  - permute_corpus
+  - same_frequency
+  - uniform_random
+
+# Synthetic experiments
+experiments:
+  permutation_recovery:
+    enabled: true
+    n_anchors: [5, 10, 20, 50]
+  logosyllabic_collapse:
+    enabled: true
+    collapse_ratios: [2, 3, 5]
+  boustrophedon:
+    enabled: true
+  calendar_model:
+    enabled: true
+    n_lunar_phases: 30
+  parallel_passages:
+    enabled: true
+    edit_similarity_threshold: 0.7
+
+# Data structure (Section 14)
+data_structure:
+  raw:
+    - barthel_numeric
+    - images
+    - secondary_transcriptions
+  processed:
+    - artifacts.jsonl
+    - lines.jsonl
+    - glyph_instances.jsonl
+    - glyph_catalog.jsonl
+    - uncertain_readings.jsonl
+    - parallel_passages.jsonl
+    - direction_metadata.jsonl
+    - paleographic_sources.jsonl
+  derived:
+    - cooccurrence
+    - transition
+    - positional
+    - repetition
+    - graph
+    - embeddings
+
+# Reproducibility (Section 40)
+reproducibility:
+  runs_dir: runs
+  config_hash: true
+  git_commit: true
+  environment: true
+  random_seeds: true
+  metrics: true

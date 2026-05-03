@@ -62,3 +62,85 @@ def get_sequences_by_line(
     for _, group in grouped:
         sequences.append(group["token"].tolist())
     return sequences
+
+
+def collapse_repetitions(
+    sequence: list[str],
+    max_repeat: int = 4,
+) -> list[str]:
+    """Collapse consecutive identical tokens into repetition-aware tokens.
+
+    For each run of k identical tokens, emit:
+    - One token suffixed with _REPk (if k >= 2 and k <= max_repeat)
+    - If k > max_repeat, emit one _REP{max_repeat} followed by (k - max_repeat) bare tokens
+    - Single occurrences pass through unchanged
+
+    Example: ['440', '440', '440', '300'] -> ['440_REP3', '300']
+    Example: ['440', '300'] -> ['440', '300']
+    """
+    if not sequence:
+        return []
+    result = []
+    i = 0
+    while i < len(sequence):
+        tok = sequence[i]
+        j = i + 1
+        while j < len(sequence) and sequence[j] == tok:
+            j += 1
+        run_len = j - i
+        if run_len == 1:
+            result.append(tok)
+        elif run_len <= max_repeat:
+            result.append(f"{tok}_REP{run_len}")
+        else:
+            result.append(f"{tok}_REP{max_repeat}")
+            for _ in range(run_len - max_repeat):
+                result.append(tok)
+        i = j
+    return result
+
+
+def get_repetition_aware_sequences(
+    df: pd.DataFrame,
+    max_repeat: int = 4,
+) -> list[list[str]]:
+    """Extract sequences with consecutive repetitions collapsed into pattern-aware tokens.
+
+    Returns (sequences, pure_sequences) where:
+    - sequences: repetition-collapsed token lists
+    - pure_sequences: original (uncollapsed) token lists
+    """
+    pure = get_sequences_by_line(df)
+    collapsed = [collapse_repetitions(seq, max_repeat=max_repeat) for seq in pure]
+    return collapsed, pure
+
+
+def get_abab_aware_sequences(
+    df: pd.DataFrame,
+) -> list[list[str]]:
+    """Extract sequences with ABAB patterns marked as composite tokens.
+
+    Detects ABAB patterns and replaces them with A_BAB composite tokens.
+    Consecutive repetitions are also collapsed.
+    """
+    from spectral_submersion.tokenization import collapse_repetitions
+    sequences = get_sequences_by_line(df)
+    result = []
+    for seq in sequences:
+        seq = collapse_repetitions(seq)
+        out = []
+        i = 0
+        while i < len(seq):
+            if (
+                i + 3 < len(seq)
+                and seq[i] == seq[i + 2]
+                and seq[i + 1] == seq[i + 3]
+                and seq[i] != seq[i + 1]
+            ):
+                out.append(f"{seq[i]}_{seq[i+1]}_ABAB")
+                i += 4
+            else:
+                out.append(seq[i])
+                i += 1
+        result.append(out)
+    return result

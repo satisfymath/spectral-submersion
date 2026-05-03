@@ -1,0 +1,147 @@
+======================================================================
+PHD AUDIT V2: COMPREHENSIVE RESULTS
+======================================================================
+
+1. CO-OCCURRENCE COVERAGE
+--------------------------------------------------
+  PCFG_v2 w=1: cov=0.5519, EPC=3.878, min_T=4116275
+  PCFG_v2 w=2: cov=0.7236, EPC=7.756, min_T=2058138
+  PCFG_v2 w=3: cov=0.8424, EPC=11.635, min_T=1372092
+  PCFG_v2 w=5: cov=0.9475, EPC=19.391, min_T=823255
+  PCFG_v2 w=7: cov=0.9817, EPC=27.147, min_T=588039
+  PCFG_v2 w=10: cov=0.9883, EPC=38.782, min_T=411628
+  RR_like w=1: cov=0.2531, EPC=0.623, min_T=4774991
+  RR_like w=2: cov=0.3565, EPC=1.245, min_T=2387495
+  RR_like w=3: cov=0.4146, EPC=1.867, min_T=1591664
+  RR_like w=5: cov=0.4925, EPC=3.112, min_T=954998
+  RR_like w=7: cov=0.5454, EPC=4.357, min_T=682142
+  RR_like w=10: cov=0.5687, EPC=6.225, min_T=477499
+  RR_real w=1: cov=0.0078, EPC=0.012, min_T=384802720
+  RR_real w=2: cov=0.0142, EPC=0.025, min_T=192401360
+  RR_real w=3: cov=0.0193, EPC=0.037, min_T=128267573
+  RR_real w=5: cov=0.0277, EPC=0.062, min_T=76960544
+  RR_real w=7: cov=0.0347, EPC=0.086, min_T=54971817
+  RR_real w=10: cov=0.0433, EPC=0.123, min_T=38480272
+  Indus w=1: cov=0.0316, EPC=0.061, min_T=11673637
+  Indus w=2: cov=0.0547, EPC=0.121, min_T=5836818
+  Indus w=3: cov=0.0682, EPC=0.182, min_T=3891212
+  Indus w=5: cov=0.0845, EPC=0.303, min_T=2334727
+  Indus w=7: cov=0.0897, EPC=0.424, min_T=1667662
+  Indus w=10: cov=0.0914, EPC=0.606, min_T=1167364
+  Positional w=1: cov=0.5692, EPC=5.581, min_T=1068981
+  Positional w=2: cov=0.6997, EPC=11.162, min_T=534491
+  Positional w=3: cov=0.7481, EPC=16.743, min_T=356327
+  Positional w=5: cov=0.7725, EPC=27.906, min_T=213796
+  Positional w=7: cov=0.7747, EPC=39.068, min_T=152712
+  Positional w=10: cov=0.7747, EPC=55.811, min_T=106898
+
+2. SPECTRAL RELIABILITY TABLE
+--------------------------------------------------
+  PCFG_v2 PPMI k=4: delta=5.2957, eps=0.2242, rel=0.9577, stable=True, claim<C2+>
+  PCFG_v2 PPMI k=8: delta=0.1717, eps=0.1882, rel=0.0000, stable=False, claim<C0>
+  PCFG_v2 PPMI k=16: delta=0.0828, eps=0.1407, rel=0.0000, stable=False, claim<C0>
+  RR_real PPMI k=4: delta=0.5730, eps=1.3683, rel=0.0000, stable=False, claim<C0>
+  RR_real PPMI k=8: delta=0.3676, eps=1.0572, rel=0.0000, stable=False, claim<C0>
+  RR_real PPMI k=16: delta=0.2853, eps=0.8979, rel=0.0000, stable=False, claim<C0>
+  Indus PPMI k=4: delta=0.4856, eps=0.4383, rel=0.0974, stable=False, claim<C0>
+  Indus PPMI k=8: delta=0.3292, eps=0.3780, rel=0.0000, stable=False, claim<C0>
+  Indus PPMI k=16: delta=0.1910, eps=0.3324, rel=0.0000, stable=False, claim<C0>
+
+3. NEGATIVE CONTROL GAPS (Multi-Score)
+--------------------------------------------------
+  PCFG_v2:
+    sv_energy_4: gap=357.25sigma (very_strong_check_leakage)
+    sv_energy_8: gap=286.84sigma (very_strong_check_leakage)
+    sv_top1: gap=156.16sigma (very_strong_check_leakage)
+    eff_rank: gap=-66.48sigma (no_evidence)
+    transition_energy_4: gap=123.62sigma (very_strong_check_leakage)
+    laplacian_energy_4: gap=38.22sigma (very_strong_check_leakage)
+  RR_real:
+    sv_energy_4: gap=0.10sigma (no_evidence)
+    sv_energy_8: gap=1.53sigma (weak)
+    sv_top1: gap=-9.19sigma (no_evidence)
+    eff_rank: gap=5.98sigma (very_strong_check_leakage)
+    transition_energy_4: gap=0.72sigma (no_evidence)
+    laplacian_energy_4: gap=3.25sigma (strong)
+  Indus:
+    sv_energy_4: gap=0.08sigma (no_evidence)
+    sv_energy_8: gap=0.26sigma (no_evidence)
+    sv_top1: gap=-1.31sigma (no_evidence)
+    eff_rank: gap=1.67sigma (weak)
+    transition_energy_4: gap=-0.43sigma (no_evidence)
+    laplacian_energy_4: gap=1.32sigma (weak)
+
+4. SPPMI SENSITIVITY
+--------------------------------------------------
+  PCFG_v2 eps=0.001 k_neg=1.0: diff=0.000842
+  PCFG_v2 eps=0.001 k_neg=2.0: diff=18.673378
+  PCFG_v2 eps=0.001 k_neg=5.0: diff=26.702158
+  PCFG_v2 eps=0.01 k_neg=1.0: diff=0.000840
+  PCFG_v2 eps=0.01 k_neg=2.0: diff=18.673380
+  PCFG_v2 eps=0.01 k_neg=5.0: diff=26.702158
+  PCFG_v2 eps=0.1 k_neg=1.0: diff=0.000815
+  PCFG_v2 eps=0.1 k_neg=2.0: diff=18.673396
+  PCFG_v2 eps=0.1 k_neg=5.0: diff=26.702160
+  PCFG_v2 eps=1.0 k_neg=1.0: diff=0.000568
+
+5. SYNTHETIC EXPERIMENTS
+--------------------------------------------------
+  Exp 1 Recovery: Acc@1=0.089, Acc@5=0.196, MRR=0.154
+  Exp 2 Logosyllabic: FiberRecall={'1': 0.0, '3': 0.0, '5': 0.02, '10': 0.04}
+  Exp 6 Calendar: delta_BIC=-21056.9, preferred=ngram
+
+6. IDENTIFIABILITY
+--------------------------------------------------
+  PCFG_v2: invariant=True, dev=6.82e-13
+  RR_like: invariant=True, dev=5.68e-14
+  RR_real: invariant=True, dev=1.14e-13
+  Indus: invariant=True, dev=2.84e-14
+  Positional: invariant=True, dev=1.14e-12
+
+7. ANCHOR STABILITY
+--------------------------------------------------
+  n=5_noise=0.0: cond=0.0000, q_stab=5.1469, loo_dev=4.7116
+  n=5_noise=0.01: cond=0.0000, q_stab=5.1474, loo_dev=4.7918
+  n=5_noise=0.05: cond=0.0000, q_stab=5.1360, loo_dev=4.5492
+  n=5_noise=0.1: cond=0.0000, q_stab=5.1608, loo_dev=4.6160
+  n=5_noise=0.2: cond=0.0000, q_stab=5.1916, loo_dev=4.5734
+  n=10_noise=0.0: cond=0.0000, q_stab=4.6999, loo_dev=3.6634
+  n=10_noise=0.01: cond=0.0000, q_stab=4.7126, loo_dev=3.7021
+  n=10_noise=0.05: cond=0.0000, q_stab=4.8218, loo_dev=3.6696
+  n=10_noise=0.1: cond=0.0000, q_stab=4.8306, loo_dev=3.6695
+  n=10_noise=0.2: cond=0.0000, q_stab=4.8541, loo_dev=3.8200
+  n=20_noise=0.0: cond=0.0005, q_stab=2.8888, loo_dev=0.0000
+  n=20_noise=0.01: cond=0.0006, q_stab=3.1637, loo_dev=0.1886
+  n=20_noise=0.05: cond=0.0007, q_stab=3.7235, loo_dev=0.8102
+  n=20_noise=0.1: cond=0.0015, q_stab=3.9435, loo_dev=1.2439
+  n=20_noise=0.2: cond=0.0038, q_stab=4.1787, loo_dev=1.5681
+
+8. OT ANALYSIS
+--------------------------------------------------
+  OT stability: 0.0000, best_cost=-0.5616
+  OT decomposition: geom=1.7806, rel=1.7130, ent=0.5718
+
+9. CLAIM AUDIT
+--------------------------------------------------
+  no_anchors_low_stability: admissible=C0_PALEOGRAPHIC, blocked=True, OCR=1.429
+  no_anchors_moderate: admissible=C1_STRUCTUREAL, blocked=True, OCR=1.111
+  weak_anchors: admissible=C2_FUNCTIONAL, blocked=False, OCR=0.784
+  moderate_anchors: admissible=C3_SEMANTIC_WEAK, blocked=False, OCR=0.588
+  strong_anchors: admissible=C4_PHONETIC_PARTIAL, blocked=False, OCR=0.444
+
+10. MANDATORY CHECKLIST
+--------------------------------------------------
+  1. Mathematical object: Cooccurrence -> PPMI/SPPMI/Transition/Laplacian -> SVD
+  2. Hypothesis space: Permutation orbits under Sym(V_X)
+  3. Non-identifiability: VERIFIED CHECK
+  4. Anchor power: See anchor stability results
+  5. Spectral reliability: See Table Section 2
+  6. Negative controls: Multi-score NegCtrlGap computed
+  7. Max claim (no anchors): See claim audit
+  8. SPPMI sensitivity: Sweep over epsilon and k_neg computed
+  9. Counterevidence: Overclaim risk computed
+  10. Reproducible JSON: runs/phd_audit_v2/phd_audit_v2_results.json
+
+======================================================================
+AUDIT V2 COMPLETE
+======================================================================

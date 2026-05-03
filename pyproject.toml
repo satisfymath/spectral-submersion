@@ -37,6 +37,8 @@ dependencies = [
     "ipykernel",
     "pytest",
     "pot",
+    "pillow",
+    "requests",
 ]
 
 [project.optional-dependencies]

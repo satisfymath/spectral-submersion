@@ -71,77 +71,70 @@ candidates:
     sentences: 35
     tokens: 123
 
-  # European / Japonic / Semitic (large corpora, excluded from git)
+  # European / Japonic / Semitic (large corpora, subsampled to 50k sentences)
   - name: english
     code: en
-    corpus_path: data/raw/candidate_languages/en_tokens.csv
+    corpus_path: data/raw/candidate_languages/english_tokens.csv
     family: germanic
     type: modern_language
-    source: "OPUS-Tatoeba v2023-04-12"
+    source: "OPUS-Tatoeba v2023-04-12 (50k sentences subsample)"
     license: "CC-BY 2.0 FR"
-    sentences: 1830223
-    tokens: 13705210
-    note: "Large file excluded from git; regenerate from data/external/en_tatoeba_raw.txt"
+    sentences: 50000
+    tokens: 384016
   - name: spanish
     code: es
-    corpus_path: data/raw/candidate_languages/es_tokens.csv
+    corpus_path: data/raw/candidate_languages/spanish_tokens.csv
     family: romance
     type: modern_language
-    source: "OPUS-Tatoeba v2023-04-12"
+    source: "OPUS-Tatoeba v2023-04-12 (50k sentences subsample)"
     license: "CC-BY 2.0 FR"
-    sentences: 402525
-    tokens: 2804739
-    note: "Large file excluded from git; regenerate from data/external/es_tatoeba_raw.txt"
+    sentences: 50000
+    tokens: 364850
   - name: german
     code: de
-    corpus_path: data/raw/candidate_languages/de_tokens.csv
+    corpus_path: data/raw/candidate_languages/german_tokens.csv
     family: germanic
     type: modern_language
-    source: "OPUS-Tatoeba v2023-04-12"
+    source: "OPUS-Tatoeba v2023-04-12 (50k sentences subsample)"
     license: "CC-BY 2.0 FR"
-    sentences: 642766
-    tokens: 4863023
-    note: "Large file excluded from git; regenerate from data/external/de_tatoeba_raw.txt"
+    sentences: 50000
+    tokens: 390657
   - name: russian
     code: ru
-    corpus_path: data/raw/candidate_languages/ru_tokens.csv
+    corpus_path: data/raw/candidate_languages/russian_tokens.csv
     family: slavic
     type: modern_language
-    source: "OPUS-Tatoeba v2023-04-12"
+    source: "OPUS-Tatoeba v2023-04-12 (50k sentences subsample)"
     license: "CC-BY 2.0 FR"
-    sentences: 1017101
-    tokens: 5675418
-    note: "Large file excluded from git; regenerate from data/external/ru_tatoeba_raw.txt"
+    sentences: 50000
+    tokens: 284475
   - name: french
     code: fr
-    corpus_path: data/raw/candidate_languages/fr_tokens.csv
+    corpus_path: data/raw/candidate_languages/french_tokens.csv
     family: romance
     type: modern_language
-    source: "OPUS-Tatoeba v2023-04-12"
+    source: "OPUS-Tatoeba v2023-04-12 (50k sentences subsample)"
     license: "CC-BY 2.0 FR"
-    sentences: 570599
-    tokens: 4173122
-    note: "Large file excluded from git; regenerate from data/external/fr_tatoeba_raw.txt"
+    sentences: 50000
+    tokens: 360164
   - name: italian
     code: it
-    corpus_path: data/raw/candidate_languages/it_tokens.csv
+    corpus_path: data/raw/candidate_languages/italian_tokens.csv
     family: romance
     type: modern_language
-    source: "OPUS-Tatoeba v2023-04-12"
+    source: "OPUS-Tatoeba v2023-04-12 (50k sentences subsample)"
     license: "CC-BY 2.0 FR"
-    sentences: 868674
-    tokens: 4916411
-    note: "Large file excluded from git; regenerate from data/external/it_tatoeba_raw.txt"
+    sentences: 50000
+    tokens: 299169
   - name: portuguese
     code: pt
-    corpus_path: data/raw/candidate_languages/pt_tokens.csv
+    corpus_path: data/raw/candidate_languages/portuguese_tokens.csv
     family: romance
     type: modern_language
-    source: "OPUS-Tatoeba v2023-04-12"
+    source: "OPUS-Tatoeba v2023-04-12 (50k sentences subsample)"
     license: "CC-BY 2.0 FR"
-    sentences: 430585
-    tokens: 3034395
-    note: "Large file excluded from git; regenerate from data/external/pt_tatoeba_raw.txt"
+    sentences: 50000
+    tokens: 382665
 
   # Medium / Small corpora (included in git)
   - name: japanese

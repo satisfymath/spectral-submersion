@@ -1,0 +1,267 @@
+{
+  "seed": 42,
+  "note": "Synthetic smoke test; not real Rongorongo evidence.",
+  "world_validation": {
+    "valid": true,
+    "min_sources": 2,
+    "n_referents": 55,
+    "missing": []
+  },
+  "metrics": {
+    "n": 5.0,
+    "accuracy@1": 1.0,
+    "accuracy@5": 1.0,
+    "mrr": 1.0
+  },
+  "anchor_power": 0.8554675868410561,
+  "bootstrap_assignment_stability": 1.0,
+  "ranked_candidates": {
+    "RR_demo_600": [
+      {
+        "glyph_id": "RR_demo_600",
+        "referent_id": "great_frigatebird",
+        "score": 0.9966041639515879,
+        "rank": 1,
+        "geodesic_distance": 0.08243494090687095,
+        "deiconization_rate": 0.003395836048412093
+      },
+      {
+        "glyph_id": "RR_demo_600",
+        "referent_id": "mataa",
+        "score": 0.07405371833688934,
+        "rank": 2,
+        "geodesic_distance": 1.4966747563593634,
+        "deiconization_rate": 0.9259462816631107
+      },
+      {
+        "glyph_id": "RR_demo_600",
+        "referent_id": "hand",
+        "score": 0.03149232063228223,
+        "rank": 3,
+        "geodesic_distance": 1.5392987983345503,
+        "deiconization_rate": 0.9685076793677178
+      },
+      {
+        "glyph_id": "RR_demo_600",
+        "referent_id": "moon",
+        "score": -0.006722774062437477,
+        "rank": 4,
+        "geodesic_distance": 1.577519151498434,
+        "deiconization_rate": 1.0067227740624374
+      },
+      {
+        "glyph_id": "RR_demo_600",
+        "referent_id": "octopus",
+        "score": -0.011384354803827232,
+        "rank": 5,
+        "geodesic_distance": 1.5821809275218364,
+        "deiconization_rate": 1.0113843548038273
+      }
+    ],
+    "RR_demo_200": [
+      {
+        "glyph_id": "RR_demo_200",
+        "referent_id": "moon",
+        "score": 0.9960352279267413,
+        "rank": 1,
+        "geodesic_distance": 0.08907743541074062,
+        "deiconization_rate": 0.003964772073258738
+      },
+      {
+        "glyph_id": "RR_demo_200",
+        "referent_id": "great_frigatebird",
+        "score": 0.07574125630599225,
+        "rank": 2,
+        "geodesic_distance": 1.4949824649427192,
+        "deiconization_rate": 0.9242587436940077
+      },
+      {
+        "glyph_id": "RR_demo_200",
+        "referent_id": "mataa",
+        "score": 0.026021938854030622,
+        "rank": 3,
+        "geodesic_distance": 1.544771450290711,
+        "deiconization_rate": 0.9739780611459694
+      },
+      {
+        "glyph_id": "RR_demo_200",
+        "referent_id": "sweet_potato",
+        "score": -0.02222616097296736,
+        "rank": 4,
+        "geodesic_distance": 1.5930243181369728,
+        "deiconization_rate": 1.0222261609729673
+      },
+      {
+        "glyph_id": "RR_demo_200",
+        "referent_id": "octopus",
+        "score": -0.022337050642004707,
+        "rank": 5,
+        "geodesic_distance": 1.5931352353430155,
+        "deiconization_rate": 1.0223370506420046
+      }
+    ],
+    "RR_demo_040": [
+      {
+        "glyph_id": "RR_demo_040",
+        "referent_id": "hand",
+        "score": 0.9923634308041941,
+        "rank": 1,
+        "geodesic_distance": 0.12366332171722916,
+        "deiconization_rate": 0.007636569195805909
+      },
+      {
+        "glyph_id": "RR_demo_040",
+        "referent_id": "octopus",
+        "score": 0.017064085306829308,
+        "rank": 2,
+        "geodesic_distance": 1.553731413250924,
+        "deiconization_rate": 0.9829359146931707
+      },
+      {
+        "glyph_id": "RR_demo_040",
+        "referent_id": "great_frigatebird",
+        "score": 0.013138901797313463,
+        "rank": 3,
+        "geodesic_distance": 1.557657046938489,
+        "deiconization_rate": 0.9868610982026865
+      },
+      {
+        "glyph_id": "RR_demo_040",
+        "referent_id": "mataa",
+        "score": -0.03053302723906252,
+        "rank": 4,
+        "geodesic_distance": 1.6013341001745964,
+        "deiconization_rate": 1.0305330272390625
+      },
+      {
+        "glyph_id": "RR_demo_040",
+        "referent_id": "sweet_potato",
+        "score": -0.05499819678997026,
+        "rank": 5,
+        "geodesic_distance": 1.625822287832499,
+        "deiconization_rate": 1.0549981967899702
+      }
+    ],
+    "RR_demo_730": [
+      {
+        "glyph_id": "RR_demo_730",
+        "referent_id": "mataa",
+        "score": 0.9911653427553871,
+        "rank": 1,
+        "geodesic_distance": 0.13302403171550384,
+        "deiconization_rate": 0.008834657244612854
+      },
+      {
+        "glyph_id": "RR_demo_730",
+        "referent_id": "hand",
+        "score": 0.07346433854912275,
+        "rank": 2,
+        "geodesic_distance": 1.4972657459565326,
+        "deiconization_rate": 0.9265356614508773
+      },
+      {
+        "glyph_id": "RR_demo_730",
+        "referent_id": "sweet_potato",
+        "score": 0.0033847910877436264,
+        "rank": 3,
+        "geodesic_distance": 1.5674115292439679,
+        "deiconization_rate": 0.9966152089122564
+      },
+      {
+        "glyph_id": "RR_demo_730",
+        "referent_id": "great_frigatebird",
+        "score": -0.045513897674085126,
+        "rank": 4,
+        "geodesic_distance": 1.6163259529212304,
+        "deiconization_rate": 1.0455138976740852
+      },
+      {
+        "glyph_id": "RR_demo_730",
+        "referent_id": "moon",
+        "score": -0.07079046457045687,
+        "rank": 5,
+        "geodesic_distance": 1.641646050353023,
+        "deiconization_rate": 1.070790464570457
+      }
+    ],
+    "RR_demo_900": [
+      {
+        "glyph_id": "RR_demo_900",
+        "referent_id": "sweet_potato",
+        "score": 0.997538347806286,
+        "rank": 1,
+        "geodesic_distance": 0.0701806641813602,
+        "deiconization_rate": 0.00246165219371397
+      },
+      {
+        "glyph_id": "RR_demo_900",
+        "referent_id": "mataa",
+        "score": 0.01931884119813163,
+        "rank": 2,
+        "geodesic_distance": 1.5514762837062266,
+        "deiconization_rate": 0.9806811588018683
+      },
+      {
+        "glyph_id": "RR_demo_900",
+        "referent_id": "moon",
+        "score": 0.005703772155430371,
+        "rank": 3,
+        "geodesic_distance": 1.5650925237121942,
+        "deiconization_rate": 0.9942962278445696
+      },
+      {
+        "glyph_id": "RR_demo_900",
+        "referent_id": "octopus",
+        "score": -0.01499924129373245,
+        "rank": 4,
+        "geodesic_distance": 1.5857961305602253,
+        "deiconization_rate": 1.0149992412937325
+      },
+      {
+        "glyph_id": "RR_demo_900",
+        "referent_id": "great_frigatebird",
+        "score": -0.027992810429018314,
+        "rank": 5,
+        "geodesic_distance": 1.5987927943627163,
+        "deiconization_rate": 1.0279928104290184
+      }
+    ]
+  },
+  "c25_decisions": {
+    "RR_demo_600": {
+      "referent_id": "great_frigatebird",
+      "score": 0.9966041639515879,
+      "admissible": true,
+      "max_claim_label": "C2.5_ICONOGRAPHIC",
+      "failed_criteria": []
+    },
+    "RR_demo_200": {
+      "referent_id": "moon",
+      "score": 0.9960352279267413,
+      "admissible": true,
+      "max_claim_label": "C2.5_ICONOGRAPHIC",
+      "failed_criteria": []
+    },
+    "RR_demo_040": {
+      "referent_id": "hand",
+      "score": 0.9923634308041941,
+      "admissible": true,
+      "max_claim_label": "C2.5_ICONOGRAPHIC",
+      "failed_criteria": []
+    },
+    "RR_demo_730": {
+      "referent_id": "mataa",
+      "score": 0.9911653427553871,
+      "admissible": true,
+      "max_claim_label": "C2.5_ICONOGRAPHIC",
+      "failed_criteria": []
+    },
+    "RR_demo_900": {
+      "referent_id": "sweet_potato",
+      "score": 0.997538347806286,
+      "admissible": true,
+      "max_claim_label": "C2.5_ICONOGRAPHIC",
+      "failed_criteria": []
+    }
+  }
+}

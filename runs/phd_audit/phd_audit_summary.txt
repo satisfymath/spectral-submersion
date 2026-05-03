@@ -1,0 +1,171 @@
+======================================================================
+PHD UPGRADE AUDIT: DETAILED SUMMARY
+======================================================================
+
+1. SPECTRAL STABILITY (PPMI vs SPPMI)
+--------------------------------------------------
+  PCFG_v2_w2_PPMI:
+    r_eff=11.32, coverage=0.7236, EPC=7.756, min_T=2058138
+  PCFG_v2_w2_SPPMI_uniform:
+    r_eff=11.32, coverage=0.7236, EPC=7.756, min_T=2058138
+  PCFG_v2_w2_SPPMI_marginal:
+    r_eff=11.32, coverage=0.7236, EPC=7.756, min_T=2058138
+  PCFG_v2_w3_PPMI:
+    r_eff=11.31, coverage=0.8424, EPC=11.635, min_T=1372092
+  PCFG_v2_w3_SPPMI_uniform:
+    r_eff=11.31, coverage=0.8424, EPC=11.635, min_T=1372092
+  PCFG_v2_w3_SPPMI_marginal:
+    r_eff=11.31, coverage=0.8424, EPC=11.635, min_T=1372092
+  PCFG_v2_w5_PPMI:
+    r_eff=11.58, coverage=0.9475, EPC=19.391, min_T=823255
+  PCFG_v2_w5_SPPMI_uniform:
+    r_eff=11.58, coverage=0.9475, EPC=19.391, min_T=823255
+  PCFG_v2_w5_SPPMI_marginal:
+    r_eff=11.58, coverage=0.9475, EPC=19.391, min_T=823255
+  RR_like_w2_PPMI:
+    r_eff=15.41, coverage=0.3565, EPC=1.245, min_T=2387495
+  RR_like_w2_SPPMI_uniform:
+    r_eff=15.41, coverage=0.3565, EPC=1.245, min_T=2387495
+  RR_like_w2_SPPMI_marginal:
+    r_eff=15.41, coverage=0.3565, EPC=1.245, min_T=2387495
+  RR_like_w3_PPMI:
+    r_eff=15.39, coverage=0.4146, EPC=1.867, min_T=1591664
+  RR_like_w3_SPPMI_uniform:
+    r_eff=15.39, coverage=0.4146, EPC=1.867, min_T=1591664
+  RR_like_w3_SPPMI_marginal:
+    r_eff=15.39, coverage=0.4146, EPC=1.867, min_T=1591664
+  RR_like_w5_PPMI:
+    r_eff=15.36, coverage=0.4925, EPC=3.112, min_T=954998
+  RR_like_w5_SPPMI_uniform:
+    r_eff=15.36, coverage=0.4925, EPC=3.112, min_T=954998
+  RR_like_w5_SPPMI_marginal:
+    r_eff=15.36, coverage=0.4925, EPC=3.112, min_T=954998
+  RR_real_w2_PPMI:
+    r_eff=15.57, coverage=0.0142, EPC=0.025, min_T=192401360
+  RR_real_w2_SPPMI_uniform:
+    r_eff=15.57, coverage=0.0142, EPC=0.025, min_T=192401360
+  RR_real_w2_SPPMI_marginal:
+    r_eff=15.57, coverage=0.0142, EPC=0.025, min_T=192401360
+  RR_real_w3_PPMI:
+    r_eff=15.55, coverage=0.0193, EPC=0.037, min_T=128267573
+  RR_real_w3_SPPMI_uniform:
+    r_eff=15.55, coverage=0.0193, EPC=0.037, min_T=128267573
+  RR_real_w3_SPPMI_marginal:
+    r_eff=15.55, coverage=0.0193, EPC=0.037, min_T=128267573
+  RR_real_w5_PPMI:
+    r_eff=15.55, coverage=0.0277, EPC=0.062, min_T=76960544
+  RR_real_w5_SPPMI_uniform:
+    r_eff=15.55, coverage=0.0277, EPC=0.062, min_T=76960544
+  RR_real_w5_SPPMI_marginal:
+    r_eff=15.55, coverage=0.0277, EPC=0.062, min_T=76960544
+  Indus_w2_PPMI:
+    r_eff=15.64, coverage=0.0547, EPC=0.121, min_T=5836818
+  Indus_w2_SPPMI_uniform:
+    r_eff=15.64, coverage=0.0547, EPC=0.121, min_T=5836818
+  Indus_w2_SPPMI_marginal:
+    r_eff=15.64, coverage=0.0547, EPC=0.121, min_T=5836818
+  Indus_w3_PPMI:
+    r_eff=15.60, coverage=0.0682, EPC=0.182, min_T=3891212
+  Indus_w3_SPPMI_uniform:
+    r_eff=15.61, coverage=0.0682, EPC=0.182, min_T=3891212
+  Indus_w3_SPPMI_marginal:
+    r_eff=15.60, coverage=0.0682, EPC=0.182, min_T=3891212
+  Indus_w5_PPMI:
+    r_eff=15.61, coverage=0.0845, EPC=0.303, min_T=2334727
+  Indus_w5_SPPMI_uniform:
+    r_eff=15.61, coverage=0.0845, EPC=0.303, min_T=2334727
+  Indus_w5_SPPMI_marginal:
+    r_eff=15.61, coverage=0.0845, EPC=0.303, min_T=2334727
+  Positional_w2_PPMI:
+    r_eff=14.87, coverage=0.6997, EPC=11.162, min_T=534491
+  Positional_w2_SPPMI_uniform:
+    r_eff=14.87, coverage=0.6997, EPC=11.162, min_T=534491
+  Positional_w2_SPPMI_marginal:
+    r_eff=14.87, coverage=0.6997, EPC=11.162, min_T=534491
+  Positional_w3_PPMI:
+    r_eff=14.81, coverage=0.7481, EPC=16.743, min_T=356327
+  Positional_w3_SPPMI_uniform:
+    r_eff=14.81, coverage=0.7481, EPC=16.743, min_T=356327
+  Positional_w3_SPPMI_marginal:
+    r_eff=14.81, coverage=0.7481, EPC=16.743, min_T=356327
+  Positional_w5_PPMI:
+    r_eff=14.79, coverage=0.7725, EPC=27.906, min_T=213796
+  Positional_w5_SPPMI_uniform:
+    r_eff=14.79, coverage=0.7725, EPC=27.906, min_T=213796
+  Positional_w5_SPPMI_marginal:
+    r_eff=14.79, coverage=0.7725, EPC=27.906, min_T=213796
+
+2. NEGATIVE CONTROL GAPS
+--------------------------------------------------
+  PCFG_v2:
+    NegCtrlGap = 166.79sigma (very_strong_check_leakage)
+    r_eff(PPMI) = 11.31, r_eff(SPPMI) = 11.31
+    Coverage = 0.8424, EPC = 11.635
+  RR_like:
+    NegCtrlGap = 6.82sigma (very_strong_check_leakage)
+    r_eff(PPMI) = 15.39, r_eff(SPPMI) = 15.39
+    Coverage = 0.4146, EPC = 1.867
+  RR_real:
+    NegCtrlGap = 2.27sigma (moderate)
+    r_eff(PPMI) = 15.55, r_eff(SPPMI) = 15.55
+    Coverage = 0.0193, EPC = 0.037
+  Indus:
+    NegCtrlGap = 0.31sigma (no_evidence)
+    r_eff(PPMI) = 15.60, r_eff(SPPMI) = 15.60
+    Coverage = 0.0682, EPC = 0.182
+  Positional:
+    NegCtrlGap = -1.43sigma (no_evidence)
+    r_eff(PPMI) = 14.81, r_eff(SPPMI) = 14.81
+    Coverage = 0.7481, EPC = 16.743
+
+3. IDENTIFIABILITY
+--------------------------------------------------
+  PCFG_v2: invariant=True, max_dev=6.82e-13
+  RR_like: invariant=True, max_dev=5.68e-14
+  RR_real: invariant=True, max_dev=1.14e-13
+  Indus: invariant=True, max_dev=2.84e-14
+  Positional: invariant=True, max_dev=1.14e-12
+
+4. BOOTSTRAP STABILITY
+--------------------------------------------------
+  PCFG_v2_w3_bootstrap: delta_k=0.0861, eps=0.1406, reliability=0.0000, stable=False
+  RR_real_w3_bootstrap: delta_k=0.3038, eps=0.8979, reliability=0.0000, stable=False
+  Indus_w3_bootstrap: delta_k=0.1922, eps=0.3325, reliability=0.0000, stable=False
+
+5. RELIABILITY TABLE
+--------------------------------------------------
+  Corpus         k  delta_k  epsilon  reliability  stable  claim_limit
+  PCFG_v2        4   5.2957   0.2242       0.9577    True          C2+
+  PCFG_v2        8   0.1719   0.1882       0.0000   False           C0
+  PCFG_v2       16   0.0861   0.1406       0.0000   False           C0
+  RR_real        4   0.5732   1.3683       0.0000   False           C0
+  RR_real        8   0.3675   1.0581       0.0000   False           C0
+  RR_real       16   0.3038   0.8979       0.0000   False           C0
+  Indus          4   0.4856   0.4383       0.0974   False           C0
+  Indus          8   0.3292   0.3780       0.0000   False           C0
+  Indus         16   0.1922   0.3325       0.0000   False           C0
+
+6. CLAIM LEVEL AUDIT
+--------------------------------------------------
+  Scenario          | Admissible | Blocked | Overclaim Risk
+  ------------------------------------------------------------
+  no_anchors           | C1 | True    | 1.111
+  weak_anchors         | C2 | False   | 0.784
+  moderate_anchors     | C3 | False   | 0.588
+
+7. MANDATORY AUDIT CHECKLIST
+--------------------------------------------------
+  1. Mathematical object: Co-occurrence -> PPMI/SPPMI -> SVD embedding
+  2. Hypothesis space: Permutation orbits under Sym(V_X)
+  3. Non-identifiability verified CHECK
+  4. Anchor power metric: See claim level boundaries
+  5. Spectral reliability: See bootstrap table
+  6. Negative controls: See NegCtrlGap table
+  7. Max claim (no anchors): C1/C2 depending on stability
+  8. SPPMI sensitivity: epsilon=0.1, prior=marginal
+  9. Counterevidence: See overclaim risk figures
+  10. Results: runs/phd_audit/phd_audit_results.json
+
+======================================================================
+AUDIT COMPLETE
+======================================================================
