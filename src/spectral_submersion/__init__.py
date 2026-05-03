@@ -6,6 +6,7 @@ Implements the PhD upgrade framework for auditable hypothesis generation:
 - Stability: spectral reliability, co-occurrence concentration, SPPMI
 - Audit: negative control gaps, calibration, overclaim risk
 - Generative model: Rongorongo hypothesis generation with claim blocking
+- Iconic grounding: visual anchors, Rapa Nui referents, C2.5 checks
 """
 
-__version__ = "0.2.0"
+__version__ = "0.3.0"

@@ -1,0 +1,55 @@
+{
+  "cross_script": {
+    "n_signs": 14,
+    "n_referents": 17,
+    "metrics": {
+      "n": 14.0,
+      "accuracy@1": 0.07142857142857142,
+      "accuracy@5": 0.2857142857142857,
+      "mrr": 0.11428571428571428
+    },
+    "metrics_by_script": {
+      "chinese_standard_logograph": {
+        "n": 6.0,
+        "accuracy@1": 0.0,
+        "accuracy@5": 0.16666666666666666,
+        "mrr": 0.03333333333333333
+      },
+      "egyptian_hieroglyphic": {
+        "n": 8.0,
+        "accuracy@1": 0.125,
+        "accuracy@5": 0.375,
+        "mrr": 0.175
+      }
+    },
+    "referent_image_root": "data/external/iconic_referents/rapa_nui_1500",
+    "note": "Uses real standardized script fonts and real local referent images; not Rongorongo labels."
+  },
+  "rongorongo": {
+    "data_mode": "real_rr_corpus_svg_and_real_referent_images",
+    "xml_dir": "data/external/rongorongo_rr_corpus",
+    "referent_image_root": "data/external/iconic_referents/rapa_nui_1500",
+    "n_glyph_classes": 448,
+    "n_referents": 17,
+    "top_k": 5,
+    "min_iconicity": 0.6,
+    "mean_top1_iconicity": 0.722154235963122,
+    "anchored_count_at_threshold": 420,
+    "anchor_power": 0.9703657150609888,
+    "bootstrap_assignment_stability": 0.819515306122449,
+    "negative_control_gap": {
+      "gap": 143.27970361830896,
+      "negative_mean": 0.5839009137068307,
+      "negative_std": 0.0009649190971569306,
+      "real_score": 0.722154235963122,
+      "interpretation": "very_strong_check_leakage"
+    },
+    "cross_script_acc_at_5": 0.2857142857142857,
+    "c25_candidates_admitted": 0,
+    "important_note": "C2.5 remains blocked unless real cross-script validation, controls, and stability all satisfy Definition 13.1."
+  },
+  "decision": {
+    "c25_unlocked": false,
+    "reason": "C2.5 remains blocked unless cross-script Acc@5 >= 0.6 and all Definition 13.1 criteria pass."
+  }
+}

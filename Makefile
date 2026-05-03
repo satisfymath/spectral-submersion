@@ -138,6 +138,21 @@ phd-audit:
 phd-audit-v2:
 	PYTHONPATH=src $(PYTHON) scripts/run_phd_audit_v2.py --config configs/phd_upgrade.yaml
 
+iconic-demo:
+	PYTHONPATH=src $(PYTHON) scripts/run_iconic_grounding_demo.py
+
+iconic-download-referents:
+	PYTHONPATH=src $(PYTHON) scripts/download_iconic_referent_images.py
+
+iconic-real:
+	PYTHONPATH=src $(PYTHON) scripts/run_iconic_grounding_real.py
+
+iconic-cross-script:
+	PYTHONPATH=src $(PYTHON) scripts/run_cross_script_iconic_validation.py
+
+iconic-grounding:
+	PYTHONPATH=src $(PYTHON) scripts/run_iconic_grounding_pipeline.py
+
 # ---------------------------------------------------------------------------
 # Reproducible run (Section 38-40)
 # ---------------------------------------------------------------------------

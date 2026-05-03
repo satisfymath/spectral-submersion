@@ -18,6 +18,7 @@
 \usepackage{enumitem}
 \usepackage{csquotes}
 \usepackage{xcolor}
+\usepackage{graphicx}
 \usepackage{hyperref}
 \usepackage{algorithm}
 \usepackage{algpseudocode}
@@ -87,7 +88,7 @@
 % ============================================================
 \title{
 \Large\textbf{Geometría Espectral e Identificabilidad Parcial en Sistemas Simbólicos No Descifrados}\\[0.35em]
-\large Un Marco Auditable para Hipótesis Rongorongo: Submersión Espectral, Procrustes, Transporte Óptimo y Teoría de Claim Levels
+\large Un Marco Auditable para Hipótesis Rongorongo: Submersión Espectral, Anclaje Icónico Inverso, Procrustes, Transporte Óptimo y Teoría de Claim Levels
 }
 
 \author{
@@ -109,10 +110,12 @@ Este artículo propone un marco matemático formal, auditable y falsable para el
 
 El marco combina: co-ocurrencia y PPMI regularizado con priors estructurales (SPPMI); descomposición en valores singulares con diagnóstico de estabilidad espectral (SpectralReliability); alineamiento Procrustes con análisis de perturbación bajo anclajes ruidosos (AnchorCondition); transporte óptimo con descomposición auditable de costos (geometría, relación, prior, entropía); transporte Gromov--Wasserstein con estabilidad multi-inicialización; y un modelo generativo probabilístico que produce un \emph{ledger de hipótesis} rankeado con evidencia, contraevidencia, nivel de claim máximo y riesgo de sobreinterpretación. Rongorongo se trata como caso de motivación de bajo recurso: la salida no es una traducción verificada, sino una familia de hipótesis parcialmente identificables, falsables y auditables.
 
-La contribución matemática principal es triple: (1) un teorema de no-identificabilidad que formaliza que todo estadístico puramente estructural es invariante bajo renombramiento del vocabulario, haciendo la semántica absoluta inalcanzable sin anclajes; (2) una teoría de estabilidad espectral y Procrustes que acota cuándo los embeddings son confiables bajo perturbación de corpus finito; (3) un sistema de claim levels $C_0$--$C_5$ con umbrales monótonos de admisibilidad que convierte la investigación en un sistema de inferencia responsable.
+La contribución matemática principal es cuádruple: (1) un teorema de no-identificabilidad que formaliza que todo estadístico puramente estructural es invariante bajo renombramiento del vocabulario, haciendo la semántica absoluta inalcanzable sin anclajes; (2) una teoría de estabilidad espectral y Procrustes que acota cuándo los embeddings son confiables bajo perturbación de corpus finito; (3) un sistema de claim levels $C_0$--$C_5$, refinado con un nivel iconográfico intermedio $C_{2.5}$, con umbrales monótonos de admisibilidad; (4) un teorema de anclaje icónico inverso que operacionaliza anclas visuales mediante embeddings de glifos y referentes históricos.
+
+La versión implementada incorpora una primera tubería real de anclaje icónico: 5\,374 instancias SVG reales del RR-corpus, 448 clases base Barthel, 17 referentes de Rapa Nui con imágenes reales y una validación cross-script sobre 14 signos descifrados/estandarizados. El resultado es deliberadamente conservador: aunque la corrida Rongorongo obtiene $\mathrm{AnchorPower}=0.970$ y estabilidad bootstrap $0.820$, la validación cross-script alcanza solo Acc@5 $=0.286$, por debajo del umbral $0.6$ requerido para $C_{2.5}$. Por tanto, \textbf{ningún claim iconográfico $C_{2.5}$ queda admitido todavía}. Esto ilustra el principio rector del trabajo: generar candidatos auditables sin convertirlos prematuramente en significado.
 \end{abstract}
 
-\noindent\textbf{Palabras clave:} Moore--Penrose, SVD, pseudoinversa, Procrustes, embeddings cross-linguales, traducción no supervisada, Rongorongo, Al-Kindi, geometría diferencial, transporte óptimo, inferencia bayesiana, lenguajes perdidos, análisis espectral.
+\noindent\textbf{Palabras clave:} Moore--Penrose, SVD, pseudoinversa, Procrustes, embeddings cross-linguales, anclaje icónico, visión computacional, Rongorongo, Al-Kindi, geometría diferencial, transporte óptimo, inferencia bayesiana, lenguajes perdidos, análisis espectral.
 
 \tableofcontents
 \newpage
@@ -174,7 +177,7 @@ La existencia es dudosa porque puede no haber correspondencia léxica simple ent
 
 Para evitar sobreinterpretación, todo resultado debe declarar explícitamente qué tipo de afirmación sustenta. Definimos un espacio de claims jerárquico:
 \begin{equation}
-    \mathcal{C}=\{C_0,C_1,C_2,C_3,C_4,C_5\},
+    \mathcal{C}=\{C_0,C_1,C_2,C_{2.5},C_3,C_4,C_5\},
 \end{equation}
 donde cada nivel requiere más evidencia:
 
@@ -186,6 +189,7 @@ Nivel & Label & Lo permitido & Lo prohibido \\
 $C_0$ & Paleográfico & Este trazo/glifo existe con probabilidad $p$ & significado \\
 $C_1$ & Estructural & frecuencia, posición, repetición, co-ocurrencia & función semántica \\
 $C_2$ & Funcional & marcador inicial/final, clasificador, numeral posible & traducción léxica \\
+$C_{2.5}$ & Iconográfico & referente visual probable con confianza auditada & significado lingüístico o fonético \\
 $C_3$ & Semántico débil & compatible con dominio lunar/genealógico/ritual & lectura literal \\
 $C_4$ & Fonético parcial & compatible con sílaba/sonido bajo anclaje externo & desciframiento completo \\
 $C_5$ & Traducción fuerte & lectura verificable & (requiere evidencia independiente) \\
@@ -221,6 +225,20 @@ Si $h$ satisface los umbrales de un nivel superior $j$, satisface automáticamen
 \end{proof}
 
 Esta jerarquía protege contra sobreinterpretación: un resultado puramente espectral puede sostener claims $C_0$ y $C_1$, pero no $C_3$ o superiores sin anclajes. Un claim $C_5$ (traducción fuerte) requiere evidencia externa independiente verificable.
+
+\begin{definition}[Claim iconográfico $C_{2.5}$]
+\label{def:c25}
+Un signo $x$ admite un claim $C_{2.5}$ con referente visual $r^\star(x)$ si y solo si:
+\begin{enumerate}[label=(\roman*)]
+    \item $\iota^\star(x)=\max_{r\in\mathcal{R}}\inner{\Phi(x)}{\Psi(r)}\geq 0.6$;
+    \item $\mathrm{AnchorPower}(\mathcal{A}_{\mathrm{icon}})\geq 0.15$;
+    \item la estabilidad bootstrap de la asignación $x\mapsto r^\star(x)$ es al menos $0.7$;
+    \item la validación cross-script en escrituras descifradas o estandarizadas alcanza Acc@5 $\geq 0.6$;
+    \item el gap contra controles negativos es al menos $3\sigma$;
+    \item el referente pertenece al mundo histórico reconstruido y tiene soporte bibliográfico.
+\end{enumerate}
+Este nivel permite afirmar ``el signo se parece de manera estable a un referente visual'', pero \emph{no} permite afirmar que el signo se lea como la palabra correspondiente ni que posea ese significado lingüístico.
+\end{definition}
 
 % ============================================================
 \section{Motivación histórica y técnica}
@@ -710,6 +728,78 @@ Las ambigüedades no ancladas corresponden a la órbita generada por $\mathrm{Au
 
 \begin{remark}
 Este resultado protege contra críticas: ya no decimos ``tenemos un método para traducir''; decimos ``formalizamos por qué la traducción fuerte es no identificable sin anclajes, y proponemos un procedimiento regularizado para estimar clases de equivalencia e hipótesis parciales''.
+\end{remark}
+
+% ============================================================
+\section{Anclaje icónico inverso}
+\label{sec:inverse_iconic_grounding}
+% ============================================================
+
+El Corolario anterior enumera el anclaje iconográfico como una ruptura válida de simetría. Esta sección lo formaliza como un procedimiento computacional auditable: dado un glifo observado y un mundo histórico reconstruido, buscamos si la forma visual del glifo preserva una traza estable de un referente físico.
+
+\begin{definition}[Mundo histórico reconstruido]
+Sea $\mathcal{W}_{\tau,\mathcal{G}}$ el mundo verificable en época $\tau$ y región $\mathcal{G}$:
+\begin{equation}
+    \mathcal{W}_{\tau,\mathcal{G}}
+    =
+    \langle \mathcal{F}_{\tau},\mathcal{P}_{\tau},\mathcal{O}_{\tau},\mathcal{C}_{\tau},\mathcal{H}\rangle,
+\end{equation}
+donde $\mathcal{F}$ son especies faunísticas, $\mathcal{P}$ flora, $\mathcal{O}$ artefactos materiales, $\mathcal{C}$ fenómenos celestes/naturales y $\mathcal{H}$ partes o posturas humanas. El espacio de referentes es
+\begin{equation}
+    \mathcal{R}_{\tau,\mathcal{G}}
+    =
+    \mathcal{F}_{\tau}\cup\mathcal{P}_{\tau}\cup\mathcal{O}_{\tau}\cup\mathcal{C}_{\tau}\cup\mathcal{H}.
+\end{equation}
+\end{definition}
+
+\begin{definition}[Embeddings visuales de glifos y referentes]
+Sea $f_\theta$ un encoder visual que envía imágenes a $\R^d$. Definimos
+\begin{equation}
+    \Phi(x)=\frac{f_\theta(\rho(x))}{\norm{f_\theta(\rho(x))}_2},
+    \qquad
+    \Psi(r)=
+    \frac{\sum_{i\in I_r} f_\theta(i)/\norm{f_\theta(i)}_2}
+         {\norm{\sum_{i\in I_r} f_\theta(i)/\norm{f_\theta(i)}_2}_2},
+\end{equation}
+donde $\rho(x)$ es una representación visual del glifo y $I_r$ es el conjunto de imágenes reales del referente $r$.
+\end{definition}
+
+\begin{definition}[Iconicidad y deiconización]
+La iconicidad de $x$ respecto de $r$ es
+\begin{equation}
+    \iota(x,r)=\inner{\Phi(x)}{\Psi(r)}.
+\end{equation}
+Definimos
+\begin{equation}
+    \iota^\star(x)=\max_{r\in\mathcal{R}}\iota(x,r),
+    \qquad
+    r^\star(x)=\argmax_{r\in\mathcal{R}}\iota(x,r),
+    \qquad
+    \delta(x)=1-\iota^\star(x).
+\end{equation}
+\end{definition}
+
+\begin{theorem}[Anclaje icónico inverso]
+\label{thm:inverse_iconic_grounding}
+Supongamos: (H1) origen icónico local, es decir, para cada glifo icónico existe un referente histórico $r_0(x)$ tal que $\iota(x_{\tau_0},r_0(x))\geq 1-\delta_0$; (H2) el encoder visual es $L$-Lipschitz respecto de una distancia perceptual; (H3) el mundo reconstruido contiene el referente verdadero con probabilidad al menos $1-\varepsilon$. Si
+\begin{equation}
+    \Delta_r=\min_{r\neq r'}\norm{\Psi(r)-\Psi(r')}_2>0,
+\end{equation}
+entonces, para glifos con deiconización suficientemente baja,
+\begin{equation}
+    \Prob(r^\star(x)=r_0(x))
+    \geq
+    1-\varepsilon-\frac{L\,\delta(x)}{\Delta_r}.
+\end{equation}
+Además, si el conjunto $\mathcal{A}_{\mathrm{icon}}=\{x:\iota^\star(x)\geq \tau_{\mathrm{icon}}\}$ satisface $\mathrm{AnchorPower}(\mathcal{A}_{\mathrm{icon}})>0$, entonces rompe una fracción positiva de la simetría de permutación del Teorema~\ref{thm:nofd_group}.
+\end{theorem}
+
+\begin{proof}[Esquema]
+La condición H2 controla cuánto se desplaza el embedding del glifo por estilización, erosión o deiconización. Si la bola de perturbación alrededor de $\Psi(r_0)$ no cruza la frontera de Voronoi inducida por los referentes, el vecino más cercano por producto interno permanece igual. El término $L\delta(x)/\Delta_r$ cuantifica la probabilidad de cruce de frontera bajo separación mínima $\Delta_r$. La segunda parte sigue de la Definición~\ref{def:anchor_power}: cada ancla iconográfica fija al menos un punto de la acción de $\mathrm{Aut}(G_X)$ y reduce el subgrupo estabilizador salvo que todos los automorfismos ya preserven esos puntos.
+\end{proof}
+
+\begin{remark}[Guardrail epistémico]
+El Teorema~\ref{thm:inverse_iconic_grounding} no convierte parecido visual en traducción. Produce candidatos de anclaje iconográfico que pueden elevar un resultado a $C_{2.5}$ solo si cumplen la Definición~\ref{def:c25}. El salto a $C_3$ exige corroboración cultural independiente, y $C_4$--$C_5$ exige evidencia fonética o bilingüe.
 \end{remark}
 
 % ============================================================
@@ -1842,6 +1932,8 @@ El corpus RR-corpus (Sección~\ref{sec:structural_features}) incluye transcripci
 
 \textbf{Implicación.} Las features iconográficos no están correlacionados con el rol estructural de los signos. Esto significa que la forma visual de un glifo (complejidad, proporciones) no predice si aparece al inicio, al final, o si se repite. El desciframiento no puede reducirse a una correspondencia visual-funcional simple.
 
+\textbf{Actualización: embeddings icónicos reales.} La implementación actual extiende estas features escalares a un pipeline visual reproducible: (i) parsea 5\,374 instancias SVG reales del RR-corpus; (ii) agrupa 448 clases base Barthel; (iii) renderiza cada instancia a raster auditable; (iv) calcula embeddings de forma/borde normalizados; (v) compara contra imágenes reales de referentes en $\mathcal{R}_{1500,\mathrm{Rapa\,Nui}}$. Esta extensión ya no usa solo ancho/alto/complejidad, sino una representación visual de cada glifo. Aun así, por diseño, sus resultados son candidatos iconográficos y permanecen bloqueados si no pasan validación cross-script.
+
 % ============================================================
 \subsection{Síntesis comparativa}
 % ============================================================
@@ -2479,6 +2571,48 @@ Las consecuencias son decisivas:
 
 Nota importante: las ``anclas cognadas'' aquí son palabras idénticas ortográficamente (p.\,ej., \emph{restaurant} en inglés y francés). Para Rongorongo, no existen anclas equivalentes verificables independientemente. Esta es la diferencia fundamental entre validación bilingüe y desciframiento.
 
+\subsection{Validación iconográfica cross-script y Rongorongo real}
+\label{sec:iconic_results}
+
+Para operacionalizar el Teorema~\ref{thm:inverse_iconic_grounding}, implementamos una tubería independiente de la co-ocurrencia textual. La entrada visual de Rongorongo proviene directamente de los paths SVG del RR-corpus; la entrada visual de referentes proviene de imágenes reales descargadas con manifiesto de procedencia. Además, antes de aplicar el método a Rongorongo, se ejecuta una validación cross-script sobre signos descifrados/estandarizados: jeroglíficos egipcios Unicode/Gardiner y logogramas chinos estándar con referentes conocidos.
+
+\begin{table}[h]
+\centering
+\caption{Validación iconográfica cross-script. Los signos no son Rongorongo; sirven para estimar si el encoder visual recupera referentes conocidos antes de transferir el método.}
+\label{tab:cross_script_iconic}
+\begin{tabular}{lcccc}
+\toprule
+Benchmark & Signos & Referentes & Acc@1 & Acc@5 / MRR \\
+\midrule
+Egipcio + chino estándar & 14 & 17 & 0.071 & 0.286 / 0.114 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+El resultado es negativo en el sentido metodológico correcto: Acc@5 $=0.286$ queda por debajo del umbral $0.6$ exigido por la Definición~\ref{def:c25}. Por tanto, el pipeline visual actual \emph{no} está autorizado para elevar Rongorongo a $C_{2.5}$, aunque sí puede producir una lista auditable de candidatos para inspección y mejora del encoder.
+
+\begin{table}[h]
+\centering
+\caption{Anclaje icónico inverso aplicado a Rongorongo real. La corrida usa 5\,374 instancias SVG, 448 clases base Barthel y 17 referentes con imágenes reales.}
+\label{tab:rr_iconic_real}
+\begin{tabular}{lcc}
+\toprule
+Métrica & Valor & Interpretación \\
+\midrule
+Clases Barthel analizadas & 448 & todas las clases base con SVG usable \\
+Referentes con imagen real & 17 & subset inicial de $\mathcal{R}_{1500,\mathrm{Rapa\,Nui}}$ \\
+Iconicidad top-1 media & 0.722 & score visual candidato, no semántica \\
+AnchorPower a $\tau=0.6$ & 0.970 & ruptura potencial de simetría si las anclas fuesen validadas \\
+Estabilidad bootstrap & 0.820 & asignaciones visuales relativamente estables \\
+NegCtrlGap & 143.28$\sigma$ & marcado como \texttt{check\_leakage}; requiere controles más fuertes \\
+Acc@5 cross-script & 0.286 & insuficiente para $C_{2.5}$ \\
+Candidatos $C_{2.5}$ admitidos & 0 & todos bloqueados por auditoría \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Interpretación.} Los números de Rongorongo por sí solos parecen fuertes (alto AnchorPower y estabilidad), pero el criterio externo falla. Esta es precisamente la función de $C_{2.5}$: impedir que un ranking visual estable se convierta en claim iconográfico si el encoder no ha demostrado recuperación suficiente en escrituras conocidas. El output actual debe leerse como \emph{candidate generation}: produce glifos y referentes a revisar, no significados. El siguiente requisito experimental es mejorar el encoder (DINOv2/SigLIP/CLIP o ensemble) y ampliar el benchmark cross-script hasta alcanzar Acc@5 $\geq0.6$ en al menos tres familias gráficas.
+
 \subsection{Resumen de hallazgos cuantitativos}
 
 Los resultados cuantitativos confirman el marco teórico de manera robuste pero conducen a una conclusión de \textbf{humildad científica}:
@@ -2490,6 +2624,7 @@ Los resultados cuantitativos confirman el marco teórico de manera robuste pero 
     \item \textbf{Datos insuficientes:} EPC $\ll 1$ para RR\_real (0.037) e Indus (0.182), muy por debajo del umbral de concentración (Proposición~\ref{prop:cooc_concentration}).
     \item \textbf{Escalación de claims requiere anclas externas:} Sin anclas, solo claims C0 (paleográfico) o C1 (estructural débil) son admisibles. Claims de traducción o significado (C3+) requieren evidencia externa verificable.
     \item \textbf{Procrustes es sensible al número y calidad de anclas:} Con pocos anclas, QStability $> 5$; con 20+ anclas, QStability $\approx 3$.
+    \item \textbf{El anclaje icónico ya es operacional pero no admisible:} la corrida real genera candidatos visuales sobre 448 clases Barthel, pero $C_{2.5}$ permanece bloqueado porque la validación cross-script alcanza solo Acc@5 $=0.286 < 0.6$.
 \end{enumerate}
 
 % ============================================================
@@ -2621,11 +2756,11 @@ donde $x$ es glifo o secuencia, $\mathcal{Y}_h$ es conjunto de interpretaciones 
 \section{Conclusión}
 % ============================================================
 
-Este trabajo formula un marco matemático para el desciframiento probabilístico de sistemas simbólicos perdidos mediante geometría espectral, formalizando por qué la traducción fuerte es no identificable sin anclajes (Teorema~\ref{thm:nofd_group}), caracterizando cómo los anclajes rompen simetrías (Definición~\ref{def:anchor_power}, Teorema~\ref{thm:anchor_identifiability}), derivando condiciones de estabilidad espectral bajo corpus finito (Teorema~\ref{thm:spectral_stability}), probando sensibilidad de PMI (Proposición~\ref{prop:pmi_sensitivity}) y Procrustes (Teorema~\ref{thm:procrustes_stability}), y definiendo niveles de claim admisibles (Definición~\ref{def:admissible}) que convierten el marco en un sistema de inferencia responsable.
+Este trabajo formula un marco matemático para el desciframiento probabilístico de sistemas simbólicos perdidos mediante geometría espectral, formalizando por qué la traducción fuerte es no identificable sin anclajes (Teorema~\ref{thm:nofd_group}), caracterizando cómo los anclajes rompen simetrías (Definición~\ref{def:anchor_power}, Teorema~\ref{thm:anchor_identifiability}), derivando condiciones de estabilidad espectral bajo corpus finito (Teorema~\ref{thm:spectral_stability}), probando sensibilidad de PMI (Proposición~\ref{prop:pmi_sensitivity}) y Procrustes (Teorema~\ref{thm:procrustes_stability}), y definiendo niveles de claim admisibles (Definición~\ref{def:admissible}) que convierten el marco en un sistema de inferencia responsable. La versión actual añade además el Teorema~\ref{thm:inverse_iconic_grounding}, que formaliza el anclaje icónico inverso como ruptura visual verificable de simetría, y el claim intermedio $C_{2.5}$ (Definición~\ref{def:c25}).
 
-La auditoría cuantitativa completa (Sección~\ref{sec:phd_audit}) verifica empíricamente las predicciones del marco: la no-identificabilidad bajo permutación (desviación máxima $<10^{-12}$ para todos los corpus), la inestabilidad espectral de corpus de baja densidad ($\mathrm{Rel}_k = 0$ para Rongorongo real e Indus), y la insuficiencia de datos ($\mathrm{EPC} \ll 1$). Estos resultados transforman el marco de una propuesta teórica en un diagnóstico operativo: el sistema no solo predice que Rongorongo es difícil de descifrar, sino que \textbf{cuantifica exactamente por qué} y \textbf{qué nivel de claim es admisible} en cada escenario.
+La auditoría cuantitativa completa (Sección~\ref{sec:phd_audit}) verifica empíricamente las predicciones del marco: la no-identificabilidad bajo permutación (desviación máxima $<10^{-12}$ para todos los corpus), la inestabilidad espectral de corpus de baja densidad ($\mathrm{Rel}_k = 0$ para Rongorongo real e Indus), y la insuficiencia de datos ($\mathrm{EPC} \ll 1$). La nueva auditoría iconográfica muestra una lección complementaria: aun cuando Rongorongo produce candidatos visuales estables sobre 448 clases Barthel, el sistema bloquea $C_{2.5}$ porque el benchmark cross-script alcanza solo Acc@5 $=0.286$. Estos resultados transforman el marco de una propuesta teórica en un diagnóstico operativo: el sistema no solo predice que Rongorongo es difícil de descifrar, sino que \textbf{cuantifica exactamente por qué} y \textbf{qué nivel de claim es admisible} en cada escenario.
 
-La conclusión principal es triple. Primero, la estadística interna de un sistema simbólico puede revelar estructura significativa si el sistema codifica información no trivial, pero solo identificando órbitas bajo permutaciones, no significados absolutos (Corolario~\ref{cor:orbits}). Segundo, los embeddings espectrales y alineamientos son confiables solo cuando los gaps singulares exceden el error bootstrap (Corolario~\ref{cor:spectral_rejection}) y los anclajes tienen condición suficiente (Teorema~\ref{thm:procrustes_stability}); para Rongorongo real e Indus, \textbf{estas condiciones no se cumplen}. Tercero, toda hipótesis debe reportarse como un ledger auditable con evidencia, contraevidencia, nivel de claim y riesgo de sobreinterpretación (Sección~\ref{sec:auditability}).
+La conclusión principal es cuádruple. Primero, la estadística interna de un sistema simbólico puede revelar estructura significativa si el sistema codifica información no trivial, pero solo identificando órbitas bajo permutaciones, no significados absolutos (Corolario~\ref{cor:orbits}). Segundo, los embeddings espectrales y alineamientos son confiables solo cuando los gaps singulares exceden el error bootstrap (Corolario~\ref{cor:spectral_rejection}) y los anclajes tienen condición suficiente (Teorema~\ref{thm:procrustes_stability}); para Rongorongo real e Indus, \textbf{estas condiciones no se cumplen}. Tercero, el anclaje icónico es el camino matemáticamente legítimo para intentar romper simetría sin bilingüe, pero solo puede elevar claims si primero generaliza en escrituras conocidas. Cuarto, toda hipótesis debe reportarse como un ledger auditable con evidencia, contraevidencia, nivel de claim y riesgo de sobreinterpretación (Sección~\ref{sec:auditability}).
 
 En una frase:
 
@@ -2914,6 +3049,31 @@ T. Gebru, et al.
 M. Mitchell, et al.
 \newblock Model cards for model reporting.
 \newblock In \emph{Proceedings of the Conference on Fairness, Accountability, and Transparency}, pages 220--229, 2019.
+
+\bibitem{radford2021clip}
+A. Radford, J. W. Kim, C. Hallacy, et al.
+\newblock Learning transferable visual models from natural language supervision.
+\newblock In \emph{Proceedings of ICML}, pages 8748--8763, 2021.
+
+\bibitem{oquab2023dinov2}
+M. Oquab, T. Darcet, T. Moutakanni, et al.
+\newblock DINOv2: Learning robust visual features without supervision.
+\newblock \emph{arXiv:2304.07193}, 2023.
+
+\bibitem{zhai2023siglip}
+X. Zhai, B. Mustafa, A. Kolesnikov, and L. Beyer.
+\newblock Sigmoid loss for language image pre-training.
+\newblock In \emph{Proceedings of ICCV}, 2023.
+
+\bibitem{unicode2024}
+The Unicode Consortium.
+\newblock \emph{The Unicode Standard, Version 16.0}.
+\newblock 2024.
+
+\bibitem{wikimedia2026}
+Wikimedia Commons contributors.
+\newblock Wikimedia Commons media files used as referent images.
+\newblock Dataset manifest generated in \texttt{data/external/iconic\_referents/rapa\_nui\_1500/manifest.csv}, accessed 2026.
 
 \end{thebibliography}
 

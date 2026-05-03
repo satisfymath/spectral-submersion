@@ -12,3 +12,5 @@ jupyter
 ipykernel
 pytest
 pot
+pillow
+requests
