@@ -6,6 +6,33 @@
 
 ---
 
+<<<<<<< Updated upstream
+=======
+## Comunidad, datos y contribución
+
+Spectral Submersion se está preparando como un proyecto abierto y colaborativo:
+
+- **Llamada pública:** ver `COMMUNITY_CALL.md`
+- **Contribuir al repo:** ver `CONTRIBUTING.md`
+- **Discord de trabajo:** https://discord.gg/ueg94XVw (ver `DISCORD_SETUP.md`)
+- **Datos descargables y Google Drive:** ver `DATA_ACCESS.md` y la carpeta Drive: https://drive.google.com/drive/u/1/folders/1vbnpyyy-YtVYyd-gf_-XwvHLHqIgQq8h
+- **Datos Rongorongo por reunir:** ver `DATA_WISHLIST.md`
+- **Roadmap público:** ver `ROADMAP.md`
+- **Estado de investigación:** ver `RESEARCH_STATE.md`
+- **Por qué existe:** ver `WHY_THIS_EXISTS.md`
+- **Conducta y moderación:** ver `CODE_OF_CONDUCT.md`
+
+GitHub es la fuente de verdad para código, issues, pull requests y releases. Discord se usa para coordinación diaria y lectura de papers. Los datos pesados, modelos y artefactos reproducibles deben publicarse como paquetes versionados fuera del repo, con manifiestos y checksums.
+
+La carpeta Drive actual es un staging de release externo. Antes de redistribuir datos ampliamente, revisar el manifest y las licencias documentadas en `DATA_ACCESS.md`.
+
+Estado científico breve: el paper actual no afirma desciframiento. Sin anclas externas, Rongorongo permanece en niveles C0-C1. La siguiente frontera del proyecto es el anclaje icónico inverso: producir candidatos visuales auditables hacia C2.5, pero solo si la validación en escrituras conocidas supera los umbrales definidos.
+
+Necesidad abierta: reunir más datos Rongorongo con procedencia clara. Si conoces archivos, museos, investigadores, corpus privados o fuentes visuales relevantes, revisa `DATA_WISHLIST.md` y abre un issue con metadata. No publiques archivos restringidos sin permiso.
+
+---
+
+>>>>>>> Stashed changes
 ## 1. Visión del proyecto
 
 La idea central es representar un sistema simbólico como datos:

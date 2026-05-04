@@ -101,6 +101,9 @@ reports/final/*
 *.fls
 *.fdb_latexmk
 
+# Personal briefing (private - do not commit)
+DAVID_PROJECT_BRIEFING.md
+
 # Model artifacts
 *.npy
 *.pkl
