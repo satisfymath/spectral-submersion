@@ -10,7 +10,7 @@ readme = "README.md"
 requires-python = ">=3.10"
 license = {text = "MIT"}
 authors = [
-    {name = "Author", email = "author@example.com"}
+    {name = "David Alexander Astudillo Muñoz", email = "satisfimath@gmail.com"}
 ]
 keywords = ["nlp", "svd", "decipherment", "spectral-analysis", "lost-languages"]
 classifiers = [
