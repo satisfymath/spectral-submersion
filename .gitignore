@@ -126,3 +126,6 @@ data/raw/candidate_languages/es_tokens.csv
 data/raw/candidate_languages/fr_tokens.csv
 data/raw/candidate_languages/it_tokens.csv
 data/raw/candidate_languages/pt_tokens.csv
+
+#zip files
+*.zip
