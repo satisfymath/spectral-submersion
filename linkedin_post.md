@@ -10,7 +10,7 @@ Presentar **Spectral Submersion** como un proyecto abierto, serio y colaborativo
 
 Estoy abriendo **Spectral Submersion**, un proyecto open source para analizar sistemas simbólicos de bajo recurso como Rongorongo, escritura del Indo y corpus sintéticos de control.
 
-El objetivo no es decir "tradujimos Rongorongo". Esa afirmación requiere evidencia externa fuerte, anclajes históricos y revisión experta.
+El objetivo no es decir "tradujimos Rongorongo". Esa afirmación requiere evidencia externa fuerte.
 
 El objetivo es más humilde y, creo, más útil:
 
@@ -20,39 +20,35 @@ El objetivo es más humilde y, creo, más útil:
 - correr controles negativos y pruebas de estabilidad
 - producir hipótesis auditables, con evidencia y contraevidencia
 
-La etapa actual del trabajo agrega una idea que me entusiasma mucho: **anclaje icónico inverso**.
+La etapa actual agrega una idea que me entusiasma: **anclaje icónico inverso**.
 
-En vez de preguntar prematuramente "qué palabra significa este glifo", la pregunta pasa a ser:
-
-> ¿qué referente visual del mundo Rapa Nui podría haber dejado una traza en este signo?
+En vez de preguntar "qué significa este glifo", la pregunta pasa a ser: ¿qué referente visual del mundo Rapa Nui podría haber dejado una traza en este signo?
 
 Eso abre un camino más responsable: reconstruir el mundo Rapa Nui circa 1500, comparar glifos con referentes verificables, validar primero en escrituras ya descifradas, y recién después proponer candidatos iconográficos para Rongorongo.
 
-El resultado actual es deliberadamente conservador: el pipeline ya genera candidatos auditables, pero todavía **no autoriza claims iconográficos fuertes**. La validación externa aún tiene que mejorar antes de elevar resultados a C2.5.
+El pipeline incluye co-ocurrencia, PPMI, SVD, alineamiento, transporte óptimo, anclaje icónico inverso, controles negativos y tests.
 
-El repositorio incluye un pipeline en Python para co-ocurrencia, PPMI, SVD, alineamiento, transporte óptimo, anclaje icónico, controles negativos, reportes técnicos y tests.
+El resultado actual es conservador: el pipeline genera candidatos auditables pero **no autoriza claims iconográficos fuertes**. La validación externa debe mejorar antes de subir a C2.5.
 
-También estoy organizando una comunidad de trabajo alrededor del proyecto: un Discord para investigación, datos, revisión metodológica, reproducción de resultados y desarrollo del pipeline.
-
-Estoy buscando colaboradores en:
+También estoy organizando una comunidad de trabajo alrededor del proyecto con GitHub, Discord y datos descargables. Busco colaboradores en:
 
 - lingüística histórica y lenguas polinesias
-- Rongorongo, Rapa Nui, arqueología e historia del Pacífico
+- Rongorongo, arqueología e historia del Pacífico
 - álgebra lineal, transporte óptimo, estadística y NLP
 - visión computacional y embeddings multimodales
 - curación de datos, reproducibilidad y software científico
-- búsqueda de datos Rongorongo: fotos, transcripciones, catálogos, modelos 3D, corpus privados o institucionales con permisos claros
-- visualización, documentación y revisión del paper
+- revisión del paper
+- búsqueda de datos Rongorongo: transcripciones, catálogos, modelos 3D, corpus privados con permisos claros
 
-Si te interesa participar, puedes entrar al repo, abrir un issue o unirte al Discord: https://discord.gg/ueg94XVw
+Si te interesa, entra al repo o únete al Discord.
+
+La meta no es reemplazar a expertos del dominio. Es construir herramientas transparentes para que más personas puedan revisar, replicar y mejorar las hipótesis.
+
+Y a nivel personal, hay una razón más íntima por la que esto existe. Está en el repo como nota personal.
 
 Repo: https://github.com/satisfymath/spectral-submersion
-Datos descargables: https://drive.google.com/drive/u/1/folders/1vbnpyyy-YtVYyd-gf_-XwvHLHqIgQq8h
+Datos: https://drive.google.com/drive/u/1/folders/1vbnpyyy-YtVYyd-gf_-XwvHLHqIgQq8h
 Discord: https://discord.gg/ueg94XVw
-
-La meta no es reemplazar a expertos del dominio. La meta es construir herramientas transparentes para que más personas puedan revisar, replicar y mejorar las hipótesis.
-
-Y, a nivel personal, hay una razón más íntima por la que esto existe. No es un claim científico; es un norte humano. Está en el repo como nota personal.
 
 #OpenSource #DataScience #MachineLearning #NLP #Mathematics #DigitalHumanities #Rongorongo #RapaNui #Decipherment #Research
 
