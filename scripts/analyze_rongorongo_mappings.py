@@ -3,6 +3,7 @@
 Shows which source tokens map to which glyph categories,
 helping validate that the model learned meaningful structure.
 """
+
 import argparse
 import pickle
 from collections import Counter, defaultdict
@@ -21,14 +22,22 @@ def load_model(model_dir):
     with open(model_dir / "tgt_vocab.pkl", "rb") as f:
         tgt_vocab = pickle.load(f)
     config = {
-        "d_model": 256, "nhead": 8, "enc_layers": 4,
-        "dec_layers": 4, "dim_ff": 512, "dropout": 0.1,
+        "d_model": 256,
+        "nhead": 8,
+        "enc_layers": 4,
+        "dec_layers": 4,
+        "dim_ff": 512,
+        "dropout": 0.1,
     }
     model = TransformerTranslator(
-        len(src_vocab), len(tgt_vocab),
-        d_model=config["d_model"], nhead=config["nhead"],
-        num_encoder_layers=config["enc_layers"], num_decoder_layers=config["dec_layers"],
-        dim_feedforward=config["dim_ff"], dropout=config["dropout"],
+        len(src_vocab),
+        len(tgt_vocab),
+        d_model=config["d_model"],
+        nhead=config["nhead"],
+        num_encoder_layers=config["enc_layers"],
+        num_decoder_layers=config["dec_layers"],
+        dim_feedforward=config["dim_ff"],
+        dropout=config["dropout"],
     )
     ckpt = model_dir / "model.pt"
     if not ckpt.exists():
@@ -52,12 +61,14 @@ def analyze_mappings(model, src_vocab, tgt_vocab, test_words):
         src = torch.tensor([src_ids], dtype=torch.long, device=device)
 
         with torch.no_grad():
-            src_emb = model.pos_enc(model.src_emb(src) * (model.d_model ** 0.5))
+            src_emb = model.pos_enc(model.src_emb(src) * (model.d_model**0.5))
             memory = model.transformer.encoder(src_emb)
             ys = torch.tensor([[tgt_vocab.bos_idx]], dtype=torch.long, device=device)
             for _ in range(20):
-                tgt_emb = model.pos_enc(model.tgt_emb(ys) * (model.d_model ** 0.5))
-                tgt_mask = model.transformer.generate_square_subsequent_mask(ys.size(1)).to(device)
+                tgt_emb = model.pos_enc(model.tgt_emb(ys) * (model.d_model**0.5))
+                tgt_mask = model.transformer.generate_square_subsequent_mask(
+                    ys.size(1)
+                ).to(device)
                 out = model.transformer.decoder(tgt_emb, memory, tgt_mask=tgt_mask)
                 logits = model.out_proj(out[:, -1, :])
                 next_token = logits.argmax(dim=-1).unsqueeze(1)
@@ -80,7 +91,9 @@ def analyze_mappings(model, src_vocab, tgt_vocab, test_words):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--model-dir", default="models/rongorongo_translator_v5")
-    parser.add_argument("--device", default="cuda" if torch.cuda.is_available() else "cpu")
+    parser.add_argument(
+        "--device", default="cuda" if torch.cuda.is_available() else "cpu"
+    )
     args = parser.parse_args()
 
     print("Loading model...")
@@ -90,9 +103,42 @@ def main():
     # Test words by category
     test_sets = {
         "Determinantes": ["te", "he", "ko", "ka", "a", "o", "e", "na", "tau", "nga"],
-        "Nombres comunes": ["tangata", "vahine", "tamaiti", "ika", "manu", "rakau", "moana", "hare", "maunga", "raa"],
-        "Verbos": ["haere", "noho", "kai", "inu", "moe", "tangi", "kite", "korero", "hula", "makemake"],
-        "Nombres propios": ["Hotu", "Matua", "Maui", "Tane", "Rongo", "Tiki", "Hina", "Papa", "Rangi", "Tupa"],
+        "Nombres comunes": [
+            "tangata",
+            "vahine",
+            "tamaiti",
+            "ika",
+            "manu",
+            "rakau",
+            "moana",
+            "hare",
+            "maunga",
+            "raa",
+        ],
+        "Verbos": [
+            "haere",
+            "noho",
+            "kai",
+            "inu",
+            "moe",
+            "tangi",
+            "kite",
+            "korero",
+            "hula",
+            "makemake",
+        ],
+        "Nombres propios": [
+            "Hotu",
+            "Matua",
+            "Maui",
+            "Tane",
+            "Rongo",
+            "Tiki",
+            "Hina",
+            "Papa",
+            "Rangi",
+            "Tupa",
+        ],
         "Partículas": ["i", "ki", "mai", "atu", "ma", "mo", "pe", "ra", "nei", "ai"],
         "Números": ["tahi", "rua", "toru", "rima", "ono", "tekau", "hongahuru"],
     }
@@ -142,9 +188,13 @@ def main():
         print(f"\nPalabra: '{word}'")
         for phrase in phrases:
             tokens = phrase.strip().lower().split()
-            src_ids = [src_vocab.bos_idx] + src_vocab.encode(tokens) + [src_vocab.eos_idx]
+            src_ids = (
+                [src_vocab.bos_idx] + src_vocab.encode(tokens) + [src_vocab.eos_idx]
+            )
             src = torch.tensor([src_ids], dtype=torch.long, device=args.device)
-            out_ids = model.greedy_decode(src, src_vocab, tgt_vocab, max_len=50, device=args.device)
+            out_ids = model.greedy_decode(
+                src, src_vocab, tgt_vocab, max_len=50, device=args.device
+            )
             out = []
             for idx in out_ids:
                 if idx == tgt_vocab.bos_idx:

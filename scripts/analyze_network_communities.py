@@ -3,6 +3,7 @@
 Identifies clusters of signs that tend to co-occur, potentially
 corresponding to functional classes (titles, numerals, names, etc.).
 """
+
 import argparse
 from pathlib import Path
 
@@ -11,7 +12,10 @@ import networkx as nx
 import numpy as np
 import pandas as pd
 
-from spectral_submersion.cooccurrence import build_vocab, cooccurrence_matrix_from_sequences
+from spectral_submersion.cooccurrence import (
+    build_vocab,
+    cooccurrence_matrix_from_sequences,
+)
 from spectral_submersion.pmi import ppmi_matrix
 from spectral_submersion.tokenization import get_sequences_by_line, tokens_to_ids
 
@@ -40,10 +44,12 @@ def detect_communities(G: nx.Graph) -> dict:
     """Detect communities using Louvain algorithm."""
     try:
         import community as community_louvain
+
         partition = community_louvain.best_partition(G, weight="weight")
     except ImportError:
         # Fallback to greedy modularity
         from networkx.algorithms.community import greedy_modularity_communities
+
         comms = list(greedy_modularity_communities(G, weight="weight"))
         partition = {}
         for comm_id, nodes in enumerate(comms):
@@ -67,7 +73,9 @@ def plot_communities(G: nx.Graph, partition: dict, title: str, output_path: str)
     degrees = dict(G.degree())
     node_sizes = [200 + 100 * degrees[n] for n in G.nodes()]
 
-    nx.draw_networkx_nodes(G, pos, node_color=node_colors, node_size=node_sizes, alpha=0.9, ax=ax)
+    nx.draw_networkx_nodes(
+        G, pos, node_color=node_colors, node_size=node_sizes, alpha=0.9, ax=ax
+    )
     nx.draw_networkx_edges(G, pos, alpha=0.3, ax=ax)
     nx.draw_networkx_labels(G, pos, font_size=7, font_family="monospace", ax=ax)
 
@@ -81,10 +89,18 @@ def plot_communities(G: nx.Graph, partition: dict, title: str, output_path: str)
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Community detection on co-occurrence network")
-    parser.add_argument("--input", default="data/raw/lost_language/corpus_indus_real.csv")
-    parser.add_argument("--output-fig", default="reports/figures/network_communities.png")
-    parser.add_argument("--output-table", default="reports/tables/network_communities.csv")
+    parser = argparse.ArgumentParser(
+        description="Community detection on co-occurrence network"
+    )
+    parser.add_argument(
+        "--input", default="data/raw/lost_language/corpus_indus_real.csv"
+    )
+    parser.add_argument(
+        "--output-fig", default="reports/figures/network_communities.png"
+    )
+    parser.add_argument(
+        "--output-table", default="reports/tables/network_communities.csv"
+    )
     parser.add_argument("--window", type=int, default=3)
     parser.add_argument("--min-pmi", type=float, default=0.3)
     parser.add_argument("--title", default="Indus Sign Communities")
@@ -100,11 +116,13 @@ def main():
 
     rows = []
     for comm_id, nodes in sorted(comm_nodes.items()):
-        rows.append({
-            "community": comm_id,
-            "size": len(nodes),
-            "nodes": " ".join(sorted(nodes)),
-        })
+        rows.append(
+            {
+                "community": comm_id,
+                "size": len(nodes),
+                "nodes": " ".join(sorted(nodes)),
+            }
+        )
 
     df = pd.DataFrame(rows)
     df.to_csv(args.output_table, index=False)

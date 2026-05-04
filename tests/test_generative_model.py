@@ -1,5 +1,5 @@
 """Tests for generative model: claim blocking, hypothesis cards."""
-import pytest
+
 import numpy as np
 from spectral_submersion.generative_model import (
     GenerativeConfig,
@@ -37,7 +37,7 @@ class TestRongorongoGenerativeModel:
 
     def test_claims_blocked_without_anchors(self):
         model = RongorongoGenerativeModel()
-        n_src, n_tgt = 3, 3
+        n_tgt = 3
         coupling = np.eye(n_tgt) * 0.8 + 0.1 / n_tgt
 
         result = model.process_transport_hypotheses(
@@ -50,7 +50,8 @@ class TestRongorongoGenerativeModel:
         )
         for h in result:
             assert h["claim_blocked"] or h["max_claim_level"] in (
-                "C0_PALEOGRAPHIC", "C1_STRUCTUREAL"
+                "C0_PALEOGRAPHIC",
+                "C1_STRUCTUREAL",
             )
 
     def test_format_hypothesis_card(self):

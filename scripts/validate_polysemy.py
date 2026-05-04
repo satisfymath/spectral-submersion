@@ -4,6 +4,7 @@ When the candidate vocabulary is smaller than the lost vocabulary due to
 collapse, we restrict Procrustes to the subset of tokens that have
 valid anchors, then test recovery on those same anchors.
 """
+
 import argparse
 import json
 from pathlib import Path
@@ -22,12 +23,26 @@ def mean_reciprocal_rank(ranks: np.ndarray) -> float:
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Validate anchor recovery under polysemy")
-    parser.add_argument("--lost-embed", default="data/processed/embeddings_synthetic_v2.npy")
-    parser.add_argument("--lost-vocab", default="data/processed/embeddings_synthetic_v2.vocab.json")
-    parser.add_argument("--candidate-embed", default="data/processed/embeddings_synthetic_collapsed.npy")
-    parser.add_argument("--candidate-vocab", default="data/processed/embeddings_synthetic_collapsed.vocab.json")
-    parser.add_argument("--anchors", default="data/raw/candidate_languages/synthetic_collapsed_anchors.json")
+    parser = argparse.ArgumentParser(
+        description="Validate anchor recovery under polysemy"
+    )
+    parser.add_argument(
+        "--lost-embed", default="data/processed/embeddings_synthetic_v2.npy"
+    )
+    parser.add_argument(
+        "--lost-vocab", default="data/processed/embeddings_synthetic_v2.vocab.json"
+    )
+    parser.add_argument(
+        "--candidate-embed", default="data/processed/embeddings_synthetic_collapsed.npy"
+    )
+    parser.add_argument(
+        "--candidate-vocab",
+        default="data/processed/embeddings_synthetic_collapsed.vocab.json",
+    )
+    parser.add_argument(
+        "--anchors",
+        default="data/raw/candidate_languages/synthetic_collapsed_anchors.json",
+    )
     parser.add_argument("--train-fraction", type=float, default=0.20)
     parser.add_argument("--seed", type=int, default=42)
     args = parser.parse_args()
@@ -50,7 +65,9 @@ def main():
 
     # Build train matrices
     X_train = np.array([E_lost[lost_vocab[a["lost_token"]]] for a in train_anchors])
-    Y_train = np.array([E_cand[cand_vocab[a["candidate_token"]]] for a in train_anchors])
+    Y_train = np.array(
+        [E_cand[cand_vocab[a["candidate_token"]]] for a in train_anchors]
+    )
 
     Q = orthogonal_procrustes(X_train, Y_train)
     E_lost_aligned = E_lost @ Q

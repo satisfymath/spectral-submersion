@@ -1,4 +1,5 @@
 """Tests for audit metrics: NegCtrlGap, ECE, HypothesisLedger."""
+
 import pytest
 import numpy as np
 from spectral_submersion.audit_metrics import (
@@ -7,7 +8,6 @@ from spectral_submersion.audit_metrics import (
     bootstrap_coupling_stability,
     expected_calibration_error,
     HypothesisLedger,
-    HypothesisEntry,
 )
 
 
@@ -23,7 +23,9 @@ class TestNegativeControlGap:
         assert result["interpretation"] == "no_evidence"
 
     def test_moderate_gap(self):
-        result = negative_control_gap(2.5, np.random.RandomState(42).normal(0, 0.5, 100))
+        result = negative_control_gap(
+            2.5, np.random.RandomState(42).normal(0, 0.5, 100)
+        )
         assert 1.0 <= result["gap"]
 
     def test_zero_std(self):

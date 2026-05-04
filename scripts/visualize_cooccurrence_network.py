@@ -4,6 +4,7 @@ Creates a graph where nodes are signs/tokens and edges represent
 co-occurrences within a window. Edge weights = PMI values.
 Useful for identifying clusters of functionally related signs.
 """
+
 import argparse
 from pathlib import Path
 
@@ -12,12 +13,17 @@ import networkx as nx
 import numpy as np
 import pandas as pd
 
-from spectral_submersion.cooccurrence import build_vocab, cooccurrence_matrix_from_sequences
+from spectral_submersion.cooccurrence import (
+    build_vocab,
+    cooccurrence_matrix_from_sequences,
+)
 from spectral_submersion.pmi import ppmi_matrix
 from spectral_submersion.tokenization import get_sequences_by_line, tokens_to_ids
 
 
-def build_network(corpus_csv: str, window: int = 3, min_pmi: float = 0.5, max_nodes: int = 50):
+def build_network(
+    corpus_csv: str, window: int = 3, min_pmi: float = 0.5, max_nodes: int = 50
+):
     """Build NetworkX graph from PPMI matrix."""
     df = pd.read_csv(corpus_csv)
     sequences = get_sequences_by_line(df)
@@ -67,12 +73,15 @@ def plot_network(G: nx.Graph, title: str, output_path: str):
     weights = [d["weight"] for (_, _, d) in edges]
     edge_widths = [1 + 3 * (w / max(weights)) if weights else 1 for w in weights]
 
-    nx.draw_networkx_nodes(G, pos, node_size=node_sizes,
-                           node_color="#2E86AB", alpha=0.8, ax=ax)
-    nx.draw_networkx_edges(G, pos, width=edge_widths,
-                           edge_color="#A23B72", alpha=0.5, ax=ax)
-    nx.draw_networkx_labels(G, pos, font_size=8, font_family="monospace",
-                            font_color="#1a1816", ax=ax)
+    nx.draw_networkx_nodes(
+        G, pos, node_size=node_sizes, node_color="#2E86AB", alpha=0.8, ax=ax
+    )
+    nx.draw_networkx_edges(
+        G, pos, width=edge_widths, edge_color="#A23B72", alpha=0.5, ax=ax
+    )
+    nx.draw_networkx_labels(
+        G, pos, font_size=8, font_family="monospace", font_color="#1a1816", ax=ax
+    )
 
     ax.set_title(title, fontsize=14, fontweight="bold")
     ax.axis("off")
@@ -86,7 +95,9 @@ def plot_network(G: nx.Graph, title: str, output_path: str):
 
 def main():
     parser = argparse.ArgumentParser(description="Visualize co-occurrence network")
-    parser.add_argument("--input", default="data/raw/lost_language/corpus_indus_real.csv")
+    parser.add_argument(
+        "--input", default="data/raw/lost_language/corpus_indus_real.csv"
+    )
     parser.add_argument("--output", default="reports/figures/cooccurrence_network.png")
     parser.add_argument("--window", type=int, default=3)
     parser.add_argument("--min-pmi", type=float, default=0.5)

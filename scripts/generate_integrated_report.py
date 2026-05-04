@@ -7,6 +7,7 @@ Pulls results from:
 - Anchor recovery (biyectivo + polysemy)
 - Multi-candidate comparison
 """
+
 import json
 from pathlib import Path
 
@@ -57,7 +58,9 @@ def main():
         lines.append("- Control comparison not available.")
 
     lines.append("")
-    lines.append("**Interpretation**: Lower effective rank in the real corpus vs. random baselines confirms structural compressibility (non-random grammar).")
+    lines.append(
+        "**Interpretation**: Lower effective rank in the real corpus vs. random baselines confirms structural compressibility (non-random grammar)."
+    )
     lines.append("")
     lines.append("## 3. Bootstrap Stability")
     lines.append("")
@@ -88,12 +91,16 @@ def main():
         lines.append(f"- Accuracy@1: {poly.get('accuracy_at_1', 'N/A')}")
         lines.append(f"- Accuracy@5: {poly.get('accuracy_at_5', 'N/A')}")
         lines.append(f"- MRR: {poly.get('mrr', 'N/A')}")
-        lines.append(f"- Degradation vs. bijection: ~{((bench.get('accuracy_at_1', 1.0) - poly.get('accuracy_at_1', 0.0)) / bench.get('accuracy_at_1', 1.0) * 100):.0f}% drop in Acc@1")
+        lines.append(
+            f"- Degradation vs. bijection: ~{((bench.get('accuracy_at_1', 1.0) - poly.get('accuracy_at_1', 0.0)) / bench.get('accuracy_at_1', 1.0) * 100):.0f}% drop in Acc@1"
+        )
 
     lines.append("")
     lines.append("## 5. Multi-Candidate Comparison (single-language baseline)")
     lines.append("")
-    lines.append("> **Warning**: These comparisons are structural benchmarks, not genealogical claims.")
+    lines.append(
+        "> **Warning**: These comparisons are structural benchmarks, not genealogical claims."
+    )
     lines.append("")
 
     cand = load_csv("reports/tables/candidate_comparison_summary.csv")
@@ -105,7 +112,9 @@ def main():
     lines.append("")
     lines.append("## 6. Multi-Language Consensus Pipeline")
     lines.append("")
-    lines.append("We construct a shared latent space $R$ from multiple candidate languages via Generalized Procrustes Analysis, then project the lost language into $R$ and evaluate against each candidate in the aligned consensus space.")
+    lines.append(
+        "We construct a shared latent space $R$ from multiple candidate languages via Generalized Procrustes Analysis, then project the lost language into $R$ and evaluate against each candidate in the aligned consensus space."
+    )
     lines.append("")
 
     for corpus_label, csv_path in [
@@ -120,9 +129,15 @@ def main():
             lines.append("")
 
     lines.append("**Observations**:")
-    lines.append("- Polynesian candidates (rapa_nui, fijian, tahitian, tongan) consistently show lower relational distortion than Japanese, Arabic, or Korean in the consensus space.")
-    lines.append("- This structural clustering persists across all three lost-language corpora, suggesting the pipeline captures typological regularities rather than genealogical accidents.")
-    lines.append("- The consensus space reduces dimensionality to the minimum vocabulary size (38 tokens), which is a honest compression but may lose fine-grained distinctions.")
+    lines.append(
+        "- Polynesian candidates (rapa_nui, fijian, tahitian, tongan) consistently show lower relational distortion than Japanese, Arabic, or Korean in the consensus space."
+    )
+    lines.append(
+        "- This structural clustering persists across all three lost-language corpora, suggesting the pipeline captures typological regularities rather than genealogical accidents."
+    )
+    lines.append(
+        "- The consensus space reduces dimensionality to the minimum vocabulary size (38 tokens), which is a honest compression but may lose fine-grained distinctions."
+    )
     lines.append("")
 
     lines.append("## 7. Multi-Language Anchor Recovery Validation")
@@ -134,40 +149,78 @@ def main():
         d = multi_anchor.get("deltas", {})
         lines.append("| Metric | Single-Candidate | Multi-Language Consensus | Delta |")
         lines.append("|--------|------------------|--------------------------|-------|")
-        lines.append(f"| Acc@1  | {b.get('accuracy_at_1', 'N/A')} | {m.get('accuracy_at_1', 'N/A')} | {d.get('accuracy_at_1', 'N/A'):+.4f} |")
-        lines.append(f"| Acc@5  | {b.get('accuracy_at_5', 'N/A')} | {m.get('accuracy_at_5', 'N/A')} | {d.get('accuracy_at_5', 'N/A'):+.4f} |")
-        lines.append(f"| MRR    | {b.get('mrr', 'N/A')} | {m.get('mrr', 'N/A')} | {d.get('mrr', 'N/A'):+.4f} |")
+        lines.append(
+            f"| Acc@1  | {b.get('accuracy_at_1', 'N/A')} | {m.get('accuracy_at_1', 'N/A')} | {d.get('accuracy_at_1', 'N/A'):+.4f} |"
+        )
+        lines.append(
+            f"| Acc@5  | {b.get('accuracy_at_5', 'N/A')} | {m.get('accuracy_at_5', 'N/A')} | {d.get('accuracy_at_5', 'N/A'):+.4f} |"
+        )
+        lines.append(
+            f"| MRR    | {b.get('mrr', 'N/A')} | {m.get('mrr', 'N/A')} | {d.get('mrr', 'N/A'):+.4f} |"
+        )
         lines.append("")
-        lines.append("**Interpretation**: On the synthetic permutation benchmark, adding unrelated real languages into the consensus does not improve anchor recovery and may slightly degrade Acc@1 because the consensus space is dominated by the structural geometry of the real languages, not the synthetic ground truth. This is an honest negative result: consensus multi-idioma only helps when the auxiliary languages truly share the latent conceptual space $R$.")
+        lines.append(
+            "**Interpretation**: On the synthetic permutation benchmark, adding unrelated real languages into the consensus does not improve anchor recovery and may slightly degrade Acc@1 because the consensus space is dominated by the structural geometry of the real languages, not the synthetic ground truth. This is an honest negative result: consensus multi-idioma only helps when the auxiliary languages truly share the latent conceptual space $R$."
+        )
     else:
         lines.append("- Multi-language anchor recovery results not available.")
 
     lines.append("")
     lines.append("## 8. Summary of Findings")
     lines.append("")
-    lines.append("1. The synthetic corpus exhibits **non-random structure** measurable by spectral compression (effective rank << random baselines).")
-    lines.append("2. Spectral properties are **stable under bootstrap** (CV < 1%), suggesting robustness to sampling variance.")
-    lines.append("3. Under **perfect bijection + partial anchors**, Procrustes recovers ~54% of correspondences (Acc@1) in this run.")
-    lines.append("4. Under **15% polysemy**, recovery drops significantly, confirming that non-bijective mappings severely degrade identifiability.")
-    lines.append("5. **Optimal Transport consistently outperforms** soft nearest-neighbor and random baselines in geometric and relational distortion.")
-    lines.append("6. **Multi-language consensus** produces stable structural rankings across lost-language corpora, but does not magically improve anchor recovery unless the auxiliary languages share the true latent conceptual space.")
-    lines.append("7. **No candidate language can be identified as the 'correct' translation** of any lost corpus; the rankings reflect structural fit, not historical truth.")
+    lines.append(
+        "1. The synthetic corpus exhibits **non-random structure** measurable by spectral compression (effective rank << random baselines)."
+    )
+    lines.append(
+        "2. Spectral properties are **stable under bootstrap** (CV < 1%), suggesting robustness to sampling variance."
+    )
+    lines.append(
+        "3. Under **perfect bijection + partial anchors**, Procrustes recovers ~54% of correspondences (Acc@1) in this run."
+    )
+    lines.append(
+        "4. Under **15% polysemy**, recovery drops significantly, confirming that non-bijective mappings severely degrade identifiability."
+    )
+    lines.append(
+        "5. **Optimal Transport consistently outperforms** soft nearest-neighbor and random baselines in geometric and relational distortion."
+    )
+    lines.append(
+        "6. **Multi-language consensus** produces stable structural rankings across lost-language corpora, but does not magically improve anchor recovery unless the auxiliary languages share the true latent conceptual space."
+    )
+    lines.append(
+        "7. **No candidate language can be identified as the 'correct' translation** of any lost corpus; the rankings reflect structural fit, not historical truth."
+    )
     lines.append("")
     lines.append("## 9. Limitations")
     lines.append("")
     lines.append("- Synthetic corpus is not a real archaeological artifact.")
-    lines.append("- Rongorongo analysis is based on a synthetic benchmark; no normalized real transcription was publicly available.")
-    lines.append("- Tokenization of candidate languages is heuristic (space-delimited, optional particle segmentation).")
+    lines.append(
+        "- Rongorongo analysis is based on a synthetic benchmark; no normalized real transcription was publicly available."
+    )
+    lines.append(
+        "- Tokenization of candidate languages is heuristic (space-delimited, optional particle segmentation)."
+    )
     lines.append("- No real bilingual anchors exist for any candidate.")
-    lines.append("- The consensus space is truncated to the smallest candidate vocabulary, losing resolution.")
+    lines.append(
+        "- The consensus space is truncated to the smallest candidate vocabulary, losing resolution."
+    )
     lines.append("")
     lines.append("## 10. Next Steps")
     lines.append("")
-    lines.append("- Acquire or construct a real Rongorongo normalized corpus from published academic sources.")
-    lines.append("- Implement a multi-marginal Gromov-Wasserstein solver that preserves full vocabulary sizes via embedding propagation.")
-    lines.append("- Expand candidate pool with larger corpora (UD, Bible translations, Wikipedia) and test saturation of the consensus space.")
-    lines.append("- Calibrate OT regularization and Tikhonov lambda via cross-validation on synthetic benchmarks with known multi-view conceptual structure.")
-    lines.append("- Extend the mathematical theory with quantitative bounds on $H(\Pi_{\\text{cons}})$ under specific distributional assumptions on $G_i$.")
+    lines.append(
+        "- Acquire or construct a real Rongorongo normalized corpus from published academic sources."
+    )
+    lines.append(
+        "- Implement a multi-marginal Gromov-Wasserstein solver that preserves full vocabulary sizes via embedding propagation."
+    )
+    lines.append(
+        "- Expand candidate pool with larger corpora (UD, Bible translations, Wikipedia) and test saturation of the consensus space."
+    )
+    lines.append(
+        "- Calibrate OT regularization and Tikhonov lambda via cross-validation on synthetic benchmarks with known multi-view conceptual structure."
+    )
+    lines.append(
+        "- Extend the mathematical theory with quantitative bounds on $H(\Pi_{\\text{cons}})$ under specific distributional assumptions on $G_i$."
+    )
 
     out_path = Path("reports/final/integrated_hypothesis_report.md")
     out_path.parent.mkdir(parents=True, exist_ok=True)

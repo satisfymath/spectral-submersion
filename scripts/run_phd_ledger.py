@@ -3,6 +3,7 @@
 Loads transport coupling matrices and generates hypothesis entries
 with full claim-level auditing, evidence, and counterevidence.
 """
+
 import argparse
 import json
 import sys
@@ -13,7 +14,10 @@ import numpy as np
 sys.path.insert(0, "src")
 
 from spectral_submersion.io import load_config
-from spectral_submersion.generative_model import RongorongoGenerativeModel, GenerativeConfig
+from spectral_submersion.generative_model import (
+    RongorongoGenerativeModel,
+    GenerativeConfig,
+)
 from spectral_submersion.claims import ClaimLevel
 
 
@@ -32,26 +36,33 @@ def main():
     print("=" * 60)
 
     claims_config = config.get("claims", {})
-    max_level_str = claims_config.get("max_claim_level_without_external_anchor", "C2_FUNCTIONAL")
+    max_level_str = claims_config.get(
+        "max_claim_level_without_external_anchor", "C2_FUNCTIONAL"
+    )
     max_level = ClaimLevel[max_level_str]
 
     gen_config = GenerativeConfig(
         max_claim_level=max_level,
-        require_negative_controls=claims_config.get("require_negative_control_gap", 2.0) > 0,
-        block_c5_without_external=claims_config.get("block_c5_without_external_evidence", True),
+        require_negative_controls=claims_config.get("require_negative_control_gap", 2.0)
+        > 0,
+        block_c5_without_external=claims_config.get(
+            "block_c5_without_external_evidence", True
+        ),
         min_bootstrap_stability=claims_config.get("require_bootstrap_stability", 0.7),
         min_negative_control_gap=claims_config.get("require_negative_control_gap", 2.0),
     )
 
     model = RongorongoGenerativeModel(gen_config)
 
-    demo_coupling = np.array([
-        [0.7, 0.1, 0.1, 0.05, 0.05],
-        [0.1, 0.6, 0.15, 0.1, 0.05],
-        [0.05, 0.2, 0.5, 0.15, 0.1],
-        [0.05, 0.05, 0.1, 0.6, 0.2],
-        [0.05, 0.05, 0.15, 0.25, 0.5],
-    ])
+    demo_coupling = np.array(
+        [
+            [0.7, 0.1, 0.1, 0.05, 0.05],
+            [0.1, 0.6, 0.15, 0.1, 0.05],
+            [0.05, 0.2, 0.5, 0.15, 0.1],
+            [0.05, 0.05, 0.1, 0.6, 0.2],
+            [0.05, 0.05, 0.15, 0.25, 0.5],
+        ]
+    )
     source_tokens = ["200", "076", "380", "010", "052"]
     target_tokens = ["ra", "ki", "ma", "te", "toa"]
 
@@ -116,8 +127,10 @@ def main():
         }
 
         for h in result:
-            print(f"  {h['source_token']}: max_claim={h['max_claim_level']}, "
-                  f"blocked={h['blocked']}, OCR={h['overclaim_risk']:.3f}")
+            print(
+                f"  {h['source_token']}: max_claim={h['max_claim_level']}, "
+                f"blocked={h['blocked']}, OCR={h['overclaim_risk']:.3f}"
+            )
 
     model.save_ledger(output_dir / "hypothesis_ledger.jsonl")
 
@@ -129,7 +142,9 @@ def main():
     print(f"  Mean OCR: {summary['mean_overclaim_risk']:.3f}")
 
     with open(output_dir / "ledger_summary.json", "w") as f:
-        json.dump({"summary": summary, "scenarios": all_results}, f, indent=2, default=str)
+        json.dump(
+            {"summary": summary, "scenarios": all_results}, f, indent=2, default=str
+        )
 
     print(f"\nLedger saved to {output_dir}")
 

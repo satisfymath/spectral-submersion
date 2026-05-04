@@ -2,6 +2,7 @@
 
 Shared components used by both training and inference scripts.
 """
+
 import math
 
 import torch
@@ -15,8 +16,11 @@ class Vocab:
         self.pad, self.unk, self.bos, self.eos = special
         self.special = special
         from collections import Counter
+
         counts = Counter(tokens)
-        self.itos = list(special) + [t for t, c in counts.items() if c >= min_freq and t not in special]
+        self.itos = list(special) + [
+            t for t, c in counts.items() if c >= min_freq and t not in special
+        ]
         self.stoi = {t: i for i, t in enumerate(self.itos)}
         self.pad_idx = self.stoi[self.pad]
         self.unk_idx = self.stoi[self.unk]
@@ -39,13 +43,15 @@ class PositionalEncoding(nn.Module):
         self.dropout = nn.Dropout(dropout)
         pe = torch.zeros(max_len, d_model)
         position = torch.arange(0, max_len, dtype=torch.float).unsqueeze(1)
-        div_term = torch.exp(torch.arange(0, d_model, 2).float() * (-math.log(10000.0) / d_model))
+        div_term = torch.exp(
+            torch.arange(0, d_model, 2).float() * (-math.log(10000.0) / d_model)
+        )
         pe[:, 0::2] = torch.sin(position * div_term)
         pe[:, 1::2] = torch.cos(position * div_term)
         self.register_buffer("pe", pe.unsqueeze(0))
 
     def forward(self, x):
-        x = x + self.pe[:, :x.size(1)]
+        x = x + self.pe[:, : x.size(1)]
         return self.dropout(x)
 
 
@@ -84,13 +90,24 @@ class TransformerTranslator(nn.Module):
             if p.dim() > 1:
                 nn.init.xavier_uniform_(p)
 
-    def forward(self, src, tgt, src_mask=None, tgt_mask=None,
-                src_padding_mask=None, tgt_padding_mask=None, memory_key_padding_mask=None):
+    def forward(
+        self,
+        src,
+        tgt,
+        src_mask=None,
+        tgt_mask=None,
+        src_padding_mask=None,
+        tgt_padding_mask=None,
+        memory_key_padding_mask=None,
+    ):
         src_emb = self.pos_enc(self.src_emb(src) * math.sqrt(self.d_model))
         tgt_emb = self.pos_enc(self.tgt_emb(tgt) * math.sqrt(self.d_model))
-        tgt_mask = self.transformer.generate_square_subsequent_mask(tgt.size(1)).to(tgt.device)
+        tgt_mask = self.transformer.generate_square_subsequent_mask(tgt.size(1)).to(
+            tgt.device
+        )
         out = self.transformer(
-            src_emb, tgt_emb,
+            src_emb,
+            tgt_emb,
             tgt_mask=tgt_mask,
             src_key_padding_mask=src_padding_mask,
             tgt_key_padding_mask=tgt_padding_mask,
@@ -106,7 +123,9 @@ class TransformerTranslator(nn.Module):
             ys = torch.tensor([[tgt_vocab.bos_idx]], dtype=torch.long, device=device)
             for _ in range(max_len):
                 tgt_emb = self.pos_enc(self.tgt_emb(ys) * math.sqrt(self.d_model))
-                tgt_mask = self.transformer.generate_square_subsequent_mask(ys.size(1)).to(device)
+                tgt_mask = self.transformer.generate_square_subsequent_mask(
+                    ys.size(1)
+                ).to(device)
                 out = self.transformer.decoder(tgt_emb, memory, tgt_mask=tgt_mask)
                 logits = self.out_proj(out[:, -1, :])
                 next_token = logits.argmax(dim=-1).unsqueeze(1)

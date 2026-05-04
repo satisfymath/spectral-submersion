@@ -6,6 +6,7 @@ Improvements over v1:
 - More epochs with early stopping patience
 - Better initialization
 """
+
 import argparse
 import json
 import math
@@ -23,7 +24,9 @@ from spectral_submersion.rongorongo_translator import Vocab, TransformerTranslat
 
 
 class TranslationDataset(Dataset):
-    def __init__(self, df, src_vocab, tgt_vocab, max_len=50, augment=False, aug_prob=0.1):
+    def __init__(
+        self, df, src_vocab, tgt_vocab, max_len=50, augment=False, aug_prob=0.1
+    ):
         self.pairs = []
         self.augment = augment
         self.aug_prob = aug_prob
@@ -50,7 +53,11 @@ class TranslationDataset(Dataset):
         # Randomly replace 10% of non-special tokens with <unk>
         result = []
         for i, tok in enumerate(src_ids):
-            if tok not in (self.src_vocab.bos_idx, self.src_vocab.eos_idx, self.src_vocab.pad_idx):
+            if tok not in (
+                self.src_vocab.bos_idx,
+                self.src_vocab.eos_idx,
+                self.src_vocab.pad_idx,
+            ):
                 if random.random() < 0.1:
                     result.append(self.src_vocab.unk_idx)
                 else:
@@ -67,8 +74,8 @@ def collate_fn(batch, pad_idx):
     src_pad = torch.full((len(srcs), max_src), pad_idx, dtype=torch.long)
     tgt_pad = torch.full((len(tgts), max_tgt), pad_idx, dtype=torch.long)
     for i, (s, t) in enumerate(zip(srcs, tgts)):
-        src_pad[i, :len(s)] = torch.tensor(s, dtype=torch.long)
-        tgt_pad[i, :len(t)] = torch.tensor(t, dtype=torch.long)
+        src_pad[i, : len(s)] = torch.tensor(s, dtype=torch.long)
+        tgt_pad[i, : len(t)] = torch.tensor(t, dtype=torch.long)
     return src_pad, tgt_pad
 
 
@@ -83,9 +90,13 @@ def train_epoch(model, dataloader, optimizer, criterion, device, pad_idx):
         tgt_output = tgt[:, 1:]
 
         optimizer.zero_grad()
-        output = model(src, tgt_input, src_padding_mask=(src == pad_idx),
-                       tgt_padding_mask=(tgt_input == pad_idx),
-                       memory_key_padding_mask=(src == pad_idx))
+        output = model(
+            src,
+            tgt_input,
+            src_padding_mask=(src == pad_idx),
+            tgt_padding_mask=(tgt_input == pad_idx),
+            memory_key_padding_mask=(src == pad_idx),
+        )
         output = output.reshape(-1, output.size(-1))
         tgt_output = tgt_output.reshape(-1)
         loss = criterion(output, tgt_output)
@@ -110,9 +121,13 @@ def evaluate(model, dataloader, criterion, device, pad_idx):
             tgt = tgt.to(device)
             tgt_input = tgt[:, :-1]
             tgt_output = tgt[:, 1:]
-            output = model(src, tgt_input, src_padding_mask=(src == pad_idx),
-                           tgt_padding_mask=(tgt_input == pad_idx),
-                           memory_key_padding_mask=(src == pad_idx))
+            output = model(
+                src,
+                tgt_input,
+                src_padding_mask=(src == pad_idx),
+                tgt_padding_mask=(tgt_input == pad_idx),
+                memory_key_padding_mask=(src == pad_idx),
+            )
             output = output.reshape(-1, output.size(-1))
             tgt_output = tgt_output.reshape(-1)
             loss = criterion(output, tgt_output)
@@ -124,7 +139,9 @@ def evaluate(model, dataloader, criterion, device, pad_idx):
 
 def main():
     parser = argparse.ArgumentParser(description="Train enhanced Rongorongo translator")
-    parser.add_argument("--data", default="data/raw/lost_language/parallel_rongorongo_massive_v3.csv")
+    parser.add_argument(
+        "--data", default="data/raw/lost_language/parallel_rongorongo_massive_v3.csv"
+    )
     parser.add_argument("--output-dir", default="models/rongorongo_translator_v5")
     parser.add_argument("--d-model", type=int, default=256)
     parser.add_argument("--nhead", type=int, default=8)
@@ -173,10 +190,21 @@ def main():
     def _collate(batch):
         return collate_fn(batch, src_vocab.pad_idx)
 
-    train_loader = DataLoader(train_ds, batch_size=args.batch_size, shuffle=True,
-                              collate_fn=_collate, num_workers=0, pin_memory=True)
-    val_loader = DataLoader(val_ds, batch_size=args.batch_size,
-                            collate_fn=_collate, num_workers=0, pin_memory=True)
+    train_loader = DataLoader(
+        train_ds,
+        batch_size=args.batch_size,
+        shuffle=True,
+        collate_fn=_collate,
+        num_workers=0,
+        pin_memory=True,
+    )
+    val_loader = DataLoader(
+        val_ds,
+        batch_size=args.batch_size,
+        collate_fn=_collate,
+        num_workers=0,
+        pin_memory=True,
+    )
 
     model = TransformerTranslator(
         src_vocab_size=len(src_vocab),
@@ -193,8 +221,12 @@ def main():
     print(f"Model parameters: {total_params:,}")
 
     criterion = nn.CrossEntropyLoss(ignore_index=tgt_vocab.pad_idx)
-    optimizer = torch.optim.AdamW(model.parameters(), lr=args.lr, betas=(0.9, 0.98), eps=1e-9, weight_decay=0.01)
-    scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=args.epochs, eta_min=args.min_lr)
+    optimizer = torch.optim.AdamW(
+        model.parameters(), lr=args.lr, betas=(0.9, 0.98), eps=1e-9, weight_decay=0.01
+    )
+    scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(
+        optimizer, T_max=args.epochs, eta_min=args.min_lr
+    )
 
     best_val_loss = float("inf")
     patience_counter = 0
@@ -202,11 +234,15 @@ def main():
     output_dir.mkdir(parents=True, exist_ok=True)
 
     for epoch in range(1, args.epochs + 1):
-        train_loss = train_epoch(model, train_loader, optimizer, criterion, device, src_vocab.pad_idx)
+        train_loss = train_epoch(
+            model, train_loader, optimizer, criterion, device, src_vocab.pad_idx
+        )
         val_loss = evaluate(model, val_loader, criterion, device, src_vocab.pad_idx)
         scheduler.step()
         current_lr = optimizer.param_groups[0]["lr"]
-        print(f"Epoch {epoch:02d} | LR: {current_lr:.2e} | Train: {train_loss:.4f} | Val: {val_loss:.4f} | PPL: {math.exp(val_loss):.2f}")
+        print(
+            f"Epoch {epoch:02d} | LR: {current_lr:.2e} | Train: {train_loss:.4f} | Val: {val_loss:.4f} | PPL: {math.exp(val_loss):.2f}"
+        )
 
         if val_loss < best_val_loss:
             best_val_loss = val_loss

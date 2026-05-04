@@ -6,6 +6,7 @@ This script extracts those features, normalizes them, and concatenates them
 with spectral embeddings to create enhanced sign representations that include
 both contextual and visual/iconographic information.
 """
+
 import argparse
 import json
 from pathlib import Path
@@ -14,13 +15,18 @@ import numpy as np
 import pandas as pd
 from sklearn.preprocessing import StandardScaler
 
-from spectral_submersion.cooccurrence import build_vocab, cooccurrence_matrix_from_sequences
+from spectral_submersion.cooccurrence import (
+    build_vocab,
+    cooccurrence_matrix_from_sequences,
+)
 from spectral_submersion.pmi import ppmi_matrix
 from spectral_submersion.spectral import spectral_embedding
 from spectral_submersion.tokenization import get_sequences_by_line, tokens_to_ids
 
 
-def extract_feature_vectors(json_dir: str, token_vocab: dict[str, int]) -> dict[str, list[float]]:
+def extract_feature_vectors(
+    json_dir: str, token_vocab: dict[str, int]
+) -> dict[str, list[float]]:
     """Extract feature vectors for each token from JSON corpus files.
 
     Returns a dict mapping token -> feature vector (list of floats).
@@ -54,7 +60,9 @@ def extract_feature_vectors(json_dir: str, token_vocab: dict[str, int]) -> dict[
         token_avg_features[token] = avg
 
     # Determine max feature dimension
-    max_dim = max(len(v) for v in token_avg_features.values()) if token_avg_features else 0
+    max_dim = (
+        max(len(v) for v in token_avg_features.values()) if token_avg_features else 0
+    )
 
     # Build final dict aligned with vocab
     result = {}
@@ -113,10 +121,16 @@ def build_enhanced_embeddings(
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Build enhanced embeddings with iconographic features")
-    parser.add_argument("--corpus", default="data/raw/lost_language/corpus_indus_real.csv")
+    parser = argparse.ArgumentParser(
+        description="Build enhanced embeddings with iconographic features"
+    )
+    parser.add_argument(
+        "--corpus", default="data/raw/lost_language/corpus_indus_real.csv"
+    )
     parser.add_argument("--json-dir", default="/tmp/indus-corpus/corpus")
-    parser.add_argument("--output", default="data/processed/embeddings_indus_real_enhanced.npy")
+    parser.add_argument(
+        "--output", default="data/processed/embeddings_indus_real_enhanced.npy"
+    )
     parser.add_argument("--k", type=int, default=16)
     parser.add_argument("--window", type=int, default=3)
     parser.add_argument("--alpha", type=float, default=0.0)
@@ -126,12 +140,18 @@ def main():
     # Ensure JSON corpus is available
     if not Path(args.json_dir).exists():
         print(f"ERROR: JSON corpus not found at {args.json_dir}")
-        print("Please clone: git clone https://github.com/mayig/indus-valley-script-corpus.git /tmp/indus-corpus")
+        print(
+            "Please clone: git clone https://github.com/mayig/indus-valley-script-corpus.git /tmp/indus-corpus"
+        )
         return
 
     build_enhanced_embeddings(
-        args.corpus, args.json_dir, args.output,
-        k=args.k, window=args.window, alpha=args.alpha,
+        args.corpus,
+        args.json_dir,
+        args.output,
+        k=args.k,
+        window=args.window,
+        alpha=args.alpha,
         feature_weight=args.feature_weight,
     )
 

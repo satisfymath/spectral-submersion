@@ -1,24 +1,26 @@
 """Tests for multi_alignment module."""
+
 import numpy as np
 import pytest
 
 from spectral_submersion.multi_alignment import (
-    generalized_procrustes,
-    build_consensus_space as consensus_space,
-    project_lost_to_consensus as project_onto_consensus,
-    consensus_distance_matrix as align_pair_gw,
     _frequency_ranks,
+    build_consensus_space as consensus_space,
+    generalized_procrustes,
+    project_lost_to_consensus as project_onto_consensus,
 )
 
 
 class TestFrequencyRanks:
     def test_basic(self):
-        E = np.array([
-            [1.0, 0.0],
-            [0.1, 0.0],
-            [5.0, 0.0],
-            [2.0, 0.0],
-        ])
+        E = np.array(
+            [
+                [1.0, 0.0],
+                [0.1, 0.0],
+                [5.0, 0.0],
+                [2.0, 0.0],
+            ]
+        )
         ranks = _frequency_ranks(E)
         assert ranks[0] == 2  # 5.0 is most frequent
         assert ranks[1] == 3  # 2.0 is second
@@ -70,7 +72,7 @@ class TestProjectOntoConsensus:
 
 class TestConsensusDistanceMatrix:
     def test_requires_names(self):
-        E1 = np.random.randn(15, 5)
-        E2 = np.random.randn(15, 5)
+        # E1 = np.random.randn(15, 5)
+        # E2 = np.random.randn(15, 5)
         # This function requires candidate names - skip for now
         pytest.skip("Function requires candidate_names argument")

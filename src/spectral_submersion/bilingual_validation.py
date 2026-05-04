@@ -15,11 +15,11 @@ Anchors are TRUE translation pairs (frequency-matched cognates).
 Evaluation is Acc@K: given a source word, is the correct translation
 in the top-K nearest neighbors after Procrustes alignment?
 """
+
 from __future__ import annotations
 
 import numpy as np
 from collections import Counter
-from typing import Sequence
 
 from .cooccurrence import cooccurrence_matrix_from_sequences
 from .pmi import ppmi_matrix
@@ -137,11 +137,13 @@ def build_bilingual_corpus(
 
     src_vocab = _build_vocab_with_min_freq(
         source_df["token"].astype(str).tolist(),
-        max_vocab=max_vocab, min_freq=min_freq,
+        max_vocab=max_vocab,
+        min_freq=min_freq,
     )
     tgt_vocab = _build_vocab_with_min_freq(
         target_df["token"].astype(str).tolist(),
-        max_vocab=max_vocab, min_freq=min_freq,
+        max_vocab=max_vocab,
+        min_freq=min_freq,
     )
 
     src_seqs = _df_to_sequences(source_df, src_vocab)
@@ -176,20 +178,24 @@ def build_bilingual_corpus(
 
         # Remap anchors to new IDs
         # src_vocab maps token -> old_id, src_id_map maps old_id -> new_id
-        inverted_src = {v: k for k, v in src_vocab.items()}
-        inverted_tgt = {v: k for k, v in tgt_vocab.items()}
+        # inverted_src = {v: k for k, v in src_vocab.items()}
+        # inverted_tgt = {v: k for k, v in tgt_vocab.items()}
 
         remapped_anchors = {}
         for old_src_id, old_tgt_id in cognate_anchors.items():
             if old_src_id in src_id_map and old_tgt_id in tgt_id_map:
                 remapped_anchors[src_id_map[old_src_id]] = tgt_id_map[old_tgt_id]
 
-        src_vocab_out = {tok: src_id_map[old_id]
-                         for tok, old_id in src_vocab.items()
-                         if old_id in src_id_map}
-        tgt_vocab_out = {tok: tgt_id_map[old_id]
-                         for tok, old_id in tgt_vocab.items()
-                         if old_id in tgt_id_map}
+        src_vocab_out = {
+            tok: src_id_map[old_id]
+            for tok, old_id in src_vocab.items()
+            if old_id in src_id_map
+        }
+        tgt_vocab_out = {
+            tok: tgt_id_map[old_id]
+            for tok, old_id in tgt_vocab.items()
+            if old_id in tgt_id_map
+        }
     else:
         src_vs = len(src_vocab)
         tgt_vs = len(tgt_vocab)
@@ -271,7 +277,9 @@ def validate_bilingual_pair(
     all_anchors = list(cognate_anchors.items())
 
     if anchor_fraction is not None:
-        n_anch = max(2, int(anchor_fraction * min(source_vocab_size, target_vocab_size)))
+        n_anch = max(
+            2, int(anchor_fraction * min(source_vocab_size, target_vocab_size))
+        )
     elif n_anchors is not None:
         n_anch = min(n_anchors, len(all_anchors))
     else:
@@ -313,7 +321,9 @@ def validate_bilingual_pair(
         eval_src_ids = src_top
         eval_tgt_ids = tgt_top
 
-    D_eval = pairwise_squared_distances(E_src_aligned[eval_src_ids], E_tgt[eval_tgt_ids][:, :d])
+    D_eval = pairwise_squared_distances(
+        E_src_aligned[eval_src_ids], E_tgt[eval_tgt_ids][:, :d]
+    )
 
     n_eval = len(eval_src_ids)
 
@@ -340,15 +350,27 @@ def validate_bilingual_pair(
     tgt_coverage = cooccurrence_coverage(C_tgt)
 
     src_n_tokens = sum(len(s) for s in source_sequences)
-    src_epc = 2 * window_size * src_n_tokens / (source_vocab_size ** 2) if source_vocab_size > 0 else float("inf")
+    src_epc = (
+        2 * window_size * src_n_tokens / (source_vocab_size**2)
+        if source_vocab_size > 0
+        else float("inf")
+    )
 
     src_stab = spectral_stability_bootstrap(
-        source_sequences, source_vocab_size, k=k,
-        window_size=window_size, n_bootstrap=n_bootstrap, random_state=seed,
+        source_sequences,
+        source_vocab_size,
+        k=k,
+        window_size=window_size,
+        n_bootstrap=n_bootstrap,
+        random_state=seed,
     )
     tgt_stab = spectral_stability_bootstrap(
-        target_sequences, target_vocab_size, k=k,
-        window_size=window_size, n_bootstrap=n_bootstrap, random_state=seed + 1,
+        target_sequences,
+        target_vocab_size,
+        k=k,
+        window_size=window_size,
+        n_bootstrap=n_bootstrap,
+        random_state=seed + 1,
     )
 
     src_reff = _effective_rank(sv_src[:k])
@@ -363,7 +385,8 @@ def validate_bilingual_pair(
         "n_alignment_anchors": len(anchors_for_alignment),
         "n_eval_pairs": n_eval,
         "total_cognates": len(cognate_anchors),
-        "anchor_fraction_used": len(anchors_for_alignment) / max(min(source_vocab_size, target_vocab_size), 1),
+        "anchor_fraction_used": len(anchors_for_alignment)
+        / max(min(source_vocab_size, target_vocab_size), 1),
         "embedding_dim": k,
         "window_size": window_size,
         "acc_at_k": acc_at_k,
@@ -406,16 +429,19 @@ def restricted_bilingual_experiment(
         print(f"  Running condition: {cond['name']}...")
 
         corpus = build_bilingual_corpus(
-            source_df, target_df,
+            source_df,
+            target_df,
             min_freq=5,
             max_vocab=cond.get("max_vocab"),
             max_tokens=cond.get("max_tokens"),
             seed=seed,
         )
 
-        print(f"    V_src={corpus['source_vs']}, V_tgt={corpus['target_vs']}, "
-              f"T_src={corpus['source_n_tokens']}, T_tgt={corpus['target_n_tokens']}, "
-              f"cognates={corpus['n_cognate_anchors']}")
+        print(
+            f"    V_src={corpus['source_vs']}, V_tgt={corpus['target_vs']}, "
+            f"T_src={corpus['source_n_tokens']}, T_tgt={corpus['target_n_tokens']}, "
+            f"cognates={corpus['n_cognate_anchors']}"
+        )
 
         if corpus["n_cognate_anchors"] < 5:
             print(f"    SKIP: too few cognate anchors ({corpus['n_cognate_anchors']})")

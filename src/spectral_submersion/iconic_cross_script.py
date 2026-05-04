@@ -5,6 +5,7 @@ standardized scripts. They are intentionally conservative: every sign carries a
 known referent label and provenance, and experiments skip referents whose real
 image evidence is not present locally.
 """
+
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -15,8 +16,9 @@ import numpy as np
 
 from .iconic_real_data import image_shape_embedding
 
-
-EGYPTIAN_FONT = "/System/Library/Fonts/Supplemental/NotoSansEgyptianHieroglyphs-Regular.ttf"
+EGYPTIAN_FONT = (
+    "/System/Library/Fonts/Supplemental/NotoSansEgyptianHieroglyphs-Regular.ttf"
+)
 CHINESE_FONT = "/System/Library/Fonts/STHeiti Medium.ttc"
 
 

@@ -1,6 +1,6 @@
 """Tests for transport module."""
+
 import numpy as np
-import pytest
 
 from spectral_submersion.transport import (
     optimal_transport_matrix,
@@ -73,7 +73,9 @@ def test_multi_marginal_gw_shapes():
             if i != j:
                 assert couplings[i][j].shape == (sizes[i], sizes[j])
                 assert couplings[j][i].shape == (sizes[j], sizes[i])
-                np.testing.assert_allclose(couplings[i][j], couplings[j][i].T, atol=1e-6)
+                np.testing.assert_allclose(
+                    couplings[i][j], couplings[j][i].T, atol=1e-6
+                )
 
 
 def test_multi_marginal_gw_coupling_properties():

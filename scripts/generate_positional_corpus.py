@@ -13,6 +13,7 @@ Structure (analogous to Indus script descriptions):
 Sequence length: 3-7 tokens (short, like Indus inscriptions).
 Total sequences: ~2,000.
 """
+
 import argparse
 import random
 from pathlib import Path
@@ -24,7 +25,7 @@ import pandas as pd
 def zipf_ranks(n: int, alpha: float = 1.2) -> np.ndarray:
     """Generate Zipf-like frequency distribution."""
     ranks = np.arange(1, n + 1)
-    probs = 1.0 / (ranks ** alpha)
+    probs = 1.0 / (ranks**alpha)
     return probs / probs.sum()
 
 
@@ -102,20 +103,24 @@ def generate_positional_corpus(
         seq = seq[:length]
 
         for pos, token in enumerate(seq, start=1):
-            rows.append({
-                "doc_id": f"pos_synthetic",
-                "line_id": seq_id,
-                "position": pos,
-                "token": token,
-                "source": "positional_synthetic_v1",
-            })
+            rows.append(
+                {
+                    "doc_id": f"pos_synthetic",
+                    "line_id": seq_id,
+                    "position": pos,
+                    "token": token,
+                    "source": "positional_synthetic_v1",
+                }
+            )
 
     return pd.DataFrame(rows)
 
 
 def main():
     parser = argparse.ArgumentParser(description="Generate positional synthetic corpus")
-    parser.add_argument("--output", default="data/raw/lost_language/corpus_positional_synthetic.csv")
+    parser.add_argument(
+        "--output", default="data/raw/lost_language/corpus_positional_synthetic.csv"
+    )
     parser.add_argument("--n-sequences", type=int, default=2000)
     parser.add_argument("--seed", type=int, default=42)
     args = parser.parse_args()
@@ -139,12 +144,22 @@ def main():
     print(f"Saved to {out_path}")
 
     # Quick stats by class
-    for prefix, label in [("T", "TITLE"), ("O", "OBJECT"), ("N", "NUMERAL"), ("S", "SIGNATURE")]:
+    for prefix, label in [
+        ("T", "TITLE"),
+        ("O", "OBJECT"),
+        ("N", "NUMERAL"),
+        ("S", "SIGNATURE"),
+    ]:
         subset = df[df["token"].str.startswith(prefix)]
         if len(subset) > 0:
             first_ratio = (subset["position"] == 1).mean()
-            last_ratio = (subset.groupby("line_id")["position"].transform("max") == subset["position"]).mean()
-            print(f"  {label}: {len(subset)} tokens, first_pos_ratio={first_ratio:.3f}, last_pos_ratio={last_ratio:.3f}")
+            last_ratio = (
+                subset.groupby("line_id")["position"].transform("max")
+                == subset["position"]
+            ).mean()
+            print(
+                f"  {label}: {len(subset)} tokens, first_pos_ratio={first_ratio:.3f}, last_pos_ratio={last_ratio:.3f}"
+            )
 
 
 if __name__ == "__main__":

@@ -1,10 +1,7 @@
 """Tests for auditable transport: cost decomposition, stability."""
-import pytest
+
 import numpy as np
-from spectral_submersion.auditable_transport import (
-    decompose_transport_cost,
-    ot_stability,
-)
+from spectral_submersion.auditable_transport import decompose_transport_cost
 
 
 class TestDecomposeTransportCost:
@@ -21,12 +18,21 @@ class TestDecomposeTransportCost:
         E_tgt = rng.randn(m, 3)
 
         from spectral_submersion.alignment import orthogonal_procrustes
+
         n_anch = min(n, m)
         Q = orthogonal_procrustes(E_src[:n_anch], E_tgt[:n_anch])
 
         result = decompose_transport_cost(
-            Pi, Dx, Dy, E_src[:n, :3], E_tgt[:m, :3], Q=Q,
-            lambda_g=1.0, lambda_r=1.0, lambda_p=1.0, epsilon=0.1,
+            Pi,
+            Dx,
+            Dy,
+            E_src[:n, :3],
+            E_tgt[:m, :3],
+            Q=Q,
+            lambda_g=1.0,
+            lambda_r=1.0,
+            lambda_p=1.0,
+            epsilon=0.1,
         )
         assert "L_geometric" in result
         assert "L_relational" in result
@@ -48,7 +54,13 @@ class TestDecomposeTransportCost:
         E_tgt = rng.randn(m, 3)
 
         result = decompose_transport_cost(
-            Pi, Dx, Dy, E_src, E_tgt, Q=None, prior=None,
+            Pi,
+            Dx,
+            Dy,
+            E_src,
+            E_tgt,
+            Q=None,
+            prior=None,
         )
         assert result["L_geometric"] == 0.0
         assert result["L_prior"] == 0.0
@@ -64,6 +76,11 @@ class TestDecomposeTransportCost:
         prior = np.ones((n, m)) * 0.01
 
         result = decompose_transport_cost(
-            Pi, Dx, Dy, E_src, E_tgt, prior=prior,
+            Pi,
+            Dx,
+            Dy,
+            E_src,
+            E_tgt,
+            prior=prior,
         )
         assert result["L_prior"] > 0

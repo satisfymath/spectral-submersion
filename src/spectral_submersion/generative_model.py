@@ -12,14 +12,14 @@ falsifiable hypotheses with evidence, counterevidence, and uncertainty.
 Section 11's impossibility theorem is enforced: claims C5 are blocked
 unless strong external evidence is explicitly provided.
 """
+
 from __future__ import annotations
 
 import numpy as np
-from dataclasses import dataclass, field
-from typing import Any
+from dataclasses import dataclass
 
-from .claims import ClaimLevel, admissible, overclaim_risk
-from .audit_metrics import HypothesisLedger, HypothesisEntry
+from .claims import ClaimLevel, admissible
+from .audit_metrics import HypothesisLedger
 
 
 @dataclass
@@ -127,46 +127,60 @@ class RongorongoGenerativeModel:
             counterevidence = []
 
             if anchor_power > 0.1:
-                evidence.append({
-                    "type": "anchor_power",
-                    "description": f"AnchorPower={anchor_power:.3f} breaks some symmetries",
-                    "score": anchor_power,
-                })
+                evidence.append(
+                    {
+                        "type": "anchor_power",
+                        "description": f"AnchorPower={anchor_power:.3f} breaks some symmetries",
+                        "score": anchor_power,
+                    }
+                )
             else:
-                counterevidence.append({
-                    "type": "no_anchors",
-                    "description": "No anchors: only orbit-identifiable claims",
-                })
+                counterevidence.append(
+                    {
+                        "type": "no_anchors",
+                        "description": "No anchors: only orbit-identifiable claims",
+                    }
+                )
 
             if bootstrap_stability > 0.5:
-                evidence.append({
-                    "type": "stability",
-                    "description": f"Bootstrap stability={bootstrap_stability:.3f}",
-                    "score": bootstrap_stability,
-                })
+                evidence.append(
+                    {
+                        "type": "stability",
+                        "description": f"Bootstrap stability={bootstrap_stability:.3f}",
+                        "score": bootstrap_stability,
+                    }
+                )
             elif bootstrap_stability < 0.3:
-                counterevidence.append({
-                    "type": "unstable",
-                    "description": f"Low stability={bootstrap_stability:.3f}: result is noise",
-                })
+                counterevidence.append(
+                    {
+                        "type": "unstable",
+                        "description": f"Low stability={bootstrap_stability:.3f}: result is noise",
+                    }
+                )
 
             if negative_control_gap > 2.0:
-                evidence.append({
-                    "type": "negative_control",
-                    "description": f"Controls exceeded by {negative_control_gap:.1f} sigma",
-                    "score": negative_control_gap,
-                })
+                evidence.append(
+                    {
+                        "type": "negative_control",
+                        "description": f"Controls exceeded by {negative_control_gap:.1f} sigma",
+                        "score": negative_control_gap,
+                    }
+                )
             elif negative_control_gap < 1.0:
-                counterevidence.append({
-                    "type": "weak_controls",
-                    "description": f"NegCtrlGap={negative_control_gap:.1f} sigma: insufficient evidence",
-                })
+                counterevidence.append(
+                    {
+                        "type": "weak_controls",
+                        "description": f"NegCtrlGap={negative_control_gap:.1f} sigma: insufficient evidence",
+                    }
+                )
 
             if entropy > 3.0:
-                counterevidence.append({
-                    "type": "high_entropy",
-                    "description": f"Entropy={entropy:.2f}: near-uniform distribution",
-                })
+                counterevidence.append(
+                    {
+                        "type": "high_entropy",
+                        "description": f"Entropy={entropy:.2f}: near-uniform distribution",
+                    }
+                )
 
             result = self.ledger.add_hypothesis(
                 glyph_or_sequence=[src],
@@ -182,16 +196,18 @@ class RongorongoGenerativeModel:
                 config_hash=config_hash,
             )
 
-            raw_hypotheses.append({
-                "source_token": src,
-                "candidates": candidates,
-                "entropy": entropy,
-                "posterior_top1": float(np.max(probs_norm)),
-                "max_claim_level": max_admissible.name,
-                "claim_blocked": result["blocked"],
-                "overclaim_risk": result["overclaim_risk"],
-                "forbidden_claims": result["forbidden_claims"],
-            })
+            raw_hypotheses.append(
+                {
+                    "source_token": src,
+                    "candidates": candidates,
+                    "entropy": entropy,
+                    "posterior_top1": float(np.max(probs_norm)),
+                    "max_claim_level": max_admissible.name,
+                    "claim_blocked": result["blocked"],
+                    "overclaim_risk": result["overclaim_risk"],
+                    "forbidden_claims": result["forbidden_claims"],
+                }
+            )
 
         return raw_hypotheses
 

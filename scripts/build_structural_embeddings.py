@@ -10,6 +10,7 @@ this builds per-token feature vectors directly from:
 These features encode the structural properties that our analysis has shown to be
 the strongest signals in Rongorongo: positional bias and repetition patterns.
 """
+
 import argparse
 import json
 from collections import Counter, defaultdict
@@ -64,9 +65,16 @@ def compute_structural_features(df, sequences):
 
     features = np.zeros((n_tokens, 10), dtype=np.float64)
     feature_names = [
-        "log_freq", "type_token_indicator", "first_ratio", "last_ratio",
-        "pos_mean", "pos_std", "rep_rate", "mean_run_len",
-        "successor_entropy", "freq_rank_norm",
+        "log_freq",
+        "type_token_indicator",
+        "first_ratio",
+        "last_ratio",
+        "pos_mean",
+        "pos_std",
+        "rep_rate",
+        "mean_run_len",
+        "successor_entropy",
+        "freq_rank_norm",
     ]
 
     total = sum(freq.values())
@@ -126,9 +134,16 @@ def compute_structural_features_collapsed(sequences, pure_sequences):
 
     features = np.zeros((n_tokens, 10), dtype=np.float64)
     feature_names = [
-        "log_freq", "type_token_indicator", "first_ratio", "last_ratio",
-        "pos_mean", "pos_std", "is_repeat_token", "rep_suffix",
-        "successor_entropy", "freq_rank_norm",
+        "log_freq",
+        "type_token_indicator",
+        "first_ratio",
+        "last_ratio",
+        "pos_mean",
+        "pos_std",
+        "is_repeat_token",
+        "rep_suffix",
+        "successor_entropy",
+        "freq_rank_norm",
     ]
 
     for tok in vocab:
@@ -177,7 +192,9 @@ def uniform_sequences(sequences, seed=42):
 def main():
     parser = argparse.ArgumentParser(description="Build structural feature embeddings")
     parser.add_argument("--input", required=True, help="Input CSV")
-    parser.add_argument("--output-dir", default="data/processed", help="Output directory")
+    parser.add_argument(
+        "--output-dir", default="data/processed", help="Output directory"
+    )
     parser.add_argument("--seed", type=int, default=42)
     args = parser.parse_args()
 
@@ -186,6 +203,7 @@ def main():
     output_dir.mkdir(parents=True, exist_ok=True)
 
     from spectral_submersion.tokenization import get_repetition_aware_sequences
+
     pure_seqs = get_sequences_by_line(df)
     collapsed_seqs, _ = get_repetition_aware_sequences(df)
     perm_seqs = permuted_sequences(pure_seqs, args.seed)
@@ -194,15 +212,26 @@ def main():
     print("=== Structural Feature Embeddings (Pure Tokenization) ===\n")
     results = {}
 
-    for label, seqs in [("real", pure_seqs), ("permuted", perm_seqs), ("random_uniform", unif_seqs)]:
+    for label, seqs in [
+        ("real", pure_seqs),
+        ("permuted", perm_seqs),
+        ("random_uniform", unif_seqs),
+    ]:
         vocab, features, fnames = compute_structural_features(df, seqs)
         U, S, Vt = np.linalg.svd(features, full_matrices=False)
         r_eff = float(effective_rank(S))
-        results[label] = {"vocab_size": len(vocab), "n_features": features.shape[1], "r_eff": r_eff, "singular_values": S.tolist()[:10]}
+        results[label] = {
+            "vocab_size": len(vocab),
+            "n_features": features.shape[1],
+            "r_eff": r_eff,
+            "singular_values": S.tolist()[:10],
+        }
         np.save(output_dir / f"structural_features_{label}.npy", features)
         with open(output_dir / f"structural_features_{label}.vocab.json", "w") as f:
             json.dump({t: i for i, t in enumerate(vocab)}, f)
-        print(f"  {label:>15}: vocab={len(vocab)}, r_eff={r_eff:.4f}, features={features.shape[1]}")
+        print(
+            f"  {label:>15}: vocab={len(vocab)}, r_eff={r_eff:.4f}, features={features.shape[1]}"
+        )
 
     print("\n=== Structural Feature Embeddings (Collapsed Tokenization) ===\n")
     from spectral_submersion.tokenization import get_repetition_aware_sequences
@@ -216,14 +245,23 @@ def main():
         ("permuted_collapsed", perm_collapsed, perm_seqs),
         ("random_uniform_collapsed", unif_collapsed, unif_seqs),
     ]:
-        vocab, features, fnames = compute_structural_features_collapsed(seqs_col, seqs_pure)
+        vocab, features, fnames = compute_structural_features_collapsed(
+            seqs_col, seqs_pure
+        )
         U, S, Vt = np.linalg.svd(features, full_matrices=False)
         r_eff = float(effective_rank(S))
-        results[label] = {"vocab_size": len(vocab), "n_features": features.shape[1], "r_eff": r_eff, "singular_values": S.tolist()[:10]}
+        results[label] = {
+            "vocab_size": len(vocab),
+            "n_features": features.shape[1],
+            "r_eff": r_eff,
+            "singular_values": S.tolist()[:10],
+        }
         np.save(output_dir / f"structural_features_{label}.npy", features)
         with open(output_dir / f"structural_features_{label}.vocab.json", "w") as f:
             json.dump({t: i for i, t in enumerate(vocab)}, f)
-        print(f"  {label:>25}: vocab={len(vocab)}, r_eff={r_eff:.4f}, features={features.shape[1]}")
+        print(
+            f"  {label:>25}: vocab={len(vocab)}, r_eff={r_eff:.4f}, features={features.shape[1]}"
+        )
 
     print("\n=== Sanity Check: Structural Embeddings ===\n")
     r_real = results["real"]["r_eff"]
@@ -233,20 +271,30 @@ def main():
     r_perm_c = results["permuted_collapsed"]["r_eff"]
     r_unif_c = results["random_uniform_collapsed"]["r_eff"]
 
-    print(f"  Pure tokenization:  r_eff(real)={r_real:.4f}  r_eff(perm)={r_perm:.4f}  r_eff(unif)={r_unif:.4f}")
-    print(f"  Collapsed tokeniz.: r_eff(real)={r_real_c:.4f}  r_eff(perm)={r_perm_c:.4f}  r_eff(unif)={r_unif_c:.4f}")
+    print(
+        f"  Pure tokenization:  r_eff(real)={r_real:.4f}  r_eff(perm)={r_perm:.4f}  r_eff(unif)={r_unif:.4f}"
+    )
+    print(
+        f"  Collapsed tokeniz.: r_eff(real)={r_real_c:.4f}  r_eff(perm)={r_perm_c:.4f}  r_eff(unif)={r_unif_c:.4f}"
+    )
 
     if r_real > r_perm > r_unif:
         print(f"  ✓ Pure: Inverted sanity check PASSES (real > permuted > uniform)")
     elif r_real > r_perm:
-        print(f"  ✓ Pure: Partial inverted check (real > permuted, but permuted <= uniform)")
+        print(
+            f"  ✓ Pure: Partial inverted check (real > permuted, but permuted <= uniform)"
+        )
     else:
         print(f"  ✗ Pure: Inverted sanity check FAILS (real <= permuted)")
 
     if r_real_c > r_perm_c > r_unif_c:
-        print(f"  ✓ Collapsed: Inverted sanity check PASSES (real > permuted > uniform)")
+        print(
+            f"  ✓ Collapsed: Inverted sanity check PASSES (real > permuted > uniform)"
+        )
     elif r_real_c > r_perm_c:
-        print(f"  ✓ Collapsed: Partial inverted check (real > permuted, but permuted <= uniform)")
+        print(
+            f"  ✓ Collapsed: Partial inverted check (real > permuted, but permuted <= uniform)"
+        )
     else:
         print(f"  ✗ Collapsed: Inverted sanity check FAILS (real <= permuted)")
 

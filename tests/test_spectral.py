@@ -1,4 +1,5 @@
 """Tests for spectral module."""
+
 import numpy as np
 
 from spectral_submersion.spectral import spectral_embedding, effective_rank

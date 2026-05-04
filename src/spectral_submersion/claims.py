@@ -4,6 +4,7 @@ Implements the C0-C5 claim hierarchy (Proposition 2.1, Theorem 2.2) from the
 PhD upgrade guide. Every hypothesis output must carry a maximum admissible
 claim level determined by evidence, stability, anchor power, and controls.
 """
+
 from __future__ import annotations
 
 import enum

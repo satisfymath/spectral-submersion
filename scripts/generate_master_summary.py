@@ -3,6 +3,7 @@
 Reads CSV outputs from various experiments and produces a unified
 markdown report with cross-references.
 """
+
 import argparse
 from pathlib import Path
 
@@ -16,6 +17,7 @@ def load_if_exists(path: str) -> pd.DataFrame | None:
     try:
         if p.suffix == ".json":
             import json
+
             with open(p, "r", encoding="utf-8") as f:
                 data = json.load(f)
             # Flatten nested dict to DataFrame row
@@ -45,28 +47,40 @@ def generate_master_report(output_path: str):
     # 1. Synthetic corpus controls
     df = load_if_exists("reports/tables/control_comparison.csv")
     if df is not None:
-        sections.append(format_table(df, "A. Negative Controls (Synthetic Mini, 16 types)"))
+        sections.append(
+            format_table(df, "A. Negative Controls (Synthetic Mini, 16 types)")
+        )
 
     df = load_if_exists("reports/tables/control_comparison_v2.csv")
     if df is not None:
-        sections.append(format_table(df, "B. Negative Controls (Synthetic PCFG, 112 types)"))
+        sections.append(
+            format_table(df, "B. Negative Controls (Synthetic PCFG, 112 types)")
+        )
 
     df = load_if_exists("reports/tables/control_comparison_rongorongo_v2.csv")
     if df is not None:
-        sections.append(format_table(df, "C. Negative Controls (Rongorongo-like, 120 types)"))
+        sections.append(
+            format_table(df, "C. Negative Controls (Rongorongo-like, 120 types)")
+        )
 
     df = load_if_exists("reports/tables/control_comparison_indus_real.csv")
     if df is not None:
-        sections.append(format_table(df, "D. Negative Controls (Indus Real, 182 types)"))
+        sections.append(
+            format_table(df, "D. Negative Controls (Indus Real, 182 types)")
+        )
 
     # 2. Candidate comparisons
     df = load_if_exists("reports/tables/diverse_comparison_synthetic.csv")
     if df is not None:
-        sections.append(format_table(df, "E. Multi-Candidate Comparison (Synthetic PCFG)"))
+        sections.append(
+            format_table(df, "E. Multi-Candidate Comparison (Synthetic PCFG)")
+        )
 
     df = load_if_exists("reports/tables/diverse_comparison_rongorongo.csv")
     if df is not None:
-        sections.append(format_table(df, "F. Multi-Candidate Comparison (Rongorongo-like)"))
+        sections.append(
+            format_table(df, "F. Multi-Candidate Comparison (Rongorongo-like)")
+        )
 
     df = load_if_exists("reports/tables/diverse_comparison_indus_real.csv")
     if df is not None:
@@ -79,7 +93,9 @@ def generate_master_report(output_path: str):
 
     df = load_if_exists("reports/tables/anchor_recovery_polysemy.json")
     if df is not None:
-        sections.append(format_table(df, "I. Anchor Recovery with Polysemy (15% collapse)"))
+        sections.append(
+            format_table(df, "I. Anchor Recovery with Polysemy (15% collapse)")
+        )
 
     # 4. Entropy analysis
     df = load_if_exists("reports/tables/entropy_analysis_indus_real.csv")
@@ -112,7 +128,9 @@ def generate_master_report(output_path: str):
 
 def main():
     parser = argparse.ArgumentParser(description="Generate master experiment summary")
-    parser.add_argument("--output", default="reports/final/master_experiment_summary.md")
+    parser.add_argument(
+        "--output", default="reports/final/master_experiment_summary.md"
+    )
     args = parser.parse_args()
     generate_master_report(args.output)
 

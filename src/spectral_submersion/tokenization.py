@@ -1,4 +1,5 @@
 """Tokenization utilities with document/line boundary handling."""
+
 from collections.abc import Sequence
 
 import pandas as pd
@@ -124,6 +125,7 @@ def get_abab_aware_sequences(
     Consecutive repetitions are also collapsed.
     """
     from spectral_submersion.tokenization import collapse_repetitions
+
     sequences = get_sequences_by_line(df)
     result = []
     for seq in sequences:

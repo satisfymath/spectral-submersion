@@ -1,12 +1,10 @@
 """Tests for corpus ledger: data structures and I/O."""
-import pytest
-import json
+
 from pathlib import Path
 from spectral_submersion.corpus_ledger import (
     ArtifactRecord,
-    GlyphInstanceRecord,
-    UncertainReadingRecord,
     CorpusLedger,
+    GlyphInstanceRecord,
     build_glyph_instance_id,
     glyph_instances_from_sequences,
 )
@@ -87,9 +85,7 @@ class TestGlyphInstancesFromSequences:
     def test_basic_conversion(self):
         vocab = {"a": 0, "b": 1, "c": 2}
         sequences = [[0, 1, 2], [2, 1, 0]]
-        records = glyph_instances_from_sequences(
-            sequences, vocab, artifact_id="TEST"
-        )
+        records = glyph_instances_from_sequences(sequences, vocab, artifact_id="TEST")
         assert len(records) == 6
         assert records[0].artifact_id == "TEST"
         assert records[0].global_position == 0

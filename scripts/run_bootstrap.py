@@ -9,6 +9,7 @@ For B bootstrap samples:
    - Pairwise cosine similarity between bootstrap embeddings (after Procrustes alignment)
    - Stability of nearest-neighbor graphs
 """
+
 import argparse
 from pathlib import Path
 
@@ -27,7 +28,9 @@ from spectral_submersion.tokenization import get_sequences_by_line, tokens_to_id
 
 def main():
     parser = argparse.ArgumentParser(description="Bootstrap stability analysis")
-    parser.add_argument("--input", default="data/raw/lost_language/corpus_synthetic_v2.csv")
+    parser.add_argument(
+        "--input", default="data/raw/lost_language/corpus_synthetic_v2.csv"
+    )
     parser.add_argument("--output", default="reports/tables/bootstrap_stability.csv")
     parser.add_argument("--n-bootstrap", type=int, default=50)
     parser.add_argument("--k", type=int, default=16)
@@ -49,7 +52,9 @@ def main():
     for b in range(args.n_bootstrap):
         n = len(seq_ids)
         sampled = [seq_ids[i] for i in rng.choice(n, size=n, replace=True)]
-        C = cooccurrence_matrix_from_sequences(sampled, len(vocab), window_size=args.window)
+        C = cooccurrence_matrix_from_sequences(
+            sampled, len(vocab), window_size=args.window
+        )
         M = ppmi_matrix(C)
         E, S, _ = spectral_embedding(M, k=args.k, random_state=args.seed)
         all_effective_ranks.append(effective_rank(S))

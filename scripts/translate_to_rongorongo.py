@@ -4,6 +4,7 @@ Usage:
     python translate_to_rongorongo.py --text "te tangata haere ki te moana"
     python translate_to_rongorongo.py --interactive
 """
+
 import argparse
 import pickle
 from pathlib import Path
@@ -48,13 +49,17 @@ def load_model(model_dir: str):
     return model, src_vocab, tgt_vocab
 
 
-def translate(model, src_vocab, tgt_vocab, text: str, device: str = "cpu", max_len: int = 50) -> str:
+def translate(
+    model, src_vocab, tgt_vocab, text: str, device: str = "cpu", max_len: int = 50
+) -> str:
     tokens = text.strip().lower().split()
     src_ids = [src_vocab.bos_idx] + src_vocab.encode(tokens) + [src_vocab.eos_idx]
     src_tensor = torch.tensor([src_ids], dtype=torch.long, device=device)
 
     model = model.to(device)
-    out_ids = model.greedy_decode(src_tensor, src_vocab, tgt_vocab, max_len=max_len, device=device)
+    out_ids = model.greedy_decode(
+        src_tensor, src_vocab, tgt_vocab, max_len=max_len, device=device
+    )
 
     # Remove BOS and EOS
     out_tokens = []
@@ -84,7 +89,9 @@ def interactive_translate(model, src_vocab, tgt_vocab, device: str = "cpu"):
         print(f"Rongorongo: {result}")
 
 
-def batch_translate(model, src_vocab, tgt_vocab, texts: list[str], device: str = "cpu") -> list[str]:
+def batch_translate(
+    model, src_vocab, tgt_vocab, texts: list[str], device: str = "cpu"
+) -> list[str]:
     results = []
     for text in texts:
         result = translate(model, src_vocab, tgt_vocab, text, device)
@@ -97,12 +104,16 @@ def main():
     parser.add_argument("--model-dir", default="models/rongorongo_translator")
     parser.add_argument("--text", default=None, help="Single sentence to translate")
     parser.add_argument("--interactive", action="store_true", help="Interactive mode")
-    parser.add_argument("--device", default="cuda" if torch.cuda.is_available() else "cpu")
+    parser.add_argument(
+        "--device", default="cuda" if torch.cuda.is_available() else "cpu"
+    )
     args = parser.parse_args()
 
     print(f"Loading model from {args.model_dir}...")
     model, src_vocab, tgt_vocab = load_model(args.model_dir)
-    print(f"Model loaded. Source vocab: {len(src_vocab)}, Target vocab: {len(tgt_vocab)}")
+    print(
+        f"Model loaded. Source vocab: {len(src_vocab)}, Target vocab: {len(tgt_vocab)}"
+    )
 
     if args.interactive:
         interactive_translate(model, src_vocab, tgt_vocab, args.device)

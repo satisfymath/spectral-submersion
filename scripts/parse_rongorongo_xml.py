@@ -3,6 +3,7 @@
 Extracts tablet, side, line, position, glyph_code, and link from
 phspaelti/RR-corpus XML transcription of Rongorongo tablets.
 """
+
 import argparse
 import xml.etree.ElementTree as ET
 from pathlib import Path
@@ -24,23 +25,27 @@ def parse_tablet(xml_path: str) -> list[dict]:
                 link_el = glyph.find("link")
                 code = code_el.text if code_el is not None else ""
                 link = link_el.text if link_el is not None else ""
-                rows.append({
-                    "doc_id": tablet_id,
-                    "line_id": line_id,
-                    "position": idx,
-                    "token": code.strip() if code else "",
-                    "raw_token": code.strip() if code else "",
-                    "orientation": "normal",
-                    "source": "RR-corpus_phspaelti",
-                    "link": link.strip() if link else "",
-                })
+                rows.append(
+                    {
+                        "doc_id": tablet_id,
+                        "line_id": line_id,
+                        "position": idx,
+                        "token": code.strip() if code else "",
+                        "raw_token": code.strip() if code else "",
+                        "orientation": "normal",
+                        "source": "RR-corpus_phspaelti",
+                        "link": link.strip() if link else "",
+                    }
+                )
     return rows
 
 
 def main():
     parser = argparse.ArgumentParser(description="Parse RR-corpus XML to CSV")
     parser.add_argument("--input-dir", default="data/external/rongorongo_rr_corpus")
-    parser.add_argument("--output", default="data/raw/lost_language/corpus_rongorongo_real.xml.csv")
+    parser.add_argument(
+        "--output", default="data/raw/lost_language/corpus_rongorongo_real.xml.csv"
+    )
     args = parser.parse_args()
 
     all_rows = []
@@ -69,6 +74,7 @@ def main():
 
     # Save stats JSON
     import json
+
     stats = {
         "n_tablets": int(n_tablets),
         "n_lines": int(n_lines),

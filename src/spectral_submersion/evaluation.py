@@ -1,4 +1,5 @@
 """Evaluation utilities: controls, bootstrap, and relational metrics."""
+
 import numpy as np
 
 
@@ -69,8 +70,8 @@ def relational_distortion(
     # L = sum_{ij} Pi_{ij} * [sum_{i'} Dx_{ii'}^2 + sum_{j'} Dy_{jj'}^2
     #                         - 2 * sum_{i'j'} Dx_{ii'} Dy_{jj'} Pi_{i'j'}]
     # The cross term simplifies to: C = Dx @ Pi @ Dy.T
-    A = (Dx ** 2).sum(axis=1, keepdims=True)  # (n_x, 1)
-    B = (Dy ** 2).sum(axis=1, keepdims=True)  # (n_y, 1)
+    A = (Dx**2).sum(axis=1, keepdims=True)  # (n_x, 1)
+    B = (Dy**2).sum(axis=1, keepdims=True)  # (n_y, 1)
     C = Dx @ Pi @ Dy.T  # (n_x, n_y)
     L = np.sum(Pi * (A + B.T - 2.0 * C))
     return float(L)

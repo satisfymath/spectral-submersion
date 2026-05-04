@@ -1,16 +1,15 @@
 """Tests for tokenization module."""
+
 import pandas as pd
-import pytest
 
 from spectral_submersion.tokenization import (
-    read_corpus,
-    normalize_tokens,
     build_vocab,
-    tokens_to_ids,
-    get_sequences_by_line,
     collapse_repetitions,
-    get_repetition_aware_sequences,
     get_abab_aware_sequences,
+    get_repetition_aware_sequences,
+    get_sequences_by_line,
+    normalize_tokens,
+    tokens_to_ids,
 )
 
 
@@ -27,23 +26,22 @@ def test_tokens_to_ids():
 
 
 def test_get_sequences_by_line():
-    df = pd.DataFrame({
-        "doc_id": ["d1", "d1", "d1", "d2", "d2"],
-        "line_id": [1, 1, 2, 1, 1],
-        "position": [1, 2, 1, 1, 2],
-        "token": ["a", "b", "c", "d", "e"],
-    })
+    df = pd.DataFrame(
+        {
+            "doc_id": ["d1", "d1", "d1", "d2", "d2"],
+            "line_id": [1, 1, 2, 1, 1],
+            "position": [1, 2, 1, 1, 2],
+            "token": ["a", "b", "c", "d", "e"],
+        }
+    )
     sequences = get_sequences_by_line(df)
     assert sequences == [["a", "b"], ["c"], ["d", "e"]]
 
 
 def test_normalize_tokens_lowercase():
-    df = pd.DataFrame({
-        "doc_id": ["d1"],
-        "line_id": [1],
-        "position": [1],
-        "token": ["Hello "]
-    })
+    df = pd.DataFrame(
+        {"doc_id": ["d1"], "line_id": [1], "position": [1], "token": ["Hello "]}
+    )
     norm = normalize_tokens(df, lowercase=True, strip=True)
     assert norm["token"].iloc[0] == "hello"
 
@@ -65,11 +63,19 @@ def test_collapse_repetitions_quad():
 
 
 def test_collapse_repetitions_exceeds_max():
-    assert collapse_repetitions(["a", "a", "a", "a", "a", "b"], max_repeat=4) == ["a_REP4", "a", "b"]
+    assert collapse_repetitions(["a", "a", "a", "a", "a", "b"], max_repeat=4) == [
+        "a_REP4",
+        "a",
+        "b",
+    ]
 
 
 def test_collapse_repetitions_multiple_runs():
-    assert collapse_repetitions(["a", "a", "b", "b", "b", "c"]) == ["a_REP2", "b_REP3", "c"]
+    assert collapse_repetitions(["a", "a", "b", "b", "b", "c"]) == [
+        "a_REP2",
+        "b_REP3",
+        "c",
+    ]
 
 
 def test_collapse_repetitions_empty():
@@ -81,23 +87,27 @@ def test_collapse_repetitions_single():
 
 
 def test_get_repetition_aware_sequences():
-    df = pd.DataFrame({
-        "doc_id": ["d1", "d1", "d1", "d1"],
-        "line_id": [1, 1, 1, 1],
-        "position": [1, 2, 3, 4],
-        "token": ["a", "a", "a", "b"],
-    })
+    df = pd.DataFrame(
+        {
+            "doc_id": ["d1", "d1", "d1", "d1"],
+            "line_id": [1, 1, 1, 1],
+            "position": [1, 2, 3, 4],
+            "token": ["a", "a", "a", "b"],
+        }
+    )
     collapsed, pure = get_repetition_aware_sequences(df)
     assert collapsed == [["a_REP3", "b"]]
     assert pure == [["a", "a", "a", "b"]]
 
 
 def test_get_abab_aware_sequences():
-    df = pd.DataFrame({
-        "doc_id": ["d1", "d1", "d1", "d1"],
-        "line_id": [1, 1, 1, 1],
-        "position": [1, 2, 3, 4],
-        "token": ["a", "b", "a", "b"],
-    })
+    df = pd.DataFrame(
+        {
+            "doc_id": ["d1", "d1", "d1", "d1"],
+            "line_id": [1, 1, 1, 1],
+            "position": [1, 2, 3, 4],
+            "token": ["a", "b", "a", "b"],
+        }
+    )
     result = get_abab_aware_sequences(df)
     assert result == [["a_b_ABAB"]]

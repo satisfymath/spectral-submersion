@@ -4,6 +4,7 @@ The core :mod:`spectral_submersion.iconic_grounding` module is deliberately
 model-agnostic. This module connects it to real Rongorongo SVG paths from the
 RR-corpus XML files and to real referent image folders on disk.
 """
+
 from __future__ import annotations
 
 import csv
@@ -18,7 +19,6 @@ from typing import Any
 import numpy as np
 
 from .iconic_grounding import embedding_dispersion, l2_normalize, spherical_mean
-
 
 _PATH_TOKEN_RE = re.compile(
     r"[MmZzLlHhVvCcSsQqTtAa]|[-+]?(?:\d*\.\d+|\d+\.?)(?:[eE][-+]?\d+)?"
@@ -257,7 +257,9 @@ def sample_svg_path(
             current_points = []
 
     def has_numbers(n: int) -> bool:
-        return i + n <= len(tokens) and all(not _is_command(t) for t in tokens[i : i + n])
+        return i + n <= len(tokens) and all(
+            not _is_command(t) for t in tokens[i : i + n]
+        )
 
     def read_numbers(n: int) -> list[float]:
         nonlocal i
@@ -295,7 +297,10 @@ def sample_svg_path(
             continue
 
         if cmd == "Z":
-            if current_points and current_points[-1] != (float(start[0]), float(start[1])):
+            if current_points and current_points[-1] != (
+                float(start[0]),
+                float(start[1]),
+            ):
                 add_point(start)
             current = start.copy()
             flush(True)
@@ -353,7 +358,11 @@ def sample_svg_path(
         if cmd == "S":
             while has_numbers(4):
                 x2, y2, x3, y3 = read_numbers(4)
-                if last_control is not None and last_command and last_command.upper() in {"C", "S"}:
+                if (
+                    last_control is not None
+                    and last_command
+                    and last_command.upper() in {"C", "S"}
+                ):
                     p1 = current + (current - last_control)
                 else:
                     p1 = current.copy()
@@ -387,7 +396,11 @@ def sample_svg_path(
         if cmd == "T":
             while has_numbers(2):
                 x2, y2 = read_numbers(2)
-                if last_control is not None and last_command and last_command.upper() in {"Q", "T"}:
+                if (
+                    last_control is not None
+                    and last_command
+                    and last_command.upper() in {"Q", "T"}
+                ):
                     p1 = current + (current - last_control)
                 else:
                     p1 = current.copy()
@@ -537,9 +550,7 @@ def image_shape_embedding(
 
     projections = np.concatenate([ink.sum(axis=0), ink.sum(axis=1)])
     projections = projections / (np.linalg.norm(projections) + 1e-12)
-    coarse = np.asarray(
-        gray.resize((12, 12), Image.Resampling.LANCZOS), dtype=float
-    )
+    coarse = np.asarray(gray.resize((12, 12), Image.Resampling.LANCZOS), dtype=float)
     coarse_ink = 1.0 - coarse / 255.0
     geom = np.array(
         [
@@ -572,7 +583,9 @@ def _select_instances(
     instances: Sequence[RongorongoGlyphSvgInstance],
     max_instances: int | None,
 ) -> list[RongorongoGlyphSvgInstance]:
-    ordered = sorted(instances, key=lambda g: (g.tablet, g.line_id, g.position, g.glyph_id))
+    ordered = sorted(
+        instances, key=lambda g: (g.tablet, g.line_id, g.position, g.glyph_id)
+    )
     if max_instances is None or len(ordered) <= max_instances:
         return ordered
     idx = np.linspace(0, len(ordered) - 1, max_instances).round().astype(int)
@@ -602,9 +615,7 @@ def build_rongorongo_glyph_embedding_table(
             grouped[key].append(instance)
 
     items = [
-        (code, group)
-        for code, group in grouped.items()
-        if len(group) >= min_instances
+        (code, group) for code, group in grouped.items() if len(group) >= min_instances
     ]
     items.sort(key=lambda item: (-len(item[1]), item[0]))
     if top_n is not None:

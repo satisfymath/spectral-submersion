@@ -5,6 +5,7 @@ Steps:
 2. Rongorongo real SVG grounding using the measured cross-script Acc@5.
 3. Combined machine-readable and Markdown reports.
 """
+
 from __future__ import annotations
 
 import argparse

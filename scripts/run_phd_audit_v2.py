@@ -22,6 +22,7 @@ Covers everything from the guide:
 - Claim level audit
 - Overclaim risk
 """
+
 import sys
 import json
 import numpy as np
@@ -30,36 +31,66 @@ from collections import Counter
 
 sys.path.insert(0, "src")
 
-from spectral_submersion.tokenization import read_corpus, build_vocab, tokens_to_ids, get_sequences_by_line
+from spectral_submersion.tokenization import (
+    read_corpus,
+    build_vocab,
+    tokens_to_ids,
+    get_sequences_by_line,
+)
 from spectral_submersion.cooccurrence import cooccurrence_matrix_from_sequences
 from spectral_submersion.pmi import ppmi_matrix
 from spectral_submersion.spectral import spectral_embedding, effective_rank
 from spectral_submersion.stability import (
-    spectral_gap, spectral_reliability, spectral_stability_bootstrap,
-    cooccurrence_coverage, expected_pair_count, sceptmi_matrix,
-    pmi_sensitivity, spectral_rejection_rule, min_tokens_for_coverage,
+    spectral_gap,
+    spectral_reliability,
+    spectral_stability_bootstrap,
+    cooccurrence_coverage,
+    expected_pair_count,
+    sceptmi_matrix,
+    pmi_sensitivity,
+    spectral_rejection_rule,
+    min_tokens_for_coverage,
 )
 from spectral_submersion.evaluation import permute_corpus, random_corpus_same_frequency
 from spectral_submersion.identifiability import (
-    verify_non_identifiability, anchor_power, anchor_condition_number,
-    leave_one_anchor_out_stability, compute_automorphism_size_upper_bound,
+    verify_non_identifiability,
+    anchor_power,
+    anchor_condition_number,
+    leave_one_anchor_out_stability,
+    compute_automorphism_size_upper_bound,
 )
-from spectral_submersion.claims import ClaimLevel, admissible, overclaim_risk, CLAIM_LABELS
+from spectral_submersion.claims import (
+    ClaimLevel,
+    admissible,
+    overclaim_risk,
+    CLAIM_LABELS,
+)
 from spectral_submersion.auditable_transport import (
-    decompose_transport_cost, ot_stability, sensitivity_analysis,
+    decompose_transport_cost,
+    ot_stability,
+    sensitivity_analysis,
 )
 from spectral_submersion.audit_metrics import (
-    negative_control_gap, bootstrap_coupling_stability,
-    expected_calibration_error, HypothesisLedger,
+    negative_control_gap,
+    bootstrap_coupling_stability,
+    expected_calibration_error,
+    HypothesisLedger,
 )
-from spectral_submersion.alignment import orthogonal_procrustes, pairwise_squared_distances
+from spectral_submersion.alignment import (
+    orthogonal_procrustes,
+    pairwise_squared_distances,
+)
 from spectral_submersion.synthetic_experiments import (
-    experiment_permutation_recovery, experiment_logosyllabic_collapse,
-    experiment_boustrophedon_direction, experiment_calendar_model,
-    find_parallel_passages, generate_permuted_corpus,
+    experiment_permutation_recovery,
+    experiment_logosyllabic_collapse,
+    experiment_boustrophedon_direction,
+    experiment_calendar_model,
+    find_parallel_passages,
+    generate_permuted_corpus,
 )
 
 import matplotlib
+
 matplotlib.use("Agg")
 import matplotlib.patheffects
 import matplotlib.pyplot as plt
@@ -74,6 +105,7 @@ TAB.mkdir(exist_ok=True)
 N_BOOT = 50
 N_NEG = 25
 
+
 def load_corpus(name, path):
     p = Path(path)
     if not p.exists():
@@ -83,14 +115,23 @@ def load_corpus(name, path):
     vocab = build_vocab(tokens)
     token_ids = tokens_to_ids(tokens, vocab)
     seqs_str = get_sequences_by_line(df)
-    seqs_int = [[t for t in tokens_to_ids(s, vocab) if t is not None and t >= 0] for s in seqs_str if len(s) > 0]
+    seqs_int = [
+        [t for t in tokens_to_ids(s, vocab) if t is not None and t >= 0]
+        for s in seqs_str
+        if len(s) > 0
+    ]
     seqs_int = [s for s in seqs_int if len(s) > 0]
     return {
-        "df": df, "tokens": tokens, "vocab": vocab,
-        "token_ids": token_ids, "sequences": seqs_int,
-        "seqs_str": seqs_str, "vocab_size": len(vocab),
+        "df": df,
+        "tokens": tokens,
+        "vocab": vocab,
+        "token_ids": token_ids,
+        "sequences": seqs_int,
+        "seqs_str": seqs_str,
+        "vocab_size": len(vocab),
         "total_tokens": len(token_ids),
     }
+
 
 # ============================================================
 # LOAD CORPORA
@@ -110,7 +151,9 @@ for name, path in [
     data = load_corpus(name, path)
     if data:
         CORPORA[name] = data
-        print(f"  {name}: V={data['vocab_size']}, T={data['total_tokens']}, L={len(data['sequences'])}")
+        print(
+            f"  {name}: V={data['vocab_size']}, T={data['total_tokens']}, L={len(data['sequences'])}"
+        )
 
 RESULTS = {}
 
@@ -139,13 +182,21 @@ for cname, cdata in CORPORA.items():
                 r_eff = float(effective_rank(sv))
             except Exception:
                 r_eff = None
-        coverage_data.append({
-            "corpus": cname, "V": vs, "T": cdata["total_tokens"],
-            "window": ws, "coverage": float(cov),
-            "EPC": float(epc), "min_tokens": float(min_t),
-            "r_eff": r_eff,
-        })
-        print(f"  {cname} w={ws}: cov={cov:.4f}, EPC={epc:.3f}, min_T={min_t:.0f}, r_eff={r_eff}")
+        coverage_data.append(
+            {
+                "corpus": cname,
+                "V": vs,
+                "T": cdata["total_tokens"],
+                "window": ws,
+                "coverage": float(cov),
+                "EPC": float(epc),
+                "min_tokens": float(min_t),
+                "r_eff": r_eff,
+            }
+        )
+        print(
+            f"  {cname} w={ws}: cov={cov:.4f}, EPC={epc:.3f}, min_T={min_t:.0f}, r_eff={r_eff}"
+        )
 
 RESULTS["coverage"] = coverage_data
 
@@ -157,6 +208,7 @@ print("\n" + "=" * 70)
 print("2. SPECTRAL RELIABILITY TABLE (Section 5 mandatory)")
 print("=" * 70)
 
+
 def compute_transition_matrix(sequences, vocab_size):
     T = np.zeros((vocab_size, vocab_size))
     for seq in sequences:
@@ -164,6 +216,7 @@ def compute_transition_matrix(sequences, vocab_size):
             T[seq[i], seq[i + 1]] += 1
     row_sums = T.sum(axis=1, keepdims=True)
     return T / (row_sums + 1e-15)
+
 
 def compute_laplacian(cooccurrence_matrix, normalized=True):
     A = cooccurrence_matrix.copy()
@@ -174,6 +227,7 @@ def compute_laplacian(cooccurrence_matrix, normalized=True):
     else:
         L = np.diag(D) - A
     return L
+
 
 reliability_table = []
 spectra_data = {}
@@ -203,7 +257,9 @@ for cname in ["PCFG_v2", "RR_real", "Indus"]:
             _, sv, _ = spectral_embedding(M, k=k_svd)
             r_eff = float(effective_rank(sv))
             spectra_data[cname][mtype] = sv.tolist()
-            print(f"  {cname} {mtype}: r_eff={r_eff:.2f}, sv[:4]={[f'{v:.2f}' for v in sv[:4]]}")
+            print(
+                f"  {cname} {mtype}: r_eff={r_eff:.2f}, sv[:4]={[f'{v:.2f}' for v in sv[:4]]}"
+            )
         except Exception as e:
             print(f"  {cname} {mtype}: FAILED ({e})")
             spectra_data[cname][mtype] = []
@@ -211,7 +267,9 @@ for cname in ["PCFG_v2", "RR_real", "Indus"]:
     # Bootstrap only for PPMI (expensive)
     print(f"  Bootstrapping {cname} PPMI k={k}...")
     try:
-        boot = spectral_stability_bootstrap(seqs, vs, k=k_svd, window_size=ws, n_bootstrap=N_BOOT, random_state=42)
+        boot = spectral_stability_bootstrap(
+            seqs, vs, k=k_svd, window_size=ws, n_bootstrap=N_BOOT, random_state=42
+        )
         sv_mean = np.array(boot["singular_values_mean"])
         sv_std = np.array(boot["singular_values_std"])
 
@@ -220,14 +278,23 @@ for cname in ["PCFG_v2", "RR_real", "Indus"]:
                 reject = spectral_rejection_rule(sv_mean, sv_std, k_values=[kk])
                 if reject:
                     r = reject[0]
-                    reliability_table.append({
-                        "corpus": cname, "matrix": "PPMI", "window": ws, "k": kk,
-                        "delta_k": r["delta_k"], "epsilon": r["epsilon"],
-                        "reliability": r["reliability"], "stable": r["stable"],
-                        "claim_limit": r["claim_limit"],
-                    })
-                    print(f"    PPMI k={kk}: delta={r['delta_k']:.4f}, eps={r['epsilon']:.4f}, "
-                          f"rel={r['reliability']:.4f}, stable={r['stable']}, claim<{r['claim_limit']}")
+                    reliability_table.append(
+                        {
+                            "corpus": cname,
+                            "matrix": "PPMI",
+                            "window": ws,
+                            "k": kk,
+                            "delta_k": r["delta_k"],
+                            "epsilon": r["epsilon"],
+                            "reliability": r["reliability"],
+                            "stable": r["stable"],
+                            "claim_limit": r["claim_limit"],
+                        }
+                    )
+                    print(
+                        f"    PPMI k={kk}: delta={r['delta_k']:.4f}, eps={r['epsilon']:.4f}, "
+                        f"rel={r['reliability']:.4f}, stable={r['stable']}, claim<{r['claim_limit']}"
+                    )
             except Exception as e:
                 print(f"    PPMI k={kk}: rejection rule failed ({e})")
     except Exception as e:
@@ -261,23 +328,37 @@ for cname in ["PCFG_v2", "RR_real", "Indus"]:
         for k_neg in [1.0, 2.0, 5.0]:
             for prior in ["marginal_product"]:
                 try:
-                    M_sppmi = sceptmi_matrix(C, epsilon=eps, prior_type=prior, k_neg=k_neg)
+                    M_sppmi = sceptmi_matrix(
+                        C, epsilon=eps, prior_type=prior, k_neg=k_neg
+                    )
                     _, sv_sppmi, _ = spectral_embedding(M_sppmi, k=k)
                     diff = float(np.max(np.abs(sv_ppmi - sv_sppmi)))
 
-                    sppmi_sweep.append({
-                        "corpus": cname, "epsilon": eps, "k_neg": k_neg,
-                        "prior": prior, "sv_diff_max": diff,
-                        "r_eff_ppmi": float(effective_rank(sv_ppmi)),
-                        "r_eff_sppmi": float(effective_rank(sv_sppmi)),
-                    })
+                    sppmi_sweep.append(
+                        {
+                            "corpus": cname,
+                            "epsilon": eps,
+                            "k_neg": k_neg,
+                            "prior": prior,
+                            "sv_diff_max": diff,
+                            "r_eff_ppmi": float(effective_rank(sv_ppmi)),
+                            "r_eff_sppmi": float(effective_rank(sv_sppmi)),
+                        }
+                    )
                 except Exception as e:
-                    sppmi_sweep.append({
-                        "corpus": cname, "epsilon": eps, "k_neg": k_neg,
-                        "prior": prior, "error": str(e),
-                    })
+                    sppmi_sweep.append(
+                        {
+                            "corpus": cname,
+                            "epsilon": eps,
+                            "k_neg": k_neg,
+                            "prior": prior,
+                            "error": str(e),
+                        }
+                    )
 
-    print(f"  {cname}: swept {len([s for s in sppmi_sweep if s['corpus']==cname])} configurations")
+    print(
+        f"  {cname}: swept {len([s for s in sppmi_sweep if s['corpus']==cname])} configurations"
+    )
 
 RESULTS["sppmi_sweep"] = sppmi_sweep
 
@@ -321,15 +402,15 @@ for cname in ["PCFG_v2", "RR_real", "Indus"]:
             sv_L = None
 
         scores = {
-            "sv_energy_4": float(np.sum(sv[:4]**2)),
-            "sv_energy_8": float(np.sum(sv[:8]**2)),
+            "sv_energy_4": float(np.sum(sv[:4] ** 2)),
+            "sv_energy_8": float(np.sum(sv[:8] ** 2)),
             "sv_top1": float(sv[0]),
             "eff_rank": float(effective_rank(sv)),
         }
         if sv_T is not None:
-            scores["transition_energy_4"] = float(np.sum(sv_T[:4]**2))
+            scores["transition_energy_4"] = float(np.sum(sv_T[:4] ** 2))
         if sv_L is not None:
-            scores["laplacian_energy_4"] = float(np.sum(sv_L[:4]**2))
+            scores["laplacian_energy_4"] = float(np.sum(sv_L[:4] ** 2))
         return scores
 
     real_scores = compute_scores(seqs)
@@ -340,7 +421,10 @@ for cname in ["PCFG_v2", "RR_real", "Indus"]:
     for _ in range(N_NEG):
         try:
             perm_seqs = permute_corpus(seqs_str)
-            perm_ids = [[t for t in tokens_to_ids(s, vocab) if t is not None and t >= 0] for s in perm_seqs]
+            perm_ids = [
+                [t for t in tokens_to_ids(s, vocab) if t is not None and t >= 0]
+                for s in perm_seqs
+            ]
             perm_ids = [s for s in perm_ids if len(s) > 0]
             scores = compute_scores(perm_ids)
             if scores:
@@ -352,7 +436,10 @@ for cname in ["PCFG_v2", "RR_real", "Indus"]:
     for _ in range(N_NEG):
         try:
             rand_seqs = random_corpus_same_frequency(seqs_str)
-            rand_ids = [[t for t in tokens_to_ids(s, vocab) if t is not None and t >= 0] for s in rand_seqs]
+            rand_ids = [
+                [t for t in tokens_to_ids(s, vocab) if t is not None and t >= 0]
+                for s in rand_seqs
+            ]
             rand_ids = [s for s in rand_ids if len(s) > 0]
             scores = compute_scores(rand_ids)
             if scores:
@@ -364,7 +451,9 @@ for cname in ["PCFG_v2", "RR_real", "Indus"]:
     gaps = {}
     for score_name, real_val in real_scores.items():
         if score_name in neg_score_lists and len(neg_score_lists[score_name]) >= 10:
-            gap_result = negative_control_gap(real_val, np.array(neg_score_lists[score_name]))
+            gap_result = negative_control_gap(
+                real_val, np.array(neg_score_lists[score_name])
+            )
             gaps[score_name] = {
                 "gap": gap_result["gap"],
                 "interpretation": gap_result["interpretation"],
@@ -377,7 +466,9 @@ for cname in ["PCFG_v2", "RR_real", "Indus"]:
     neg_ctrl_multi[cname] = gaps
     print(f"  {cname}:")
     for score_name, gap_data in gaps.items():
-        print(f"    {score_name}: gap={gap_data['gap']:.2f}sigma ({gap_data['interpretation']})")
+        print(
+            f"    {score_name}: gap={gap_data['gap']:.2f}sigma ({gap_data['interpretation']})"
+        )
 
 RESULTS["neg_ctrl_multi"] = neg_ctrl_multi
 
@@ -411,8 +502,10 @@ for cname in ["PCFG_v2"]:
             "acc_at_10": result["acc_at_k"].get(10, None),
             "mrr": result["mrr"],
         }
-        print(f"    Acc@1={result['acc_at_k'].get(1, 'N/A')}, "
-              f"Acc@5={result['acc_at_k'].get(5, 'N/A')}, MRR={result['mrr']:.3f}")
+        print(
+            f"    Acc@1={result['acc_at_k'].get(1, 'N/A')}, "
+            f"Acc@5={result['acc_at_k'].get(5, 'N/A')}, MRR={result['mrr']:.3f}"
+        )
     except Exception as e:
         print(f"    FAILED: {e}")
 
@@ -426,7 +519,7 @@ for cname in ["PCFG_v2"]:
         n_groups = min(vs // 5, 10)
         for g in range(n_groups):
             base = sorted_tokens[g * 5]
-            collapsed = sorted_tokens[g * 5: g * 5 + 5]
+            collapsed = sorted_tokens[g * 5 : g * 5 + 5]
             collapse_map[base] = collapsed
 
         collapsed_seqs = []
@@ -442,23 +535,28 @@ for cname in ["PCFG_v2"]:
             collapsed_seqs.append(new_s)
 
         result2 = experiment_logosyllabic_collapse(
-            collapsed_seqs, seqs, collapse_map, vs, vs,
-            window_size=3, k=k, seed=42
+            collapsed_seqs, seqs, collapse_map, vs, vs, window_size=3, k=k, seed=42
         )
         synth["logosyllabic"] = {
-            "fiber_recall": {str(kk): v for kk, v in result2["fiber_recall_at_k"].items()},
+            "fiber_recall": {
+                str(kk): v for kk, v in result2["fiber_recall_at_k"].items()
+            },
             "n_collapse_groups": result2["n_collapse_groups"],
         }
         print(f"    FiberRecall: {result2['fiber_recall_at_k']}")
     except Exception as e:
         print(f"    FAILED: {e}")
         import traceback
+
         traceback.print_exc()
 
     # --- Exp 3: Segmentation Recovery ---
     print("  Exp 3: Segmentation Recovery...")
     try:
-        from spectral_submersion.synthetic_experiments import experiment_unknown_segmentation
+        from spectral_submersion.synthetic_experiments import (
+            experiment_unknown_segmentation,
+        )
+
         seg_result = experiment_unknown_segmentation(seqs, vs, seed=42)
         synth["segmentation"] = {
             "unigram": seg_result["unigram"],
@@ -469,10 +567,13 @@ for cname in ["PCFG_v2"]:
             "n_true_boundaries": seg_result["n_true_boundaries"],
             "total_tokens": seg_result["total_tokens"],
         }
-        print(f"    Unigram F1={seg_result['unigram']['f1']:.3f}, Bigram MI F1={seg_result['bigram_mi']['f1']:.3f}, BPE-50 F1={seg_result['bpe_50']['f1']:.3f}")
+        print(
+            f"    Unigram F1={seg_result['unigram']['f1']:.3f}, Bigram MI F1={seg_result['bigram_mi']['f1']:.3f}, BPE-50 F1={seg_result['bpe_50']['f1']:.3f}"
+        )
     except Exception as e:
         print(f"    FAILED: {e}")
         import traceback
+
         traceback.print_exc()
 
     # --- Exp 4: Boustrophedon ---
@@ -507,7 +608,9 @@ for cname in ["PCFG_v2"]:
             "delta_bic": result6["delta_bic"],
             "preferred": "calendar" if result6["calendar_preferred"] else "ngram",
         }
-        print(f"    delta_BIC={result6['delta_bic']:.1f}, preferred={'calendar' if result6['calendar_preferred'] else 'ngram'}")
+        print(
+            f"    delta_BIC={result6['delta_bic']:.1f}, preferred={'calendar' if result6['calendar_preferred'] else 'ngram'}"
+        )
     except Exception as e:
         print(f"    FAILED: {e}")
 
@@ -527,18 +630,28 @@ for cname, cdata in CORPORA.items():
 
     def make_sv_stat(vocab_size):
         def sv_stat(c):
-            C = cooccurrence_matrix_from_sequences([c.tolist()], vocab_size, window_size=2)
+            C = cooccurrence_matrix_from_sequences(
+                [c.tolist()], vocab_size, window_size=2
+            )
             return float(np.linalg.svd(C, compute_uv=False)[0])
+
         return sv_stat
 
     try:
-        result = verify_non_identifiability(vs, make_sv_stat(vs), token_ids, n_permutations=20, seed=42)
+        result = verify_non_identifiability(
+            vs, make_sv_stat(vs), token_ids, n_permutations=20, seed=42
+        )
         ident_results[cname] = result
-        print(f"  {cname}: invariant={result['is_invariant']}, dev={result['max_deviation']:.2e}")
+        print(
+            f"  {cname}: invariant={result['is_invariant']}, dev={result['max_deviation']:.2e}"
+        )
     except Exception as e:
         print(f"  {cname}: FAILED ({e})")
 
-RESULTS["identifiability"] = {k: {"is_invariant": v["is_invariant"], "max_deviation": float(v["max_deviation"])} for k, v in ident_results.items()}
+RESULTS["identifiability"] = {
+    k: {"is_invariant": v["is_invariant"], "max_deviation": float(v["max_deviation"])}
+    for k, v in ident_results.items()
+}
 
 # ============================================================
 # 7. PROCRUSTES ANCHOR STABILITY (Synthetic)
@@ -580,19 +693,26 @@ for cname in ["PCFG_v2"]:
                 cond = anchor_condition_number(X_anch, Y_anch)
                 ap = anchor_power(
                     compute_automorphism_size_upper_bound(M),
-                    compute_automorphism_size_upper_bound(M)  # Without anchors (approximation)
+                    compute_automorphism_size_upper_bound(
+                        M
+                    ),  # Without anchors (approximation)
                 )
-                loo = leave_one_anchor_out_stability(X_anch, Y_anch, n_bootstrap=50, seed=42)
+                loo = leave_one_anchor_out_stability(
+                    X_anch, Y_anch, n_bootstrap=50, seed=42
+                )
 
                 key = f"n={n_anch}_noise={noise}"
                 anchor_stability[key] = {
-                    "n_anchors": n_anch, "noise_level": noise,
+                    "n_anchors": n_anch,
+                    "noise_level": noise,
                     "anchor_condition": float(cond),
                     "loo_mean_deviation": float(loo["loo_mean_deviation"]),
                     "q_stability": float(loo["q_stability"]),
                 }
-                print(f"  n={n_anch}, noise={noise}: cond={cond:.4f}, "
-                      f"q_stab={loo['q_stability']:.4f}, loo_dev={loo['loo_mean_deviation']:.4f}")
+                print(
+                    f"  n={n_anch}, noise={noise}: cond={cond:.4f}, "
+                    f"q_stab={loo['q_stability']:.4f}, loo_dev={loo['loo_mean_deviation']:.4f}"
+                )
             except Exception as e:
                 print(f"  n={n_anch}, noise={noise}: FAILED ({e})")
 
@@ -645,8 +765,12 @@ for cname in ["PCFG_v2"]:
 
     try:
         stability = ot_stability(
-            {"Dx": D_x, "Dy": D_y}, marg_a, marg_b,
-            reg=0.1, n_initializations=10, seed=42
+            {"Dx": D_x, "Dy": D_y},
+            marg_a,
+            marg_b,
+            reg=0.1,
+            n_initializations=10,
+            seed=42,
         )
         ot_results["stability"] = {
             "ot_stability": float(stability["ot_stability"]),
@@ -654,21 +778,28 @@ for cname in ["PCFG_v2"]:
             "cost_std": float(stability.get("cost_std", 0)),
             "worst_cost": float(stability.get("worst_cost", 0)),
         }
-        print(f"  OT stability: {stability['ot_stability']:.4f}, "
-              f"best_cost={stability.get('best_cost', 0):.4f}, cost_std={stability.get('cost_std', 0):.4f}")
+        print(
+            f"  OT stability: {stability['ot_stability']:.4f}, "
+            f"best_cost={stability.get('best_cost', 0):.4f}, cost_std={stability.get('cost_std', 0):.4f}"
+        )
     except Exception as e:
         print(f"  OT stability FAILED: {e}")
 
     try:
         sensitivity = sensitivity_analysis(
-            {"Dx": D_x, "Dy": D_y}, marg_a, marg_b,
+            {"Dx": D_x, "Dy": D_y},
+            marg_a,
+            marg_b,
             epsilon_range=[0.01, 0.05, 0.1, 0.5, 1.0],
-            seed=42
+            seed=42,
         )
-        ot_results["sensitivity"] = [{
-            "epsilon": r.get("epsilon", 0),
-            "cost": float(r.get("cost", 0)),
-        } for r in sensitivity]
+        ot_results["sensitivity"] = [
+            {
+                "epsilon": r.get("epsilon", 0),
+                "cost": float(r.get("cost", 0)),
+            }
+            for r in sensitivity
+        ]
         print(f"  OT sensitivity: {len(sensitivity)} configurations tested")
     except Exception as e:
         print(f"  OT sensitivity FAILED: {e}")
@@ -688,9 +819,15 @@ for cname in ["PCFG_v2"]:
     Pi = np.eye(n_min) / n_min  # Uniform coupling as baseline
     try:
         decomp = decompose_transport_cost(
-            Pi, D_x, D_y,
-            E_src[:n_min], E_tgt[:n_min], Q,
-            lambda_g=1.0, lambda_r=1.0, epsilon=0.1
+            Pi,
+            D_x,
+            D_y,
+            E_src[:n_min],
+            E_tgt[:n_min],
+            Q,
+            lambda_g=1.0,
+            lambda_r=1.0,
+            epsilon=0.1,
         )
         ot_results["decomposition"] = {
             "L_geometric": float(decomp["L_geometric"]),
@@ -701,9 +838,11 @@ for cname in ["PCFG_v2"]:
             "frac_geometric": float(decomp.get("frac_geometric", 0)),
             "frac_relational": float(decomp.get("frac_relational", 0)),
         }
-        print(f"  OT decomposition: geom={decomp['L_geometric']:.4f}, "
-              f"rel={decomp['L_relational']:.4f}, "
-              f"ent={decomp['H_entropy']:.4f}")
+        print(
+            f"  OT decomposition: geom={decomp['L_geometric']:.4f}, "
+            f"rel={decomp['L_relational']:.4f}, "
+            f"ent={decomp['H_entropy']:.4f}"
+        )
     except Exception as e:
         print(f"  OT decomposition FAILED: {e}")
 
@@ -741,14 +880,18 @@ for cname in ["PCFG_v2"]:
         coupling = E_b[:n, :] @ E_b[:n, :].T
         coupling = np.abs(coupling)
         coupling = coupling / (coupling.sum() + 1e-15)
-        couplings.append(coupling[:min(30, n), :min(30, n)])
+        couplings.append(coupling[: min(30, n), : min(30, n)])
 
     try:
         bcs = bootstrap_coupling_stability(couplings)
-        coupling_results["stability"] = float(bcs.get("pairwise_stability", bcs.get("coupling_stability", 0)))
+        coupling_results["stability"] = float(
+            bcs.get("pairwise_stability", bcs.get("coupling_stability", 0))
+        )
         coupling_results["mean_l1_distance"] = float(bcs.get("mean_l1_distance", 0))
-        print(f"  Coupling stability: {bcs.get('pairwise_stability', 0):.4f}, "
-              f"mean L1: {bcs.get('mean_l1_distance', 0):.4f}")
+        print(
+            f"  Coupling stability: {bcs.get('pairwise_stability', 0):.4f}, "
+            f"mean L1: {bcs.get('mean_l1_distance', 0):.4f}"
+        )
     except Exception as e:
         print(f"  FAILED: {e}")
 
@@ -809,19 +952,27 @@ for name, ap, stab, ncg, sr in scenarios:
         candidate_interpretations=[{"target": "moon", "score": 0.6}],
         posterior_score=0.6,
         claim_level="C2_FUNCTIONAL",
-        anchor_power=ap, bootstrap_stability=stab,
-        negative_control_gap=ncg, spectral_reliability=sr,
+        anchor_power=ap,
+        bootstrap_stability=stab,
+        negative_control_gap=ncg,
+        spectral_reliability=sr,
     )
-    claim_audit.append({
-        "scenario": name,
-        "anchor_power": ap, "stability": stab,
-        "neg_ctrl_gap": ncg, "spectral_reliability": sr,
-        "admissible": str(result["claim_level_admissible"]),
-        "blocked": result["blocked"],
-        "overclaim_risk": float(result["overclaim_risk"]),
-    })
-    print(f"  {name}: admissible={result['claim_level_admissible']}, "
-          f"blocked={result['blocked']}, OCR={result['overclaim_risk']:.3f}")
+    claim_audit.append(
+        {
+            "scenario": name,
+            "anchor_power": ap,
+            "stability": stab,
+            "neg_ctrl_gap": ncg,
+            "spectral_reliability": sr,
+            "admissible": str(result["claim_level_admissible"]),
+            "blocked": result["blocked"],
+            "overclaim_risk": float(result["overclaim_risk"]),
+        }
+    )
+    print(
+        f"  {name}: admissible={result['claim_level_admissible']}, "
+        f"blocked={result['blocked']}, OCR={result['overclaim_risk']:.3f}"
+    )
 
 RESULTS["claim_audit"] = claim_audit
 
@@ -832,19 +983,37 @@ print("\n" + "=" * 70)
 print("12. GENERATING FIGURES")
 print("=" * 70)
 
-corp_colors = {"PCFG_v2": "#2ecc71", "RR_like": "#f39c12", "RR_real": "#e74c3c", "Indus": "#3498db", "Positional": "#9b59b6"}
+corp_colors = {
+    "PCFG_v2": "#2ecc71",
+    "RR_like": "#f39c12",
+    "RR_real": "#e74c3c",
+    "Indus": "#3498db",
+    "Positional": "#9b59b6",
+}
 
 # Figure 1: Co-occurrence Coverage vs Window Size
 fig, ax = plt.subplots(figsize=(10, 6))
-colors = {"PCFG_v2": "#2ecc71", "RR_like": "#f39c12", "RR_real": "#e74c3c", "Indus": "#3498db", "Positional": "#9b59b6"}
+colors = {
+    "PCFG_v2": "#2ecc71",
+    "RR_like": "#f39c12",
+    "RR_real": "#e74c3c",
+    "Indus": "#3498db",
+    "Positional": "#9b59b6",
+}
 for d in coverage_data:
-    ax.plot(d["window"], d["coverage"], 'o-', color=corp_colors.get(d["corpus"], "gray"),
-            label=d["corpus"] if d["window"] == 1 else "", markersize=4)
+    ax.plot(
+        d["window"],
+        d["coverage"],
+        "o-",
+        color=corp_colors.get(d["corpus"], "gray"),
+        label=d["corpus"] if d["window"] == 1 else "",
+        markersize=4,
+    )
 ax.set_xlabel("Window size h")
 ax.set_ylabel("CoocCoverage(h)")
 ax.set_title("Co-occurrence Coverage vs Window Size")
 ax.legend()
-ax.axhline(y=0.5, color='red', linestyle='--', alpha=0.5, label='50% threshold')
+ax.axhline(y=0.5, color="red", linestyle="--", alpha=0.5, label="50% threshold")
 fig.tight_layout()
 fig.savefig(FIGS / "fig1_coverage_vs_window.png", dpi=150)
 print("  Saved fig1_coverage_vs_window.png")
@@ -860,16 +1029,27 @@ for idx, cname in enumerate(corpus_list):
     for mtype, sv_list in mtypes.items():
         if not sv_list:
             continue
-        sv_arr = np.array(sv_list[:min(33, len(sv_list))])
+        sv_arr = np.array(sv_list[: min(33, len(sv_list))])
         ks = range(1, len(sv_arr) + 1)
-        styles = {"PPMI": "-", "SPPMI(marg)": "--", "Transition": ":", "Laplacian": "-."}
+        styles = {
+            "PPMI": "-",
+            "SPPMI(marg)": "--",
+            "Transition": ":",
+            "Laplacian": "-.",
+        }
         ax.plot(ks, sv_arr, styles.get(mtype, "-"), label=mtype, linewidth=1.5)
     ax.set_xlabel("Singular value index")
     ax.set_ylabel("Singular value")
-    ax.set_title(f"{cname}\n(V={CORPORA[cname]['vocab_size']}, T={CORPORA[cname]['total_tokens']})")
+    ax.set_title(
+        f"{cname}\n(V={CORPORA[cname]['vocab_size']}, T={CORPORA[cname]['total_tokens']})"
+    )
     ax.legend(fontsize=7)
     ax.set_yscale("log")
-fig.suptitle("Singular Value Spectra: PPMI vs SPPMI vs Transition vs Laplacian", fontsize=14, fontweight="bold")
+fig.suptitle(
+    "Singular Value Spectra: PPMI vs SPPMI vs Transition vs Laplacian",
+    fontsize=14,
+    fontweight="bold",
+)
 fig.tight_layout()
 fig.savefig(FIGS / "fig2_spectral_comparison_all.png", dpi=150)
 print("  Saved fig2_spectral_comparison_all.png")
@@ -904,17 +1084,27 @@ if sppmi_sweep:
     for idx, cname in enumerate(["PCFG_v2", "RR_real", "Indus"]):
         ax = axes[idx]
         for k_neg in [1.0, 2.0, 5.0]:
-            diffs = [s["sv_diff_max"] for s in sppmi_sweep
-                     if s["corpus"] == cname and s["k_neg"] == k_neg and "sv_diff_max" in s]
-            eps_vals = [s["epsilon"] for s in sppmi_sweep
-                        if s["corpus"] == cname and s["k_neg"] == k_neg and "sv_diff_max" in s]
+            diffs = [
+                s["sv_diff_max"]
+                for s in sppmi_sweep
+                if s["corpus"] == cname and s["k_neg"] == k_neg and "sv_diff_max" in s
+            ]
+            eps_vals = [
+                s["epsilon"]
+                for s in sppmi_sweep
+                if s["corpus"] == cname and s["k_neg"] == k_neg and "sv_diff_max" in s
+            ]
             if diffs and eps_vals:
-                ax.loglog(eps_vals, diffs, 'o-', label=f'k_neg={k_neg}')
+                ax.loglog(eps_vals, diffs, "o-", label=f"k_neg={k_neg}")
         ax.set_xlabel("epsilon")
         ax.set_ylabel("max |sv(PPMI) - sv(SPPMI)|")
         ax.set_title(f"{cname}")
         ax.legend(fontsize=7)
-    fig.suptitle("SPPMI Sensitivity: Effect of epsilon and k_neg on Embedding", fontsize=14, fontweight="bold")
+    fig.suptitle(
+        "SPPMI Sensitivity: Effect of epsilon and k_neg on Embedding",
+        fontsize=14,
+        fontweight="bold",
+    )
     fig.tight_layout()
     fig.savefig(FIGS / "fig4_sppmi_sensitivity.png", dpi=150)
     print("  Saved fig4_sppmi_sensitivity.png")
@@ -928,25 +1118,51 @@ AP, ST = np.meshgrid(anchor_powers, stabilities)
 claim_grid = np.zeros_like(AP)
 for i in range(AP.shape[0]):
     for j in range(AP.shape[1]):
-        claim_grid[i, j] = float(admissible(
-            anchor_power=AP[i, j], stability=ST[i, j],
-            neg_ctrl_gap=2.0, external_evidence=False
-        ))
+        claim_grid[i, j] = float(
+            admissible(
+                anchor_power=AP[i, j],
+                stability=ST[i, j],
+                neg_ctrl_gap=2.0,
+                external_evidence=False,
+            )
+        )
 
-im = ax.contourf(AP, ST, claim_grid, levels=[-0.5, 0.5, 1.5, 2.5, 3.5, 4.5],
-                  colors=['#ff6b6b', '#ffd93d', '#6bcb77', '#4d96ff', '#9b59b6'])
-ax.contour(AP, ST, claim_grid, levels=[0.5, 1.5, 2.5, 3.5, 4.5], colors='black', linewidths=0.5)
+im = ax.contourf(
+    AP,
+    ST,
+    claim_grid,
+    levels=[-0.5, 0.5, 1.5, 2.5, 3.5, 4.5],
+    colors=["#ff6b6b", "#ffd93d", "#6bcb77", "#4d96ff", "#9b59b6"],
+)
+ax.contour(
+    AP, ST, claim_grid, levels=[0.5, 1.5, 2.5, 3.5, 4.5], colors="black", linewidths=0.5
+)
 cbar = fig.colorbar(im, ax=ax, ticks=[0, 1, 2, 3, 4])
-cbar.set_ticklabels(['C0', 'C1', 'C2', 'C3', 'C4'])
+cbar.set_ticklabels(["C0", "C1", "C2", "C3", "C4"])
 ax.set_xlabel("Anchor Power")
 ax.set_ylabel("Bootstrap Stability")
-ax.set_title("Admissible Claim Level vs Anchor Power & Stability\n(NegCtrlGap = 2 sigma)")
+ax.set_title(
+    "Admissible Claim Level vs Anchor Power & Stability\n(NegCtrlGap = 2 sigma)"
+)
 
-for name, ap, st in [("No anchors", 0.0, 0.3), ("Weak", 0.15, 0.5), ("Moderate", 0.4, 0.7)]:
-    ax.plot(ap, st, 'w*', markersize=15, markeredgecolor='black')
-    ax.annotate(name, (ap, st), textcoords="offset points", xytext=(10, 5), fontsize=9,
-                color='white', fontweight='bold',
-                path_effects=[matplotlib.patheffects.withStroke(linewidth=2, foreground='black')])
+for name, ap, st in [
+    ("No anchors", 0.0, 0.3),
+    ("Weak", 0.15, 0.5),
+    ("Moderate", 0.4, 0.7),
+]:
+    ax.plot(ap, st, "w*", markersize=15, markeredgecolor="black")
+    ax.annotate(
+        name,
+        (ap, st),
+        textcoords="offset points",
+        xytext=(10, 5),
+        fontsize=9,
+        color="white",
+        fontweight="bold",
+        path_effects=[
+            matplotlib.patheffects.withStroke(linewidth=2, foreground="black")
+        ],
+    )
 
 fig.tight_layout()
 fig.savefig(FIGS / "fig5_claim_levels.png", dpi=150)
@@ -955,19 +1171,34 @@ print("  Saved fig5_claim_levels.png")
 # Figure 6: Overclaim Risk
 fig, ax = plt.subplots(figsize=(10, 6))
 evidence_levels = np.linspace(0, 5, 200)
-for level, color in [(ClaimLevel.C1_STRUCTUREAL, '#ffd93d'),
-                     (ClaimLevel.C2_FUNCTIONAL, '#6bcb77'),
-                     (ClaimLevel.C3_SEMANTIC_WEAK, '#4d96ff'),
-                     (ClaimLevel.C4_PHONETIC_PARTIAL, '#9b59b6'),
-                     (ClaimLevel.C5_TRANSLATION_STRONG, '#e74c3c')]:
+for level, color in [
+    (ClaimLevel.C1_STRUCTUREAL, "#ffd93d"),
+    (ClaimLevel.C2_FUNCTIONAL, "#6bcb77"),
+    (ClaimLevel.C3_SEMANTIC_WEAK, "#4d96ff"),
+    (ClaimLevel.C4_PHONETIC_PARTIAL, "#9b59b6"),
+    (ClaimLevel.C5_TRANSLATION_STRONG, "#e74c3c"),
+]:
     risks = [overclaim_risk(level, e) for e in evidence_levels]
-    ax.plot(evidence_levels, risks, label=f'{CLAIM_LABELS[level]} (C{level.value})', color=color, linewidth=2)
-ax.axhline(y=1.0, color='red', linestyle='--', linewidth=1, alpha=0.7, label='Overclaim threshold')
-ax.fill_between(evidence_levels, 0, 1, alpha=0.1, color='green')
+    ax.plot(
+        evidence_levels,
+        risks,
+        label=f"{CLAIM_LABELS[level]} (C{level.value})",
+        color=color,
+        linewidth=2,
+    )
+ax.axhline(
+    y=1.0,
+    color="red",
+    linestyle="--",
+    linewidth=1,
+    alpha=0.7,
+    label="Overclaim threshold",
+)
+ax.fill_between(evidence_levels, 0, 1, alpha=0.1, color="green")
 ax.set_xlabel("Evidence Level")
 ax.set_ylabel("Overclaim Risk")
 ax.set_title("Overclaim Risk by Claim Level vs Evidence Strength")
-ax.legend(loc='upper right')
+ax.legend(loc="upper right")
 ax.set_ylim(0, 6)
 fig.tight_layout()
 fig.savefig(FIGS / "fig6_overclaim_risk.png", dpi=150)
@@ -987,13 +1218,15 @@ for cname in CORPORA:
         C = cooccurrence_matrix_from_sequences(seqs, vs, window_size=ws)
         coverages.append(float(cooccurrence_coverage(C)))
         epcs.append(float(expected_pair_count(cdata["total_tokens"], ws, vs)))
-    ax.plot(coverages, epcs, 'o-', label=cname)
+    ax.plot(coverages, epcs, "o-", label=cname)
 ax.set_xlabel("CoocCoverage(h)")
 ax.set_ylabel("ExpectedPairCount(h)")
 ax.set_title("Coverage vs EPC Across Corpora and Window Sizes")
 ax.legend()
-ax.axhline(y=1.0, color='red', linestyle='--', alpha=0.5, label='EPC=1 (statistical threshold)')
-ax.axhline(y=5.0, color='orange', linestyle='--', alpha=0.5, label='EPC=5 (moderate)')
+ax.axhline(
+    y=1.0, color="red", linestyle="--", alpha=0.5, label="EPC=1 (statistical threshold)"
+)
+ax.axhline(y=5.0, color="orange", linestyle="--", alpha=0.5, label="EPC=5 (moderate)")
 fig.tight_layout()
 fig.savefig(FIGS / "fig7_epc_vs_coverage.png", dpi=150)
 print("  Saved fig7_epc_vs_coverage.png")
@@ -1003,7 +1236,7 @@ if "ot_analysis" in RESULTS and "sensitivity" in RESULTS["ot_analysis"]:
     fig, ax = plt.subplots(figsize=(8, 5))
     eps_vals = [r["epsilon"] for r in RESULTS["ot_analysis"]["sensitivity"]]
     costs = [r["cost"] for r in RESULTS["ot_analysis"]["sensitivity"]]
-    ax.plot(eps_vals, costs, 'o-')
+    ax.plot(eps_vals, costs, "o-")
     ax.set_xlabel("Entropy regularization (epsilon)")
     ax.set_ylabel("Transport cost")
     ax.set_title("OT Cost Sensitivity to Entropy Regularization")
@@ -1025,7 +1258,7 @@ if anchor_stability:
                 q_stabs.append(val["q_stability"])
                 loo_devs.append(val["loo_mean_deviation"])
         if n_anchs:
-            ax.plot(n_anchs, q_stabs, 'o-', label=f'noise={noise}')
+            ax.plot(n_anchs, q_stabs, "o-", label=f"noise={noise}")
     ax.set_xlabel("Number of anchors")
     ax.set_ylabel("Q-stability (LOO)")
     ax.set_title("Procrustes Stability vs Number of Anchors and Noise")
@@ -1043,7 +1276,9 @@ if synth:
         pr = synth["perm_recovery"]
         ks = [1, 5, 10]
         accs = [pr.get("acc_at_1", 0), pr.get("acc_at_5", 0), pr.get("acc_at_10", 0)]
-        ax.bar(["Acc@1", "Acc@5", "Acc@10"], accs, color=["#e74c3c", "#3498db", "#2ecc71"])
+        ax.bar(
+            ["Acc@1", "Acc@5", "Acc@10"], accs, color=["#e74c3c", "#3498db", "#2ecc71"]
+        )
         ax.set_title("Exp 1: Permutation Recovery")
         ax.set_ylim(0, 1)
 
@@ -1059,9 +1294,11 @@ if synth:
     # 10c: Calendar
     ax = axes[0, 2]
     if "calendar" in synth:
-        ax.bar(["n-gram BIC", "calendar BIC"],
-               [synth["calendar"]["ngram_bic"], synth["calendar"]["calendar_bic"]],
-               color=["#3498db", "#e74c3c"])
+        ax.bar(
+            ["n-gram BIC", "calendar BIC"],
+            [synth["calendar"]["ngram_bic"], synth["calendar"]["calendar_bic"]],
+            color=["#3498db", "#e74c3c"],
+        )
         ax.set_title("Exp 6: Calendar vs n-gram")
 
     # 10d: Reliability table
@@ -1072,7 +1309,11 @@ if synth:
         colors_r = ["#2ecc71" if r["stable"] else "#e74c3c" for r in reliability_table]
         ax.bar(range(len(reliabilities)), reliabilities, color=colors_r)
         ax.set_xticks(range(len(reliabilities)))
-        ax.set_xticklabels([f"{r['corpus'][:5]}-k{r['k']}" for r in reliability_table], fontsize=7, rotation=45)
+        ax.set_xticklabels(
+            [f"{r['corpus'][:5]}-k{r['k']}" for r in reliability_table],
+            fontsize=7,
+            rotation=45,
+        )
         ax.set_ylabel("SpectralReliability")
         ax.set_title("Reliability Table")
         ax.axhline(y=0.3, color="orange", linestyle="--", label="Stability threshold")
@@ -1095,7 +1336,13 @@ if synth:
     # 10f: EPC vs Coverage summary
     ax = axes[1, 2]
     for d in coverage_data:
-        ax.plot(d["window"], d["EPC"], 'o', color=corp_colors.get(d["corpus"], "gray"), markersize=5)
+        ax.plot(
+            d["window"],
+            d["EPC"],
+            "o",
+            color=corp_colors.get(d["corpus"], "gray"),
+            markersize=5,
+        )
     ax.set_xlabel("Window size")
     ax.set_ylabel("ExpectedPairCount")
     ax.set_title("EPC Across Corpora")
@@ -1113,6 +1360,7 @@ print("\n" + "=" * 70)
 print("13. SAVING ALL RESULTS")
 print("=" * 70)
 
+
 def convert(obj):
     if isinstance(obj, np.ndarray):
         return obj.tolist()
@@ -1127,6 +1375,7 @@ def convert(obj):
     if isinstance(obj, ClaimLevel):
         return int(obj)
     return obj
+
 
 all_json = convert(RESULTS)
 with open(OUT / "phd_audit_v2_results.json", "w") as f:
@@ -1143,80 +1392,114 @@ summary = [
     "-" * 50,
 ]
 for d in coverage_data:
-    summary.append(f"  {d['corpus']} w={d['window']}: cov={d['coverage']:.4f}, EPC={d['EPC']:.3f}, "
-                  f"min_T={d['min_tokens']:.0f}")
+    summary.append(
+        f"  {d['corpus']} w={d['window']}: cov={d['coverage']:.4f}, EPC={d['EPC']:.3f}, "
+        f"min_T={d['min_tokens']:.0f}"
+    )
 
 summary.extend(["", "2. SPECTRAL RELIABILITY TABLE", "-" * 50])
 for r in reliability_table:
-    summary.append(f"  {r['corpus']} {r['matrix']} k={r['k']}: "
-                  f"delta={r['delta_k']:.4f}, eps={r['epsilon']:.4f}, "
-                  f"rel={r['reliability']:.4f}, stable={r['stable']}, claim<{r['claim_limit']}>")
+    summary.append(
+        f"  {r['corpus']} {r['matrix']} k={r['k']}: "
+        f"delta={r['delta_k']:.4f}, eps={r['epsilon']:.4f}, "
+        f"rel={r['reliability']:.4f}, stable={r['stable']}, claim<{r['claim_limit']}>"
+    )
 
 summary.extend(["", "3. NEGATIVE CONTROL GAPS (Multi-Score)", "-" * 50])
 for cname, gaps in neg_ctrl_multi.items():
     summary.append(f"  {cname}:")
     for score_name, gap_data in gaps.items():
-        summary.append(f"    {score_name}: gap={gap_data['gap']:.2f}sigma ({gap_data['interpretation']})")
+        summary.append(
+            f"    {score_name}: gap={gap_data['gap']:.2f}sigma ({gap_data['interpretation']})"
+        )
 
 summary.extend(["", "4. SPPMI SENSITIVITY", "-" * 50])
 for s in sppmi_sweep[:10]:
     if "sv_diff_max" in s:
-        summary.append(f"  {s['corpus']} eps={s['epsilon']} k_neg={s['k_neg']}: diff={s['sv_diff_max']:.6f}")
+        summary.append(
+            f"  {s['corpus']} eps={s['epsilon']} k_neg={s['k_neg']}: diff={s['sv_diff_max']:.6f}"
+        )
 
 if "synthetic_experiments" in RESULTS:
     se = RESULTS["synthetic_experiments"]
     summary.extend(["", "5. SYNTHETIC EXPERIMENTS", "-" * 50])
     if "perm_recovery" in se:
         pr = se["perm_recovery"]
-        summary.append(f"  Exp 1 Recovery: Acc@1={pr['acc_at_1']:.3f}, Acc@5={pr['acc_at_5']:.3f}, MRR={pr['mrr']:.3f}")
+        summary.append(
+            f"  Exp 1 Recovery: Acc@1={pr['acc_at_1']:.3f}, Acc@5={pr['acc_at_5']:.3f}, MRR={pr['mrr']:.3f}"
+        )
     if "logosyllabic" in se:
         fr = se["logosyllabic"]["fiber_recall"]
         summary.append(f"  Exp 2 Logosyllabic: FiberRecall={fr}")
     if "calendar" in se:
         cal = se["calendar"]
-        summary.append(f"  Exp 6 Calendar: delta_BIC={cal['delta_bic']:.1f}, preferred={cal['preferred']}")
+        summary.append(
+            f"  Exp 6 Calendar: delta_BIC={cal['delta_bic']:.1f}, preferred={cal['preferred']}"
+        )
 
 summary.extend(["", "6. IDENTIFIABILITY", "-" * 50])
 for k, v in RESULTS.get("identifiability", {}).items():
-    summary.append(f"  {k}: invariant={v['is_invariant']}, dev={v['max_deviation']:.2e}")
+    summary.append(
+        f"  {k}: invariant={v['is_invariant']}, dev={v['max_deviation']:.2e}"
+    )
 
 summary.extend(["", "7. ANCHOR STABILITY", "-" * 50])
 for k, v in anchor_stability.items():
-    summary.append(f"  {k}: cond={v['anchor_condition']:.4f}, q_stab={v['q_stability']:.4f}, "
-                  f"loo_dev={v['loo_mean_deviation']:.4f}")
+    summary.append(
+        f"  {k}: cond={v['anchor_condition']:.4f}, q_stab={v['q_stability']:.4f}, "
+        f"loo_dev={v['loo_mean_deviation']:.4f}"
+    )
 
 summary.extend(["", "8. OT ANALYSIS", "-" * 50])
 if "ot_analysis" in RESULTS:
     ot = RESULTS["ot_analysis"]
     if "stability" in ot:
-        summary.append(f"  OT stability: {ot['stability']['ot_stability']:.4f}, "
-                      f"best_cost={ot['stability']['best_cost']:.4f}")
+        summary.append(
+            f"  OT stability: {ot['stability']['ot_stability']:.4f}, "
+            f"best_cost={ot['stability']['best_cost']:.4f}"
+        )
     if "decomposition" in ot:
         d = ot["decomposition"]
-        summary.append(f"  OT decomposition: geom={d['L_geometric']:.4f}, "
-                      f"rel={d['L_relational']:.4f}, ent={d['H_entropy']:.4f}")
+        summary.append(
+            f"  OT decomposition: geom={d['L_geometric']:.4f}, "
+            f"rel={d['L_relational']:.4f}, ent={d['H_entropy']:.4f}"
+        )
 
 summary.extend(["", "9. CLAIM AUDIT", "-" * 50])
 for c in claim_audit:
-    summary.append(f"  {c['scenario']}: admissible={c['admissible']}, "
-                  f"blocked={c['blocked']}, OCR={c['overclaim_risk']:.3f}")
+    summary.append(
+        f"  {c['scenario']}: admissible={c['admissible']}, "
+        f"blocked={c['blocked']}, OCR={c['overclaim_risk']:.3f}"
+    )
 
-summary.extend(["", "10. MANDATORY CHECKLIST", "-" * 50,
-    "  1. Mathematical object: Cooccurrence -> PPMI/SPPMI/Transition/Laplacian -> SVD",
-    "  2. Hypothesis space: Permutation orbits under Sym(V_X)",
-    "  3. Non-identifiability: VERIFIED" + (" CHECK" if all(v["is_invariant"] for v in RESULTS.get("identifiability", {}).values()) else " FAIL"),
-    "  4. Anchor power: See anchor stability results",
-    "  5. Spectral reliability: See Table Section 2",
-    "  6. Negative controls: Multi-score NegCtrlGap computed",
-    "  7. Max claim (no anchors): See claim audit",
-    "  8. SPPMI sensitivity: Sweep over epsilon and k_neg computed",
-    "  9. Counterevidence: Overclaim risk computed",
-    "  10. Reproducible JSON: runs/phd_audit_v2/phd_audit_v2_results.json",
-    "",
-    "=" * 70,
-    "AUDIT V2 COMPLETE",
-    "=" * 70,
-])
+summary.extend(
+    [
+        "",
+        "10. MANDATORY CHECKLIST",
+        "-" * 50,
+        "  1. Mathematical object: Cooccurrence -> PPMI/SPPMI/Transition/Laplacian -> SVD",
+        "  2. Hypothesis space: Permutation orbits under Sym(V_X)",
+        "  3. Non-identifiability: VERIFIED"
+        + (
+            " CHECK"
+            if all(
+                v["is_invariant"] for v in RESULTS.get("identifiability", {}).values()
+            )
+            else " FAIL"
+        ),
+        "  4. Anchor power: See anchor stability results",
+        "  5. Spectral reliability: See Table Section 2",
+        "  6. Negative controls: Multi-score NegCtrlGap computed",
+        "  7. Max claim (no anchors): See claim audit",
+        "  8. SPPMI sensitivity: Sweep over epsilon and k_neg computed",
+        "  9. Counterevidence: Overclaim risk computed",
+        "  10. Reproducible JSON: runs/phd_audit_v2/phd_audit_v2_results.json",
+        "",
+        "=" * 70,
+        "AUDIT V2 COMPLETE",
+        "=" * 70,
+    ]
+)
 
 with open(OUT / "phd_audit_v2_summary.txt", "w") as f:
     f.write("\n".join(summary))

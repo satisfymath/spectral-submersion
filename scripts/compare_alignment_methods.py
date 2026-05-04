@@ -7,13 +7,17 @@ Evaluates three coupling strategies:
 
 For same-size vocabularies, also evaluates Procrustes alignment.
 """
+
 import argparse
 import json
 from pathlib import Path
 
 import numpy as np
 
-from spectral_submersion.alignment import orthogonal_procrustes, pairwise_squared_distances
+from spectral_submersion.alignment import (
+    orthogonal_procrustes,
+    pairwise_squared_distances,
+)
 from spectral_submersion.transport import optimal_transport_matrix
 from spectral_submersion.evaluation import relational_distortion, geometric_distortion
 
@@ -93,9 +97,11 @@ def main():
     print(f"  Size: {n_lost} x {n_cand}, dim={d}, method={method_note}")
     print("-" * 50)
     for name, metrics in results["comparisons"].items():
-        print(f"  {name:8s} | Geo={metrics['geometric_distortion']:.4f} | "
-              f"Rel={metrics['relational_distortion']:.4f} | "
-              f"H={metrics['coupling_entropy']:.2f}")
+        print(
+            f"  {name:8s} | Geo={metrics['geometric_distortion']:.4f} | "
+            f"Rel={metrics['relational_distortion']:.4f} | "
+            f"H={metrics['coupling_entropy']:.2f}"
+        )
     print(f"Saved to {out_path}")
 
 

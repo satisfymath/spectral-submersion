@@ -7,14 +7,13 @@ Implements the auditability framework from Part V of the PhD upgrade guide:
 - Section 26: Overclaim Risk Index
 - Hypothesis ledger with full provenance
 """
+
 from __future__ import annotations
 
 import json
-import hashlib
 from datetime import datetime
 from pathlib import Path
 from dataclasses import dataclass, field, asdict
-from typing import Any
 
 import numpy as np
 
@@ -89,7 +88,7 @@ def bootstrap_stability(
         return float("nan")
 
     scores = np.asarray(scores)
-    mean_val = float(np.mean(scores))
+    # mean_val = float(np.mean(scores))
     std_val = float(np.std(scores))
     if std_val < 1e-12:
         return 1.0
@@ -174,12 +173,14 @@ def expected_calibration_error(
         bin_acc = float(labs[mask].mean())
         bin_conf = float(probs[mask].mean())
         ece += (n_bin / len(probs)) * abs(bin_acc - bin_conf)
-        bin_stats.append({
-            "bin": i,
-            "n": int(n_bin),
-            "accuracy": bin_acc,
-            "confidence": bin_conf,
-        })
+        bin_stats.append(
+            {
+                "bin": i,
+                "n": int(n_bin),
+                "accuracy": bin_acc,
+                "confidence": bin_conf,
+            }
+        )
 
     return {
         "ece": float(ece),
@@ -249,9 +250,12 @@ class HypothesisLedger:
             external_evidence=False,
         )
 
-        evidence_level = anchor_power + bootstrap_stability + min(
-            negative_control_gap / 5.0, 1.0
-        ) + spectral_reliability
+        evidence_level = (
+            anchor_power
+            + bootstrap_stability
+            + min(negative_control_gap / 5.0, 1.0)
+            + spectral_reliability
+        )
         ocr = overclaim_risk(level_enum, evidence_level)
 
         blocked = level_enum.value > max_admissible.value
@@ -309,6 +313,7 @@ class HypothesisLedger:
             key = level_enum.name
             level_counts[key] = level_counts.get(key, 0) + 1
             from .claims import admissible
+
             max_adm = admissible(
                 anchor_power=h.anchor_power,
                 stability=h.bootstrap_stability,
@@ -321,9 +326,9 @@ class HypothesisLedger:
             "total_hypotheses": len(self.hypotheses),
             "level_counts": level_counts,
             "blocked_count": blocked_counts,
-            "mean_overclaim_risk": float(
-                np.mean([h.overclaim_risk for h in self.hypotheses])
-            )
-            if self.hypotheses
-            else 0.0,
+            "mean_overclaim_risk": (
+                float(np.mean([h.overclaim_risk for h in self.hypotheses]))
+                if self.hypotheses
+                else 0.0
+            ),
         }

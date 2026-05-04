@@ -1,4 +1,5 @@
 """Alignment utilities: Procrustes, Moore-Penrose, and soft dictionary."""
+
 import numpy as np
 
 
@@ -20,8 +21,8 @@ def orthogonal_procrustes(X: np.ndarray, Y: np.ndarray) -> np.ndarray:
 
 def pairwise_squared_distances(X: np.ndarray, Y: np.ndarray) -> np.ndarray:
     """Compute pairwise squared Euclidean distances between rows of X and Y."""
-    X_norm = (X ** 2).sum(axis=1, keepdims=True)
-    Y_norm = (Y ** 2).sum(axis=1, keepdims=True).T
+    X_norm = (X**2).sum(axis=1, keepdims=True)
+    Y_norm = (Y**2).sum(axis=1, keepdims=True).T
     return X_norm + Y_norm - 2 * X @ Y.T
 
 

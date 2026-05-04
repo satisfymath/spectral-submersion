@@ -4,6 +4,7 @@ Tests the translator with inputs from different language families to see
 if structural differences in source languages produce different glyph
 patterns in the synthetic Rongorongo output.
 """
+
 import argparse
 import pickle
 from pathlib import Path
@@ -20,14 +21,22 @@ def load_model(model_dir):
     with open(model_dir / "tgt_vocab.pkl", "rb") as f:
         tgt_vocab = pickle.load(f)
     config = {
-        "d_model": 256, "nhead": 8, "enc_layers": 4,
-        "dec_layers": 4, "dim_ff": 512, "dropout": 0.1,
+        "d_model": 256,
+        "nhead": 8,
+        "enc_layers": 4,
+        "dec_layers": 4,
+        "dim_ff": 512,
+        "dropout": 0.1,
     }
     model = TransformerTranslator(
-        src_vocab_size=len(src_vocab), tgt_vocab_size=len(tgt_vocab),
-        d_model=config["d_model"], nhead=config["nhead"],
-        num_encoder_layers=config["enc_layers"], num_decoder_layers=config["dec_layers"],
-        dim_feedforward=config["dim_ff"], dropout=config["dropout"],
+        src_vocab_size=len(src_vocab),
+        tgt_vocab_size=len(tgt_vocab),
+        d_model=config["d_model"],
+        nhead=config["nhead"],
+        num_encoder_layers=config["enc_layers"],
+        num_decoder_layers=config["dec_layers"],
+        dim_feedforward=config["dim_ff"],
+        dropout=config["dropout"],
     )
     ckpt = model_dir / "model.pt"
     if not ckpt.exists():
@@ -42,7 +51,9 @@ def translate(model, src_vocab, tgt_vocab, text, device="cpu", max_len=50):
     src_ids = [src_vocab.bos_idx] + src_vocab.encode(tokens) + [src_vocab.eos_idx]
     src_tensor = torch.tensor([src_ids], dtype=torch.long, device=device)
     model = model.to(device)
-    out_ids = model.greedy_decode(src_tensor, src_vocab, tgt_vocab, max_len=max_len, device=device)
+    out_ids = model.greedy_decode(
+        src_tensor, src_vocab, tgt_vocab, max_len=max_len, device=device
+    )
     out_tokens = []
     for idx in out_ids:
         if idx == tgt_vocab.bos_idx:
@@ -56,7 +67,9 @@ def translate(model, src_vocab, tgt_vocab, text, device="cpu", max_len=50):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--model-dir", default="models/rongorongo_translator_v3")
-    parser.add_argument("--device", default="cuda" if torch.cuda.is_available() else "cpu")
+    parser.add_argument(
+        "--device", default="cuda" if torch.cuda.is_available() else "cpu"
+    )
     args = parser.parse_args()
 
     print("Loading model...")
@@ -121,7 +134,9 @@ def main():
             uniq_glyphs.append(len(set(glyphs)))
         avg_len = sum(lengths) / len(lengths)
         avg_uniq = sum(uniq_glyphs) / len(uniq_glyphs)
-        print(f"  {family:30s} | Avg length: {avg_len:5.2f} | Avg diversity: {avg_uniq:5.2f}")
+        print(
+            f"  {family:30s} | Avg length: {avg_len:5.2f} | Avg diversity: {avg_uniq:5.2f}"
+        )
         all_results[family] = {"avg_len": avg_len, "avg_diversity": avg_uniq}
 
 

@@ -4,6 +4,7 @@ Extends the base TransformerTranslator with beam search,
 which explores multiple translation hypotheses and selects
 the one with highest overall probability.
 """
+
 import math
 from typing import List, Tuple
 
@@ -38,11 +39,15 @@ class BeamSearchTranslator(TransformerTranslator):
             memory = self.transformer.encoder(src_emb)
 
             # Each beam: (sequence_tensor, score, finished)
-            beams = [(
-                torch.tensor([[tgt_vocab.bos_idx]], dtype=torch.long, device=device),
-                0.0,
-                False,
-            )]
+            beams = [
+                (
+                    torch.tensor(
+                        [[tgt_vocab.bos_idx]], dtype=torch.long, device=device
+                    ),
+                    0.0,
+                    False,
+                )
+            ]
 
             for step in range(max_len):
                 new_beams = []
@@ -52,7 +57,9 @@ class BeamSearchTranslator(TransformerTranslator):
                         continue
 
                     tgt_emb = self.pos_enc(self.tgt_emb(seq) * math.sqrt(self.d_model))
-                    tgt_mask = self.transformer.generate_square_subsequent_mask(seq.size(1)).to(device)
+                    tgt_mask = self.transformer.generate_square_subsequent_mask(
+                        seq.size(1)
+                    ).to(device)
                     out = self.transformer.decoder(tgt_emb, memory, tgt_mask=tgt_mask)
                     log_probs = torch.log_softmax(self.out_proj(out[:, -1, :]), dim=-1)
 
@@ -60,12 +67,16 @@ class BeamSearchTranslator(TransformerTranslator):
                     for k in range(beam_width):
                         next_token = topk_indices[0, k].item()
                         next_score = score + topk_scores[0, k].item()
-                        new_seq = torch.cat([seq, torch.tensor([[next_token]], device=device)], dim=1)
+                        new_seq = torch.cat(
+                            [seq, torch.tensor([[next_token]], device=device)], dim=1
+                        )
                         is_finished = next_token == tgt_vocab.eos_idx
                         new_beams.append((new_seq, next_score, is_finished))
 
                 # Keep top beam_width beams, apply length penalty
-                new_beams.sort(key=lambda x: x[1] / (x[0].size(1) ** length_penalty), reverse=True)
+                new_beams.sort(
+                    key=lambda x: x[1] / (x[0].size(1) ** length_penalty), reverse=True
+                )
                 beams = new_beams[:beam_width]
 
                 # If all beams finished, stop early
@@ -100,12 +111,18 @@ def translate_beam(
 
     if isinstance(model, BeamSearchTranslator):
         out_ids, score = model.beam_decode(
-            src_tensor, src_vocab, tgt_vocab,
-            beam_width=beam_width, max_len=max_len, device=device,
+            src_tensor,
+            src_vocab,
+            tgt_vocab,
+            beam_width=beam_width,
+            max_len=max_len,
+            device=device,
             length_penalty=length_penalty,
         )
     else:
-        out_ids = model.greedy_decode(src_tensor, src_vocab, tgt_vocab, max_len=max_len, device=device)
+        out_ids = model.greedy_decode(
+            src_tensor, src_vocab, tgt_vocab, max_len=max_len, device=device
+        )
         score = 0.0
 
     out_tokens = []

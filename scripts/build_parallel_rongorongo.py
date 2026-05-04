@@ -13,6 +13,7 @@ Mapping hypothesis (based on Polynesian typology):
 - ADP/PART → part glyphs
 - Other → rare glyphs
 """
+
 import argparse
 import json
 import random
@@ -38,8 +39,9 @@ ALL_GLYPHS = [g for cat in GLYPHS.values() for g in cat]
 
 def _zipf_probs(items, alpha=1.1):
     import numpy as np
+
     ranks = np.arange(1, len(items) + 1)
-    probs = 1.0 / (ranks ** alpha)
+    probs = 1.0 / (ranks**alpha)
     probs = probs / probs.sum()
     return dict(zip(items, probs))
 
@@ -61,17 +63,58 @@ def heuristic_pos(token: str, position: int, sentence_len: int) -> str:
     if t in {"te", "he", "tau", "nga", "na", "a", "o", "e", "ko", "ka"}:
         return "det"
     # Numbers
-    if t.isdigit() or t in {"tahi", "rua", "toru", "ha", "rima", "ono", "hitu", "va", "iva", "hongahuru"}:
+    if t.isdigit() or t in {
+        "tahi",
+        "rua",
+        "toru",
+        "ha",
+        "rima",
+        "ono",
+        "hitu",
+        "va",
+        "iva",
+        "hongahuru",
+    }:
         return "num"
     # Common verbs (Polynesian)
-    if t in {"haere", "noho", "kai", "inu", "moe", "ora", "mate", "tangi", "kite", "korero",
-             "hula", "ala", "ai", "a\u02bbo", "hana", "makemake", "hele", "hana\u02bb", "ho\u02bbomaika\u02bbi"}:
+    if t in {
+        "haere",
+        "noho",
+        "kai",
+        "inu",
+        "moe",
+        "ora",
+        "mate",
+        "tangi",
+        "kite",
+        "korero",
+        "hula",
+        "ala",
+        "ai",
+        "a\u02bbo",
+        "hana",
+        "makemake",
+        "hele",
+        "hana\u02bb",
+        "ho\u02bbomaika\u02bbi",
+    }:
         return "verb"
     # Proper names / titles (capitalized in source)
     if token[0].isupper() and position > 0:
         return "name"
     # Pronouns
-    if t in {"au", "koe", "ia", "matou", "tatou", "ratou", "tana", "taku", "ona", "aku"}:
+    if t in {
+        "au",
+        "koe",
+        "ia",
+        "matou",
+        "tatou",
+        "ratou",
+        "tana",
+        "taku",
+        "ona",
+        "aku",
+    }:
         return "noun"  # Treat pronouns as nouns
     # Prepositions / particles
     if t in {"i", "ki", "mai", "atu", "i\u02bb", "ma", "mo", "na", "no", "pe\u02bbi"}:
@@ -134,14 +177,16 @@ def build_parallel_corpus(
             if rng.random() < 0.15:
                 final_glyphs.append(g)
 
-        rows.append({
-            "sent_id": sent_id,
-            "source_lang": Path(candidate_path).stem.replace("_tokens", ""),
-            "source_text": " ".join(tokens),
-            "target_glyphs": " ".join(final_glyphs),
-            "source_len": len(tokens),
-            "target_len": len(final_glyphs),
-        })
+        rows.append(
+            {
+                "sent_id": sent_id,
+                "source_lang": Path(candidate_path).stem.replace("_tokens", ""),
+                "source_text": " ".join(tokens),
+                "target_glyphs": " ".join(final_glyphs),
+                "source_len": len(tokens),
+                "target_len": len(final_glyphs),
+            }
+        )
 
     out_df = pd.DataFrame(rows)
     Path(output_path).parent.mkdir(parents=True, exist_ok=True)
@@ -157,8 +202,12 @@ def build_parallel_corpus(
 
 def main():
     parser = argparse.ArgumentParser(description="Build parallel Rongorongo corpus")
-    parser.add_argument("--candidate", default="data/raw/candidate_languages/rap_tokens.csv")
-    parser.add_argument("--output", default="data/raw/lost_language/parallel_rongorongo_rap.csv")
+    parser.add_argument(
+        "--candidate", default="data/raw/candidate_languages/rap_tokens.csv"
+    )
+    parser.add_argument(
+        "--output", default="data/raw/lost_language/parallel_rongorongo_rap.csv"
+    )
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--max-pairs", type=int, default=None)
     args = parser.parse_args()

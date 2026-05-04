@@ -14,8 +14,8 @@ Key design decisions (v2):
 - project_lost_to_consensus uses truncation only (no zero-padding).
 - consensus_from_multi_gw aligns embeddings before averaging.
 """
+
 import numpy as np
-from typing import Sequence
 
 
 def _frequency_ranks(embedding: np.ndarray) -> np.ndarray:
@@ -86,7 +86,7 @@ def generalized_procrustes(
         # Align ALL embeddings (including reference) to consensus
         for i in range(m):
             E_c = centered[i]
-            n_i = E_c.shape[0]
+            # n_i = E_c.shape[0]
 
             # Establish frequency-ranked correspondence
             if freq_rank:

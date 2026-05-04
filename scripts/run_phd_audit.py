@@ -2,6 +2,7 @@
 
 Produces the mandatory audit tables from Part V of the guide.
 """
+
 import argparse
 import json
 import sys
@@ -12,12 +13,26 @@ import numpy as np
 sys.path.insert(0, "src")
 
 from spectral_submersion.io import load_config
-from spectral_submersion.tokenization import read_corpus, build_vocab, tokens_to_ids, get_sequences_by_line
+from spectral_submersion.tokenization import (
+    read_corpus,
+    build_vocab,
+    tokens_to_ids,
+    get_sequences_by_line,
+)
 from spectral_submersion.cooccurrence import cooccurrence_matrix_from_sequences
 from spectral_submersion.pmi import ppmi_matrix
 from spectral_submersion.spectral import spectral_embedding
-from spectral_submersion.identifiability import verify_non_identifiability, anchor_power, compute_automorphism_size_upper_bound
-from spectral_submersion.evaluation import permute_corpus, random_corpus_same_frequency, random_corpus_uniform, relational_distortion
+from spectral_submersion.identifiability import (
+    verify_non_identifiability,
+    anchor_power,
+    compute_automorphism_size_upper_bound,
+)
+from spectral_submersion.evaluation import (
+    permute_corpus,
+    random_corpus_same_frequency,
+    random_corpus_uniform,
+    relational_distortion,
+)
 from spectral_submersion.audit_metrics import negative_control_gap, bootstrap_stability
 
 
@@ -54,7 +69,9 @@ def main():
 
         # === Section 23: Negative Control Gap ===
         print("\n  == Negative Control Gap ==")
-        C_real = cooccurrence_matrix_from_sequences(sequences, vocab_size, window_size=3)
+        C_real = cooccurrence_matrix_from_sequences(
+            sequences, vocab_size, window_size=3
+        )
         M_real = ppmi_matrix(C_real)
         E_real, sv_real, _ = spectral_embedding(M_real, k=16)
 
@@ -63,15 +80,27 @@ def main():
 
         neg_scores = []
         for ctrl_type, ctrl_fn in [
-            ("permuted", lambda: permute_corpus([list(map(str, seq)) for seq in sequences])),
-            ("same_freq", lambda: random_corpus_same_frequency([list(map(str, seq)) for seq in sequences])),
+            (
+                "permuted",
+                lambda: permute_corpus([list(map(str, seq)) for seq in sequences]),
+            ),
+            (
+                "same_freq",
+                lambda: random_corpus_same_frequency(
+                    [list(map(str, seq)) for seq in sequences]
+                ),
+            ),
         ]:
             print(f"    Running {ctrl_type} negative control...")
             ctrl_sequences = ctrl_fn()
-            ctrl_token_ids = [tokens_to_ids([t for t in seq], vocab) for seq in ctrl_sequences]
+            ctrl_token_ids = [
+                tokens_to_ids([t for t in seq], vocab) for seq in ctrl_sequences
+            ]
             ctrl_flat = [t for seq in ctrl_token_ids for t in seq if t >= 0]
             if len(ctrl_flat) > 10:
-                C_ctrl = cooccurrence_matrix_from_sequences(ctrl_token_ids, vocab_size, window_size=3)
+                C_ctrl = cooccurrence_matrix_from_sequences(
+                    ctrl_token_ids, vocab_size, window_size=3
+                )
                 M_ctrl = ppmi_matrix(C_ctrl)
                 _, sv_ctrl, _ = spectral_embedding(M_ctrl, k=16)
                 ctrl_score = float(np.sum(sv_ctrl[:4]))
@@ -80,10 +109,13 @@ def main():
         if neg_scores:
             gap_result = negative_control_gap(real_score, np.array(neg_scores))
             audit_results["neg_ctrl_gap"] = gap_result
-            print(f"    NegCtrlGap = {gap_result['gap']:.3f} ({gap_result['interpretation']})")
+            print(
+                f"    NegCtrlGap = {gap_result['gap']:.3f} ({gap_result['interpretation']})"
+            )
 
         # === Section 24: Identifiability Verification ===
         print("\n  == Identifiability Verification ==")
+
         def structural_stat(c):
             C_test = cooccurrence_matrix_from_sequences(
                 [c.tolist()], vocab_size, window_size=2
@@ -99,7 +131,9 @@ def main():
             "max_deviation": float(ident_result["max_deviation"]),
         }
         print(f"    Structural statistic invariant: {ident_result['is_invariant']}")
-        print(f"    Max deviation under permutation: {ident_result['max_deviation']:.2e}")
+        print(
+            f"    Max deviation under permutation: {ident_result['max_deviation']:.2e}"
+        )
 
         # === Automorphism analysis ===
         print("\n  == Automorphism Group Analysis ==")
@@ -108,7 +142,11 @@ def main():
         print(f"    |Aut(G_X)| upper bound: {aut_size}")
 
         # === Coverage metrics ===
-        from spectral_submersion.stability import cooccurrence_coverage, expected_pair_count
+        from spectral_submersion.stability import (
+            cooccurrence_coverage,
+            expected_pair_count,
+        )
+
         cov = cooccurrence_coverage(C_real)
         epc = expected_pair_count(sum(len(s) for s in sequences), 3, vocab_size)
         audit_results["coverage"] = {
@@ -118,7 +156,9 @@ def main():
         print(f"\n  Co-occurrence coverage: {cov:.4f}")
         print(f"  Expected pair count: {epc:.3f}")
         if epc < 1.0:
-            print("  WARNING: ExpectedPairCount < 1: co-occurrence matrix is statistically weak!")
+            print(
+                "  WARNING: ExpectedPairCount < 1: co-occurrence matrix is statistically weak!"
+            )
             print("  PPMI will be noisy; spectral dimensions may be unstable.")
 
     audit_path = output_dir / "audit_results.json"

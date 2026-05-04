@@ -6,6 +6,7 @@ Architecture: compact Transformer (Attention Is All You Need)
 - Training on synthetic parallel corpus
 - Inference with greedy decoding and beam search
 """
+
 import argparse
 import json
 import math
@@ -22,13 +23,15 @@ from torch.utils.data import DataLoader, Dataset
 
 from spectral_submersion.rongorongo_translator import Vocab, TransformerTranslator
 
-
 # ============================================================
 # Dataset
 # ============================================================
 
+
 class TranslationDataset(Dataset):
-    def __init__(self, df: pd.DataFrame, src_vocab: Vocab, tgt_vocab: Vocab, max_len: int = 50):
+    def __init__(
+        self, df: pd.DataFrame, src_vocab: Vocab, tgt_vocab: Vocab, max_len: int = 50
+    ):
         self.pairs = []
         for _, row in df.iterrows():
             src = row["source_text"].strip().split()
@@ -52,14 +55,15 @@ def collate_fn(batch, pad_idx):
     src_pad = torch.full((len(srcs), max_src), pad_idx, dtype=torch.long)
     tgt_pad = torch.full((len(tgts), max_tgt), pad_idx, dtype=torch.long)
     for i, (s, t) in enumerate(zip(srcs, tgts)):
-        src_pad[i, :len(s)] = torch.tensor(s, dtype=torch.long)
-        tgt_pad[i, :len(t)] = torch.tensor(t, dtype=torch.long)
+        src_pad[i, : len(s)] = torch.tensor(s, dtype=torch.long)
+        tgt_pad[i, : len(t)] = torch.tensor(t, dtype=torch.long)
     return src_pad, tgt_pad
 
 
 # ============================================================
 # Training
 # ============================================================
+
 
 def train_epoch(model, dataloader, optimizer, criterion, device, pad_idx):
     model.train()
@@ -72,9 +76,13 @@ def train_epoch(model, dataloader, optimizer, criterion, device, pad_idx):
         tgt_output = tgt[:, 1:]
 
         optimizer.zero_grad()
-        output = model(src, tgt_input, src_padding_mask=(src == pad_idx),
-                       tgt_padding_mask=(tgt_input == pad_idx),
-                       memory_key_padding_mask=(src == pad_idx))
+        output = model(
+            src,
+            tgt_input,
+            src_padding_mask=(src == pad_idx),
+            tgt_padding_mask=(tgt_input == pad_idx),
+            memory_key_padding_mask=(src == pad_idx),
+        )
         output = output.reshape(-1, output.size(-1))
         tgt_output = tgt_output.reshape(-1)
         loss = criterion(output, tgt_output)
@@ -99,9 +107,13 @@ def evaluate(model, dataloader, criterion, device, pad_idx):
             tgt = tgt.to(device)
             tgt_input = tgt[:, :-1]
             tgt_output = tgt[:, 1:]
-            output = model(src, tgt_input, src_padding_mask=(src == pad_idx),
-                           tgt_padding_mask=(tgt_input == pad_idx),
-                           memory_key_padding_mask=(src == pad_idx))
+            output = model(
+                src,
+                tgt_input,
+                src_padding_mask=(src == pad_idx),
+                tgt_padding_mask=(tgt_input == pad_idx),
+                memory_key_padding_mask=(src == pad_idx),
+            )
             output = output.reshape(-1, output.size(-1))
             tgt_output = tgt_output.reshape(-1)
             loss = criterion(output, tgt_output)
@@ -115,9 +127,14 @@ def evaluate(model, dataloader, criterion, device, pad_idx):
 # Main
 # ============================================================
 
+
 def main():
-    parser = argparse.ArgumentParser(description="Train Transformer Rongorongo translator")
-    parser.add_argument("--data", default="data/raw/lost_language/parallel_rongorongo_massive.csv")
+    parser = argparse.ArgumentParser(
+        description="Train Transformer Rongorongo translator"
+    )
+    parser.add_argument(
+        "--data", default="data/raw/lost_language/parallel_rongorongo_massive.csv"
+    )
     parser.add_argument("--output-dir", default="models/rongorongo_translator")
     parser.add_argument("--d-model", type=int, default=256)
     parser.add_argument("--nhead", type=int, default=8)
@@ -163,10 +180,17 @@ def main():
     val_ds = TranslationDataset(val_df, src_vocab, tgt_vocab)
     print(f"Train: {len(train_ds)}, Val: {len(val_ds)}")
 
-    train_loader = DataLoader(train_ds, batch_size=args.batch_size, shuffle=True,
-                              collate_fn=lambda b: collate_fn(b, src_vocab.pad_idx))
-    val_loader = DataLoader(val_ds, batch_size=args.batch_size,
-                            collate_fn=lambda b: collate_fn(b, src_vocab.pad_idx))
+    train_loader = DataLoader(
+        train_ds,
+        batch_size=args.batch_size,
+        shuffle=True,
+        collate_fn=lambda b: collate_fn(b, src_vocab.pad_idx),
+    )
+    val_loader = DataLoader(
+        val_ds,
+        batch_size=args.batch_size,
+        collate_fn=lambda b: collate_fn(b, src_vocab.pad_idx),
+    )
 
     # Model
     model = TransformerTranslator(
@@ -192,10 +216,14 @@ def main():
     output_dir.mkdir(parents=True, exist_ok=True)
 
     for epoch in range(1, args.epochs + 1):
-        train_loss = train_epoch(model, train_loader, optimizer, criterion, device, src_vocab.pad_idx)
+        train_loss = train_epoch(
+            model, train_loader, optimizer, criterion, device, src_vocab.pad_idx
+        )
         val_loss = evaluate(model, val_loader, criterion, device, src_vocab.pad_idx)
         scheduler.step()
-        print(f"Epoch {epoch:02d} | Train Loss: {train_loss:.4f} | Val Loss: {val_loss:.4f} | PPL: {math.exp(val_loss):.2f}")
+        print(
+            f"Epoch {epoch:02d} | Train Loss: {train_loss:.4f} | Val Loss: {val_loss:.4f} | PPL: {math.exp(val_loss):.2f}"
+        )
 
         if val_loss < best_val_loss:
             best_val_loss = val_loss
@@ -210,7 +238,9 @@ def main():
     with open(output_dir / "config.json", "w") as f:
         json.dump(vars(args), f, indent=2)
 
-    print(f"\nTraining complete. Best val loss: {best_val_loss:.4f} (PPL: {math.exp(best_val_loss):.2f})")
+    print(
+        f"\nTraining complete. Best val loss: {best_val_loss:.4f} (PPL: {math.exp(best_val_loss):.2f})"
+    )
     print(f"Saved to {output_dir}")
 
 

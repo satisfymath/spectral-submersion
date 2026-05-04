@@ -6,6 +6,7 @@ Head-to-head comparison between two alignment strategies:
 
 Both methods align Rongorongo real against the same 17 candidate languages.
 """
+
 import json
 from pathlib import Path
 
@@ -72,19 +73,21 @@ def main():
     E_lost_proj = E_lost[:, :d] @ W
 
     for i, name in enumerate(cand_list):
-        E_cand = aligned[i][:R.shape[0], :]
-        diff = E_lost_proj[:R.shape[0], :] - E_cand
+        E_cand = aligned[i][: R.shape[0], :]
+        diff = E_lost_proj[: R.shape[0], :] - E_cand
         geo_dist = float(np.mean(np.linalg.norm(diff, axis=1)))
         rel_dist_x = float(np.mean(np.linalg.norm(diff, axis=1)))
-        results_gpa.append({
-            "method": "GPA_truncated",
-            "candidate": name,
-            "family": cand_families[name],
-            "n_cand": cand_embeds[name].shape[0],
-            "n_consensus": R.shape[0],
-            "geo_dist": geo_dist,
-            "rel_dist": rel_dist_x,
-        })
+        results_gpa.append(
+            {
+                "method": "GPA_truncated",
+                "candidate": name,
+                "family": cand_families[name],
+                "n_cand": cand_embeds[name].shape[0],
+                "n_consensus": R.shape[0],
+                "geo_dist": geo_dist,
+                "rel_dist": rel_dist_x,
+            }
+        )
         print(f"  vs {name:15s} ({cand_families[name]:15s}): geo_dist={geo_dist:.4f}")
 
     # ====== METHOD 2: Multi-marginal GW ======
@@ -102,7 +105,9 @@ def main():
         idx = rng.choice(D.shape[0], min(n_sub, D.shape[0]), replace=False)
         all_dists_sub.append(D[np.ix_(idx, idx)])
 
-    couplings = multi_marginal_gw(all_dists_sub, reg=5.0, max_iter=2, sinkhorn_iter=30, tol=1e-3)
+    couplings = multi_marginal_gw(
+        all_dists_sub, reg=5.0, max_iter=2, sinkhorn_iter=30, tol=1e-3
+    )
 
     for j, name in enumerate(cand_list):
         idx_j = j + 1
@@ -110,14 +115,16 @@ def main():
         gw_dist = float(np.sum(Pi * (all_dists_sub[0] @ Pi @ all_dists_sub[idx_j].T)))
         n_lost = min(n_sub, E_lost.shape[0])
         n_cand = min(n_sub, cand_embeds[name].shape[0])
-        results_gw.append({
-            "method": "multi_marginal_GW",
-            "candidate": name,
-            "family": cand_families[name],
-            "n_cand": cand_embeds[name].shape[0],
-            "n_subsample": n_sub,
-            "gw_distance": gw_dist,
-        })
+        results_gw.append(
+            {
+                "method": "multi_marginal_GW",
+                "candidate": name,
+                "family": cand_families[name],
+                "n_cand": cand_embeds[name].shape[0],
+                "n_subsample": n_sub,
+                "gw_distance": gw_dist,
+            }
+        )
         print(f"  vs {name:15s} ({cand_families[name]:15s}): gw_dist={gw_dist:.4f}")
 
     df = pd.DataFrame(results_gpa + results_gw)
@@ -130,10 +137,14 @@ def main():
     gw = df[df["method"] == "multi_marginal_GW"].sort_values("gw_distance")
     print("\nGPA (truncated) ranking:")
     for _, row in gpa.iterrows():
-        print(f"  {row['candidate']:15s} ({row['family']:15s}): rel_dist={row['rel_dist']:.4f}")
+        print(
+            f"  {row['candidate']:15s} ({row['family']:15s}): rel_dist={row['rel_dist']:.4f}"
+        )
     print("\nMulti-marginal GW ranking:")
     for _, row in gw.iterrows():
-        print(f"  {row['candidate']:15s} ({row['family']:15s}): gw_dist={row['gw_distance']:.4f}")
+        print(
+            f"  {row['candidate']:15s} ({row['family']:15s}): gw_dist={row['gw_distance']:.4f}"
+        )
 
 
 if __name__ == "__main__":

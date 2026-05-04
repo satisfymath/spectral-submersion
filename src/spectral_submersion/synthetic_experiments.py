@@ -11,11 +11,11 @@ Implements the experimental protocols from Part IV (Sections 17-22):
 Each experiment produces auditable results with metrics, negative controls,
 and explicit claim-level limits.
 """
+
 from __future__ import annotations
 
 import numpy as np
 from collections import Counter
-from itertools import product as iter_product
 
 
 def experiment_permutation_recovery(
@@ -57,7 +57,7 @@ def experiment_permutation_recovery(
     from .spectral import spectral_embedding
     from .alignment import orthogonal_procrustes, pairwise_squared_distances
 
-    rng = np.random.RandomState(seed)
+    # rng = np.random.RandomState(seed)
 
     C_src = cooccurrence_matrix_from_sequences(
         source_sequences, source_vocab_size, window_size=window_size
@@ -235,7 +235,7 @@ def experiment_boustrophedon_direction(
     Returns:
         Dict with direction recovery accuracy and per-line results.
     """
-    rng = np.random.RandomState(seed)
+    # rng = np.random.RandomState(seed)
 
     transition_fwd = np.zeros((vocab_size, vocab_size), dtype=float)
     for line in sequences:
@@ -261,11 +261,13 @@ def experiment_boustrophedon_direction(
 
     for line in sequences:
         if len(line) < 2:
-            results.append({
-                "direction": "unknown",
-                "fwd_ll": float("-inf"),
-                "bwd_ll": float("-inf"),
-            })
+            results.append(
+                {
+                    "direction": "unknown",
+                    "fwd_ll": float("-inf"),
+                    "bwd_ll": float("-inf"),
+                }
+            )
             continue
 
         fwd_ll = 0.0
@@ -277,12 +279,14 @@ def experiment_boustrophedon_direction(
             bwd_ll += np.log(transition_bwd[rev[i], rev[i + 1]] + 1e-15)
 
         direction = "forward" if fwd_ll > bwd_ll else "reverse"
-        results.append({
-            "direction": direction,
-            "fwd_ll": float(fwd_ll),
-            "bwd_ll": float(bwd_ll),
-            "line_length": len(line),
-        })
+        results.append(
+            {
+                "direction": direction,
+                "fwd_ll": float(fwd_ll),
+                "bwd_ll": float(bwd_ll),
+                "line_length": len(line),
+            }
+        )
 
         total_fwd_likelihood += fwd_ll
         total_bwd_likelihood += bwd_ll
@@ -326,7 +330,7 @@ def experiment_calendar_model(
     rng = np.random.RandomState(seed)
 
     total_tokens = sum(len(line) for line in sequences)
-    all_tokens = [t for line in sequences for t in line]
+    # all_tokens = [t for line in sequences for t in line]
     transitions = np.zeros((vocab_size, vocab_size), dtype=float)
     for line in sequences:
         for i in range(len(line) - 1):
@@ -426,15 +430,17 @@ def find_parallel_passages(
             ned = normalized_edit_distance(seq1, seq2)
             edit_sim = 1.0 - ned
             if edit_sim > (1.0 - edit_distance_threshold):
-                parallels.append({
-                    "line_idx_1": i,
-                    "line_idx_2": j,
-                    "edit_similarity": float(edit_sim),
-                    "length_1": len(seq1),
-                    "length_2": len(seq2),
-                    "sequence_1": seq1[:20],
-                    "sequence_2": seq2[:20],
-                })
+                parallels.append(
+                    {
+                        "line_idx_1": i,
+                        "line_idx_2": j,
+                        "edit_similarity": float(edit_sim),
+                        "length_1": len(seq1),
+                        "length_2": len(seq2),
+                        "sequence_1": seq1[:20],
+                        "sequence_2": seq2[:20],
+                    }
+                )
 
     return parallels
 
@@ -514,7 +520,7 @@ def experiment_unknown_segmentation(
 
     Returns dict with metrics for each method.
     """
-    rng = np.random.RandomState(seed)
+    # rng = np.random.RandomState(seed)
 
     flat = []
     true_boundaries = []
@@ -533,7 +539,9 @@ def experiment_unknown_segmentation(
     fn_uni = n_true - tp_uni
     prec_uni = tp_uni / (tp_uni + fp_uni) if (tp_uni + fp_uni) > 0 else 0
     rec_uni = tp_uni / (tp_uni + fn_uni) if (tp_uni + fn_uni) > 0 else 0
-    f1_uni = 2 * prec_uni * rec_uni / (prec_uni + rec_uni) if (prec_uni + rec_uni) > 0 else 0
+    f1_uni = (
+        2 * prec_uni * rec_uni / (prec_uni + rec_uni) if (prec_uni + rec_uni) > 0 else 0
+    )
 
     bigram_freq = Counter()
     unigram_freq = Counter()
@@ -583,7 +591,11 @@ def experiment_unknown_segmentation(
             new_current = []
             i = 0
             while i < len(current):
-                if i < len(current) - 1 and current[i] == best[0] and current[i + 1] == best[1]:
+                if (
+                    i < len(current) - 1
+                    and current[i] == best[0]
+                    and current[i + 1] == best[1]
+                ):
                     new_current.append(f"{best[0]}_{best[1]}")
                     i += 2
                 else:
@@ -608,7 +620,9 @@ def experiment_unknown_segmentation(
     fn_bpe = n_true - tp_bpe
     prec_bpe = tp_bpe / (tp_bpe + fp_bpe) if (tp_bpe + fp_bpe) > 0 else 0
     rec_bpe = tp_bpe / (tp_bpe + fn_bpe) if (tp_bpe + fn_bpe) > 0 else 0
-    f1_bpe = 2 * prec_bpe * rec_bpe / (prec_bpe + rec_bpe) if (prec_bpe + rec_bpe) > 0 else 0
+    f1_bpe = (
+        2 * prec_bpe * rec_bpe / (prec_bpe + rec_bpe) if (prec_bpe + rec_bpe) > 0 else 0
+    )
 
     return {
         "n_true_boundaries": n_true,

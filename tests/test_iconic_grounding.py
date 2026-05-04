@@ -1,4 +1,5 @@
 """Tests for iconographic grounding: referents, rankings, and C2.5 claims."""
+
 import numpy as np
 import pytest
 

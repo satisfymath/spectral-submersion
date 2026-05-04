@@ -4,6 +4,7 @@ This benchmark renders deciphered/standard signs from real fonts and compares
 them against local real referent images. It is designed to feed the C2.5
 criterion "cross-script Acc@5" without using Rongorongo labels.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -89,7 +90,9 @@ def main() -> None:
                 }
             )
 
-    with open(out / "cross_script_candidates.csv", "w", encoding="utf-8", newline="") as f:
+    with open(
+        out / "cross_script_candidates.csv", "w", encoding="utf-8", newline=""
+    ) as f:
         writer = csv.DictWriter(f, fieldnames=list(rows[0].keys()))
         writer.writeheader()
         writer.writerows(rows)
@@ -140,7 +143,9 @@ def main() -> None:
             f"{script_metrics['accuracy@5']:.3f} | "
             f"{script_metrics['mrr']:.3f} |"
         )
-    (out / "cross_script_report.md").write_text("\n".join(report) + "\n", encoding="utf-8")
+    (out / "cross_script_report.md").write_text(
+        "\n".join(report) + "\n", encoding="utf-8"
+    )
 
     print("=" * 70)
     print("CROSS-SCRIPT ICONIC VALIDATION")

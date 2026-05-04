@@ -11,6 +11,7 @@ regularities (e.g., boustrophedon, agglutinative morphology).
 The matrices C_left and C_right are converted to PPMI separately,
 then concatenated before SVD.
 """
+
 import argparse
 from pathlib import Path
 
@@ -28,7 +29,9 @@ from spectral_submersion.visualization import plot_singular_values
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Build directional spectral embeddings")
+    parser = argparse.ArgumentParser(
+        description="Build directional spectral embeddings"
+    )
     parser.add_argument("--input", required=True)
     parser.add_argument("--output", required=True)
     parser.add_argument("--sv-output", required=True)
@@ -45,6 +48,7 @@ def main():
 
     if args.max_vocab:
         from collections import Counter
+
         counts = Counter(tokens)
         top_n = counts.most_common(args.max_vocab)
         allowed = {tok for tok, _ in top_n}
@@ -67,7 +71,9 @@ def main():
     # Each token gets a vector [PPMI_left(token, :) | PPMI_right(token, :)]
     M_combined = np.hstack([M_left, M_right])
 
-    E, S, Vt = spectral_embedding(M_combined, k=args.k, alpha=args.alpha, random_state=args.seed)
+    E, S, Vt = spectral_embedding(
+        M_combined, k=args.k, alpha=args.alpha, random_state=args.seed
+    )
     r_eff = effective_rank(S)
 
     Path(args.output).parent.mkdir(parents=True, exist_ok=True)
@@ -77,11 +83,14 @@ def main():
 
     vocab_path = Path(args.output).with_suffix(".vocab.json")
     import json
+
     with open(vocab_path, "w", encoding="utf-8") as f:
         json.dump(vocab, f, ensure_ascii=False, indent=2)
 
     if args.fig:
-        plot_singular_values(S, title=f"Directional SVD ({Path(args.input).stem})", save_path=args.fig)
+        plot_singular_values(
+            S, title=f"Directional SVD ({Path(args.input).stem})", save_path=args.fig
+        )
 
     print(f"Input: {args.input}")
     print(f"Vocab size: {len(vocab)}")

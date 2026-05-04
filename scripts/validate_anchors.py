@@ -11,6 +11,7 @@ Procedure:
 
 This validates the mathematical pipeline under ideal conditions.
 """
+
 import argparse
 import json
 from pathlib import Path
@@ -30,12 +31,28 @@ def mean_reciprocal_rank(ranks: np.ndarray) -> float:
 
 def main():
     parser = argparse.ArgumentParser(description="Validate synthetic anchor recovery")
-    parser.add_argument("--lost-embed", default="data/processed/embeddings_synthetic_v2.npy")
-    parser.add_argument("--lost-vocab", default="data/processed/embeddings_synthetic_v2.vocab.json")
-    parser.add_argument("--candidate-embed", default="data/processed/embeddings_synthetic_candidate.npy")
-    parser.add_argument("--candidate-vocab", default="data/processed/embeddings_synthetic_candidate.vocab.json")
-    parser.add_argument("--anchors", default="data/raw/candidate_languages/synthetic_anchors.json")
-    parser.add_argument("--train-fraction", type=float, default=0.20, help="Fraction of anchors used for training Procrustes")
+    parser.add_argument(
+        "--lost-embed", default="data/processed/embeddings_synthetic_v2.npy"
+    )
+    parser.add_argument(
+        "--lost-vocab", default="data/processed/embeddings_synthetic_v2.vocab.json"
+    )
+    parser.add_argument(
+        "--candidate-embed", default="data/processed/embeddings_synthetic_candidate.npy"
+    )
+    parser.add_argument(
+        "--candidate-vocab",
+        default="data/processed/embeddings_synthetic_candidate.vocab.json",
+    )
+    parser.add_argument(
+        "--anchors", default="data/raw/candidate_languages/synthetic_anchors.json"
+    )
+    parser.add_argument(
+        "--train-fraction",
+        type=float,
+        default=0.20,
+        help="Fraction of anchors used for training Procrustes",
+    )
     parser.add_argument("--seed", type=int, default=42)
     args = parser.parse_args()
 
@@ -64,7 +81,9 @@ def main():
 
     # Build train matrices
     X_train = np.array([E_lost[lost_vocab[a["lost_token"]]] for a in train_anchors])
-    Y_train = np.array([E_cand[cand_vocab[a["candidate_token"]]] for a in train_anchors])
+    Y_train = np.array(
+        [E_cand[cand_vocab[a["candidate_token"]]] for a in train_anchors]
+    )
 
     # Solve Procrustes on train anchors
     Q = orthogonal_procrustes(X_train, Y_train)

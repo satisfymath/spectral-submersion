@@ -1,4 +1,5 @@
 """Spectral embedding and SVD utilities."""
+
 import numpy as np
 from sklearn.utils.extmath import randomized_svd
 
@@ -21,7 +22,7 @@ def spectral_embedding(
         Tuple of (embedding E, singular values S, right singular vectors Vt).
     """
     U, S, Vt = randomized_svd(M, n_components=k, random_state=random_state)
-    E = U @ np.diag(S ** alpha)
+    E = U @ np.diag(S**alpha)
     return E, S, Vt
 
 

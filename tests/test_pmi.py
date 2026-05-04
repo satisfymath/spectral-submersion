@@ -1,4 +1,5 @@
 """Tests for PMI module."""
+
 import numpy as np
 
 from spectral_submersion.pmi import ppmi_matrix

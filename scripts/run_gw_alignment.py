@@ -4,6 +4,7 @@ This script evaluates whether GW (relational) alignment produces
 meaningfully different couplings than direct geometric OT when
 vocabularies have different sizes and no anchors exist.
 """
+
 import argparse
 import json
 from pathlib import Path
@@ -11,7 +12,10 @@ from pathlib import Path
 import numpy as np
 
 from spectral_submersion.alignment import pairwise_squared_distances
-from spectral_submersion.transport import optimal_transport_matrix, gromov_wasserstein_matrix
+from spectral_submersion.transport import (
+    optimal_transport_matrix,
+    gromov_wasserstein_matrix,
+)
 from spectral_submersion.evaluation import relational_distortion, geometric_distortion
 
 
@@ -73,9 +77,11 @@ def main():
     print(f"  Size: {n_x} x {n_y}, dim={d}, reg={args.reg}")
     print("-" * 50)
     for name, metrics in results["methods"].items():
-        print(f"  {name:8s} | Geo={metrics['geometric_distortion']:.4f} | "
-              f"Rel={metrics['relational_distortion']:.4f} | "
-              f"H={metrics['coupling_entropy']:.2f}")
+        print(
+            f"  {name:8s} | Geo={metrics['geometric_distortion']:.4f} | "
+            f"Rel={metrics['relational_distortion']:.4f} | "
+            f"H={metrics['coupling_entropy']:.2f}"
+        )
     print(f"Saved to {out_path}")
 
 

@@ -1,4 +1,5 @@
 """Tests for identifiability module: no-free-decipherment, anchor power, Procrustes stability."""
+
 import pytest
 import numpy as np
 from spectral_submersion.identifiability import (
@@ -18,7 +19,10 @@ class TestNonIdentifiability:
         corpus = rng.randint(0, n, size=100)
 
         def stat(c):
-            from spectral_submersion.cooccurrence import cooccurrence_matrix_from_sequences
+            from spectral_submersion.cooccurrence import (
+                cooccurrence_matrix_from_sequences,
+            )
+
             C = cooccurrence_matrix_from_sequences([c.tolist()], n, window_size=2)
             s = np.linalg.svd(C, compute_uv=False)
             return s[:5]
@@ -33,7 +37,10 @@ class TestNonIdentifiability:
         corpus = rng.randint(0, n, size=50)
 
         def stat(c):
-            from spectral_submersion.cooccurrence import cooccurrence_matrix_from_sequences
+            from spectral_submersion.cooccurrence import (
+                cooccurrence_matrix_from_sequences,
+            )
+
             C = cooccurrence_matrix_from_sequences([c.tolist()], n, window_size=2)
             return np.linalg.svd(C, compute_uv=False)[:3]
 

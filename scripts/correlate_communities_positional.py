@@ -3,6 +3,7 @@
 For the Indus corpus, checks if detected communities cluster by
 positional role (start-biased, end-biased, middle).
 """
+
 import argparse
 from pathlib import Path
 
@@ -34,19 +35,25 @@ def correlate_communities_positional(
     # Aggregate by community
     summary = []
     for comm_id, group in merged.groupby("community"):
-        summary.append({
-            "community": comm_id,
-            "size": len(group),
-            "mean_position": group["mean_relative_position"].mean(),
-            "mean_first_ratio": group["first_ratio"].mean(),
-            "mean_last_ratio": group["last_ratio"].mean(),
-            "start_signs": len(group[group["first_ratio"] > 0.5]),
-            "end_signs": len(group[group["last_ratio"] > 0.5]),
-            "middle_signs": len(group[
-                (group["first_ratio"] <= 0.3) & (group["last_ratio"] <= 0.3)
-            ]),
-            "top_tokens": " ".join(group.sort_values("count", ascending=False).head(5)["token"].tolist()),
-        })
+        summary.append(
+            {
+                "community": comm_id,
+                "size": len(group),
+                "mean_position": group["mean_relative_position"].mean(),
+                "mean_first_ratio": group["first_ratio"].mean(),
+                "mean_last_ratio": group["last_ratio"].mean(),
+                "start_signs": len(group[group["first_ratio"] > 0.5]),
+                "end_signs": len(group[group["last_ratio"] > 0.5]),
+                "middle_signs": len(
+                    group[(group["first_ratio"] <= 0.3) & (group["last_ratio"] <= 0.3)]
+                ),
+                "top_tokens": " ".join(
+                    group.sort_values("count", ascending=False)
+                    .head(5)["token"]
+                    .tolist()
+                ),
+            }
+        )
 
     summary_df = pd.DataFrame(summary).sort_values("community")
     summary_df.to_csv(output_csv, index=False)
@@ -56,14 +63,22 @@ def correlate_communities_positional(
     print("\n=== COMMUNITIES WITH STRONG START BIAS ===")
     start_comms = summary_df[summary_df["mean_first_ratio"] > 0.3]
     if len(start_comms) > 0:
-        print(start_comms[["community", "size", "mean_first_ratio", "top_tokens"]].to_string(index=False))
+        print(
+            start_comms[
+                ["community", "size", "mean_first_ratio", "top_tokens"]
+            ].to_string(index=False)
+        )
     else:
         print("None found")
 
     print("\n=== COMMUNITIES WITH STRONG END BIAS ===")
     end_comms = summary_df[summary_df["mean_last_ratio"] > 0.3]
     if len(end_comms) > 0:
-        print(end_comms[["community", "size", "mean_last_ratio", "top_tokens"]].to_string(index=False))
+        print(
+            end_comms[["community", "size", "mean_last_ratio", "top_tokens"]].to_string(
+                index=False
+            )
+        )
     else:
         print("None found")
 
@@ -71,10 +86,18 @@ def correlate_communities_positional(
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Correlate communities with positional bias")
-    parser.add_argument("--communities", default="reports/tables/network_communities_indus.csv")
-    parser.add_argument("--positional", default="reports/tables/positional_analysis_indus.csv")
-    parser.add_argument("--output", default="reports/tables/community_positional_correlation.csv")
+    parser = argparse.ArgumentParser(
+        description="Correlate communities with positional bias"
+    )
+    parser.add_argument(
+        "--communities", default="reports/tables/network_communities_indus.csv"
+    )
+    parser.add_argument(
+        "--positional", default="reports/tables/positional_analysis_indus.csv"
+    )
+    parser.add_argument(
+        "--output", default="reports/tables/community_positional_correlation.csv"
+    )
     args = parser.parse_args()
 
     correlate_communities_positional(args.communities, args.positional, args.output)

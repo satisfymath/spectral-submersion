@@ -6,6 +6,7 @@ Parses SVG <path> elements to compute:
 - Path point count (complexity proxy)
 - Orientation marker (type='b' vs 'f' for boustrophedon)
 """
+
 import csv
 import re
 import xml.etree.ElementTree as ET
@@ -18,13 +19,15 @@ OUTPUT_PATH = Path("data/processed/rongorongo_iconographic_features.csv")
 
 def parse_svg_features(path_d):
     path_len = len(path_d)
-    move_commands = len(re.findall(r'[Mm]', path_d))
-    curve_commands = len(re.findall(r'[CcSsQqTtAa]', path_d))
-    line_commands = len(re.findall(r'[LlHhVv]', path_d))
-    close_commands = len(re.findall(r'[Zz]', path_d))
-    all_numbers = re.findall(r'[-+]?\d*\.?\d+', path_d)
+    move_commands = len(re.findall(r"[Mm]", path_d))
+    curve_commands = len(re.findall(r"[CcSsQqTtAa]", path_d))
+    line_commands = len(re.findall(r"[LlHhVv]", path_d))
+    close_commands = len(re.findall(r"[Zz]", path_d))
+    all_numbers = re.findall(r"[-+]?\d*\.?\d+", path_d)
     coords = [float(x) for x in all_numbers]
-    total_path_complexity = move_commands + curve_commands + line_commands + close_commands
+    total_path_complexity = (
+        move_commands + curve_commands + line_commands + close_commands
+    )
     return {
         "path_length_chars": path_len,
         "move_count": move_commands,
@@ -92,6 +95,7 @@ def main():
                     rows.append(features)
 
     import pandas as pd
+
     df = pd.DataFrame(rows)
     OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
     df.to_csv(OUTPUT_PATH, index=False)
@@ -99,12 +103,18 @@ def main():
     print(f"Columns: {list(df.columns)}")
     print(f"Saved to {OUTPUT_PATH}")
 
-    stats = df.groupby("code").agg({
-        "total_complexity_b": ["mean", "std"],
-        "aspect_ratio_b": ["mean", "std"],
-        "w_b": "mean",
-        "h_b": "mean",
-    }).reset_index()
+    stats = (
+        df.groupby("code")
+        .agg(
+            {
+                "total_complexity_b": ["mean", "std"],
+                "aspect_ratio_b": ["mean", "std"],
+                "w_b": "mean",
+                "h_b": "mean",
+            }
+        )
+        .reset_index()
+    )
     print(f"\nPer-glyph stats: {len(stats)} unique glyphs")
 
 

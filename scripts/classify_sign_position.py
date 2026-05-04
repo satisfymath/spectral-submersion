@@ -7,6 +7,7 @@ Tests whether visual/iconographic properties correlate with positional function.
 Models tested: Random Forest, Logistic Regression.
 Output: classification report, feature importance, confusion matrix.
 """
+
 import argparse
 import json
 from pathlib import Path
@@ -51,7 +52,9 @@ def build_position_labels(df: pd.DataFrame) -> pd.DataFrame:
 
 def main():
     parser = argparse.ArgumentParser(description="Supervised position classifier")
-    parser.add_argument("--input", default="data/raw/lost_language/corpus_indus_real.csv")
+    parser.add_argument(
+        "--input", default="data/raw/lost_language/corpus_indus_real.csv"
+    )
     parser.add_argument("--output-dir", default="reports/tables")
     parser.add_argument("--min-count-per-label", type=int, default=10)
     args = parser.parse_args()
@@ -73,14 +76,16 @@ def main():
         padded = arr + [0.0] * (max_len - len(arr))
         # Add summary stats as additional features
         if arr:
-            padded.extend([
-                float(len(arr)),
-                float(np.mean(arr)),
-                float(np.std(arr)) if len(arr) > 1 else 0.0,
-                float(np.max(arr)),
-                float(np.min(arr)),
-                float(np.sum(arr)),
-            ])
+            padded.extend(
+                [
+                    float(len(arr)),
+                    float(np.mean(arr)),
+                    float(np.std(arr)) if len(arr) > 1 else 0.0,
+                    float(np.max(arr)),
+                    float(np.min(arr)),
+                    float(np.sum(arr)),
+                ]
+            )
         else:
             padded.extend([0.0] * 6)
         feature_matrix.append(padded)
@@ -119,24 +124,43 @@ def main():
     print("\n" + "=" * 60)
     print("RANDOM FOREST CLASSIFIER (5-fold CV)")
     print("=" * 60)
-    rf = RandomForestClassifier(n_estimators=200, max_depth=10, random_state=42, class_weight="balanced")
-    y_pred_rf = cross_val_predict(rf, X_scaled, y, cv=StratifiedKFold(n_splits=5, shuffle=True, random_state=42))
+    rf = RandomForestClassifier(
+        n_estimators=200, max_depth=10, random_state=42, class_weight="balanced"
+    )
+    y_pred_rf = cross_val_predict(
+        rf, X_scaled, y, cv=StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
+    )
     print(classification_report(y, y_pred_rf, digits=3))
 
     # Feature importance (fit on full data for importance)
     rf.fit(X_scaled, y)
-    feature_names = [f"feat_{i}" for i in range(max_len)] + ["len", "mean", "std", "max", "min", "sum"]
-    feature_names = [feature_names[i] for i in range(len(feature_names)) if non_constant[i]]
-    importance = pd.DataFrame({
-        "feature": feature_names,
-        "importance": rf.feature_importances_,
-    }).sort_values("importance", ascending=False)
+    feature_names = [f"feat_{i}" for i in range(max_len)] + [
+        "len",
+        "mean",
+        "std",
+        "max",
+        "min",
+        "sum",
+    ]
+    feature_names = [
+        feature_names[i] for i in range(len(feature_names)) if non_constant[i]
+    ]
+    importance = pd.DataFrame(
+        {
+            "feature": feature_names,
+            "importance": rf.feature_importances_,
+        }
+    ).sort_values("importance", ascending=False)
     print("\nTop 10 important features:")
     print(importance.head(10).to_string(index=False))
 
     # Confusion matrix
     cm = confusion_matrix(y, y_pred_rf, labels=valid_labels)
-    cm_df = pd.DataFrame(cm, index=[f"true_{l}" for l in valid_labels], columns=[f"pred_{l}" for l in valid_labels])
+    cm_df = pd.DataFrame(
+        cm,
+        index=[f"true_{l}" for l in valid_labels],
+        columns=[f"pred_{l}" for l in valid_labels],
+    )
     print("\nConfusion matrix:")
     print(cm_df.to_string())
 
@@ -145,21 +169,27 @@ def main():
     print("LOGISTIC REGRESSION (5-fold CV)")
     print("=" * 60)
     lr = LogisticRegression(max_iter=1000, random_state=42, class_weight="balanced")
-    y_pred_lr = cross_val_predict(lr, X_scaled, y, cv=StratifiedKFold(n_splits=5, shuffle=True, random_state=42))
+    y_pred_lr = cross_val_predict(
+        lr, X_scaled, y, cv=StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
+    )
     print(classification_report(y, y_pred_lr, digits=3))
 
     # Save outputs
     out_dir = Path(args.output_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
-    importance.to_csv(out_dir / "position_classifier_feature_importance.csv", index=False)
+    importance.to_csv(
+        out_dir / "position_classifier_feature_importance.csv", index=False
+    )
     cm_df.to_csv(out_dir / "position_classifier_confusion_matrix.csv")
 
     # Save predictions for error analysis
-    pred_df = pd.DataFrame({
-        "true": y,
-        "rf_pred": y_pred_rf,
-        "lr_pred": y_pred_lr,
-    })
+    pred_df = pd.DataFrame(
+        {
+            "true": y,
+            "rf_pred": y_pred_rf,
+            "lr_pred": y_pred_lr,
+        }
+    )
     pred_df.to_csv(out_dir / "position_classifier_predictions.csv", index=False)
     print(f"\nSaved results to {out_dir}")
 

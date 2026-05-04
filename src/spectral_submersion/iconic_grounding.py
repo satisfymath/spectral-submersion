@@ -13,6 +13,7 @@ The code intentionally accepts precomputed embeddings or lightweight encoder
 callables. Heavy vision models such as DINOv2/SigLIP can be plugged in later
 without making the core theorem/audit layer depend on GPU packages.
 """
+
 from __future__ import annotations
 
 from collections import defaultdict
@@ -22,7 +23,6 @@ import math
 from typing import Any
 
 import numpy as np
-
 
 EPS = 1e-12
 C25_CLAIM_LABEL = "C2.5_ICONOGRAPHIC"
@@ -754,9 +754,7 @@ def spherical_mean(
         if norm_t < tol:
             break
 
-        new_mean = (
-            np.cos(norm_t) * mean + np.sin(norm_t) * tangent_mean / norm_t
-        )
+        new_mean = np.cos(norm_t) * mean + np.sin(norm_t) * tangent_mean / norm_t
         new_mean = l2_normalize(new_mean)
         if np.linalg.norm(new_mean - mean) < tol:
             mean = new_mean
@@ -777,7 +775,9 @@ def weighted_spherical_mean(
     return spherical_mean(vectors, weights=weights, max_iter=max_iter, tol=tol)
 
 
-def embedding_dispersion(vectors: np.ndarray, center: np.ndarray | None = None) -> float:
+def embedding_dispersion(
+    vectors: np.ndarray, center: np.ndarray | None = None
+) -> float:
     """Mean geodesic spread around a consensus embedding."""
 
     X = l2_normalize(_as_2d(vectors), axis=1)
@@ -840,12 +840,16 @@ def _embedding_table(
         labels = list(embeddings.keys())
         if len(labels) == 0:
             raise ValueError(f"{prefix} embeddings cannot be empty")
-        matrix = np.vstack([np.asarray(embeddings[label], dtype=float) for label in labels])
+        matrix = np.vstack(
+            [np.asarray(embeddings[label], dtype=float) for label in labels]
+        )
     else:
         matrix = _as_2d(embeddings)
-        labels = list(ids) if ids is not None else [
-            f"{prefix}_{i}" for i in range(matrix.shape[0])
-        ]
+        labels = (
+            list(ids)
+            if ids is not None
+            else [f"{prefix}_{i}" for i in range(matrix.shape[0])]
+        )
 
     if len(labels) != matrix.shape[0]:
         raise ValueError(f"{prefix} ids must match embedding rows")
@@ -1008,7 +1012,9 @@ def visual_diameter(embeddings: Mapping[str, np.ndarray] | np.ndarray) -> float:
     return float(np.max(np.linalg.norm(diffs, axis=2)))
 
 
-def referent_separation(referent_embeddings: Mapping[str, np.ndarray] | np.ndarray) -> float:
+def referent_separation(
+    referent_embeddings: Mapping[str, np.ndarray] | np.ndarray,
+) -> float:
     """Compute ``Delta_r`` from Theorem 3.5."""
 
     _, R = _embedding_table(referent_embeddings, None, "referent")
@@ -1020,7 +1026,9 @@ def referent_separation(referent_embeddings: Mapping[str, np.ndarray] | np.ndarr
     return float(np.min(distances))
 
 
-def delta_star(delta0: float, lipschitz_constant: float, glyph_diameter: float) -> float:
+def delta_star(
+    delta0: float, lipschitz_constant: float, glyph_diameter: float
+) -> float:
     """Threshold ``delta_*`` from Theorem 3.5."""
 
     return float(delta0 + lipschitz_constant * glyph_diameter)
@@ -1141,10 +1149,12 @@ def anchor_assignment_stability(assignments: Sequence[Mapping[str, str]]) -> flo
             if not common:
                 continue
             agreements.append(
-                np.mean([
-                    assignments[i][glyph_id] == assignments[j][glyph_id]
-                    for glyph_id in common
-                ])
+                np.mean(
+                    [
+                        assignments[i][glyph_id] == assignments[j][glyph_id]
+                        for glyph_id in common
+                    ]
+                )
             )
 
     if not agreements:

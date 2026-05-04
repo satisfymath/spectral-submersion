@@ -8,6 +8,7 @@ This creates a controlled benchmark where ground-truth correspondences are known
 
 This does NOT claim to model a real language; it is a mathematical benchmark.
 """
+
 import argparse
 import json
 import random
@@ -78,15 +79,27 @@ def create_transformed_corpus(
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Generate synthetic candidate language")
-    parser.add_argument("--input", default="data/raw/lost_language/corpus_synthetic_v2.csv")
-    parser.add_argument("--output", default="data/raw/candidate_languages/synthetic_transformed.csv")
-    parser.add_argument("--anchors", default="data/raw/candidate_languages/synthetic_anchors.json")
+    parser = argparse.ArgumentParser(
+        description="Generate synthetic candidate language"
+    )
+    parser.add_argument(
+        "--input", default="data/raw/lost_language/corpus_synthetic_v2.csv"
+    )
+    parser.add_argument(
+        "--output", default="data/raw/candidate_languages/synthetic_transformed.csv"
+    )
+    parser.add_argument(
+        "--anchors", default="data/raw/candidate_languages/synthetic_anchors.json"
+    )
     parser.add_argument("--seed", type=int, default=123)
-    parser.add_argument("--collapse", type=float, default=0.0, help="Fraction of vocab to collapse")
+    parser.add_argument(
+        "--collapse", type=float, default=0.0, help="Fraction of vocab to collapse"
+    )
     args = parser.parse_args()
 
-    create_transformed_corpus(args.input, args.output, args.anchors, args.seed, args.collapse)
+    create_transformed_corpus(
+        args.input, args.output, args.anchors, args.seed, args.collapse
+    )
 
 
 if __name__ == "__main__":

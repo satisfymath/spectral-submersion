@@ -1,4 +1,5 @@
 """Run SVD and build spectral embeddings."""
+
 from pathlib import Path
 
 import numpy as np

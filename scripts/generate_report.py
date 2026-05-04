@@ -1,4 +1,5 @@
 """Generate final hypothesis report."""
+
 from pathlib import Path
 
 import numpy as np

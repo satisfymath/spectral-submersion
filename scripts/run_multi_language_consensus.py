@@ -11,6 +11,7 @@ Usage:
         --method gpa \
         --target-dim 16
 """
+
 import argparse
 import json
 from pathlib import Path
@@ -30,13 +31,22 @@ from spectral_submersion.evaluation import relational_distortion, geometric_dist
 
 def main():
     parser = argparse.ArgumentParser(description="Multi-language consensus alignment")
-    parser.add_argument("--lost-embed", required=True, help="Path to lost language embeddings .npy")
+    parser.add_argument(
+        "--lost-embed", required=True, help="Path to lost language embeddings .npy"
+    )
     parser.add_argument("--config", default="configs/candidate_languages.yaml")
-    parser.add_argument("--output", default="reports/tables/multi_language_consensus.csv")
+    parser.add_argument(
+        "--output", default="reports/tables/multi_language_consensus.csv"
+    )
     parser.add_argument("--method", default="gpa", choices=["gpa", "intersection"])
     parser.add_argument("--target-dim", type=int, default=None)
     parser.add_argument("--reg", type=float, default=0.5, help="OT regularization")
-    parser.add_argument("--tikhonov", type=float, default=1e-3, help="Tikhonov regularization for projection")
+    parser.add_argument(
+        "--tikhonov",
+        type=float,
+        default=1e-3,
+        help="Tikhonov regularization for projection",
+    )
     args = parser.parse_args()
 
     E_lost = np.load(args.lost_embed)
@@ -64,7 +74,9 @@ def main():
     if len(candidate_embeds) < 2:
         raise ValueError("Need at least 2 candidate embeddings for consensus")
 
-    print(f"\nBuilding consensus space via {args.method} from {len(candidate_embeds)} languages ...")
+    print(
+        f"\nBuilding consensus space via {args.method} from {len(candidate_embeds)} languages ..."
+    )
     R, aligned_cands, projections = build_consensus_space(
         candidate_embeds,
         method=args.method,
@@ -96,15 +108,19 @@ def main():
         rel = relational_distortion(Pi_ot, Dx, Dy)
         ent = float(-(Pi_ot[Pi_ot > 0] * np.log(Pi_ot[Pi_ot > 0])).sum())
 
-        results.append({
-            "candidate": name,
-            "family": next(c.get("family", "unknown") for c in candidates if c["name"] == name),
-            "n_cand": E_cand.shape[0],
-            "dim": d,
-            "geo_dist": geo,
-            "rel_dist": rel,
-            "entropy": ent,
-        })
+        results.append(
+            {
+                "candidate": name,
+                "family": next(
+                    c.get("family", "unknown") for c in candidates if c["name"] == name
+                ),
+                "n_cand": E_cand.shape[0],
+                "dim": d,
+                "geo_dist": geo,
+                "rel_dist": rel,
+                "entropy": ent,
+            }
+        )
         print(f"  {name:15s} | Geo={geo:.2f} | Rel={rel:.2f} | Ent={ent:.2f}")
 
     # Also compute a baseline: average distance to all candidates
@@ -119,14 +135,19 @@ def main():
     # Save full result bundle
     bundle_path = out_path.with_suffix(".json")
     with open(bundle_path, "w", encoding="utf-8") as f:
-        json.dump({
-            "lost_shape": list(E_lost.shape),
-            "consensus_shape": list(R.shape),
-            "method": args.method,
-            "target_dim": args.target_dim,
-            "candidates": results,
-            "average_rel_dist": float(avg_rel_dist),
-        }, f, indent=2, ensure_ascii=False)
+        json.dump(
+            {
+                "lost_shape": list(E_lost.shape),
+                "consensus_shape": list(R.shape),
+                "method": args.method,
+                "target_dim": args.target_dim,
+                "candidates": results,
+                "average_rel_dist": float(avg_rel_dist),
+            },
+            f,
+            indent=2,
+            ensure_ascii=False,
+        )
 
     print(f"\nSaved CSV to {out_path}")
     print(f"Saved JSON to {bundle_path}")

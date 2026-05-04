@@ -1,4 +1,5 @@
 """Tests for real-data iconic grounding adapters."""
+
 from pathlib import Path
 
 import numpy as np
@@ -98,7 +99,9 @@ def test_build_real_glyph_embedding_table_and_export(tmp_path):
     exported = export_glyph_svg_audit_files(table.instances_by_code, tmp_path / "svg")
 
     assert set(table.embeddings) == {"600", "040"}
-    assert all(np.linalg.norm(v) == pytest.approx(1.0) for v in table.embeddings.values())
+    assert all(
+        np.linalg.norm(v) == pytest.approx(1.0) for v in table.embeddings.values()
+    )
     assert exported == 2
     assert len(list((tmp_path / "svg").glob("*.svg"))) == 2
 

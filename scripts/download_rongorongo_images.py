@@ -3,13 +3,13 @@
 This downloads the PNG transcript images from the archive.org item
 'rongorongotexts' for local reference and potential future OCR processing.
 """
+
 import argparse
 import json
 from pathlib import Path
 from urllib.parse import quote
 
 import requests
-
 
 ARCHIVE_ID = "rongorongotexts"
 BASE_URL = f"https://archive.org/download/{ARCHIVE_ID}"
@@ -27,7 +27,11 @@ def download_rongorongo_images(output_dir: str, max_files: int | None = None):
     meta = resp.json()
 
     files = meta.get("files", [])
-    png_files = [f for f in files if f.get("format") == "PNG" and "transcript" in f.get("name", "").lower()]
+    png_files = [
+        f
+        for f in files
+        if f.get("format") == "PNG" and "transcript" in f.get("name", "").lower()
+    ]
 
     print(f"Found {len(png_files)} transcript PNG files")
 
@@ -53,8 +57,12 @@ def download_rongorongo_images(output_dir: str, max_files: int | None = None):
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Download Rongorongo transcript images")
-    parser.add_argument("--output", default="data/raw/lost_language/rongorongo_archive_images")
+    parser = argparse.ArgumentParser(
+        description="Download Rongorongo transcript images"
+    )
+    parser.add_argument(
+        "--output", default="data/raw/lost_language/rongorongo_archive_images"
+    )
     parser.add_argument("--max-files", type=int, default=None)
     args = parser.parse_args()
     download_rongorongo_images(args.output, args.max_files)

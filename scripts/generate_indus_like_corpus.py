@@ -11,6 +11,7 @@ Mahadevan 1977, Farmer et al. 2004):
 
 This is a methodological benchmark, not a claim about Indus.
 """
+
 import argparse
 import json
 import random
@@ -18,13 +19,16 @@ from pathlib import Path
 
 import pandas as pd
 
-
 # Indus-like sign inventory
 SIGNS = {
-    "title":   [f"i{i:03d}" for i in range(1, 11)],    # 10 very frequent (possible titles/names)
-    "numeral": [f"i{i:03d}" for i in range(11, 21)],   # 10 frequent (possible numerals)
-    "object":  [f"i{i:03d}" for i in range(21, 61)],   # 40 medium (possible objects/animals)
-    "rare":    [f"i{i:03d}" for i in range(61, 151)],  # 90 rare
+    "title": [
+        f"i{i:03d}" for i in range(1, 11)
+    ],  # 10 very frequent (possible titles/names)
+    "numeral": [f"i{i:03d}" for i in range(11, 21)],  # 10 frequent (possible numerals)
+    "object": [
+        f"i{i:03d}" for i in range(21, 61)
+    ],  # 40 medium (possible objects/animals)
+    "rare": [f"i{i:03d}" for i in range(61, 151)],  # 90 rare
 }
 
 
@@ -60,20 +64,24 @@ def corpus_to_df(sequences: list[list[str]]) -> pd.DataFrame:
     rows = []
     for line_id, seq in enumerate(sequences, start=1):
         for pos, tok in enumerate(seq, start=1):
-            rows.append({
-                "doc_id": f"seal_{(line_id-1)//50 + 1:03d}",
-                "line_id": line_id,
-                "position": pos,
-                "token": tok,
-                "raw_token": tok,
-                "orientation": "normal",
-                "source": "synthetic_indus_like",
-                "notes": "",
-            })
+            rows.append(
+                {
+                    "doc_id": f"seal_{(line_id-1)//50 + 1:03d}",
+                    "line_id": line_id,
+                    "position": pos,
+                    "token": tok,
+                    "raw_token": tok,
+                    "orientation": "normal",
+                    "source": "synthetic_indus_like",
+                    "notes": "",
+                }
+            )
     return pd.DataFrame(rows)
 
 
-def save_corpus(sequences: list[list[str]], csv_path: str, json_path: str | None = None):
+def save_corpus(
+    sequences: list[list[str]], csv_path: str, json_path: str | None = None
+):
     df = corpus_to_df(sequences)
     Path(csv_path).parent.mkdir(parents=True, exist_ok=True)
     df.to_csv(csv_path, index=False)
@@ -97,8 +105,12 @@ def main():
     parser = argparse.ArgumentParser(description="Generate Indus-like synthetic corpus")
     parser.add_argument("--n-inscriptions", type=int, default=2000)
     parser.add_argument("--seed", type=int, default=42)
-    parser.add_argument("--output-csv", default="data/raw/lost_language/corpus_indus_like.csv")
-    parser.add_argument("--output-stats", default="data/raw/lost_language/corpus_indus_like_stats.json")
+    parser.add_argument(
+        "--output-csv", default="data/raw/lost_language/corpus_indus_like.csv"
+    )
+    parser.add_argument(
+        "--output-stats", default="data/raw/lost_language/corpus_indus_like_stats.json"
+    )
     args = parser.parse_args()
 
     sequences = generate_corpus(args.n_inscriptions, args.seed)

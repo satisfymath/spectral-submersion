@@ -1,5 +1,5 @@
 """Tests for co-occurrence module."""
-import numpy as np
+
 
 from spectral_submersion.cooccurrence import (
     build_vocab,
@@ -16,7 +16,9 @@ def test_build_vocab():
 
 def test_cooccurrence_basic():
     token_ids = [0, 1, 0, 2]
-    C = cooccurrence_matrix(token_ids, vocab_size=3, window_size=1, inverse_distance=False)
+    C = cooccurrence_matrix(
+        token_ids, vocab_size=3, window_size=1, inverse_distance=False
+    )
     # window=1, uniform weight
     # center 0 at t=0: context 1 -> C[0,1] += 1
     # center 1 at t=1: context 0,0 -> C[1,0] += 2
@@ -30,7 +32,9 @@ def test_cooccurrence_basic():
 
 def test_cooccurrence_from_sequences_respects_boundaries():
     seqs = [[0, 1], [1, 0]]
-    C = cooccurrence_matrix_from_sequences(seqs, vocab_size=2, window_size=2, inverse_distance=False)
+    C = cooccurrence_matrix_from_sequences(
+        seqs, vocab_size=2, window_size=2, inverse_distance=False
+    )
     # Sequence [0,1]: 0 sees 1, 1 sees 0
     # Sequence [1,0]: 1 sees 0, 0 sees 1
     # No cross-sequence contamination

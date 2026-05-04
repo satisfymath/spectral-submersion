@@ -1,6 +1,5 @@
 """Tests for claims module: claim levels, admissibility, overclaim risk."""
-import pytest
-import numpy as np
+
 from spectral_submersion.claims import (
     ClaimLevel,
     CLAIM_LABELS,
@@ -30,9 +29,9 @@ class TestClaimLevelEnum:
             assert level in FORBIDDEN_PER_LEVEL
 
     def test_requirements_monotone(self):
-        anchor = [ANCHOR_LEVEL_REQUIREMENTS[l] for l in ClaimLevel]
-        stability = [STABILITY_REQUIREMENTS[l] for l in ClaimLevel]
-        gap = [NEGATIVE_CONTROL_GAP_REQUIREMENTS[l] for l in ClaimLevel]
+        anchor = [ANCHOR_LEVEL_REQUIREMENTS[label] for label in ClaimLevel]
+        stability = [STABILITY_REQUIREMENTS[label] for label in ClaimLevel]
+        gap = [NEGATIVE_CONTROL_GAP_REQUIREMENTS[label] for label in ClaimLevel]
         assert anchor == sorted(anchor)
         assert stability == sorted(stability)
         assert gap == sorted(gap)
@@ -40,15 +39,11 @@ class TestClaimLevelEnum:
 
 class TestAdmissible:
     def test_no_evidence_yields_c0(self):
-        level = admissible(
-            anchor_power=0.0, stability=0.0, neg_ctrl_gap=0.0
-        )
+        level = admissible(anchor_power=0.0, stability=0.0, neg_ctrl_gap=0.0)
         assert level == ClaimLevel.C0_PALEOGRAPHIC
 
     def test_moderate_evidence_yields_c1(self):
-        level = admissible(
-            anchor_power=0.0, stability=0.5, neg_ctrl_gap=1.5
-        )
+        level = admissible(anchor_power=0.0, stability=0.5, neg_ctrl_gap=1.5)
         assert level == ClaimLevel.C1_STRUCTUREAL
 
     def test_strong_evidence_without_external_caps_at_c4(self):

@@ -1,8 +1,11 @@
 """PMI / PPMI matrix computation with context distribution smoothing."""
+
 import numpy as np
 
 
-def ppmi_matrix(C: np.ndarray, epsilon: float = 1e-9, alpha: float = 0.75) -> np.ndarray:
+def ppmi_matrix(
+    C: np.ndarray, epsilon: float = 1e-9, alpha: float = 0.75
+) -> np.ndarray:
     """Compute Positive Pointwise Mutual Information (PPMI) matrix.
 
     Applies context distribution smoothing (alpha parameter) as recommended
@@ -27,7 +30,7 @@ def ppmi_matrix(C: np.ndarray, epsilon: float = 1e-9, alpha: float = 0.75) -> np
     Pj = Pij.sum(axis=0, keepdims=True)
 
     # Apply context distribution smoothing
-    Pj_smooth = Pj ** alpha
+    Pj_smooth = Pj**alpha
     Pj_smooth = Pj_smooth / Pj_smooth.sum()
 
     PMI = np.log(Pij / (Pi * Pj_smooth + epsilon))

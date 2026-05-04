@@ -4,6 +4,7 @@ Generates side-by-side statistics: vocabulary overlap, length distribution,
 frequency distribution (Zipf fit), positional bias patterns, and spectral
 properties. Quantifies how well the synthetic model approximates the real data.
 """
+
 import argparse
 from pathlib import Path
 
@@ -19,7 +20,7 @@ def zipf_fit(ranks: np.ndarray, counts: np.ndarray) -> tuple[float, float, float
     log_ranks = np.log(ranks)
     log_counts = np.log(counts)
     slope, intercept, r_value, _, _ = stats.linregress(log_ranks, log_counts)
-    return -slope, np.exp(intercept), r_value ** 2
+    return -slope, np.exp(intercept), r_value**2
 
 
 def compare_corpora(real_path: str, synth_path: str) -> dict:
@@ -75,14 +76,26 @@ def compare_corpora(real_path: str, synth_path: str) -> dict:
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Compare real and synthetic Indus corpora")
-    parser.add_argument("--real", default="data/raw/lost_language/corpus_indus_real.csv")
-    parser.add_argument("--synthetic", default="data/raw/lost_language/corpus_indus_like.csv")
-    parser.add_argument("--output-table", default="reports/tables/real_vs_synthetic_comparison.csv")
-    parser.add_argument("--output-freq", default="reports/tables/frequency_comparison.csv")
+    parser = argparse.ArgumentParser(
+        description="Compare real and synthetic Indus corpora"
+    )
+    parser.add_argument(
+        "--real", default="data/raw/lost_language/corpus_indus_real.csv"
+    )
+    parser.add_argument(
+        "--synthetic", default="data/raw/lost_language/corpus_indus_like.csv"
+    )
+    parser.add_argument(
+        "--output-table", default="reports/tables/real_vs_synthetic_comparison.csv"
+    )
+    parser.add_argument(
+        "--output-freq", default="reports/tables/frequency_comparison.csv"
+    )
     args = parser.parse_args()
 
-    results, real_freq, synth_freq, real_lengths, synth_lengths = compare_corpora(args.real, args.synthetic)
+    results, real_freq, synth_freq, real_lengths, synth_lengths = compare_corpora(
+        args.real, args.synthetic
+    )
 
     print("=" * 60)
     print("REAL vs SYNTHETIC COMPARISON")

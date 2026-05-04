@@ -13,6 +13,7 @@ Metrics:
 
 Saves best config per metric.
 """
+
 import argparse
 import json
 from pathlib import Path
@@ -69,7 +70,9 @@ def evaluate_config(
 
 def main():
     parser = argparse.ArgumentParser(description="Hyperparameter grid search")
-    parser.add_argument("--input", default="data/raw/lost_language/corpus_synthetic_v2.csv")
+    parser.add_argument(
+        "--input", default="data/raw/lost_language/corpus_synthetic_v2.csv"
+    )
     parser.add_argument("--output", default="reports/tables/hyperparameter_grid.csv")
     parser.add_argument("--seed", type=int, default=42)
     args = parser.parse_args()
@@ -117,6 +120,7 @@ def main():
     }
     rec_path = Path("configs/recommended.yaml")
     import yaml
+
     with open(rec_path, "w", encoding="utf-8") as f:
         yaml.dump(rec, f, default_flow_style=False, sort_keys=False)
     print(f"Saved recommendation to {rec_path}")

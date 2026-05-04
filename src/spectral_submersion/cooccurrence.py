@@ -1,4 +1,5 @@
 """Co-occurrence matrix construction with document/line boundary awareness."""
+
 from collections.abc import Sequence
 
 import numpy as np

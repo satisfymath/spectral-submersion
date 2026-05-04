@@ -1,4 +1,5 @@
 """Frequency analysis utilities."""
+
 import numpy as np
 import pandas as pd
 

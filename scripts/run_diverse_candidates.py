@@ -3,6 +3,7 @@
 Compares a reference corpus against multiple candidate languages
 including non-Polynesian controls (English, Spanish, Japanese, etc.).
 """
+
 import argparse
 import json
 from pathlib import Path
@@ -16,6 +17,7 @@ from spectral_submersion.evaluation import relational_distortion, geometric_dist
 
 def load_embed(path: str):
     import numpy as np
+
     E = np.load(path)
     # Trim to consistent dimension
     return E
@@ -23,6 +25,7 @@ def load_embed(path: str):
 
 def compare_pair(lost_path: str, cand_path: str, cand_name: str, reg: float = 0.5):
     import numpy as np
+
     E_lost = np.load(lost_path)
     E_cand = np.load(cand_path)
 
@@ -55,8 +58,12 @@ def compare_pair(lost_path: str, cand_path: str, cand_name: str, reg: float = 0.
 
 def main():
     parser = argparse.ArgumentParser(description="Batch diverse candidate comparison")
-    parser.add_argument("--lost-embed", default="data/processed/embeddings_rongorongo_v2.npy")
-    parser.add_argument("--output", default="reports/tables/diverse_candidate_comparison.csv")
+    parser.add_argument(
+        "--lost-embed", default="data/processed/embeddings_rongorongo_v2.npy"
+    )
+    parser.add_argument(
+        "--output", default="reports/tables/diverse_candidate_comparison.csv"
+    )
     parser.add_argument("--reg", type=float, default=0.5)
     args = parser.parse_args()
 

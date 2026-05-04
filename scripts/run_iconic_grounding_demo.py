@@ -4,6 +4,7 @@ This is not a claim about real Rongorongo glyphs. It exercises the new
 iconic-grounding API with synthetic embeddings so the pipeline contract can be
 reproduced before heavy vision encoders and external datasets are added.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -68,7 +69,9 @@ def main() -> None:
     glyph_embeddings = {}
     for glyph_id, referent_id in glyph_gold.items():
         ref_vec = referent_embeddings[referent_id]
-        glyph_embeddings[glyph_id] = _unit(ref_vec + rng.normal(0.0, 0.05, ref_vec.shape))
+        glyph_embeddings[glyph_id] = _unit(
+            ref_vec + rng.normal(0.0, 0.05, ref_vec.shape)
+        )
 
     ranked = rank_iconic_candidates(
         glyph_embeddings,

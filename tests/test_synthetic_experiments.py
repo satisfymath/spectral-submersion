@@ -1,14 +1,12 @@
 """Tests for synthetic experiments: permutation recovery, logosyllabic collapse, boustrophedon."""
-import pytest
+
 import numpy as np
 from spectral_submersion.synthetic_experiments import (
-    experiment_permutation_recovery,
-    experiment_logosyllabic_collapse,
     experiment_boustrophedon_direction,
     experiment_calendar_model,
     find_parallel_passages,
-    generate_permuted_corpus,
     generate_collapsed_corpus,
+    generate_permuted_corpus,
 )
 
 

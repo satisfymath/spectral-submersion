@@ -11,6 +11,7 @@ Incorporates known structural features:
 - Zipf frequency distribution
 - Parallel generation: can produce aligned "translations" in a candidate language
 """
+
 import argparse
 import json
 import random
@@ -18,7 +19,6 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
-
 
 # ============================================================
 # Glyph inventory (Barthel-inspired, ~120 glyphs)
@@ -44,11 +44,12 @@ GLYPHS = {
 ALL_GLYPHS = [g for cat in GLYPHS.values() for g in cat]
 assert len(ALL_GLYPHS) == 120, f"Expected 120 glyphs, got {len(ALL_GLYPHS)}"
 
+
 # Known structural patterns from literature
 def zipf_probs(items: list[str], alpha: float = 1.1) -> dict[str, float]:
     """Generate Zipf probability distribution over items."""
     ranks = np.arange(1, len(items) + 1)
-    probs = 1.0 / (ranks ** alpha)
+    probs = 1.0 / (ranks**alpha)
     probs = probs / probs.sum()
     return dict(zip(items, probs))
 
@@ -102,7 +103,12 @@ def sample_glyph(category: str, rng: random.Random) -> str:
     return rng.choices(glyphs, weights=probs, k=1)[0]
 
 
-def apply_repetitions(sequence: list[str], rng: random.Random, double_prob: float = 0.15, triple_prob: float = 0.05) -> list[str]:
+def apply_repetitions(
+    sequence: list[str],
+    rng: random.Random,
+    double_prob: float = 0.15,
+    triple_prob: float = 0.05,
+) -> list[str]:
     """Apply double/triple repetitions to random positions in sequence."""
     result = []
     i = 0
@@ -119,7 +125,9 @@ def apply_repetitions(sequence: list[str], rng: random.Random, double_prob: floa
     return result
 
 
-def generate_line(rng: random.Random, max_reps: bool = True) -> tuple[list[str], list[str]]:
+def generate_line(
+    rng: random.Random, max_reps: bool = True
+) -> tuple[list[str], list[str]]:
     """Generate one line of Rongorongo text.
 
     Returns:
@@ -156,7 +164,9 @@ def generate_line(rng: random.Random, max_reps: bool = True) -> tuple[list[str],
     return glyphs, categories
 
 
-def generate_tablet(rng: random.Random, tablet_id: str, min_lines: int = 3, max_lines: int = 12) -> list[dict]:
+def generate_tablet(
+    rng: random.Random, tablet_id: str, min_lines: int = 3, max_lines: int = 12
+) -> list[dict]:
     """Generate one tablet with multiple lines (boustrophedon)."""
     n_lines = rng.randint(min_lines, max_lines)
     rows = []
@@ -167,14 +177,16 @@ def generate_tablet(rng: random.Random, tablet_id: str, min_lines: int = 3, max_
             glyphs = list(reversed(glyphs))
             categories = list(reversed(categories))
         for pos, (g, cat) in enumerate(zip(glyphs, categories), start=1):
-            rows.append({
-                "tablet_id": tablet_id,
-                "line_id": line_num,
-                "position": pos,
-                "glyph": g,
-                "category": cat,
-                "boustrophedon_dir": "rtl" if line_num % 2 == 0 else "ltr",
-            })
+            rows.append(
+                {
+                    "tablet_id": tablet_id,
+                    "line_id": line_num,
+                    "position": pos,
+                    "glyph": g,
+                    "category": cat,
+                    "boustrophedon_dir": "rtl" if line_num % 2 == 0 else "ltr",
+                }
+            )
     return rows
 
 
@@ -253,11 +265,18 @@ def generate_corpus(
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Generate realistic Rongorongo v3 corpus")
+    parser = argparse.ArgumentParser(
+        description="Generate realistic Rongorongo v3 corpus"
+    )
     parser.add_argument("--n-tablets", type=int, default=500)
     parser.add_argument("--seed", type=int, default=42)
-    parser.add_argument("--output-csv", default="data/raw/lost_language/corpus_rongorongo_v3.csv")
-    parser.add_argument("--output-stats", default="data/raw/lost_language/corpus_rongorongo_v3_stats.json")
+    parser.add_argument(
+        "--output-csv", default="data/raw/lost_language/corpus_rongorongo_v3.csv"
+    )
+    parser.add_argument(
+        "--output-stats",
+        default="data/raw/lost_language/corpus_rongorongo_v3_stats.json",
+    )
     args = parser.parse_args()
     generate_corpus(args.n_tablets, args.seed, args.output_csv, args.output_stats)
 

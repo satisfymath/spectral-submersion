@@ -11,6 +11,7 @@ and evaluation anchors.
 
 Results are saved to runs/bilingual_validation/.
 """
+
 import json
 import sys
 from pathlib import Path
@@ -41,12 +42,18 @@ def main():
     print("=" * 70)
 
     langs = {
-        "en-fr": ("data/raw/candidate_languages/english_tokens.csv",
-                   "data/raw/candidate_languages/french_tokens.csv"),
-        "en-es": ("data/raw/candidate_languages/english_tokens.csv",
-                   "data/raw/candidate_languages/spanish_tokens.csv"),
-        "en-de": ("data/raw/candidate_languages/english_tokens.csv",
-                   "data/raw/candidate_languages/german_tokens.csv"),
+        "en-fr": (
+            "data/raw/candidate_languages/english_tokens.csv",
+            "data/raw/candidate_languages/french_tokens.csv",
+        ),
+        "en-es": (
+            "data/raw/candidate_languages/english_tokens.csv",
+            "data/raw/candidate_languages/spanish_tokens.csv",
+        ),
+        "en-de": (
+            "data/raw/candidate_languages/english_tokens.csv",
+            "data/raw/candidate_languages/german_tokens.csv",
+        ),
     }
 
     all_results = {}
@@ -102,7 +109,8 @@ def main():
         ]
 
         results = restricted_bilingual_experiment(
-            src_df, tgt_df,
+            src_df,
+            tgt_df,
             conditions=conditions,
             window_size=3,
             k=16,
@@ -113,15 +121,19 @@ def main():
         all_results[pair_name] = results
 
         print(f"\n{pair_name} Summary:")
-        print(f"{'Condition':<55} {'Acc@1':>7} {'Acc@5':>7} {'Acc@10':>8} {'MRR':>7} "
-              f"{'Rel_s':>6} {'Rel_t':>6} {'EPC':>7} {'Anch':>5} {'Eval':>5}")
+        print(
+            f"{'Condition':<55} {'Acc@1':>7} {'Acc@5':>7} {'Acc@10':>8} {'MRR':>7} "
+            f"{'Rel_s':>6} {'Rel_t':>6} {'EPC':>7} {'Anch':>5} {'Eval':>5}"
+        )
         print("-" * 115)
         for r in results:
             name = r["condition_name"][:53]
-            print(f"{name:<55} {r['acc_at_k'][1]:>7.4f} {r['acc_at_k'][5]:>7.4f} "
-                  f"{r['acc_at_k'][10]:>8.4f} {r['mrr']:>7.4f} "
-                  f"{r['src_spectral_reliability']:>6.3f} {r['tgt_spectral_reliability']:>6.3f} "
-                  f"{r['src_epc']:>7.4f} {r['n_alignment_anchors']:>5} {r['n_eval_pairs']:>5}")
+            print(
+                f"{name:<55} {r['acc_at_k'][1]:>7.4f} {r['acc_at_k'][5]:>7.4f} "
+                f"{r['acc_at_k'][10]:>8.4f} {r['mrr']:>7.4f} "
+                f"{r['src_spectral_reliability']:>6.3f} {r['tgt_spectral_reliability']:>6.3f} "
+                f"{r['src_epc']:>7.4f} {r['n_alignment_anchors']:>5} {r['n_eval_pairs']:>5}"
+            )
 
     with open(RUN_DIR / "bilingual_validation_results.json", "w") as f:
         json.dump(all_results, f, indent=2, default=str)

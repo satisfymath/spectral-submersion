@@ -14,10 +14,12 @@ Key fixes (v2):
   adding -log(prior) to the cost matrix
 - consensus_from_multi_gw: aligns embeddings via Procrustes before averaging
 """
+
 import numpy as np
 
 try:
     import ot
+
     POT_AVAILABLE = True
 except ImportError:
     POT_AVAILABLE = False
@@ -150,8 +152,8 @@ def gromov_wasserstein_matrix(
         a_pi = Pi.sum(axis=1)
         b_pi = Pi.sum(axis=0)
 
-        term1 = (Dx ** 2) @ a_pi
-        term2 = (Dy ** 2) @ b_pi
+        term1 = (Dx**2) @ a_pi
+        term2 = (Dy**2) @ b_pi
 
         C = term1[:, None] + term2[None, :] - 2.0 * (Dx @ Pi @ Dy.T)
 
@@ -211,9 +213,14 @@ def multi_marginal_gw(
         couplings[i][i] = np.eye(n[i]) / n[i]
         for j in range(i + 1, m):
             Pi_ij = gromov_wasserstein_matrix(
-                distance_matrices[i], distance_matrices[j],
-                marginals[i], marginals[j],
-                reg=reg, max_iter=max_iter, sinkhorn_iter=sinkhorn_iter, tol=tol,
+                distance_matrices[i],
+                distance_matrices[j],
+                marginals[i],
+                marginals[j],
+                reg=reg,
+                max_iter=max_iter,
+                sinkhorn_iter=sinkhorn_iter,
+                tol=tol,
             )
             couplings[i][j] = Pi_ij
             couplings[j][i] = Pi_ij.T
@@ -253,8 +260,8 @@ def multi_marginal_gw(
                 # GW cost using prior as current coupling estimate
                 a_pi = prior.sum(axis=1)
                 b_pi = prior.sum(axis=0)
-                term1 = (Dx ** 2) @ a_pi
-                term2 = (Dy ** 2) @ b_pi
+                term1 = (Dx**2) @ a_pi
+                term2 = (Dy**2) @ b_pi
                 C = term1[:, None] + term2[None, :] - 2.0 * (Dx @ prior @ Dy.T)
 
                 if weight_sum > 0:
@@ -262,11 +269,11 @@ def multi_marginal_gw(
                     # This regularizes toward the consensus prior
                     K_prior = prior * np.exp(-C / reg)
                     # Sinkhorn with modified kernel
-                    Pi_new = _sinkhorn_with_kernel(K_prior, a, b, reg, sinkhorn_iter, tol)
-                else:
-                    Pi_new = optimal_transport_matrix(
-                        C, a, b, reg, sinkhorn_iter, tol
+                    Pi_new = _sinkhorn_with_kernel(
+                        K_prior, a, b, reg, sinkhorn_iter, tol
                     )
+                else:
+                    Pi_new = optimal_transport_matrix(C, a, b, reg, sinkhorn_iter, tol)
 
                 change = np.linalg.norm(Pi_new - couplings[i][j], ord="fro")
                 max_change = max(max_change, change)
@@ -308,7 +315,11 @@ def _sinkhorn_with_kernel(
     # Normalize to ensure it's a valid coupling
     Pi = Pi / (Pi.sum() + 1e-128)
     # Re-enforce marginals
-    Pi = Pi * (a[:, None] * b[None, :]) / (Pi.sum(axis=1, keepdims=True) * Pi.sum(axis=0, keepdims=True) + 1e-128)
+    Pi = (
+        Pi
+        * (a[:, None] * b[None, :])
+        / (Pi.sum(axis=1, keepdims=True) * Pi.sum(axis=0, keepdims=True) + 1e-128)
+    )
     Pi = Pi / (Pi.sum() + 1e-128)
     return Pi
 

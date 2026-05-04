@@ -7,6 +7,7 @@ Usage:
         --sv-output data/processed/singular_values_lost.npy \
         --fig reports/figures/singular_values_lost.png
 """
+
 import argparse
 from pathlib import Path
 
@@ -25,17 +26,40 @@ from spectral_submersion.visualization import plot_singular_values
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Build spectral embeddings from corpus CSV")
-    parser.add_argument("--input", required=True, help="Input CSV with doc_id, line_id, position, token")
-    parser.add_argument("--output", required=True, help="Output .npy path for embeddings")
-    parser.add_argument("--sv-output", required=True, help="Output .npy path for singular values")
-    parser.add_argument("--fig", default=None, help="Optional path to save singular value plot")
+    parser = argparse.ArgumentParser(
+        description="Build spectral embeddings from corpus CSV"
+    )
+    parser.add_argument(
+        "--input", required=True, help="Input CSV with doc_id, line_id, position, token"
+    )
+    parser.add_argument(
+        "--output", required=True, help="Output .npy path for embeddings"
+    )
+    parser.add_argument(
+        "--sv-output", required=True, help="Output .npy path for singular values"
+    )
+    parser.add_argument(
+        "--fig", default=None, help="Optional path to save singular value plot"
+    )
     parser.add_argument("--k", type=int, default=16, help="Embedding dimension")
-    parser.add_argument("--alpha", type=float, default=0.5, help="Singular value exponent")
-    parser.add_argument("--window", type=int, default=3, help="Co-occurrence window size")
+    parser.add_argument(
+        "--alpha", type=float, default=0.5, help="Singular value exponent"
+    )
+    parser.add_argument(
+        "--window", type=int, default=3, help="Co-occurrence window size"
+    )
     parser.add_argument("--seed", type=int, default=42, help="Random seed")
-    parser.add_argument("--max-vocab", type=int, default=None, help="Keep only top N most frequent tokens")
-    parser.add_argument("--directional", action="store_true", help="Use left/right directional co-occurrence matrices")
+    parser.add_argument(
+        "--max-vocab",
+        type=int,
+        default=None,
+        help="Keep only top N most frequent tokens",
+    )
+    parser.add_argument(
+        "--directional",
+        action="store_true",
+        help="Use left/right directional co-occurrence matrices",
+    )
     args = parser.parse_args()
 
     df = pd.read_csv(args.input)
@@ -45,6 +69,7 @@ def main():
     # If max_vocab specified, filter to top N frequent tokens
     if args.max_vocab:
         from collections import Counter
+
         counts = Counter(tokens)
         top_n = counts.most_common(args.max_vocab)
         allowed = {tok for tok, _ in top_n}
@@ -58,7 +83,10 @@ def main():
 
     if args.directional:
         C_left, C_right = directional_cooccurrence_matrix_from_sequences(
-            seq_ids, vocab_size=len(vocab), window_size=args.window, inverse_distance=True
+            seq_ids,
+            vocab_size=len(vocab),
+            window_size=args.window,
+            inverse_distance=True,
         )
         M_left = ppmi_matrix(C_left, epsilon=1e-9)
         M_right = ppmi_matrix(C_right, epsilon=1e-9)
@@ -66,7 +94,10 @@ def main():
         print(f"Directional mode: concatenated PPMI shape {M.shape}")
     else:
         C = cooccurrence_matrix_from_sequences(
-            seq_ids, vocab_size=len(vocab), window_size=args.window, inverse_distance=True
+            seq_ids,
+            vocab_size=len(vocab),
+            window_size=args.window,
+            inverse_distance=True,
         )
         M = ppmi_matrix(C, epsilon=1e-9)
 
@@ -81,11 +112,16 @@ def main():
     # Save vocab mapping for later decoding
     vocab_path = Path(args.output).with_suffix(".vocab.json")
     import json
+
     with open(vocab_path, "w", encoding="utf-8") as f:
         json.dump(vocab, f, ensure_ascii=False, indent=2)
 
     if args.fig:
-        plot_singular_values(S, title=f"Singular Value Spectrum ({Path(args.input).stem})", save_path=args.fig)
+        plot_singular_values(
+            S,
+            title=f"Singular Value Spectrum ({Path(args.input).stem})",
+            save_path=args.fig,
+        )
 
     print(f"Input: {args.input}")
     print(f"Vocab size: {len(vocab)}")

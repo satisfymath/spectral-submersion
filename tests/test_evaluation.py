@@ -1,13 +1,13 @@
 """Tests for evaluation module."""
+
 import numpy as np
 import pytest
 
 from spectral_submersion.evaluation import (
+    geometric_distortion,
     permute_corpus,
-    random_corpus_same_frequency,
     random_corpus_uniform,
     relational_distortion,
-    geometric_distortion,
 )
 
 

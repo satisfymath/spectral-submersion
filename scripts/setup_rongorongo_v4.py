@@ -1,4 +1,5 @@
 """Setup vocab and model for Rongorongo translator v4."""
+
 import json
 import pickle
 from pathlib import Path

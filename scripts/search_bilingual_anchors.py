@@ -15,6 +15,7 @@ For each candidate language, we:
 4. Also search for repetitive pattern anchors (AA, AAA patterns in RR vs
    repeated function words in candidate languages)
 """
+
 import json
 import sys
 from collections import Counter, defaultdict
@@ -29,27 +30,33 @@ from spectral_submersion.tokenization import read_corpus, get_sequences_by_line
 RR_PATH = "data/raw/lost_language/corpus_rongorongo_real.xml.csv"
 
 CANDIDATES = {
-    "maori":      "data/raw/candidate_languages/maori_tokens.csv",
-    "tahitian":    "data/raw/candidate_languages/tahitian_tokens.csv",
-    "hawaiian":    "data/raw/candidate_languages/haw_tokens.csv",
-    "samoan":      "data/raw/candidate_languages/sm_tokens.csv",
-    "tongan":      "data/raw/candidate_languages/to_tokens.csv",
-    "fijian":      "data/raw/candidate_languages/fj_tokens.csv",
-    "rapa_nui":   "data/raw/candidate_languages/rap_tokens.csv",
-    "english":     "data/raw/candidate_languages/english_tokens.csv",
-    "spanish":     "data/raw/candidate_languages/spanish_tokens.csv",
+    "maori": "data/raw/candidate_languages/maori_tokens.csv",
+    "tahitian": "data/raw/candidate_languages/tahitian_tokens.csv",
+    "hawaiian": "data/raw/candidate_languages/haw_tokens.csv",
+    "samoan": "data/raw/candidate_languages/sm_tokens.csv",
+    "tongan": "data/raw/candidate_languages/to_tokens.csv",
+    "fijian": "data/raw/candidate_languages/fj_tokens.csv",
+    "rapa_nui": "data/raw/candidate_languages/rap_tokens.csv",
+    "english": "data/raw/candidate_languages/english_tokens.csv",
+    "spanish": "data/raw/candidate_languages/spanish_tokens.csv",
 }
 
 FAMILIES = {
-    "maori": "polynesian", "tahitian": "polynesian", "hawaiian": "polynesian",
-    "samoan": "polynesian", "tongan": "polynesian", "fijian": "austronesian",
-    "rapa_nui": "polynesian", "english": "germanic", "spanish": "romance",
+    "maori": "polynesian",
+    "tahitian": "polynesian",
+    "hawaiian": "polynesian",
+    "samoan": "polynesian",
+    "tongan": "polynesian",
+    "fijian": "austronesian",
+    "rapa_nui": "polynesian",
+    "english": "germanic",
+    "spanish": "romance",
 }
 
 
 def compute_positional_profile(sequences, min_count=3):
     """Compute positional bias profile for each token.
-    
+
     Returns dict: token -> {count, first_ratio, last_ratio, start_sigma, end_sigma}
     """
     token_starts = Counter()
@@ -122,7 +129,9 @@ def compute_positional_profile(sequences, min_count=3):
 
 def profile_vector(profile, top_n=50):
     """Convert positional profile to a vector of (start_sigma, end_sigma) for top tokens."""
-    sorted_toks = sorted(profile.keys(), key=lambda t: profile[t]["count"], reverse=True)[:top_n]
+    sorted_toks = sorted(
+        profile.keys(), key=lambda t: profile[t]["count"], reverse=True
+    )[:top_n]
     vec = []
     for tok in sorted_toks:
         vec.extend([profile[tok]["start_sigma"], profile[tok]["end_sigma"]])
@@ -140,18 +149,26 @@ def main():
     rr_profile = compute_positional_profile(rr_seqs, min_count=3)
 
     # Print top structural markers
-    top_start = sorted(rr_profile.items(), key=lambda x: x[1]["start_sigma"], reverse=True)[:10]
-    top_end = sorted(rr_profile.items(), key=lambda x: x[1]["end_sigma"], reverse=True)[:10]
+    top_start = sorted(
+        rr_profile.items(), key=lambda x: x[1]["start_sigma"], reverse=True
+    )[:10]
+    top_end = sorted(rr_profile.items(), key=lambda x: x[1]["end_sigma"], reverse=True)[
+        :10
+    ]
 
     print("\nTop START-biased tokens in Rongorongo:")
     for tok, info in top_start:
-        print(f"  {tok:10s}: count={info['count']:4d}, first_ratio={info['first_ratio']:.3f}, "
-              f"start_sigma={info['start_sigma']:.2f}")
+        print(
+            f"  {tok:10s}: count={info['count']:4d}, first_ratio={info['first_ratio']:.3f}, "
+            f"start_sigma={info['start_sigma']:.2f}"
+        )
 
     print("\nTop END-biased tokens in Rongorongo:")
     for tok, info in top_end:
-        print(f"  {tok:10s}: count={info['count']:4d}, last_ratio={info['last_ratio']:.3f}, "
-              f"end_sigma={info['end_sigma']:.2f}")
+        print(
+            f"  {tok:10s}: count={info['count']:4d}, last_ratio={info['last_ratio']:.3f}, "
+            f"end_sigma={info['end_sigma']:.2f}"
+        )
 
     # 2. Candidate language profiles
     print("\n--- Computing candidate language profiles ---\n", flush=True)
@@ -192,24 +209,38 @@ def main():
             }
 
             # Find top structural markers in this language
-            top_start_cand = sorted(profile.items(), key=lambda x: x[1]["start_sigma"], reverse=True)[:5]
-            top_end_cand = sorted(profile.items(), key=lambda x: x[1]["end_sigma"], reverse=True)[:5]
+            top_start_cand = sorted(
+                profile.items(), key=lambda x: x[1]["start_sigma"], reverse=True
+            )[:5]
+            top_end_cand = sorted(
+                profile.items(), key=lambda x: x[1]["end_sigma"], reverse=True
+            )[:5]
 
             family = FAMILIES.get(name, "unknown")
-            results.append({
-                "language": name,
-                "family": family,
-                "n_lines": len(seqs),
-                "n_types": len(profile),
-                "corr_start": round(corr_start, 4),
-                "corr_end": round(corr_end, 4),
-                "corr_combined": round(corr_combined, 4),
-                "top_start_markers": [(t, round(info["start_sigma"], 2)) for t, info in top_start_cand],
-                "top_end_markers": [(t, round(info["end_sigma"], 2)) for t, info in top_end_cand],
-            })
+            results.append(
+                {
+                    "language": name,
+                    "family": family,
+                    "n_lines": len(seqs),
+                    "n_types": len(profile),
+                    "corr_start": round(corr_start, 4),
+                    "corr_end": round(corr_end, 4),
+                    "corr_combined": round(corr_combined, 4),
+                    "top_start_markers": [
+                        (t, round(info["start_sigma"], 2)) for t, info in top_start_cand
+                    ],
+                    "top_end_markers": [
+                        (t, round(info["end_sigma"], 2)) for t, info in top_end_cand
+                    ],
+                }
+            )
 
-            top_start_str = ", ".join(f"{t}({s:.1f}σ)" for t, s in results[-1]["top_start_markers"])
-            top_end_str = ", ".join(f"{t}({s:.1f}σ)" for t, s in results[-1]["top_end_markers"])
+            top_start_str = ", ".join(
+                f"{t}({s:.1f}σ)" for t, s in results[-1]["top_start_markers"]
+            )
+            top_end_str = ", ".join(
+                f"{t}({s:.1f}σ)" for t, s in results[-1]["top_end_markers"]
+            )
             print(f"  {name}: {len(seqs)} lines, corr_combined={corr_combined:.4f}")
             print(f"    Start markers: {top_start_str}")
             print(f"    End markers: {top_end_str}")
@@ -243,7 +274,11 @@ def main():
     # discourse markers, articles, or sentence boundaries in that language.
     # Search: do candidate languages have similar positional profile correlations?
     print("\n--- Structural marker alignment ---\n", flush=True)
-    rr_markers = {"_": "start+end delimiter", "000!": "end marker", "040": "start marker"}
+    rr_markers = {
+        "_": "start+end delimiter",
+        "000!": "end marker",
+        "040": "start marker",
+    }
     print(f"RR structural markers: {rr_markers}")
 
     # For each candidate, find tokens with similar sigma profiles to RR markers
@@ -252,17 +287,25 @@ def main():
         profile = cand_profiles[name]
         family = FAMILIES.get(name, "unknown")
         # Find tokens in candidate with start_sigma > 3 AND end_sigma > 3 (like `_`)
-        both_markers = [(t, info) for t, info in profile.items()
-                       if info["start_sigma"] > 3 and info["end_sigma"] > 3]
+        both_markers = [
+            (t, info)
+            for t, info in profile.items()
+            if info["start_sigma"] > 3 and info["end_sigma"] > 3
+        ]
         # Find tokens with high end_sigma (like `000!`)
-        end_markers = [(t, info) for t, info in profile.items()
-                      if info["end_sigma"] > 3 and info["start_sigma"] < 1]
-        marker_matches.append({
-            "language": name,
-            "family": family,
-            "both_markers": both_markers[:5],
-            "end_markers": end_markers[:5],
-        })
+        end_markers = [
+            (t, info)
+            for t, info in profile.items()
+            if info["end_sigma"] > 3 and info["start_sigma"] < 1
+        ]
+        marker_matches.append(
+            {
+                "language": name,
+                "family": family,
+                "both_markers": both_markers[:5],
+                "end_markers": end_markers[:5],
+            }
+        )
 
     print("\nCandidate languages with matching structural markers:")
     for m in marker_matches:
@@ -270,15 +313,19 @@ def main():
         if m["both_markers"]:
             print(f"    BOTH start+end markers (like RR `_`): ")
             for tok, info in m["both_markers"]:
-                print(f"      '{tok}': count={info['count']}, "
-                      f"start={info['start_sigma']:.1f}σ, end={info['end_sigma']:.1f}σ")
+                print(
+                    f"      '{tok}': count={info['count']}, "
+                    f"start={info['start_sigma']:.1f}σ, end={info['end_sigma']:.1f}σ"
+                )
         else:
             print(f"    No strong start+end markers found")
         if m["end_markers"]:
             print(f"    END-only markers (like RR `000!`): ")
             for tok, info in m["end_markers"][:3]:
-                print(f"      '{tok}': count={info['count']}, "
-                      f"start={info['start_sigma']:.1f}σ, end={info['end_sigma']:.1f}σ")
+                print(
+                    f"      '{tok}': count={info['count']}, "
+                    f"start={info['start_sigma']:.1f}σ, end={info['end_sigma']:.1f}σ"
+                )
         else:
             print(f"    No strong end-only markers found")
 
@@ -286,16 +333,20 @@ def main():
     print("\n" + "=" * 80)
     print("ANCHOR SEARCH SUMMARY")
     print("=" * 80)
-    print(f"\n{'Language':15s} {'Family':15s} {'Lines':>6s} {'corr_start':>10s} "
-          f"{'corr_end':>10s} {'corr_comb':>10s} {'Both_mrk':>9s} {'End_mrk':>8s}")
+    print(
+        f"\n{'Language':15s} {'Family':15s} {'Lines':>6s} {'corr_start':>10s} "
+        f"{'corr_end':>10s} {'corr_comb':>10s} {'Both_mrk':>9s} {'End_mrk':>8s}"
+    )
     print("-" * 80)
     for r in sorted(results, key=lambda x: x["corr_combined"], reverse=True):
         mm = next((m for m in marker_matches if m["language"] == r["language"]), None)
         n_both = len(mm["both_markers"]) if mm else 0
         n_end = len(mm["end_markers"]) if mm else 0
-        print(f"{r['language']:15s} {r['family']:15s} {r['n_lines']:6d} "
-              f"{r['corr_start']:10.4f} {r['corr_end']:10.4f} {r['corr_combined']:10.4f} "
-              f"{n_both:9d} {n_end:8d}")
+        print(
+            f"{r['language']:15s} {r['family']:15s} {r['n_lines']:6d} "
+            f"{r['corr_start']:10.4f} {r['corr_end']:10.4f} {r['corr_combined']:10.4f} "
+            f"{n_both:9d} {n_end:8d}"
+        )
 
     # Save results
     results_save = []

@@ -3,6 +3,7 @@
 Source: https://github.com/mayig/indus-valley-script-corpus (MIT License)
 Digitization of Corpus of Indus Seals and Inscriptions (CISI) by Parpola et al.
 """
+
 import argparse
 import json
 from collections import Counter
@@ -34,15 +35,17 @@ def convert_indus_corpus(input_dir: str, output_path: str) -> None:
                 token = g["id"]
                 features = g.get("features", [])
                 all_tokens.append(token)
-                rows.append({
-                    "doc_id": doc_id,
-                    "line_id": line_counter,
-                    "position": pos,
-                    "token": token,
-                    "features": json.dumps(features),
-                    "description": description,
-                    "source": "indus_valley_corpus_parpola_cisi_mayig_2025",
-                })
+                rows.append(
+                    {
+                        "doc_id": doc_id,
+                        "line_id": line_counter,
+                        "position": pos,
+                        "token": token,
+                        "features": json.dumps(features),
+                        "description": description,
+                        "source": "indus_valley_corpus_parpola_cisi_mayig_2025",
+                    }
+                )
 
     df = pd.DataFrame(rows)
     output_path = Path(output_path)
@@ -60,9 +63,19 @@ def convert_indus_corpus(input_dir: str, output_path: str) -> None:
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Convert Indus Valley corpus JSON to CSV")
-    parser.add_argument("--input-dir", default="/tmp/indus-corpus/corpus", help="Directory containing JSON files")
-    parser.add_argument("--output", default="data/raw/lost_language/corpus_indus_real.csv", help="Output CSV path")
+    parser = argparse.ArgumentParser(
+        description="Convert Indus Valley corpus JSON to CSV"
+    )
+    parser.add_argument(
+        "--input-dir",
+        default="/tmp/indus-corpus/corpus",
+        help="Directory containing JSON files",
+    )
+    parser.add_argument(
+        "--output",
+        default="data/raw/lost_language/corpus_indus_real.csv",
+        help="Output CSV path",
+    )
     args = parser.parse_args()
     convert_indus_corpus(args.input_dir, args.output)
 

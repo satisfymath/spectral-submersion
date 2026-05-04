@@ -8,6 +8,7 @@ and anchor recovery.
 
 Grammar: hierarchical phrase-structure with variation.
 """
+
 import argparse
 import json
 import random
@@ -15,22 +16,21 @@ from pathlib import Path
 
 import pandas as pd
 
-
 # ------------------------------------------------------------------
 # Lexicon: ~100 types across functional classes
 # ------------------------------------------------------------------
 SYMBOLS = {
-    "det":   [f"d{i:02d}" for i in range(1, 9)],      # 8 determiners
-    "noun":  [f"n{i:02d}" for i in range(1, 31)],     # 30 nouns
-    "verb":  [f"v{i:02d}" for i in range(1, 21)],     # 20 verbs
-    "adj":   [f"a{i:02d}" for i in range(1, 13)],     # 12 adjectives
-    "prep":  [f"p{i:02d}" for i in range(1, 7)],      # 6 prepositions
-    "conj":  [f"c{i:02d}" for i in range(1, 5)],      # 4 conjunctions
-    "pron":  [f"r{i:02d}" for i in range(1, 9)],      # 8 pronouns
-    "num":   [f"m{i:02d}" for i in range(1, 7)],      # 6 numerals
-    "quant": [f"q{i:02d}" for i in range(1, 5)],      # 4 quantifiers
-    "adv":   [f"w{i:02d}" for i in range(1, 5)],      # 4 adverbs
-    "name":  [f"x{i:02d}" for i in range(1, 11)],     # 10 proper names
+    "det": [f"d{i:02d}" for i in range(1, 9)],  # 8 determiners
+    "noun": [f"n{i:02d}" for i in range(1, 31)],  # 30 nouns
+    "verb": [f"v{i:02d}" for i in range(1, 21)],  # 20 verbs
+    "adj": [f"a{i:02d}" for i in range(1, 13)],  # 12 adjectives
+    "prep": [f"p{i:02d}" for i in range(1, 7)],  # 6 prepositions
+    "conj": [f"c{i:02d}" for i in range(1, 5)],  # 4 conjunctions
+    "pron": [f"r{i:02d}" for i in range(1, 9)],  # 8 pronouns
+    "num": [f"m{i:02d}" for i in range(1, 7)],  # 6 numerals
+    "quant": [f"q{i:02d}" for i in range(1, 5)],  # 4 quantifiers
+    "adv": [f"w{i:02d}" for i in range(1, 5)],  # 4 adverbs
+    "name": [f"x{i:02d}" for i in range(1, 11)],  # 10 proper names
 }
 
 # ------------------------------------------------------------------
@@ -68,17 +68,17 @@ EXPANSIONS = {
         (["PREP", "DET", "NOUN"], 0.30),
     ],
     # Terminals (will be resolved by sampling from SYMBOLS)
-    "DET":   [(["det"], 1.0)],
-    "NOUN":  [(["noun"], 1.0)],
-    "VERB":  [(["verb"], 1.0)],
-    "ADJ":   [(["adj"], 1.0)],
-    "PREP":  [(["prep"], 1.0)],
-    "CONJ":  [(["conj"], 1.0)],
-    "PRON":  [(["pron"], 1.0)],
-    "NUM":   [(["num"], 1.0)],
+    "DET": [(["det"], 1.0)],
+    "NOUN": [(["noun"], 1.0)],
+    "VERB": [(["verb"], 1.0)],
+    "ADJ": [(["adj"], 1.0)],
+    "PREP": [(["prep"], 1.0)],
+    "CONJ": [(["conj"], 1.0)],
+    "PRON": [(["pron"], 1.0)],
+    "NUM": [(["num"], 1.0)],
     "QUANT": [(["quant"], 1.0)],
-    "ADV":   [(["adv"], 1.0)],
-    "NAME":  [(["name"], 1.0)],
+    "ADV": [(["adv"], 1.0)],
+    "NAME": [(["name"], 1.0)],
 }
 
 
@@ -120,25 +120,37 @@ def corpus_to_df(sequences: list[list[str]], doc_id: str = "synthetic") -> pd.Da
         for pos, tok in enumerate(seq, start=1):
             # Infer POS from prefix for ground-truth annotation
             pos_map = {
-                "d": "DET", "n": "NOUN", "v": "VERB", "a": "ADJ",
-                "p": "PREP", "c": "CONJ", "r": "PRON", "m": "NUM",
-                "q": "QUANT", "w": "ADV", "x": "NAME",
+                "d": "DET",
+                "n": "NOUN",
+                "v": "VERB",
+                "a": "ADJ",
+                "p": "PREP",
+                "c": "CONJ",
+                "r": "PRON",
+                "m": "NUM",
+                "q": "QUANT",
+                "w": "ADV",
+                "x": "NAME",
             }
             pos = pos_map.get(tok[0], "UNKNOWN")
-            rows.append({
-                "doc_id": doc_id,
-                "line_id": line_id,
-                "position": pos,
-                "token": tok,
-                "raw_token": tok,
-                "orientation": "normal",
-                "source": "synthetic_v2_pcgrammar",
-                "notes": f"true_pos={pos}",
-            })
+            rows.append(
+                {
+                    "doc_id": doc_id,
+                    "line_id": line_id,
+                    "position": pos,
+                    "token": tok,
+                    "raw_token": tok,
+                    "orientation": "normal",
+                    "source": "synthetic_v2_pcgrammar",
+                    "notes": f"true_pos={pos}",
+                }
+            )
     return pd.DataFrame(rows)
 
 
-def save_corpus(sequences: list[list[str]], csv_path: str, json_path: str | None = None):
+def save_corpus(
+    sequences: list[list[str]], csv_path: str, json_path: str | None = None
+):
     df = corpus_to_df(sequences)
     Path(csv_path).parent.mkdir(parents=True, exist_ok=True)
     df.to_csv(csv_path, index=False)
@@ -159,11 +171,18 @@ def save_corpus(sequences: list[list[str]], csv_path: str, json_path: str | None
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Generate synthetic lost language corpus v2")
+    parser = argparse.ArgumentParser(
+        description="Generate synthetic lost language corpus v2"
+    )
     parser.add_argument("--n-sentences", type=int, default=2000)
     parser.add_argument("--seed", type=int, default=42)
-    parser.add_argument("--output-csv", default="data/raw/lost_language/corpus_synthetic_v2.csv")
-    parser.add_argument("--output-stats", default="data/raw/lost_language/corpus_synthetic_v2_stats.json")
+    parser.add_argument(
+        "--output-csv", default="data/raw/lost_language/corpus_synthetic_v2.csv"
+    )
+    parser.add_argument(
+        "--output-stats",
+        default="data/raw/lost_language/corpus_synthetic_v2_stats.json",
+    )
     args = parser.parse_args()
 
     sequences = generate_corpus(args.n_sentences, args.seed)

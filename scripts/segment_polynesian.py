@@ -11,16 +11,33 @@ Sources for particle lists:
   as separate words, but some are clearly functional and worth isolating).
 - No claim of morphological completeness; this is heuristic.
 """
+
 import re
 from pathlib import Path
 
 import pandas as pd
 
-
 # High-frequency functional particles by language code.
 # These are separated with a boundary marker when found at word edges.
 PARTICLES = {
-    "mi": ["te", "he", "kei", "i", "ki", "ka", "me", "e", "ko", "ā", "o", "nā", "mā", "he", "tō", "taku"],
+    "mi": [
+        "te",
+        "he",
+        "kei",
+        "i",
+        "ki",
+        "ka",
+        "me",
+        "e",
+        "ko",
+        "ā",
+        "o",
+        "nā",
+        "mā",
+        "he",
+        "tō",
+        "taku",
+    ],
     "ty": ["te", "e", "i", "o", "ua", "ia", "ta", "to"],
     "haw": ["ka", "ke", "o", "i", "e", "ua", "he", "na", "ko", "ma"],
     "sm": ["le", "o", "e", "i", "ua", "a", "na", "ma"],
@@ -40,9 +57,9 @@ def segment_token(token: str, particles: list[str]) -> list[str]:
     # Check prefix
     for p in sorted(particles, key=len, reverse=True):
         if token_lower.startswith(p) and len(token_lower) > len(p):
-            remainder = token[len(p):].lstrip("'ʻ-")
+            remainder = token[len(p) :].lstrip("'ʻ-")
             if remainder:
-                return [token[:len(p)], remainder]
+                return [token[: len(p)], remainder]
     # No split
     return [token]
 
@@ -72,6 +89,7 @@ def tokenize_corpus_df(df: pd.DataFrame, lang_code: str) -> pd.DataFrame:
 
 def process_all_candidates(config_path: str = "configs/candidate_languages.yaml"):
     import yaml
+
     with open(config_path, "r", encoding="utf-8") as f:
         config = yaml.safe_load(f)
 

@@ -4,10 +4,10 @@ Implements Proposition 1.1, Theorem 3.2, Corollary 3.3, and Definitions 4.1-4.3
 from the PhD upgrade guide. Formalizes why unanchored decipherment is
 ill-posed and how anchors break the permutation symmetry.
 """
+
 from __future__ import annotations
 
 import numpy as np
-from itertools import permutations
 from collections.abc import Callable
 
 
@@ -75,6 +75,7 @@ def orbit_size(vocab_size: int, anchored_glyphs: int) -> int:
             f"anchored_glyphs ({anchored_glyphs}) > vocab_size ({vocab_size})"
         )
     import math as _math
+
     return int(_math.factorial(remaining))
 
 
@@ -128,11 +129,15 @@ def compute_automorphism_size_upper_bound(
 
     signatures = []
     for i in range(n):
-        sig = tuple(sorted([
-            round(row_sums[i], 8),
-            round(col_sums[i], 8),
-            round(diag[i], 8),
-        ]))
+        sig = tuple(
+            sorted(
+                [
+                    round(row_sums[i], 8),
+                    round(col_sums[i], 8),
+                    round(diag[i], 8),
+                ]
+            )
+        )
         signatures.append(sig)
 
     from collections import Counter

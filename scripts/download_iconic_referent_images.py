@@ -4,6 +4,7 @@ The script records full provenance for every downloaded file. It is intended
 as a lightweight bootstrap dataset for the real iconic-grounding pipeline, not
 as a final curated paleoecological image corpus.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -19,7 +20,6 @@ import requests
 sys.path.insert(0, "src")
 
 from spectral_submersion.iconic_grounding import RapaNuiWorld1500  # noqa: E402
-
 
 COMMONS_API = "https://commons.wikimedia.org/w/api.php"
 USER_AGENT = "spectral-submersion-iconic-grounding/0.3 (research data bootstrap)"
@@ -158,7 +158,9 @@ def main() -> None:
         ref_dir.mkdir(parents=True, exist_ok=True)
         for result in results:
             suffix = _image_suffix(result["download_url"], result["mime"])
-            local_path = ref_dir / _safe_filename(result["title"].replace("File:", ""), suffix)
+            local_path = ref_dir / _safe_filename(
+                result["title"].replace("File:", ""), suffix
+            )
             if not local_path.exists():
                 try:
                     image_response = requests.get(

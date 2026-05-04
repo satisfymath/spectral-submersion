@@ -7,6 +7,7 @@ each inscription (preserving inscription length), then recomputing the metric.
 
 Output: p-values and effect sizes for each sign.
 """
+
 import argparse
 from pathlib import Path
 
@@ -16,7 +17,9 @@ import pandas as pd
 from spectral_submersion.tokenization import get_sequences_by_line
 
 
-def compute_positional_metrics(sequences: list[list[str]], min_count: int = 5) -> pd.DataFrame:
+def compute_positional_metrics(
+    sequences: list[list[str]], min_count: int = 5
+) -> pd.DataFrame:
     """Compute first_ratio and last_ratio for each sign."""
     stats = {}
     for seq in sequences:
@@ -36,12 +39,14 @@ def compute_positional_metrics(sequences: list[list[str]], min_count: int = 5) -
     for tok, s in stats.items():
         if s["count"] < min_count:
             continue
-        rows.append({
-            "token": tok,
-            "count": s["count"],
-            "first_ratio": s["first"] / s["count"],
-            "last_ratio": s["last"] / s["count"],
-        })
+        rows.append(
+            {
+                "token": tok,
+                "count": s["count"],
+                "first_ratio": s["first"] / s["count"],
+                "last_ratio": s["last"] / s["count"],
+            }
+        )
     return pd.DataFrame(rows)
 
 
@@ -105,25 +110,35 @@ def monte_carlo_positional_test(
             lr_p = np.nan
             lr_effect = np.nan
 
-        results.append({
-            "token": tok,
-            "count": row["count"],
-            "first_ratio_obs": fr_obs,
-            "first_ratio_null_mean": np.mean(fr_null) if len(fr_null) > 0 else np.nan,
-            "first_ratio_pvalue": fr_p,
-            "first_ratio_effect": fr_effect,
-            "last_ratio_obs": lr_obs,
-            "last_ratio_null_mean": np.mean(lr_null) if len(lr_null) > 0 else np.nan,
-            "last_ratio_pvalue": lr_p,
-            "last_ratio_effect": lr_effect,
-        })
+        results.append(
+            {
+                "token": tok,
+                "count": row["count"],
+                "first_ratio_obs": fr_obs,
+                "first_ratio_null_mean": (
+                    np.mean(fr_null) if len(fr_null) > 0 else np.nan
+                ),
+                "first_ratio_pvalue": fr_p,
+                "first_ratio_effect": fr_effect,
+                "last_ratio_obs": lr_obs,
+                "last_ratio_null_mean": (
+                    np.mean(lr_null) if len(lr_null) > 0 else np.nan
+                ),
+                "last_ratio_pvalue": lr_p,
+                "last_ratio_effect": lr_effect,
+            }
+        )
 
     return pd.DataFrame(results)
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Monte Carlo permutation test for positional bias")
-    parser.add_argument("--input", default="data/raw/lost_language/corpus_indus_real.csv")
+    parser = argparse.ArgumentParser(
+        description="Monte Carlo permutation test for positional bias"
+    )
+    parser.add_argument(
+        "--input", default="data/raw/lost_language/corpus_indus_real.csv"
+    )
     parser.add_argument("--output", default="reports/tables/positional_monte_carlo.csv")
     parser.add_argument("--n-permutations", type=int, default=1000)
     parser.add_argument("--min-count", type=int, default=5)
@@ -146,14 +161,44 @@ def main():
     print(f"Saved results to {args.output}")
 
     # Significant results
-    sig_first = results[(results["first_ratio_pvalue"] < 0.05) & (results["first_ratio_effect"] > 2)]
-    sig_last = results[(results["last_ratio_pvalue"] < 0.05) & (results["last_ratio_effect"] > 2)]
+    sig_first = results[
+        (results["first_ratio_pvalue"] < 0.05) & (results["first_ratio_effect"] > 2)
+    ]
+    sig_last = results[
+        (results["last_ratio_pvalue"] < 0.05) & (results["last_ratio_effect"] > 2)
+    ]
 
     print(f"\nSigns with significant START bias (p<0.05, effect>2): {len(sig_first)}")
-    print(sig_first[["token", "count", "first_ratio_obs", "first_ratio_null_mean", "first_ratio_pvalue", "first_ratio_effect"]].head(10).to_string(index=False))
+    print(
+        sig_first[
+            [
+                "token",
+                "count",
+                "first_ratio_obs",
+                "first_ratio_null_mean",
+                "first_ratio_pvalue",
+                "first_ratio_effect",
+            ]
+        ]
+        .head(10)
+        .to_string(index=False)
+    )
 
     print(f"\nSigns with significant END bias (p<0.05, effect>2): {len(sig_last)}")
-    print(sig_last[["token", "count", "last_ratio_obs", "last_ratio_null_mean", "last_ratio_pvalue", "last_ratio_effect"]].head(10).to_string(index=False))
+    print(
+        sig_last[
+            [
+                "token",
+                "count",
+                "last_ratio_obs",
+                "last_ratio_null_mean",
+                "last_ratio_pvalue",
+                "last_ratio_effect",
+            ]
+        ]
+        .head(10)
+        .to_string(index=False)
+    )
 
 
 if __name__ == "__main__":

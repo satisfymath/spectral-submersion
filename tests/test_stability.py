@@ -1,4 +1,5 @@
 """Tests for stability module: spectral reliability, SPPMI, co-occurrence coverage."""
+
 import pytest
 import numpy as np
 from spectral_submersion.stability import (
@@ -110,6 +111,7 @@ class TestSPPMI:
 
     def test_sppmi_different_from_ppmi(self):
         from spectral_submersion.pmi import ppmi_matrix
+
         C = np.random.RandomState(42).randint(1, 10, size=(8, 8)).astype(float)
         ppmi = ppmi_matrix(C)
         sppmi = sceptmi_matrix(C, epsilon=1.0)

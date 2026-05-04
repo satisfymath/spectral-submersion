@@ -7,6 +7,7 @@ This pipeline uses:
 
 It intentionally blocks C2.5 claims until cross-script validation is supplied.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -288,7 +289,11 @@ def main() -> None:
         "negative_control_gap": neg_gap,
         "cross_script_acc_at_5": args.cross_script_acc_at_5,
         "c25_candidates_admitted": int(
-            sum(1 for row in candidate_rows if row["rank"] == 1 and row["c25_admissible"])
+            sum(
+                1
+                for row in candidate_rows
+                if row["rank"] == 1 and row["c25_admissible"]
+            )
         ),
         "important_note": (
             "C2.5 remains blocked unless real cross-script validation, controls, "

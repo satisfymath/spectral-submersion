@@ -15,6 +15,7 @@ Metrics:
 Reference: Rao et al. (2009) "Entropic Evidence for Linguistic Structure
 in the Indus Script", Science 324(5931):1165.
 """
+
 import argparse
 import json
 from pathlib import Path
@@ -72,8 +73,8 @@ def conditional_entropy_bigram(sequences: list[list[str]]) -> dict:
     return {
         "h_unconditional": h_uncond,
         "h_bigram_conditional": h_cond,
-        "perplexity_unconditional": 2 ** h_uncond,
-        "perplexity_bigram": 2 ** h_cond,
+        "perplexity_unconditional": 2**h_uncond,
+        "perplexity_bigram": 2**h_cond,
         "n_unigrams": len(unigram_counts),
         "n_bigrams": len(bigram_counts),
         "total_tokens": total_unigrams,
@@ -93,7 +94,9 @@ def conditional_entropy_trigram(sequences: list[list[str]]) -> dict:
             if i > 1:
                 prev2 = seq[i - 2]
                 prev = seq[i - 1]
-                trigram_counts[(prev2, prev, tok)] = trigram_counts.get((prev2, prev, tok), 0) + 1
+                trigram_counts[(prev2, prev, tok)] = (
+                    trigram_counts.get((prev2, prev, tok), 0) + 1
+                )
 
     total_bigrams = sum(bigram_counts.values())
     total_trigrams = sum(trigram_counts.values())
@@ -101,7 +104,9 @@ def conditional_entropy_trigram(sequences: list[list[str]]) -> dict:
     h_cond = 0.0
     for (prev2, prev), count_bp in bigram_counts.items():
         p_bp = count_bp / total_bigrams
-        sub_counts = {k: v for k, v in trigram_counts.items() if k[0] == prev2 and k[1] == prev}
+        sub_counts = {
+            k: v for k, v in trigram_counts.items() if k[0] == prev2 and k[1] == prev
+        }
         if not sub_counts:
             continue
         sub_total = sum(sub_counts.values())
@@ -111,7 +116,7 @@ def conditional_entropy_trigram(sequences: list[list[str]]) -> dict:
 
     return {
         "h_trigram_conditional": h_cond,
-        "perplexity_trigram": 2 ** h_cond if h_cond > 0 else 0.0,
+        "perplexity_trigram": 2**h_cond if h_cond > 0 else 0.0,
         "n_trigrams": len(trigram_counts),
         "total_bigrams": total_bigrams,
     }
@@ -126,8 +131,12 @@ def analyze_sequences(sequences: list[list[str]], label: str) -> dict:
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Conditional entropy analysis for short inscriptions")
-    parser.add_argument("--input", default="data/raw/lost_language/corpus_indus_real.csv")
+    parser = argparse.ArgumentParser(
+        description="Conditional entropy analysis for short inscriptions"
+    )
+    parser.add_argument(
+        "--input", default="data/raw/lost_language/corpus_indus_real.csv"
+    )
     parser.add_argument("--output", default="reports/tables/entropy_analysis.csv")
     args = parser.parse_args()
 
@@ -162,20 +171,41 @@ def main():
     print("=" * 70)
     print("Conditional Entropy Analysis")
     print("=" * 70)
-    print(out_df[["variant", "h_unconditional", "h_bigram_conditional", "h_trigram_conditional",
-                  "perplexity_unconditional", "perplexity_bigram", "perplexity_trigram",
-                  "n_unigrams", "n_bigrams", "n_trigrams"]].to_string(index=False))
+    print(
+        out_df[
+            [
+                "variant",
+                "h_unconditional",
+                "h_bigram_conditional",
+                "h_trigram_conditional",
+                "perplexity_unconditional",
+                "perplexity_bigram",
+                "perplexity_trigram",
+                "n_unigrams",
+                "n_bigrams",
+                "n_trigrams",
+            ]
+        ].to_string(index=False)
+    )
     print(f"\nSaved to {out_path}")
 
     # Sanity check: real should have lower conditional entropy than uniform
     real_h = out_df[out_df["variant"] == "real"]["h_bigram_conditional"].values[0]
-    uniform_h = out_df[out_df["variant"] == "random_uniform"]["h_bigram_conditional"].values[0]
-    print(f"\n[SANITY CHECK] Real bigram H={real_h:.4f} vs Uniform bigram H={uniform_h:.4f}")
+    uniform_h = out_df[out_df["variant"] == "random_uniform"][
+        "h_bigram_conditional"
+    ].values[0]
+    print(
+        f"\n[SANITY CHECK] Real bigram H={real_h:.4f} vs Uniform bigram H={uniform_h:.4f}"
+    )
     if real_h < uniform_h:
         print("  PASS: Real corpus has lower conditional entropy than uniform random.")
     else:
-        print("  FAIL: Real corpus does NOT have lower conditional entropy than uniform random.")
-        print("  This suggests the corpus lacks sequential predictability at the bigram level.")
+        print(
+            "  FAIL: Real corpus does NOT have lower conditional entropy than uniform random."
+        )
+        print(
+            "  This suggests the corpus lacks sequential predictability at the bigram level."
+        )
 
 
 if __name__ == "__main__":

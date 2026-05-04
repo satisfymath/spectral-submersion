@@ -3,6 +3,7 @@
 Usage:
     python demo_rongorongo_translator.py
 """
+
 import torch
 
 from spectral_submersion.rongorongo_translator import TransformerTranslator, Vocab
@@ -17,14 +18,22 @@ def load(model_dir="models/rongorongo_translator_v3"):
     with open(model_dir / "tgt_vocab.pkl", "rb") as f:
         tgt_vocab = pickle.load(f)
     config = {
-        "d_model": 256, "nhead": 8, "enc_layers": 4,
-        "dec_layers": 4, "dim_ff": 512, "dropout": 0.1,
+        "d_model": 256,
+        "nhead": 8,
+        "enc_layers": 4,
+        "dec_layers": 4,
+        "dim_ff": 512,
+        "dropout": 0.1,
     }
     model = TransformerTranslator(
-        len(src_vocab), len(tgt_vocab),
-        d_model=config["d_model"], nhead=config["nhead"],
-        num_encoder_layers=config["enc_layers"], num_decoder_layers=config["dec_layers"],
-        dim_feedforward=config["dim_ff"], dropout=config["dropout"],
+        len(src_vocab),
+        len(tgt_vocab),
+        d_model=config["d_model"],
+        nhead=config["nhead"],
+        num_encoder_layers=config["enc_layers"],
+        num_decoder_layers=config["dec_layers"],
+        dim_feedforward=config["dim_ff"],
+        dropout=config["dropout"],
     )
     ckpt = model_dir / "model.pt"
     if not ckpt.exists():
@@ -64,8 +73,8 @@ def main():
         ("Rapa Nui", "ko Hotu Matua e kai ika"),
         ("Rapa Nui", "te manu rere i te raa"),
         ("Hawaiian", "ka haele ke kanaka i ke kai"),
-        ("English",  "the man goes to the sea"),
-        ("Spanish",  "el hombre va al mar"),
+        ("English", "the man goes to the sea"),
+        ("Spanish", "el hombre va al mar"),
         ("Japanese", "hito wa umi e ikimasu"),
     ]
 

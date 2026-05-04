@@ -4,6 +4,7 @@ Generates synthetic source sentences (Rapa Nui-like) aligned with
 Rongorongo glyph sequences. Uses template-based generation with
 category alignment, producing tens of thousands of parallel pairs.
 """
+
 import argparse
 import random
 from pathlib import Path
@@ -15,34 +16,133 @@ import pandas as pd
 SOURCE_VOCAB = {
     "det": ["te", "he", "tau", "nga", "na", "a", "o", "e", "ko", "ka", "teia", "tena"],
     "noun": [
-        "tangata", "vahine", "tamaiti", "ika", "manu", "rakau", "ma", "vai", "raa",
-        "marama", "matangi", "ua", "moana", "motu", "maunga", "ana", "hare", "vaka",
-        "rima", "ava", "mata", "taringa", "ihu", "waha", "matau", "maui", "tua",
-        "mua", "muri", "ruga", "raro", "tai", "uta", "rau", "hua", "kiko", "ivi",
+        "tangata",
+        "vahine",
+        "tamaiti",
+        "ika",
+        "manu",
+        "rakau",
+        "ma",
+        "vai",
+        "raa",
+        "marama",
+        "matangi",
+        "ua",
+        "moana",
+        "motu",
+        "maunga",
+        "ana",
+        "hare",
+        "vaka",
+        "rima",
+        "ava",
+        "mata",
+        "taringa",
+        "ihu",
+        "waha",
+        "matau",
+        "maui",
+        "tua",
+        "mua",
+        "muri",
+        "ruga",
+        "raro",
+        "tai",
+        "uta",
+        "rau",
+        "hua",
+        "kiko",
+        "ivi",
     ],
     "verb": [
-        "haere", "noho", "kai", "inu", "moe", "ora", "mate", "tangi", "kite", "korero",
-        "hula", "ala", "ai", "hana", "makemake", "hele", "tiki", "tuku", "tae",
-        "hoki", "tomo", "puke", "hahau", "huti", "kume", "rere", "topa", "tau",
+        "haere",
+        "noho",
+        "kai",
+        "inu",
+        "moe",
+        "ora",
+        "mate",
+        "tangi",
+        "kite",
+        "korero",
+        "hula",
+        "ala",
+        "ai",
+        "hana",
+        "makemake",
+        "hele",
+        "tiki",
+        "tuku",
+        "tae",
+        "hoki",
+        "tomo",
+        "puke",
+        "hahau",
+        "huti",
+        "kume",
+        "rere",
+        "topa",
+        "tau",
     ],
     "num": [
-        "tahi", "rua", "toru", "ha", "rima", "ono", "hitu", "va", "iva",
-        "hongahuru", "tekau", "ruatekau", "toruteke", "hateke", "rimateke",
+        "tahi",
+        "rua",
+        "toru",
+        "ha",
+        "rima",
+        "ono",
+        "hitu",
+        "va",
+        "iva",
+        "hongahuru",
+        "tekau",
+        "ruatekau",
+        "toruteke",
+        "hateke",
+        "rimateke",
     ],
     "name": [
-        "Hotu", "Matua", "Tuu", "Koihu", "Ngaara", "Tangaroa", "Makemake",
-        "Tane", "Rongo", "Tiki", "Hina", "Papa", "Rangi", "Maui", "Tupa",
+        "Hotu",
+        "Matua",
+        "Tuu",
+        "Koihu",
+        "Ngaara",
+        "Tangaroa",
+        "Makemake",
+        "Tane",
+        "Rongo",
+        "Tiki",
+        "Hina",
+        "Papa",
+        "Rangi",
+        "Maui",
+        "Tupa",
     ],
     "part": [
-        "i", "ki", "mai", "atu", "ma", "mo", "na", "no", "pe", "a", "o",
-        "ei", "ana", "ra", "nei", "na", "ai",
+        "i",
+        "ki",
+        "mai",
+        "atu",
+        "ma",
+        "mo",
+        "na",
+        "no",
+        "pe",
+        "a",
+        "o",
+        "ei",
+        "ana",
+        "ra",
+        "nei",
+        "na",
+        "ai",
     ],
 }
 
 
 def zipf_probs(items, alpha=1.2):
     ranks = np.arange(1, len(items) + 1)
-    probs = 1.0 / (ranks ** alpha)
+    probs = 1.0 / (ranks**alpha)
     return probs / probs.sum()
 
 
@@ -130,10 +230,14 @@ def generate_massive_parallel(
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Generate massive parallel Rongorongo corpus")
+    parser = argparse.ArgumentParser(
+        description="Generate massive parallel Rongorongo corpus"
+    )
     parser.add_argument("--n-pairs", type=int, default=50000)
     parser.add_argument("--seed", type=int, default=42)
-    parser.add_argument("--output", default="data/raw/lost_language/parallel_rongorongo_massive.csv")
+    parser.add_argument(
+        "--output", default="data/raw/lost_language/parallel_rongorongo_massive.csv"
+    )
     args = parser.parse_args()
     generate_massive_parallel(args.n_pairs, args.seed, args.output)
 

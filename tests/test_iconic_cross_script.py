@@ -1,4 +1,5 @@
 """Tests for cross-script iconic validation helpers."""
+
 import numpy as np
 import pytest
 

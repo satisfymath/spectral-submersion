@@ -3,6 +3,7 @@
 Implements the experimental protocols from Sections 17-22 of the guide.
 Each experiment produces auditable results with metrics and claim-level limits.
 """
+
 import argparse
 import json
 import sys
@@ -14,7 +15,12 @@ import yaml
 sys.path.insert(0, "src")
 
 from spectral_submersion.io import load_config
-from spectral_submersion.tokenization import read_corpus, build_vocab, tokens_to_ids, get_sequences_by_line
+from spectral_submersion.tokenization import (
+    read_corpus,
+    build_vocab,
+    tokens_to_ids,
+    get_sequences_by_line,
+)
 from spectral_submersion.synthetic_experiments import (
     experiment_permutation_recovery,
     experiment_logosyllabic_collapse,
@@ -67,17 +73,25 @@ def main():
             permuted, perm_map = generate_permuted_corpus(
                 sequences, vocab_size, seed=42
             )
-            for n_anch in exp_config.get("permutation_recovery", {}).get("n_anchors", [5, 10, 20]):
+            for n_anch in exp_config.get("permutation_recovery", {}).get(
+                "n_anchors", [5, 10, 20]
+            ):
                 print(f"    n_anchors={n_anch}")
                 try:
                     result = experiment_permutation_recovery(
-                        permuted, sequences, vocab_size, vocab_size,
-                        n_anchors=n_anch, seed=42,
+                        permuted,
+                        sequences,
+                        vocab_size,
+                        vocab_size,
+                        n_anchors=n_anch,
+                        seed=42,
                     )
                     all_results[f"perm_n{n_anch}"] = result
-                    print(f"    Acc@1={result['acc_at_k'][1]:.3f}, "
-                          f"Acc@5={result['acc_at_k'][5]:.3f}, "
-                          f"MRR={result['mrr']:.3f}")
+                    print(
+                        f"    Acc@1={result['acc_at_k'][1]:.3f}, "
+                        f"Acc@5={result['acc_at_k'][5]:.3f}, "
+                        f"MRR={result['mrr']:.3f}"
+                    )
                 except Exception as e:
                     print(f"    FAILED: {e}")
 
@@ -115,17 +129,21 @@ def main():
         if exp_config.get("calendar_model", {}).get("enabled", True):
             print("\n  == Experiment 6: Calendar Model ==")
             n_phases = exp_config.get("calendar_model", {}).get("n_lunar_phases", 30)
-            result = experiment_calendar_model(sequences, vocab_size, n_lunar_phases=n_phases)
+            result = experiment_calendar_model(
+                sequences, vocab_size, n_lunar_phases=n_phases
+            )
             all_results["calendar"] = {
                 "ngram_bic": result["ngram_bic"],
                 "calendar_bic": result["calendar_bic"],
                 "delta_bic": result["delta_bic"],
                 "calendar_preferred": result["calendar_preferred"],
             }
-            print(f"    n-gram BIC={result['ngram_bic']:.1f}, "
-                  f"calendar BIC={result['calendar_bic']:.1f}, "
-                  f"delta={result['delta_bic']:.1f}, "
-                  f"preferred={'calendar' if result['calendar_preferred'] else 'n-gram'}")
+            print(
+                f"    n-gram BIC={result['ngram_bic']:.1f}, "
+                f"calendar BIC={result['calendar_bic']:.1f}, "
+                f"delta={result['delta_bic']:.1f}, "
+                f"preferred={'calendar' if result['calendar_preferred'] else 'n-gram'}"
+            )
 
     output_path = output_dir / "experiment_results.json"
     with open(output_path, "w") as f:

@@ -3,6 +3,7 @@
 Trains a separate decoder that maps glyph sequences back to
 source language text, enabling bidirectional translation.
 """
+
 import argparse
 import json
 import math
@@ -21,13 +22,20 @@ from spectral_submersion.rongorongo_translator import Vocab, TransformerTranslat
 
 class InverseDataset(Dataset):
     """Dataset where source=glyphs and target=language text."""
+
     def __init__(self, df, glyph_vocab, text_vocab, max_len=50):
         self.pairs = []
         for _, row in df.iterrows():
             glyphs = row["target_glyphs"].strip().split()
             text = row["source_text"].strip().split()
-            src_ids = [glyph_vocab.bos_idx] + glyph_vocab.encode(glyphs) + [glyph_vocab.eos_idx]
-            tgt_ids = [text_vocab.bos_idx] + text_vocab.encode(text) + [text_vocab.eos_idx]
+            src_ids = (
+                [glyph_vocab.bos_idx]
+                + glyph_vocab.encode(glyphs)
+                + [glyph_vocab.eos_idx]
+            )
+            tgt_ids = (
+                [text_vocab.bos_idx] + text_vocab.encode(text) + [text_vocab.eos_idx]
+            )
             if len(src_ids) <= max_len and len(tgt_ids) <= max_len:
                 self.pairs.append((src_ids, tgt_ids))
 
@@ -45,8 +53,8 @@ def collate_fn(batch, pad_idx):
     src_pad = torch.full((len(srcs), max_src), pad_idx, dtype=torch.long)
     tgt_pad = torch.full((len(tgts), max_tgt), pad_idx, dtype=torch.long)
     for i, (s, t) in enumerate(zip(srcs, tgts)):
-        src_pad[i, :len(s)] = torch.tensor(s, dtype=torch.long)
-        tgt_pad[i, :len(t)] = torch.tensor(t, dtype=torch.long)
+        src_pad[i, : len(s)] = torch.tensor(s, dtype=torch.long)
+        tgt_pad[i, : len(t)] = torch.tensor(t, dtype=torch.long)
     return src_pad, tgt_pad
 
 
@@ -59,9 +67,13 @@ def train_epoch(model, dataloader, optimizer, criterion, device, pad_idx):
         tgt_input = tgt[:, :-1]
         tgt_output = tgt[:, 1:]
         optimizer.zero_grad()
-        output = model(src, tgt_input, src_padding_mask=(src == pad_idx),
-                       tgt_padding_mask=(tgt_input == pad_idx),
-                       memory_key_padding_mask=(src == pad_idx))
+        output = model(
+            src,
+            tgt_input,
+            src_padding_mask=(src == pad_idx),
+            tgt_padding_mask=(tgt_input == pad_idx),
+            memory_key_padding_mask=(src == pad_idx),
+        )
         output = output.reshape(-1, output.size(-1))
         tgt_output = tgt_output.reshape(-1)
         loss = criterion(output, tgt_output)
@@ -83,9 +95,13 @@ def evaluate(model, dataloader, criterion, device, pad_idx):
             src, tgt = src.to(device), tgt.to(device)
             tgt_input = tgt[:, :-1]
             tgt_output = tgt[:, 1:]
-            output = model(src, tgt_input, src_padding_mask=(src == pad_idx),
-                           tgt_padding_mask=(tgt_input == pad_idx),
-                           memory_key_padding_mask=(src == pad_idx))
+            output = model(
+                src,
+                tgt_input,
+                src_padding_mask=(src == pad_idx),
+                tgt_padding_mask=(tgt_input == pad_idx),
+                memory_key_padding_mask=(src == pad_idx),
+            )
             output = output.reshape(-1, output.size(-1))
             tgt_output = tgt_output.reshape(-1)
             loss = criterion(output, tgt_output)
@@ -97,7 +113,9 @@ def evaluate(model, dataloader, criterion, device, pad_idx):
 
 def main():
     parser = argparse.ArgumentParser(description="Train inverse Rongorongo translator")
-    parser.add_argument("--data", default="data/raw/lost_language/parallel_rongorongo_massive_v3.csv")
+    parser.add_argument(
+        "--data", default="data/raw/lost_language/parallel_rongorongo_massive_v3.csv"
+    )
     parser.add_argument("--output-dir", default="models/rongorongo_inverse_translator")
     parser.add_argument("--epochs", type=int, default=20)
     parser.add_argument("--batch-size", type=int, default=256)
@@ -135,32 +153,43 @@ def main():
     def _collate(batch):
         return collate_fn(batch, glyph_vocab.pad_idx)
 
-    train_loader = DataLoader(train_ds, batch_size=args.batch_size, shuffle=True, collate_fn=_collate)
+    train_loader = DataLoader(
+        train_ds, batch_size=args.batch_size, shuffle=True, collate_fn=_collate
+    )
     val_loader = DataLoader(val_ds, batch_size=args.batch_size, collate_fn=_collate)
 
     model = TransformerTranslator(
         src_vocab_size=len(glyph_vocab),
         tgt_vocab_size=len(text_vocab),
-        d_model=256, nhead=8,
-        num_encoder_layers=4, num_decoder_layers=4,
-        dim_feedforward=512, dropout=0.1,
+        d_model=256,
+        nhead=8,
+        num_encoder_layers=4,
+        num_decoder_layers=4,
+        dim_feedforward=512,
+        dropout=0.1,
     ).to(device)
 
     print(f"Model params: {sum(p.numel() for p in model.parameters()):,}")
 
     criterion = nn.CrossEntropyLoss(ignore_index=text_vocab.pad_idx)
     optimizer = torch.optim.AdamW(model.parameters(), lr=args.lr, weight_decay=0.01)
-    scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=args.epochs, eta_min=1e-6)
+    scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(
+        optimizer, T_max=args.epochs, eta_min=1e-6
+    )
 
     best_val_loss = float("inf")
     output_dir = Path(args.output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
 
     for epoch in range(1, args.epochs + 1):
-        train_loss = train_epoch(model, train_loader, optimizer, criterion, device, glyph_vocab.pad_idx)
+        train_loss = train_epoch(
+            model, train_loader, optimizer, criterion, device, glyph_vocab.pad_idx
+        )
         val_loss = evaluate(model, val_loader, criterion, device, glyph_vocab.pad_idx)
         scheduler.step()
-        print(f"Epoch {epoch:02d} | Train: {train_loss:.4f} | Val: {val_loss:.4f} | PPL: {math.exp(val_loss):.2f}")
+        print(
+            f"Epoch {epoch:02d} | Train: {train_loss:.4f} | Val: {val_loss:.4f} | PPL: {math.exp(val_loss):.2f}"
+        )
         if val_loss < best_val_loss:
             best_val_loss = val_loss
             torch.save(model.state_dict(), output_dir / "best_model.pt")

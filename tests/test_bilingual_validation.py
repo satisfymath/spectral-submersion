@@ -1,16 +1,16 @@
 """Tests for bilingual_validation module."""
+
 import numpy as np
 import pandas as pd
 import pytest
 
 from spectral_submersion.bilingual_validation import (
-    build_bilingual_corpus,
-    find_cognate_anchors,
-    validate_bilingual_pair,
     _build_vocab_with_min_freq,
     _df_to_sequences,
-    _subsample_sequences,
     _effective_rank,
+    _subsample_sequences,
+    build_bilingual_corpus,
+    find_cognate_anchors,
 )
 
 
@@ -18,8 +18,18 @@ def _make_bilingual_df(n_lines=100, n_tokens_per_line=10, lang="en", seed=42):
     rng = np.random.RandomState(seed)
     common_words_en = ["the", "a", "is", "in", "to", "and", "of", "for", "it", "on"]
     common_words_fr = ["le", "la", "est", "dans", "de", "et", "un", "pour", "il", "en"]
-    shared_words = ["restaurant", "information", "question", "table", "possible",
-                    "important", "nature", "simple", "direct", "central"]
+    shared_words = [
+        "restaurant",
+        "information",
+        "question",
+        "table",
+        "possible",
+        "important",
+        "nature",
+        "simple",
+        "direct",
+        "central",
+    ]
 
     if lang == "en":
         base_words = common_words_en + shared_words + [f"en_{i}" for i in range(50)]
@@ -30,13 +40,15 @@ def _make_bilingual_df(n_lines=100, n_tokens_per_line=10, lang="en", seed=42):
     for line in range(n_lines):
         for pos in range(n_tokens_per_line):
             word = rng.choice(base_words)
-            rows.append({
-                "doc_id": f"doc_{lang}",
-                "line_id": line,
-                "position": pos,
-                "token": word,
-                "raw_token": word,
-            })
+            rows.append(
+                {
+                    "doc_id": f"doc_{lang}",
+                    "line_id": line,
+                    "position": pos,
+                    "token": word,
+                    "raw_token": word,
+                }
+            )
     return pd.DataFrame(rows)
 
 
@@ -67,7 +79,9 @@ class TestFindCognateAnchors:
         src_vocab = {"hello": 0, "world": 1}
         tgt_vocab = {"bonjour": 0, "monde": 1}
         translations = {"hello": "bonjour", "world": "monde"}
-        anchors = find_cognate_anchors(src_vocab, tgt_vocab, known_translations=translations)
+        anchors = find_cognate_anchors(
+            src_vocab, tgt_vocab, known_translations=translations
+        )
         assert len(anchors) == 2
         assert anchors[0] == 0
         assert anchors[1] == 1

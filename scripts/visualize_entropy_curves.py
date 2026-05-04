@@ -4,6 +4,7 @@ Plots H_n = H(token | previous n-1 tokens) for n=1,2,3 (unigram, bigram, trigram
 across real corpus and controls. Linguistic systems typically show a smooth
 decay curve; non-linguistic systems may show flat or irregular curves.
 """
+
 import argparse
 from pathlib import Path
 
@@ -36,10 +37,20 @@ def plot_entropy_curves(csv_path: str, output_path: str):
 
     for _, row in df.iterrows():
         variant = row["variant"]
-        y = [row["h_unconditional"], row["h_bigram_conditional"], row["h_trigram_conditional"]]
-        ax.plot(x, y, marker="o", linewidth=2.5, markersize=10,
-                color=colors.get(variant, "gray"),
-                label=labels.get(variant, variant))
+        y = [
+            row["h_unconditional"],
+            row["h_bigram_conditional"],
+            row["h_trigram_conditional"],
+        ]
+        ax.plot(
+            x,
+            y,
+            marker="o",
+            linewidth=2.5,
+            markersize=10,
+            color=colors.get(variant, "gray"),
+            label=labels.get(variant, variant),
+        )
 
     ax.set_xticks(x)
     ax.set_xticklabels(x_labels)
@@ -57,7 +68,9 @@ def plot_entropy_curves(csv_path: str, output_path: str):
 
 def main():
     parser = argparse.ArgumentParser(description="Plot conditional entropy curves")
-    parser.add_argument("--input", default="reports/tables/entropy_analysis_indus_real.csv")
+    parser.add_argument(
+        "--input", default="reports/tables/entropy_analysis_indus_real.csv"
+    )
     parser.add_argument("--output", default="reports/figures/entropy_curves.png")
     args = parser.parse_args()
     plot_entropy_curves(args.input, args.output)

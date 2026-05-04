@@ -6,6 +6,7 @@ Usage:
     spectral-submersion validate --config configs/synthetic.yaml
     spectral-submersion report --output reports/final/
 """
+
 import argparse
 import subprocess
 import sys
@@ -15,16 +16,21 @@ import yaml
 
 
 def _run(cmd: list[str], cwd: Path | None = None) -> int:
-    env = {"PYTHONPATH": "src", **{k: v for k, v in subprocess.os.environ.items() if k != "PYTHONPATH"}}
+    env = {
+        "PYTHONPATH": "src",
+        **{k: v for k, v in subprocess.os.environ.items() if k != "PYTHONPATH"},
+    }
     result = subprocess.run(cmd, cwd=cwd or Path.cwd(), env=env)
     return result.returncode
 
 
 def cmd_setup(args):
     """Install dependencies."""
-    return _run([sys.executable, "-m", "venv", ".venv"]) or \
-           _run([".venv/bin/pip", "install", "--upgrade", "pip"]) or \
-           _run([".venv/bin/pip", "install", "-r", "requirements.txt"])
+    return (
+        _run([sys.executable, "-m", "venv", ".venv"])
+        or _run([".venv/bin/pip", "install", "--upgrade", "pip"])
+        or _run([".venv/bin/pip", "install", "-r", "requirements.txt"])
+    )
 
 
 def cmd_test(args):
@@ -44,25 +50,38 @@ def cmd_validate(args):
     with open(args.config, "r", encoding="utf-8") as f:
         cfg = yaml.safe_load(f)
 
-    data_path = cfg.get("data", {}).get("lost_corpus_path", "data/raw/lost_language/corpus.csv")
+    data_path = cfg.get("data", {}).get(
+        "lost_corpus_path", "data/raw/lost_language/corpus.csv"
+    )
     print(f"Corpus: {data_path}")
 
     # Run controls
-    ret = _run([
-        ".venv/bin/python", "scripts/run_negative_controls.py",
-        "--input", data_path,
-        "--output", "reports/tables/validation_controls.csv",
-    ])
+    ret = _run(
+        [
+            ".venv/bin/python",
+            "scripts/run_negative_controls.py",
+            "--input",
+            data_path,
+            "--output",
+            "reports/tables/validation_controls.csv",
+        ]
+    )
     if ret != 0:
         return ret
 
     # Run bootstrap
-    ret = _run([
-        ".venv/bin/python", "scripts/run_bootstrap.py",
-        "--input", data_path,
-        "--output", "reports/tables/validation_bootstrap.csv",
-        "--n-bootstrap", "30",
-    ])
+    ret = _run(
+        [
+            ".venv/bin/python",
+            "scripts/run_bootstrap.py",
+            "--input",
+            data_path,
+            "--output",
+            "reports/tables/validation_bootstrap.csv",
+            "--n-bootstrap",
+            "30",
+        ]
+    )
     return ret
 
 
@@ -86,7 +105,7 @@ def main():
     subparsers.add_parser("test", help="Run test suite")
 
     # pipeline
-    p_pipe = subparsers.add_parser("pipeline", help="Run full benchmark pipeline")
+    # p_pipe = subparsers.add_parser("pipeline", help="Run full benchmark pipeline")
 
     # validate
     p_val = subparsers.add_parser("validate", help="Validate a corpus against controls")

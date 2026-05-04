@@ -11,6 +11,7 @@ Pattern grammar:
 - END -> [func1] [func2] [func3]
 - Doubles/triples inserted at fixed positions
 """
+
 import argparse
 import json
 import random
@@ -18,12 +19,11 @@ from pathlib import Path
 
 import pandas as pd
 
-
 # Glyph inventory
 GLYPHS = {
     "functional": [f"g{i:03d}" for i in range(1, 21)],
-    "common":     [f"g{i:03d}" for i in range(21, 61)],
-    "rare":       [f"g{i:03d}" for i in range(61, 121)],
+    "common": [f"g{i:03d}" for i in range(21, 61)],
+    "rare": [f"g{i:03d}" for i in range(61, 121)],
 }
 
 
@@ -36,19 +36,48 @@ def generate_line_v2(rng: random.Random) -> list[str]:
     # Pattern: [func func] [com rar com] [func func func] [com com] [func func]
     # With some variation
     patterns = [
-        [rng.choice(func), rng.choice(func),
-         rng.choice(com), rng.choice(rar), rng.choice(com),
-         rng.choice(func), rng.choice(func), rng.choice(func),
-         rng.choice(com), rng.choice(com),
-         rng.choice(func), rng.choice(func)],
-        [rng.choice(func), rng.choice(func), rng.choice(func),
-         rng.choice(com), rng.choice(rar), rng.choice(rar), rng.choice(com),
-         rng.choice(func), rng.choice(func),
-         rng.choice(com), rng.choice(com), rng.choice(com)],
-        [rng.choice(func), rng.choice(com), rng.choice(func),
-         rng.choice(com), rng.choice(func), rng.choice(com),
-         rng.choice(func), rng.choice(rar), rng.choice(func),
-         rng.choice(com), rng.choice(func), rng.choice(com)],
+        [
+            rng.choice(func),
+            rng.choice(func),
+            rng.choice(com),
+            rng.choice(rar),
+            rng.choice(com),
+            rng.choice(func),
+            rng.choice(func),
+            rng.choice(func),
+            rng.choice(com),
+            rng.choice(com),
+            rng.choice(func),
+            rng.choice(func),
+        ],
+        [
+            rng.choice(func),
+            rng.choice(func),
+            rng.choice(func),
+            rng.choice(com),
+            rng.choice(rar),
+            rng.choice(rar),
+            rng.choice(com),
+            rng.choice(func),
+            rng.choice(func),
+            rng.choice(com),
+            rng.choice(com),
+            rng.choice(com),
+        ],
+        [
+            rng.choice(func),
+            rng.choice(com),
+            rng.choice(func),
+            rng.choice(com),
+            rng.choice(func),
+            rng.choice(com),
+            rng.choice(func),
+            rng.choice(rar),
+            rng.choice(func),
+            rng.choice(com),
+            rng.choice(func),
+            rng.choice(com),
+        ],
     ]
     line = rng.choice(patterns)
 
@@ -76,7 +105,9 @@ def generate_tablet_v2(n_lines: int = 20, seed: int = 42) -> list[list[str]]:
     return lines
 
 
-def generate_corpus_v2(n_tablets: int = 15, lines_per_tablet: int = 20, seed: int = 42) -> list[list[str]]:
+def generate_corpus_v2(
+    n_tablets: int = 15, lines_per_tablet: int = 20, seed: int = 42
+) -> list[list[str]]:
     all_lines = []
     for t in range(n_tablets):
         tablet_seed = seed + t * 1000
@@ -89,20 +120,24 @@ def corpus_to_df(sequences: list[list[str]]) -> pd.DataFrame:
     for line_id, seq in enumerate(sequences, start=1):
         tablet_id = (line_id - 1) // 20 + 1
         for pos, tok in enumerate(seq, start=1):
-            rows.append({
-                "doc_id": f"tablet_{tablet_id:03d}",
-                "line_id": line_id,
-                "position": pos,
-                "token": tok,
-                "raw_token": tok,
-                "orientation": "normal",
-                "source": "synthetic_rongorongo_v2",
-                "notes": "",
-            })
+            rows.append(
+                {
+                    "doc_id": f"tablet_{tablet_id:03d}",
+                    "line_id": line_id,
+                    "position": pos,
+                    "token": tok,
+                    "raw_token": tok,
+                    "orientation": "normal",
+                    "source": "synthetic_rongorongo_v2",
+                    "notes": "",
+                }
+            )
     return pd.DataFrame(rows)
 
 
-def save_corpus(sequences: list[list[str]], csv_path: str, json_path: str | None = None):
+def save_corpus(
+    sequences: list[list[str]], csv_path: str, json_path: str | None = None
+):
     df = corpus_to_df(sequences)
     Path(csv_path).parent.mkdir(parents=True, exist_ok=True)
     df.to_csv(csv_path, index=False)
@@ -127,8 +162,13 @@ def main():
     parser.add_argument("--n-tablets", type=int, default=15)
     parser.add_argument("--lines-per-tablet", type=int, default=20)
     parser.add_argument("--seed", type=int, default=42)
-    parser.add_argument("--output-csv", default="data/raw/lost_language/corpus_rongorongo_v2.csv")
-    parser.add_argument("--output-stats", default="data/raw/lost_language/corpus_rongorongo_v2_stats.json")
+    parser.add_argument(
+        "--output-csv", default="data/raw/lost_language/corpus_rongorongo_v2.csv"
+    )
+    parser.add_argument(
+        "--output-stats",
+        default="data/raw/lost_language/corpus_rongorongo_v2_stats.json",
+    )
     args = parser.parse_args()
 
     sequences = generate_corpus_v2(args.n_tablets, args.lines_per_tablet, args.seed)

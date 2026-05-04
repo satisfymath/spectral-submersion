@@ -16,6 +16,7 @@ Usage:
         --output-dir data/processed \
         --k 16 --alpha 0.5 --window 3
 """
+
 import argparse
 import json
 from pathlib import Path
@@ -70,7 +71,9 @@ def build_and_save(
 
     np.save(output_dir / f"embeddings_{label}.npy", E)
     np.save(output_dir / f"sv_{label}.npy", S)
-    with open(output_dir / f"embeddings_{label}.vocab.json", "w", encoding="utf-8") as f:
+    with open(
+        output_dir / f"embeddings_{label}.vocab.json", "w", encoding="utf-8"
+    ) as f:
         json.dump(vocab, f, ensure_ascii=False, indent=2)
 
     print(f"[{label}] vocab={len(vocab)} shape={E.shape} r_eff={r_eff:.4f}")
@@ -78,15 +81,29 @@ def build_and_save(
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Build repetition-aware spectral embeddings")
-    parser.add_argument("--input", required=True, help="Input CSV with doc_id, line_id, position, token")
-    parser.add_argument("--output-dir", default="data/processed", help="Output directory")
+    parser = argparse.ArgumentParser(
+        description="Build repetition-aware spectral embeddings"
+    )
+    parser.add_argument(
+        "--input", required=True, help="Input CSV with doc_id, line_id, position, token"
+    )
+    parser.add_argument(
+        "--output-dir", default="data/processed", help="Output directory"
+    )
     parser.add_argument("--k", type=int, default=16, help="Embedding dimension")
-    parser.add_argument("--alpha", type=float, default=0.5, help="Singular value exponent")
-    parser.add_argument("--window", type=int, default=3, help="Co-occurrence window size")
+    parser.add_argument(
+        "--alpha", type=float, default=0.5, help="Singular value exponent"
+    )
+    parser.add_argument(
+        "--window", type=int, default=3, help="Co-occurrence window size"
+    )
     parser.add_argument("--seed", type=int, default=42, help="Random seed")
-    parser.add_argument("--max-repeat", type=int, default=4, help="Maximum repeat count to encode")
-    parser.add_argument("--directional", action="store_true", help="Use directional co-occurrence")
+    parser.add_argument(
+        "--max-repeat", type=int, default=4, help="Maximum repeat count to encode"
+    )
+    parser.add_argument(
+        "--directional", action="store_true", help="Use directional co-occurrence"
+    )
     args = parser.parse_args()
 
     df = pd.read_csv(args.input)
@@ -95,25 +112,54 @@ def main():
 
     results = {}
 
-    collapsed_seqs, pure_seqs = get_repetition_aware_sequences(df, max_repeat=args.max_repeat)
-    r_eff_collapsed = build_and_save(
-        collapsed_seqs, "rongorongo_real_collapsed", output_dir,
-        args.k, args.alpha, args.window, args.seed, args.directional,
+    collapsed_seqs, pure_seqs = get_repetition_aware_sequences(
+        df, max_repeat=args.max_repeat
     )
-    results["collapsed"] = {"r_eff": r_eff_collapsed, "vocab_size": len(set(t for s in collapsed_seqs for t in s))}
+    r_eff_collapsed = build_and_save(
+        collapsed_seqs,
+        "rongorongo_real_collapsed",
+        output_dir,
+        args.k,
+        args.alpha,
+        args.window,
+        args.seed,
+        args.directional,
+    )
+    results["collapsed"] = {
+        "r_eff": r_eff_collapsed,
+        "vocab_size": len(set(t for s in collapsed_seqs for t in s)),
+    }
 
     abab_seqs = get_abab_aware_sequences(df)
     r_eff_abab = build_and_save(
-        abab_seqs, "rongorongo_real_abab", output_dir,
-        args.k, args.alpha, args.window, args.seed, args.directional,
+        abab_seqs,
+        "rongorongo_real_abab",
+        output_dir,
+        args.k,
+        args.alpha,
+        args.window,
+        args.seed,
+        args.directional,
     )
-    results["abab_aware"] = {"r_eff": r_eff_abab, "vocab_size": len(set(t for s in abab_seqs for t in s))}
+    results["abab_aware"] = {
+        "r_eff": r_eff_abab,
+        "vocab_size": len(set(t for s in abab_seqs for t in s)),
+    }
 
     r_eff_pure = build_and_save(
-        pure_seqs, "rongorongo_real_pure", output_dir,
-        args.k, args.alpha, args.window, args.seed, args.directional,
+        pure_seqs,
+        "rongorongo_real_pure",
+        output_dir,
+        args.k,
+        args.alpha,
+        args.window,
+        args.seed,
+        args.directional,
     )
-    results["pure"] = {"r_eff": r_eff_pure, "vocab_size": len(set(t for s in pure_seqs for t in s))}
+    results["pure"] = {
+        "r_eff": r_eff_pure,
+        "vocab_size": len(set(t for s in pure_seqs for t in s)),
+    }
 
     print("\n=== Embedding Comparison ===")
     print(f"{'Model':<30} {'Vocab':>6} {'r_eff':>8}")

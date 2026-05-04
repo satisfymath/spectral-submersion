@@ -9,13 +9,13 @@ Implements the data structures from Sections 14-16 of the guide:
 
 Each glyph instance carries uncertainty, direction, damage, and provenance.
 """
+
 from __future__ import annotations
 
 import json
 import hashlib
 from pathlib import Path
 from dataclasses import dataclass, field, asdict
-from typing import Any
 
 
 @dataclass
@@ -241,7 +241,9 @@ def glyph_instances_from_sequences(
                 position_in_line=pos_idx,
                 global_position=global_pos,
                 direction=direction,
-                barthel_code=f"{barthel_prefix}{token_str}" if barthel_prefix else token_str,
+                barthel_code=(
+                    f"{barthel_prefix}{token_str}" if barthel_prefix else token_str
+                ),
                 damage_score=damage_score,
                 reading_uncertainty=reading_uncertainty,
                 source_refs=["synthetic"],

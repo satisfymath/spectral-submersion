@@ -2,6 +2,7 @@
 
 Compares greedy vs beam search and evaluates across language families.
 """
+
 import argparse
 import pickle
 from pathlib import Path
@@ -19,14 +20,22 @@ def load_model(model_dir):
     with open(model_dir / "tgt_vocab.pkl", "rb") as f:
         tgt_vocab = pickle.load(f)
     config = {
-        "d_model": 256, "nhead": 8, "enc_layers": 4,
-        "dec_layers": 4, "dim_ff": 512, "dropout": 0.1,
+        "d_model": 256,
+        "nhead": 8,
+        "enc_layers": 4,
+        "dec_layers": 4,
+        "dim_ff": 512,
+        "dropout": 0.1,
     }
     model = TransformerTranslator(
-        len(src_vocab), len(tgt_vocab),
-        d_model=config["d_model"], nhead=config["nhead"],
-        num_encoder_layers=config["enc_layers"], num_decoder_layers=config["dec_layers"],
-        dim_feedforward=config["dim_ff"], dropout=config["dropout"],
+        len(src_vocab),
+        len(tgt_vocab),
+        d_model=config["d_model"],
+        nhead=config["nhead"],
+        num_encoder_layers=config["enc_layers"],
+        num_decoder_layers=config["dec_layers"],
+        dim_feedforward=config["dim_ff"],
+        dropout=config["dropout"],
     )
     ckpt = model_dir / "model.pt"
     if not ckpt.exists():
@@ -55,7 +64,9 @@ def translate_greedy(model, src_vocab, tgt_vocab, text, device="cpu"):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--model-dir", default="models/rongorongo_translator_v5")
-    parser.add_argument("--device", default="cuda" if torch.cuda.is_available() else "cpu")
+    parser.add_argument(
+        "--device", default="cuda" if torch.cuda.is_available() else "cpu"
+    )
     args = parser.parse_args()
 
     print("Loading model v5...")
@@ -104,15 +115,24 @@ def main():
         print("-" * 80)
         for sent in sentences:
             greedy = translate_greedy(model, src_vocab, tgt_vocab, sent, args.device)
-            beam, score = translate_beam(model, src_vocab, tgt_vocab, sent,
-                                         beam_width=5, device=args.device, length_penalty=0.8)
+            beam, score = translate_beam(
+                model,
+                src_vocab,
+                tgt_vocab,
+                sent,
+                beam_width=5,
+                device=args.device,
+                length_penalty=0.8,
+            )
             g_len = len(greedy.split())
             b_len = len(beam.split())
             g_uniq = len(set(greedy.split()))
             b_uniq = len(set(beam.split()))
             print(f"  Input:    {sent}")
             print(f"  Greedy:   {greedy}  (len={g_len}, uniq={g_uniq})")
-            print(f"  Beam(5):  {beam}  (len={b_len}, uniq={b_uniq}, score={score:.3f})")
+            print(
+                f"  Beam(5):  {beam}  (len={b_len}, uniq={b_uniq}, score={score:.3f})"
+            )
             print()
 
     # Metrics summary
@@ -124,14 +144,23 @@ def main():
         b_lengths, b_uniqs = [], []
         for sent in sentences:
             greedy = translate_greedy(model, src_vocab, tgt_vocab, sent, args.device)
-            beam, _ = translate_beam(model, src_vocab, tgt_vocab, sent,
-                                     beam_width=5, device=args.device, length_penalty=0.8)
+            beam, _ = translate_beam(
+                model,
+                src_vocab,
+                tgt_vocab,
+                sent,
+                beam_width=5,
+                device=args.device,
+                length_penalty=0.8,
+            )
             g_lengths.append(len(greedy.split()))
             g_uniqs.append(len(set(greedy.split())))
             b_lengths.append(len(beam.split()))
             b_uniqs.append(len(set(beam.split())))
 
-        print(f"  {family:15s} | Greedy: len={sum(g_lengths)/len(g_lengths):5.2f} uniq={sum(g_uniqs)/len(g_uniqs):5.2f} | Beam: len={sum(b_lengths)/len(b_lengths):5.2f} uniq={sum(b_uniqs)/len(b_uniqs):5.2f}")
+        print(
+            f"  {family:15s} | Greedy: len={sum(g_lengths)/len(g_lengths):5.2f} uniq={sum(g_uniqs)/len(g_uniqs):5.2f} | Beam: len={sum(b_lengths)/len(b_lengths):5.2f} uniq={sum(b_uniqs)/len(b_uniqs):5.2f}"
+        )
 
 
 if __name__ == "__main__":

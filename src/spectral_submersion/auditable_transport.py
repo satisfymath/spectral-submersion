@@ -5,10 +5,10 @@ Implements Definition 9.1 (auditable separability) and Theorem 9.2
 result must report decomposition into geometric, relational, prior,
 and entropy costs, plus sensitivity to hyperparameters.
 """
+
 from __future__ import annotations
 
 import numpy as np
-from itertools import product
 
 
 def decompose_transport_cost(
@@ -48,16 +48,33 @@ def decompose_transport_cost(
     n_x, n_y = Pi.shape
 
     if Q is not None:
-        D_geo = np.sum(
-            (source_embeddings @ Q[None, :, :] - target_embeddings[:, None, :]) ** 2,
-            axis=-1,
-        ) if Q.ndim == 3 else np.sum(
-            (source_embeddings @ Q - target_embeddings[:, None, :].transpose(2, 0, 1).reshape(-1, 1)) ** 2,
-            axis=-1,
-        ).reshape(n_x, n_y) if False else None
+        D_geo = (
+            np.sum(
+                (source_embeddings @ Q[None, :, :] - target_embeddings[:, None, :])
+                ** 2,
+                axis=-1,
+            )
+            if Q.ndim == 3
+            else (
+                np.sum(
+                    (
+                        source_embeddings @ Q
+                        - target_embeddings[:, None, :]
+                        .transpose(2, 0, 1)
+                        .reshape(-1, 1)
+                    )
+                    ** 2,
+                    axis=-1,
+                ).reshape(n_x, n_y)
+                if False
+                else None
+            )
+        )
 
         rotated = source_embeddings @ Q
-        D_geo = np.sum((rotated[:, None, :] - target_embeddings[None, :, :]) ** 2, axis=-1)
+        D_geo = np.sum(
+            (rotated[:, None, :] - target_embeddings[None, :, :]) ** 2, axis=-1
+        )
         L_g = float(lambda_g * np.sum(Pi * D_geo))
     else:
         D_geo = np.zeros((n_x, n_y))
@@ -125,7 +142,7 @@ def ot_stability(
     """
     from .transport import gromov_wasserstein_matrix
 
-    rng = np.random.RandomState(seed)
+    # rng = np.random.default_rng(seed)
     Dx = distance_matrices["Dx"]
     Dy = distance_matrices["Dy"]
 
@@ -133,9 +150,7 @@ def ot_stability(
     costs = []
 
     for i in range(n_initializations):
-        Pi = gromov_wasserstein_matrix(
-            Dx, Dy, marginal_a, marginal_b, reg=reg
-        )
+        Pi = gromov_wasserstein_matrix(Dx, Dy, marginal_a, marginal_b, reg=reg)
         couplings.append(Pi)
 
         a_pi = Pi.sum(axis=1)
@@ -143,7 +158,9 @@ def ot_stability(
         term1 = (Dx**2) @ a_pi
         term2 = (Dy**2) @ b_pi
         C = term1[:, None] + term2[None, :] - 2.0 * (Dx @ Pi @ Dy.T)
-        cost = float(np.sum(Pi * C) + reg * np.sum(Pi[Pi > 0] * np.log(Pi[Pi > 0] + 1e-128)))
+        cost = float(
+            np.sum(Pi * C) + reg * np.sum(Pi[Pi > 0] * np.log(Pi[Pi > 0] + 1e-128))
+        )
         costs.append(cost)
 
     ot_stability_val = 0.0
@@ -214,14 +231,16 @@ def sensitivity_analysis(
                     marginal_b,
                     reg=eps,
                 )
-                results.append({
-                    "lambda_g": lg,
-                    "lambda_r": lr,
-                    "epsilon": eps,
-                    "coupling": Pi,
-                    "coupling_entropy": float(
-                        -np.sum(Pi[Pi > 0] * np.log(Pi[Pi > 0] + 1e-128))
-                    ),
-                })
+                results.append(
+                    {
+                        "lambda_g": lg,
+                        "lambda_r": lr,
+                        "epsilon": eps,
+                        "coupling": Pi,
+                        "coupling_entropy": float(
+                            -np.sum(Pi[Pi > 0] * np.log(Pi[Pi > 0] + 1e-128))
+                        ),
+                    }
+                )
 
     return results

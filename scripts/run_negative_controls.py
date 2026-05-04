@@ -8,6 +8,7 @@ Generates three negative controls from the synthetic corpus:
 Then computes co-occurrence, PPMI, SVD, and effective rank for each.
 Results are saved as CSV for comparison.
 """
+
 import argparse
 from pathlib import Path
 
@@ -28,7 +29,9 @@ from spectral_submersion.spectral import spectral_embedding, effective_rank
 from spectral_submersion.tokenization import get_sequences_by_line, tokens_to_ids
 
 
-def build_svd_pipeline(sequences: list[list[str]], k: int = 16, window: int = 3, seed: int = 42):
+def build_svd_pipeline(
+    sequences: list[list[str]], k: int = 16, window: int = 3, seed: int = 42
+):
     vocab = build_vocab([tok for seq in sequences for tok in seq])
     seq_ids = [tokens_to_ids(seq, vocab) for seq in sequences]
     C = cooccurrence_matrix_from_sequences(seq_ids, len(vocab), window_size=window)
@@ -46,7 +49,9 @@ def build_svd_pipeline(sequences: list[list[str]], k: int = 16, window: int = 3,
 
 def main():
     parser = argparse.ArgumentParser(description="Run negative controls")
-    parser.add_argument("--input", default="data/raw/lost_language/corpus_synthetic.csv")
+    parser.add_argument(
+        "--input", default="data/raw/lost_language/corpus_synthetic.csv"
+    )
     parser.add_argument("--output", default="reports/tables/control_comparison.csv")
     parser.add_argument("--k", type=int, default=16)
     parser.add_argument("--window", type=int, default=3)
@@ -92,9 +97,13 @@ def main():
     real_r = out_df[out_df["variant"] == "real"]["effective_rank"].values[0]
     unif_r = out_df[out_df["variant"] == "random_uniform"]["effective_rank"].values[0]
     if real_r < unif_r:
-        print(f"\n[SANITY CHECK PASSED] Real effective rank ({real_r:.2f}) < Uniform ({unif_r:.2f})")
+        print(
+            f"\n[SANITY CHECK PASSED] Real effective rank ({real_r:.2f}) < Uniform ({unif_r:.2f})"
+        )
     else:
-        print(f"\n[SANITY CHECK WARNING] Real effective rank ({real_r:.2f}) >= Uniform ({unif_r:.2f})")
+        print(
+            f"\n[SANITY CHECK WARNING] Real effective rank ({real_r:.2f}) >= Uniform ({unif_r:.2f})"
+        )
 
 
 if __name__ == "__main__":

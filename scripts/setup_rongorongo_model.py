@@ -3,6 +3,7 @@
 Builds vocabularies from data and saves them along with model config,
 so that inference can proceed even if full training was interrupted.
 """
+
 import json
 import pickle
 from pathlib import Path

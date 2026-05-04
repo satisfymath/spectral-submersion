@@ -6,6 +6,7 @@ This script implements the mandatory stability checks from Sections 5-7 of the g
 - SPPMI sensitivity sweep
 - Spectral rejection rule assessment
 """
+
 import argparse
 import json
 import sys
@@ -17,7 +18,12 @@ import yaml
 sys.path.insert(0, "src")
 
 from spectral_submersion.io import load_config
-from spectral_submersion.tokenization import read_corpus, build_vocab, tokens_to_ids, get_sequences_by_line
+from spectral_submersion.tokenization import (
+    read_corpus,
+    build_vocab,
+    tokens_to_ids,
+    get_sequences_by_line,
+)
 from spectral_submersion.cooccurrence import cooccurrence_matrix_from_sequences
 from spectral_submersion.pmi import ppmi_matrix
 from spectral_submersion.stability import (
@@ -87,7 +93,9 @@ def main():
                 "expected_pair_count": float(epc),
                 "min_tokens_for_coverage": int(min_tokens),
             }
-            print(f"  Window={window_size}: coverage={cov:.4f}, EPC={epc:.3f}, min_tokens={min_tokens}")
+            print(
+                f"  Window={window_size}: coverage={cov:.4f}, EPC={epc:.3f}, min_tokens={min_tokens}"
+            )
 
             results[f"{corpus_name}_w{window_size}_coverage"] = coverage_result
 
@@ -98,32 +106,44 @@ def main():
                 p_i = p_ij.sum(axis=1, keepdims=True)
                 p_j = p_ij.sum(axis=0, keepdims=True)
                 sens = pmi_sensitivity(p_ij, p_i, p_j)
-                print(f"  PMI sensitivity: max={sens['max_sensitivity']:.1f}, "
-                      f"mean={sens['mean_sensitivity']:.1f}, "
-                      f"at_risk={sens['pairs_at_risk']:.4f}")
+                print(
+                    f"  PMI sensitivity: max={sens['max_sensitivity']:.1f}, "
+                    f"mean={sens['mean_sensitivity']:.1f}, "
+                    f"at_risk={sens['pairs_at_risk']:.4f}"
+                )
 
                 results[f"{corpus_name}_w{window_size}_pmi_sensitivity"] = sens
 
                 for epsilon in [0.01, 0.1, 1.0]:
-                    SPPMI = sceptmi_matrix(C, epsilon=epsilon, prior_type="marginal_product")
+                    SPPMI = sceptmi_matrix(
+                        C, epsilon=epsilon, prior_type="marginal_product"
+                    )
                     results[f"{corpus_name}_w{window_size}_sppmi_eps{epsilon}"] = {
                         "epsilon": epsilon,
                         "sparsity": float(np.mean(SPPMI == 0)),
-                        "mean_nonzero": float(SPPMI[SPPMI > 0].mean()) if np.any(SPPMI > 0) else 0.0,
+                        "mean_nonzero": (
+                            float(SPPMI[SPPMI > 0].mean()) if np.any(SPPMI > 0) else 0.0
+                        ),
                     }
 
             for k in config.get("spectral", {}).get("k_values", [8, 16]):
                 print(f"  Running bootstrap SVD stability for k={k}...")
                 boot_result = spectral_stability_bootstrap(
-                    sequences, vocab_size, k=k,
+                    sequences,
+                    vocab_size,
+                    k=k,
                     window_size=window_size,
-                    n_bootstrap=config.get("spectral", {}).get("bootstrap_samples", 200),
+                    n_bootstrap=config.get("spectral", {}).get(
+                        "bootstrap_samples", 200
+                    ),
                     alpha=alpha,
                 )
-                print(f"    delta_k={boot_result['delta_k_mean']:.4f}, "
-                      f"epsilon={boot_result['epsilon_hat']:.4f}, "
-                      f"reliability={boot_result['spectral_reliability']:.4f}, "
-                      f"stable={boot_result['reliable']}")
+                print(
+                    f"    delta_k={boot_result['delta_k_mean']:.4f}, "
+                    f"epsilon={boot_result['epsilon_hat']:.4f}, "
+                    f"reliability={boot_result['spectral_reliability']:.4f}, "
+                    f"stable={boot_result['reliable']}"
+                )
 
                 results[f"{corpus_name}_w{window_size}_k{k}_stability"] = boot_result
 

@@ -8,6 +8,7 @@ predictable structure.
 
 Also reports cross-entropy in bits per sign.
 """
+
 import argparse
 import math
 from collections import Counter, defaultdict
@@ -35,7 +36,7 @@ def train_ngram(sequences: list[list[str]], n: int) -> tuple[dict, dict]:
     for seq in sequences:
         padded = ["<s>"] * (n - 1) + seq + ["</s>"]
         for i in range(n - 1, len(padded)):
-            ngram = tuple(padded[i - n + 1:i + 1])
+            ngram = tuple(padded[i - n + 1 : i + 1])
             context = ngram[:-1]
             ngram_counts[ngram] += 1
             context_counts[context] += 1
@@ -43,7 +44,13 @@ def train_ngram(sequences: list[list[str]], n: int) -> tuple[dict, dict]:
     return ngram_counts, context_counts, vocab_size, token_to_id, vocab
 
 
-def compute_perplexity(sequences: list[list[str]], ngram_counts: Counter, context_counts: Counter, vocab_size: int, n: int) -> float:
+def compute_perplexity(
+    sequences: list[list[str]],
+    ngram_counts: Counter,
+    context_counts: Counter,
+    vocab_size: int,
+    n: int,
+) -> float:
     """Compute perplexity on test sequences with Laplace smoothing."""
     log_prob = 0.0
     token_count = 0
@@ -51,7 +58,7 @@ def compute_perplexity(sequences: list[list[str]], ngram_counts: Counter, contex
     for seq in sequences:
         padded = ["<s>"] * (n - 1) + seq + ["</s>"]
         for i in range(n - 1, len(padded)):
-            ngram = tuple(padded[i - n + 1:i + 1])
+            ngram = tuple(padded[i - n + 1 : i + 1])
             context = ngram[:-1]
             count_ngram = ngram_counts.get(ngram, 0)
             count_context = context_counts.get(context, 0)
@@ -63,11 +70,13 @@ def compute_perplexity(sequences: list[list[str]], ngram_counts: Counter, contex
     if token_count == 0:
         return float("inf")
     cross_entropy = -log_prob / token_count
-    perplexity = 2 ** cross_entropy
+    perplexity = 2**cross_entropy
     return perplexity, cross_entropy
 
 
-def split_train_test(sequences: list[list[str]], test_ratio: float = 0.2, seed: int = 42) -> tuple:
+def split_train_test(
+    sequences: list[list[str]], test_ratio: float = 0.2, seed: int = 42
+) -> tuple:
     """Split sequences into train and test."""
     rng = np.random.default_rng(seed)
     indices = np.arange(len(sequences))
@@ -81,8 +90,12 @@ def split_train_test(sequences: list[list[str]], test_ratio: float = 0.2, seed: 
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Train n-gram models and compute perplexity")
-    parser.add_argument("--input", default="data/raw/lost_language/corpus_indus_real.csv")
+    parser = argparse.ArgumentParser(
+        description="Train n-gram models and compute perplexity"
+    )
+    parser.add_argument(
+        "--input", default="data/raw/lost_language/corpus_indus_real.csv"
+    )
     parser.add_argument("--output", default="reports/tables/ngram_perplexity.csv")
     parser.add_argument("--test-ratio", type=float, default=0.2)
     parser.add_argument("--max-n", type=int, default=3)
@@ -105,26 +118,42 @@ def main():
     freq_dist = pd.Series(all_tokens).value_counts(normalize=True)
     random_seqs = []
     for s in sequences:
-        random_seqs.append(rng.choice(freq_dist.index, size=len(s), p=freq_dist.values).tolist())
+        random_seqs.append(
+            rng.choice(freq_dist.index, size=len(s), p=freq_dist.values).tolist()
+        )
 
     results = []
 
-    for corpus_name, corpus_seqs in [("real", sequences), ("permuted", permuted), ("random_freq", random_seqs)]:
-        train, test = split_train_test(corpus_seqs, test_ratio=args.test_ratio, seed=args.seed)
+    for corpus_name, corpus_seqs in [
+        ("real", sequences),
+        ("permuted", permuted),
+        ("random_freq", random_seqs),
+    ]:
+        train, test = split_train_test(
+            corpus_seqs, test_ratio=args.test_ratio, seed=args.seed
+        )
 
         for n in range(1, args.max_n + 1):
-            ngram_counts, context_counts, vocab_size, token_to_id, vocab = train_ngram(train, n)
-            ppl, ce = compute_perplexity(test, ngram_counts, context_counts, vocab_size, n)
-            results.append({
-                "corpus": corpus_name,
-                "n": n,
-                "vocab_size": vocab_size,
-                "train_tokens": sum(len(s) for s in train),
-                "test_tokens": sum(len(s) for s in test),
-                "perplexity": ppl,
-                "cross_entropy_bits": ce,
-            })
-            print(f"{corpus_name:12s} n={n} | vocab={vocab_size} | perplexity={ppl:.2f} | cross-entropy={ce:.3f} bits/sign")
+            ngram_counts, context_counts, vocab_size, token_to_id, vocab = train_ngram(
+                train, n
+            )
+            ppl, ce = compute_perplexity(
+                test, ngram_counts, context_counts, vocab_size, n
+            )
+            results.append(
+                {
+                    "corpus": corpus_name,
+                    "n": n,
+                    "vocab_size": vocab_size,
+                    "train_tokens": sum(len(s) for s in train),
+                    "test_tokens": sum(len(s) for s in test),
+                    "perplexity": ppl,
+                    "cross_entropy_bits": ce,
+                }
+            )
+            print(
+                f"{corpus_name:12s} n={n} | vocab={vocab_size} | perplexity={ppl:.2f} | cross-entropy={ce:.3f} bits/sign"
+            )
 
     results_df = pd.DataFrame(results)
     Path(args.output).parent.mkdir(parents=True, exist_ok=True)

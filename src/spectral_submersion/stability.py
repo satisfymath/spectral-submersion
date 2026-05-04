@@ -7,6 +7,7 @@ and Proposition 7.1 / Corollary 7.2 (SPPMI with structural priors).
 These are essential for making spectral claims auditable: without stability
 analysis, singular value gaps and embeddings cannot support claims C2+.
 """
+
 from __future__ import annotations
 
 import numpy as np
@@ -331,14 +332,16 @@ def spectral_rejection_rule(
     results = []
     for k in k_values:
         if k >= len(sv):
-            results.append({
-                "k": k,
-                "delta_k": 0.0,
-                "epsilon": 0.0,
-                "reliability": 0.0,
-                "stable": False,
-                "claim_limit": "C0",
-            })
+            results.append(
+                {
+                    "k": k,
+                    "delta_k": 0.0,
+                    "epsilon": 0.0,
+                    "reliability": 0.0,
+                    "stable": False,
+                    "claim_limit": "C0",
+                }
+            )
             continue
 
         delta_k = spectral_gap(sv, k)
@@ -357,13 +360,15 @@ def spectral_rejection_rule(
         else:
             claim_limit = "C2+"
 
-        results.append({
-            "k": k,
-            "delta_k": float(delta_k),
-            "epsilon": float(eps_k),
-            "reliability": float(reliability),
-            "stable": not rejects,
-            "claim_limit": claim_limit,
-        })
+        results.append(
+            {
+                "k": k,
+                "delta_k": float(delta_k),
+                "epsilon": float(eps_k),
+                "reliability": float(reliability),
+                "stable": not rejects,
+                "claim_limit": claim_limit,
+            }
+        )
 
     return results

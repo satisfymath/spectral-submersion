@@ -10,6 +10,7 @@ Metrics:
 - ABAB alternation rate
 - Most repeated signs
 """
+
 import argparse
 from collections import Counter
 from pathlib import Path
@@ -50,7 +51,11 @@ def find_repetitions(sequences: list[list[str]]) -> dict:
 
         # ABAB pattern
         for i in range(len(seq) - 3):
-            if seq[i] == seq[i + 2] and seq[i + 1] == seq[i + 3] and seq[i] != seq[i + 1]:
+            if (
+                seq[i] == seq[i + 2]
+                and seq[i + 1] == seq[i + 3]
+                and seq[i] != seq[i + 1]
+            ):
                 has_abab = True
                 abab_pair_counts[(seq[i], seq[i + 1])] += 1
 
@@ -63,10 +68,18 @@ def find_repetitions(sequences: list[list[str]]) -> dict:
         if has_double or has_abab:
             stats["any_repeat_count"] += 1
 
-    stats["double_repeat_rate"] = stats["double_repeat_count"] / max(stats["total_inscriptions"], 1)
-    stats["triple_repeat_rate"] = stats["triple_repeat_count"] / max(stats["total_inscriptions"], 1)
-    stats["abab_repeat_rate"] = stats["abab_repeat_count"] / max(stats["total_inscriptions"], 1)
-    stats["any_repeat_rate"] = stats["any_repeat_count"] / max(stats["total_inscriptions"], 1)
+    stats["double_repeat_rate"] = stats["double_repeat_count"] / max(
+        stats["total_inscriptions"], 1
+    )
+    stats["triple_repeat_rate"] = stats["triple_repeat_count"] / max(
+        stats["total_inscriptions"], 1
+    )
+    stats["abab_repeat_rate"] = stats["abab_repeat_count"] / max(
+        stats["total_inscriptions"], 1
+    )
+    stats["any_repeat_rate"] = stats["any_repeat_count"] / max(
+        stats["total_inscriptions"], 1
+    )
     stats["top_double_signs"] = double_sign_counts.most_common(10)
     stats["top_triple_signs"] = triple_sign_counts.most_common(10)
     stats["top_abab_pairs"] = abab_pair_counts.most_common(10)
@@ -80,21 +93,31 @@ def analyze_by_length(sequences: list[list[str]]) -> pd.DataFrame:
     for length in sorted(set(len(s) for s in sequences)):
         subset = [s for s in sequences if len(s) == length]
         reps = find_repetitions(subset)
-        rows.append({
-            "length": length,
-            "n_inscriptions": len(subset),
-            "double_repeat_rate": reps["double_repeat_rate"],
-            "triple_repeat_rate": reps["triple_repeat_rate"],
-            "abab_repeat_rate": reps["abab_repeat_rate"],
-        })
+        rows.append(
+            {
+                "length": length,
+                "n_inscriptions": len(subset),
+                "double_repeat_rate": reps["double_repeat_rate"],
+                "triple_repeat_rate": reps["triple_repeat_rate"],
+                "abab_repeat_rate": reps["abab_repeat_rate"],
+            }
+        )
     return pd.DataFrame(rows)
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Analyze repetition patterns in inscriptions")
-    parser.add_argument("--input", default="data/raw/lost_language/corpus_indus_real.csv")
-    parser.add_argument("--output-table", default="reports/tables/repetition_analysis.csv")
-    parser.add_argument("--output-by-length", default="reports/tables/repetition_by_length.csv")
+    parser = argparse.ArgumentParser(
+        description="Analyze repetition patterns in inscriptions"
+    )
+    parser.add_argument(
+        "--input", default="data/raw/lost_language/corpus_indus_real.csv"
+    )
+    parser.add_argument(
+        "--output-table", default="reports/tables/repetition_analysis.csv"
+    )
+    parser.add_argument(
+        "--output-by-length", default="reports/tables/repetition_by_length.csv"
+    )
     args = parser.parse_args()
 
     df = pd.read_csv(args.input)
@@ -106,10 +129,18 @@ def main():
     print("REPETITION PATTERN ANALYSIS")
     print("=" * 60)
     print(f"Total inscriptions: {stats['total_inscriptions']}")
-    print(f"Any repeat (double or ABAB): {stats['any_repeat_count']} ({stats['any_repeat_rate']:.3f})")
-    print(f"Double repeat (AA): {stats['double_repeat_count']} ({stats['double_repeat_rate']:.3f})")
-    print(f"Triple repeat (AAA): {stats['triple_repeat_count']} ({stats['triple_repeat_rate']:.3f})")
-    print(f"ABAB pattern: {stats['abab_repeat_count']} ({stats['abab_repeat_rate']:.3f})")
+    print(
+        f"Any repeat (double or ABAB): {stats['any_repeat_count']} ({stats['any_repeat_rate']:.3f})"
+    )
+    print(
+        f"Double repeat (AA): {stats['double_repeat_count']} ({stats['double_repeat_rate']:.3f})"
+    )
+    print(
+        f"Triple repeat (AAA): {stats['triple_repeat_count']} ({stats['triple_repeat_rate']:.3f})"
+    )
+    print(
+        f"ABAB pattern: {stats['abab_repeat_count']} ({stats['abab_repeat_rate']:.3f})"
+    )
     print()
     print("Top signs in double repeats:")
     for sign, count in stats["top_double_signs"]:
@@ -122,17 +153,21 @@ def main():
         print(f"  {pair}: {count}")
 
     # Save summary
-    summary_df = pd.DataFrame([{
-        "total_inscriptions": stats["total_inscriptions"],
-        "any_repeat_count": stats["any_repeat_count"],
-        "any_repeat_rate": stats["any_repeat_rate"],
-        "double_repeat_count": stats["double_repeat_count"],
-        "double_repeat_rate": stats["double_repeat_rate"],
-        "triple_repeat_count": stats["triple_repeat_count"],
-        "triple_repeat_rate": stats["triple_repeat_rate"],
-        "abab_repeat_count": stats["abab_repeat_count"],
-        "abab_repeat_rate": stats["abab_repeat_rate"],
-    }])
+    summary_df = pd.DataFrame(
+        [
+            {
+                "total_inscriptions": stats["total_inscriptions"],
+                "any_repeat_count": stats["any_repeat_count"],
+                "any_repeat_rate": stats["any_repeat_rate"],
+                "double_repeat_count": stats["double_repeat_count"],
+                "double_repeat_rate": stats["double_repeat_rate"],
+                "triple_repeat_count": stats["triple_repeat_count"],
+                "triple_repeat_rate": stats["triple_repeat_rate"],
+                "abab_repeat_count": stats["abab_repeat_count"],
+                "abab_repeat_rate": stats["abab_repeat_rate"],
+            }
+        ]
+    )
     Path(args.output_table).parent.mkdir(parents=True, exist_ok=True)
     summary_df.to_csv(args.output_table, index=False)
     print(f"\nSaved summary to {args.output_table}")

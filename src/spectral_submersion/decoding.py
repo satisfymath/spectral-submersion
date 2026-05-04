@@ -1,4 +1,5 @@
 """Decoding / hypothesis generation utilities."""
+
 import numpy as np
 
 

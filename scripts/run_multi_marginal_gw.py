@@ -5,6 +5,7 @@ Compares:
 2. Structural feature embeddings vs co-occurrence embeddings
 3. All 17 candidate languages: 7 Polynesian + 10 controls
 """
+
 import json
 from pathlib import Path
 
@@ -27,7 +28,10 @@ CANDIDATES = {
     "russian": {"embed": "data/processed/embeddings_russian.npy", "family": "slavic"},
     "french": {"embed": "data/processed/embeddings_french.npy", "family": "romance"},
     "italian": {"embed": "data/processed/embeddings_italian.npy", "family": "romance"},
-    "portuguese": {"embed": "data/processed/embeddings_portuguese.npy", "family": "romance"},
+    "portuguese": {
+        "embed": "data/processed/embeddings_portuguese.npy",
+        "family": "romance",
+    },
     # Controls (medium)
     "japanese": {"embed": "data/processed/embeddings_ja.npy", "family": "japonic"},
     "arabic": {"embed": "data/processed/embeddings_ar.npy", "family": "semitic"},
@@ -48,11 +52,18 @@ def compute_distance_matrix(embeddings):
 
 def gw_distance(D_x, D_y, reg=0.1, max_iter=20):
     from spectral_submersion.transport import gromov_wasserstein_matrix
+
     n_x, n_y = D_x.shape[0], D_y.shape[0]
     a = np.ones(n_x) / n_x
     b = np.ones(n_y) / n_y
     Pi = gromov_wasserstein_matrix(D_x, D_y, a, b, reg=reg, max_iter=max_iter)
-    gw_dist = np.sum(Pi * (D_x @ Pi @ D_y.T - 2 * (D_x ** 2) @ Pi.sum(axis=1, keepdims=False).reshape(-1, 1) / n_y))
+    gw_dist = np.sum(
+        Pi
+        * (
+            D_x @ Pi @ D_y.T
+            - 2 * (D_x**2) @ Pi.sum(axis=1, keepdims=False).reshape(-1, 1) / n_y
+        )
+    )
     return float(gw_dist), Pi
 
 
@@ -116,16 +127,18 @@ def main():
                 print(f"  GW failed for {cand_name}: {e}")
                 gw_dist = float("inf")
 
-            results.append({
-                "lost_corpus": lost_name,
-                "candidate": cand_name,
-                "family": cand_info[cand_name],
-                "n_lost": n_lost,
-                "n_cand": E_cand_d.shape[0],
-                "n_sample": n_gw,
-                "gw_distance": gw_dist,
-                "dim": d,
-            })
+            results.append(
+                {
+                    "lost_corpus": lost_name,
+                    "candidate": cand_name,
+                    "family": cand_info[cand_name],
+                    "n_lost": n_lost,
+                    "n_cand": E_cand_d.shape[0],
+                    "n_sample": n_gw,
+                    "gw_distance": gw_dist,
+                    "dim": d,
+                }
+            )
             print(f"  vs {cand_name} ({cand_info[cand_name]}): gw_dist={gw_dist:.4f}")
 
     df = pd.DataFrame(results)
@@ -137,7 +150,9 @@ def main():
         sub = df[df["lost_corpus"] == lost_corpus].sort_values("gw_distance")
         print(f"\n=== {lost_corpus} ranking ===")
         for _, row in sub.iterrows():
-            print(f"  {row['candidate']:15s} ({row['family']:15s}): gw_dist={row['gw_distance']:.4f}")
+            print(
+                f"  {row['candidate']:15s} ({row['family']:15s}): gw_dist={row['gw_distance']:.4f}"
+            )
 
 
 if __name__ == "__main__":

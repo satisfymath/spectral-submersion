@@ -2,6 +2,7 @@
 
 Handles both matched-size (Procrustes) and unmatched-size (direct distance) regimes.
 """
+
 import argparse
 import json
 from pathlib import Path
@@ -20,13 +21,24 @@ from spectral_submersion.reporting import save_hypotheses
 def main():
     parser = argparse.ArgumentParser(description="Align lost language with candidate")
     parser.add_argument("--lost-embed", default="data/processed/embeddings_lost.npy")
-    parser.add_argument("--lost-vocab", default="data/processed/embeddings_lost.vocab.json")
+    parser.add_argument(
+        "--lost-vocab", default="data/processed/embeddings_lost.vocab.json"
+    )
     parser.add_argument("--candidate-embed", required=True)
     parser.add_argument("--candidate-vocab", required=True)
     parser.add_argument("--candidate-name", required=True)
-    parser.add_argument("--output", default="reports/hypotheses/candidate_dictionary.yaml")
-    parser.add_argument("--reg", type=float, default=0.1, help="OT entropic regularization")
-    parser.add_argument("--temperature", type=float, default=1.0, help="Softmax temperature for NN fallback")
+    parser.add_argument(
+        "--output", default="reports/hypotheses/candidate_dictionary.yaml"
+    )
+    parser.add_argument(
+        "--reg", type=float, default=0.1, help="OT entropic regularization"
+    )
+    parser.add_argument(
+        "--temperature",
+        type=float,
+        default=1.0,
+        help="Softmax temperature for NN fallback",
+    )
     args = parser.parse_args()
 
     lost_embed_path = Path(args.lost_embed)
@@ -67,8 +79,10 @@ def main():
         Q = None
         D = pairwise_squared_distances(E_lost, E_cand)
         method_note = "direct_distance_no_procrustes"
-        print(f"[WARNING] Vocabulary sizes differ ({n_lost} vs {n_cand}). "
-              f"Skipping Procrustes; using direct distance. Results are exploratory only.")
+        print(
+            f"[WARNING] Vocabulary sizes differ ({n_lost} vs {n_cand}). "
+            f"Skipping Procrustes; using direct distance. Results are exploratory only."
+        )
 
     # Optimal transport (Sinkhorn)
     Pi_ot = optimal_transport_matrix(D, reg=args.reg)
@@ -106,9 +120,15 @@ def main():
     print(f"  Embedding dim used: {d}")
     print(f"  Method: {method_note}")
     print(f"  Distortion metric: {distortion:.4f}")
-    print(f"  OT plan entropy: {float(-(Pi_ot[Pi_ot>0]*np.log(Pi_ot[Pi_ot>0])).sum()):.4f}")
-    print(f"  Saved OT hypotheses to {out_path.with_name(f'{args.candidate_name}_dictionary_ot.yaml')}")
-    print(f"  Saved NN hypotheses to {out_path.with_name(f'{args.candidate_name}_dictionary_nn.yaml')}")
+    print(
+        f"  OT plan entropy: {float(-(Pi_ot[Pi_ot>0]*np.log(Pi_ot[Pi_ot>0])).sum()):.4f}"
+    )
+    print(
+        f"  Saved OT hypotheses to {out_path.with_name(f'{args.candidate_name}_dictionary_ot.yaml')}"
+    )
+    print(
+        f"  Saved NN hypotheses to {out_path.with_name(f'{args.candidate_name}_dictionary_nn.yaml')}"
+    )
 
 
 if __name__ == "__main__":
