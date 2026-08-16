@@ -1,0 +1,11 @@
+{
+  "seed": 42,
+  "log_N_freq_preserving": 3726.9210937458156,
+  "log10_N_freq_preserving": 1618.5812655026396,
+  "nontrivial_freq_classes": 26,
+  "eps_bigram_bootstrap_median": 80.05293626486531,
+  "mc_fraction_within_2eps": 1.0,
+  "log_N_empirical_orbit_estimate": 3726.9210937458156,
+  "fano_error_floor_freq_orbit": 0.9998140161374162,
+  "note": "log N is a LOWER bound restricted to exact unigram-preserving relabelings; the empirical orbit of Def. A.8 (population statistics within sampling error) is at least this large."
+}

@@ -1,0 +1,65 @@
+{
+  "train_tablets": [
+    "A",
+    "B",
+    "C",
+    "E"
+  ],
+  "heldout_tablets": [
+    "D",
+    "F"
+  ],
+  "train_tokens": 5039,
+  "heldout_tokens": 335,
+  "ngram_overlap": {
+    "5": {
+      "heldout_ngrams": 249,
+      "shared_types": 0,
+      "heldout_tokens_covered": 0,
+      "coverage_pct": 0.0,
+      "examples": []
+    },
+    "6": {
+      "heldout_ngrams": 228,
+      "shared_types": 0,
+      "heldout_tokens_covered": 0,
+      "coverage_pct": 0.0,
+      "examples": []
+    },
+    "7": {
+      "heldout_ngrams": 207,
+      "shared_types": 0,
+      "heldout_tokens_covered": 0,
+      "coverage_pct": 0.0,
+      "examples": []
+    },
+    "8": {
+      "heldout_ngrams": 189,
+      "shared_types": 0,
+      "heldout_tokens_covered": 0,
+      "coverage_pct": 0.0,
+      "examples": []
+    },
+    "9": {
+      "heldout_ngrams": 171,
+      "shared_types": 0,
+      "heldout_tokens_covered": 0,
+      "coverage_pct": 0.0,
+      "examples": []
+    },
+    "10": {
+      "heldout_ngrams": 154,
+      "shared_types": 0,
+      "heldout_tokens_covered": 0,
+      "coverage_pct": 0.0,
+      "examples": []
+    }
+  },
+  "uncovered_types": [
+    {
+      "token": "000!",
+      "freq": 95,
+      "reason": "base outside every class range"
+    }
+  ]
+}

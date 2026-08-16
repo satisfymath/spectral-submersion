@@ -1,0 +1,92 @@
+% ============================================================
+% Body-text proof sketches (3-5 lines each) for T1--P7.
+% Each theorem is stated in the body with these sketches;
+% full proofs live in appendix_theorems.tex (\cref{app:proofs}).
+% ============================================================
+
+% --- T1 sketch (body) ---
+% After stating Theorem T1:
+\begin{proofsketch}
+Relabeling is a bijection of corpora, so summing the equivariant
+likelihood over the level set of a $G$-invariant statistic $T$ shows
+$p(T\mid\sigma\cdot\theta)=p(T\mid\theta)$; with a $G$-invariant
+prior, Bayes' rule transports this equality to the posterior, which is
+therefore constant on orbits. Full proof in \cref{app:proofs}.
+\end{proofsketch}
+
+% --- Corollary 1.1 sketch (body) ---
+% One line, inline:
+% ``Since any measurable function of a $G$-invariant statistic is
+% itself $G$-invariant, no downstream processing --- spectral,
+% neural, or otherwise --- can break orbit-constancy (Cor.~1.1).''
+
+% --- T2 sketch (body) ---
+\begin{proofsketch}
+By T1 the likelihood of any invariant statistic is constant on the
+orbit, so $I(\theta;T)=0$ when $\theta$ is uniform on it; Fano's
+inequality then lower-bounds the error of \emph{any} decoder by
+$1-\log 2/\log N$. The finite-sample version replaces the exact orbit
+by the $\varepsilon(n)$-empirical orbit whose radius comes from T3,
+and the same argument prices the minimum external information:
+$I(\theta;K)\ge(1-\delta)\log N(n)-\log 2$.
+\end{proofsketch}
+
+% --- T3 sketch (body) ---
+\begin{proofsketch}
+Lines are independent and each contributes a co-occurrence matrix of
+spectral norm at most $2wL$, so the matrix Bernstein inequality
+yields $\|\hat C-\mathbb{E}\hat C\|_2=O(wL\sqrt{\log d/m})$ with high
+probability; the clipped PPMI map is entrywise Lipschitz, and Wedin's
+$\sin\Theta$ theorem transfers the bound to the top-$k$ singular
+subspaces whenever the spectral gap dominates. The bootstrap
+stability we observe (CV $0.65\%$) and the failed sanity checks on
+short-line corpora are the two regimes of this bound.
+\end{proofsketch}
+
+% --- T4 sketch (body) ---
+\begin{proofsketch}
+$B^{\top}A$ perturbs $(B^{\top}B)\Omega^{*}$ by $B^{\top}E$, and the
+Procrustes solution is its orthogonal polar factor, whose
+perturbation is controlled by $2\|B^{\top}E\|_F/\sigma_r(B)^2$
+(Li 1995). A nearest-neighbour match is then correct for every test
+pair whose margin exceeds
+$2(\|x\|\|\hat\Omega-\Omega^{*}\|+\|e\|)$. Empirically the
+instantiated threshold is vacuous on the synthetic benchmark
+(certifies $0\%$ vs.\ observed $68.9\%$; margin AUC $0.536$) --- the
+bound is sufficient, not necessary, and we report the gap
+(App.~remark).
+\end{proofsketch}
+
+% --- L5 sketch (body) ---
+% One-two lines, inline:
+% ``The effective rank $e^{H(\sigma/\|\sigma\|_1)}$ inherits a
+% Fannes--Audenaert modulus of continuity in the singular values
+% (Lemma L5), so by Weyl's inequality it is robust to the sampling
+% noise quantified in T3 --- our licence to use it as the primary C1
+% statistic.''
+
+% --- P6 sketch (body) ---
+\begin{proofsketch}
+A two-point exchange argument on the optimality conditions at
+$\lambda_1<\lambda_2$ shows the decoded output's LM log-likelihood is
+non-decreasing in $\lambda$; at $\lambda=1$ the decoder returns the
+candidate-set maximizer, which is at least as probable as any real
+sample in the pool. Hence a fusion decoder's bits-per-glyph sits
+below the \emph{mean} cross-entropy of real lines by construction:
+$7.31<8.26$ is a selection effect of the design, not evidence of
+``super-realism''.
+\end{proofsketch}
+
+% --- D7/P7 sketch (body) ---
+\begin{proofsketch}
+C1, C2 and C3 are defined by what can falsify a statement: internal
+null ensembles, nothing internal, or external anchors $K$. Since any
+decision computed from invariant statistics is constant on orbits
+(Cor.~1.1) while a C3 statement by definition varies within some
+orbit, no anchor-free procedure decides a C3 statement
+(Prop.~P7) --- the protocol is a theorem, not a style guide.
+\end{proofsketch}
+
+% Suggested environment definition (preamble):
+% \newenvironment{proofsketch}
+%   {\begin{proof}[Proof sketch]}{\end{proof}}

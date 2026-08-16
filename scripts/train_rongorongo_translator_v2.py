@@ -140,6 +140,8 @@ def main():
     parser.add_argument("--patience", type=int, default=5)
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--augment", action="store_true", default=True)
+    parser.add_argument("--no-augment", dest="augment", action="store_false",
+                        help="Disable masking augmentation (ablation)")
     args = parser.parse_args()
 
     random.seed(args.seed)

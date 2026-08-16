@@ -1,0 +1,9 @@
+*.aux
+*.log
+*.out
+*.bbl
+*.blg
+*.toc
+c*.log
+pv3-*.png
+test_appendix.*

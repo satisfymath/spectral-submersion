@@ -123,3 +123,8 @@ data/raw/candidate_languages/es_tokens.csv
 data/raw/candidate_languages/fr_tokens.csv
 data/raw/candidate_languages/it_tokens.csv
 data/raw/candidate_languages/pt_tokens.csv
+
+# Model checkpoints and large generated corpora (Drive/Zenodo release per DATA_ACCESS.md)
+models/
+data/raw/lost_language/parallel_rongorongo_real_v4.csv
+data/raw/lost_language/parallel_rongorongo_real_v4_noclass.csv

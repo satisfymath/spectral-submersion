@@ -1,0 +1,74 @@
+{
+  "reference_heldout_real_bits_per_glyph": 8.257,
+  "v5_greedy": {
+    "vocab_realism": 0.0,
+    "bigram_realism": 0.0,
+    "js_unigram_vs_real": 1.0,
+    "distinct_1": 0.1552,
+    "distinct_2": 0.4351,
+    "max_rep_run": 48,
+    "mean_len": 8.7
+  },
+  "v6_greedy": {
+    "vocab_realism": 1.0,
+    "bigram_realism": 0.8662,
+    "js_unigram_vs_real": 0.5366,
+    "distinct_1": 0.102,
+    "distinct_2": 0.1859,
+    "max_rep_run": 50,
+    "mean_len": 23.05,
+    "bits_per_glyph_realLM": 7.211
+  },
+  "v6_beam_fusion": {
+    "vocab_realism": 1.0,
+    "bigram_realism": 0.7154,
+    "js_unigram_vs_real": 0.5214,
+    "distinct_1": 0.3566,
+    "distinct_2": 0.7236,
+    "max_rep_run": 2,
+    "mean_len": 7.15,
+    "bits_per_glyph_realLM": 7.313
+  },
+  "examples": [
+    {
+      "input": "te tangata haere ki te moana",
+      "v5": "d03 n01 v17 x02 d03 n03",
+      "v6_beam_fusion": "005 216 476 050t 006 074f"
+    },
+    {
+      "input": "he vahine noho i te hare",
+      "v5": "d01 n01 v01 x02 d01 n07",
+      "v6_beam_fusion": "053 380 571 061 047 060"
+    },
+    {
+      "input": "ko Hotu Matua e kai ika",
+      "v5": "d01 n01 v01 d01 v01 n01",
+      "v6_beam_fusion": "002 002 290 290 401! 003a 741"
+    },
+    {
+      "input": "te tamaiti moe i te po",
+      "v5": "d03 n06 v04 x01 d01 n02",
+      "v6_beam_fusion": "005 300 553 006 047 060"
+    },
+    {
+      "input": "e haere au ki te maunga",
+      "v5": "d07 d07 n01 n01 n01 x01 d03 n26",
+      "v6_beam_fusion": "002 700 700 408 063? 006 074f"
+    },
+    {
+      "input": "te manu rere i te raa",
+      "v5": "d03 n01 v10 x01 d01 n09",
+      "v6_beam_fusion": "005 670 580 004 047 074f"
+    },
+    {
+      "input": "he vai inu mo te tangata",
+      "v5": "d01 n23 v01 x03 d01 n02",
+      "v6_beam_fusion": "053 060 430 022 022 380y"
+    },
+    {
+      "input": "ko Maui tiki ake te ahi",
+      "v5": "d01 n16 v01 x01 d01 n02",
+      "v6_beam_fusion": "002 002 095 445 003a 003a 028 200"
+    }
+  ]
+}

@@ -1,0 +1,686 @@
+% ============================================================
+% Spectral Submersion v3 -- ML4AL @ ACL submission draft.
+% NOTE: compiled here with an ACL-like two-column layout; swap the
+% preamble for the official acl.sty of the venue before submission
+% (the class files are distributed with the CFP).
+% Build: pdflatex -> bibtex -> pdflatex x2
+% ============================================================
+\documentclass[10pt,twocolumn]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage[a4paper,margin=1.9cm,columnsep=0.65cm]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage[numbers,sort&compress]{natbib}
+\usepackage{tikz}
+\usetikzlibrary{positioning,arrows.meta}
+\usepackage{caption}
+\captionsetup{font=small,labelfont={bf,sf}}
+\usepackage[colorlinks=true,linkcolor=blue!45!black,citecolor=blue!45!black,urlcolor=blue!45!black]{hyperref}
+\usepackage[capitalize,noabbrev]{cleveref}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newenvironment{proofsketch}{\begin{proof}[Proof sketch]}{\end{proof}}
+
+\newcommand{\Cone}{\textsf{C1}}
+\newcommand{\Ctwo}{\textsf{C2}}
+\newcommand{\Cthree}{\textsf{C3}}
+\newcommand{\claim}[1]{\textsuperscript{\textsf{\scriptsize(#1)}}}
+
+\title{\bfseries Identifiability-Aware Hypothesis Generation for Undeciphered
+Scripts:\\ Formal Claim Levels, Negative Controls, and a Sequence Model\\
+Anchored in the Real Rongorongo Corpus}
+
+\author{David Astudillo\\
+\normalsize SatisfyMath / Spectral Submersion Project\\
+\normalsize \texttt{satisfimath@gmail.com}}
+
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\textbf{Problem.} Statistical analyses of undeciphered scripts routinely
+slide from structural signal to semantic claims, a slide at the center of
+the Indus-script entropy debate. We ask what can and cannot be concluded
+from internal statistics alone, and build a system that operates strictly
+within those limits. \textbf{Method.} We formalize decipherment as an
+ill-posed inverse problem under a relabeling group action: the posterior
+over correspondences is constant on group orbits (T1), any decoder
+consuming invariant statistics obeys a Fano bound (T2), and we derive
+finite-sample concentration for windowed co-occurrence/PPMI spectra (T3),
+recovery conditions for anchored Procrustes alignment (T4), and the
+selection bias of language-model fusion decoding (P6). These results
+ground a three-level claim protocol --- structural signal (\Cone),
+rankable hypothesis (\Ctwo), anchored semantics (\Cthree) --- as a
+theorem rather than a style guide (P7). \textbf{Results.} On the real
+Rongorongo corpus (tablets A--F, 5{,}460 glyphs, 941 Barthel types) we
+train a Transformer that maps Rapanui-like glosses to real Barthel codes
+and decode with beam search fused with a real-corpus trigram LM. Against
+three baselines and four ablations over six metrics with bootstrap CIs,
+the full system is the only one that is simultaneously non-degenerate
+(max repetition run 2), diverse (distinct-2 $0.72$) and within the
+realism band of held-out real lines. Permutation tests with BH
+correction confirm positional-bias signal in the Indus corpus
+(FDR\,$\le$\,0.05). \textbf{Limits.} The parallel corpus is synthetic by
+logical necessity (T1); all outputs are \Ctwo{} hypotheses, and several
+spectral sanity checks fail on the real corpus --- we report them.
+\end{abstract}
+
+\section{Introduction}
+\label{sec:intro}
+
+When Rao et al.\ reported entropic evidence for linguistic structure in
+the Indus script \cite{rao2009}, Sproat and colleagues replied that the
+statistics in question could not, even in principle, establish what they
+were being read as establishing \cite{sproat2010,farmer2004}. The debate
+is often framed as a disagreement about corpora or estimators. We take a
+different view: it is a disagreement about \emph{which statements
+internal statistics can decide at all} --- and that question has a
+mathematical answer.
+
+This paper develops the answer and builds a working system inside its
+boundaries. Our starting point is elementary but consequential: every
+statistic computed from an undeciphered corpus without external anchors
+is invariant under consistent relabeling of the signs, so no procedure
+consuming such statistics can distinguish a correspondence hypothesis
+from its relabelings (\cref{thm:T1-body}). What internal statistics
+\emph{can} do is (i) falsify structural null models and (ii) rank
+hypothesis families. We freeze this into a three-level protocol ---
+\Cone{} structural signal, \Ctwo{} rankable hypothesis, \Cthree{}
+anchored semantics --- and prove that the \Ctwo/\Cthree{} boundary is
+exactly the boundary drawn by the group action
+(\cref{prop:P7-body}).
+
+Within these limits we then go as far as the data allows. We integrate a
+real Rongorongo corpus (tablets A--F in Barthel transcription;
+5{,}460 glyphs, 941 types) and build a translator from Rapanui-like
+glosses into \emph{real} Barthel code sequences: a Transformer trained
+on a synthetic-by-necessity parallel corpus whose glyph side is anchored
+in real unigram/bigram statistics, decoded by beam search with shallow
+fusion of a trigram LM estimated on the real tablets. The system is
+evaluated against baselines and ablations on six metrics with bootstrap
+confidence intervals, with the selection bias of fusion decoding
+characterized \emph{before} it can be mistaken for a discovery
+(\cref{prop:P6-body}).
+
+\paragraph{Contributions.}
+\begin{enumerate}[nosep,leftmargin=1.2em]
+\item A formal epistemology for computational decipherment: the
+\Cone/\Ctwo/\Cthree{} claim protocol, derived as a corollary of a
+group-theoretic non-identifiability theorem rather than posited as
+editorial practice (\cref{sec:framework}, D7/P7).
+\item Finite-sample theory for the standard pipeline: Fano-type
+impossibility with an empirical-orbit refinement (T2), matrix-Bernstein
+concentration for windowed PPMI spectra with a Wedin transfer (T3), and
+noisy-anchor Procrustes recovery with a margin condition --- whose
+instantiated threshold we test and report as vacuous on our benchmark
+(a documented gap between sufficient theory and observed accuracy, T4).
+\item A Rongorongo hypothesis engine anchored in the real corpus:
+class-restricted parallel-corpus construction declared as a \Ctwo{}
+hypothesis, Transformer translation into attested Barthel codes, and
+fusion decoding whose selection bias is proved and then verified
+empirically by a $\lambda$-sweep (P6, \cref{fig:pareto}).
+\item An evaluation protocol for generators over undeciphered scripts:
+six complementary metrics against real-corpus statistics, three
+baselines, four ablations, a contamination audit of the held-out split,
+permutation tests with FDR control, and a pre-registered blind-judge
+discrimination protocol (\cref{sec:experiments}).
+\end{enumerate}
+
+All numbers in this paper regenerate from seed-fixed scripts named in
+\cref{sec:availability}.
+
+\section{Related work}
+\label{sec:related}
+
+\paragraph{Rongorongo.} The glyph inventory and numeric transcription
+system we use descend from Barthel \cite{barthel1958}. Statistical
+approaches include Pozdniakov \& Pozdniakov's sign-frequency comparisons
+with Rapanui phonotactics \cite{pozdniakov2007}, Horley's allographic
+and statistical analyses \cite{horley2005}, and Melka's studies of the
+Santiago Staff \cite{melka2009}; Guy identified calendrical structure on
+tablet Mamari \cite{guy1990}. Fischer's corpus and reading proposals
+\cite{fischer1997} remain contested; we take no position on any reading
+claim --- by \cref{prop:P7-body} our pipeline cannot decide one. The
+transcription we consume (the RR corpus, phspaelti encoding of tablets
+A--F) embeds paleographic segmentation decisions that we inherit and
+flag as a limitation.
+
+\paragraph{Computational decipherment.} Snyder et al.\ deciphered
+Ugaritic against known-cognate Hebrew \cite{snyder2010}; Luo et al.\
+extended neural decipherment to Ugaritic and Linear B with minimum-cost
+flow \cite{luo2019}; Knight et al.\ treated decipherment as unsupervised
+learning over ciphers \cite{knight2006}. The structural difference to
+our setting is the anchor: those systems assume a known related
+language, which supplies exactly the external information $K$ that
+\cref{thm:T2-body} prices. Without it, their objective would be
+orbit-invariant and their outputs \Ctwo{} at best --- which is where we
+deliberately operate.
+
+\paragraph{The entropy debate, engaged directly.}
+Sproat's critique \cite{sproat2010,farmer2004} of entropic arguments
+\cite{rao2009,rao2010reply} makes three points: (i) nonlinguistic
+symbol systems can produce the same statistics; (ii) results depend on
+corpus-preparation decisions; (iii) general-science venues under-review
+such claims. Our framework absorbs (i) as a theorem: conditional
+entropy and spectra are $G$-invariant, hence \Cone-only --- they can
+falsify randomness nulls, never establish language
+(\cref{def:claims-body}). We answer (ii) operationally: every
+statistic ships with permutation nulls and BH-corrected tests
+(\cref{sec:experiments}), and we \emph{report} the sanity checks that
+fail (the real-corpus PPMI spectrum does \textbf{not} separate from
+frequency-matched controls; \cref{fig:spectrum-app}). On (iii), the
+claim-level protocol is our proposal for review practice. This paper is
+intended as the methodological reply to \cite{sproat2010}, not its
+target.
+
+\paragraph{Unsupervised embedding alignment.} Procrustes and
+adversarial alignment of word embeddings \cite{conneau2018,artetxe2018}
+and Gromov--Wasserstein alignment \cite{alvarezmelis2018,memoli2011}
+are the direct ancestors of our alignment stage; PPMI+SVD embeddings
+follow \cite{levy2014}. Our T4 gives the anchored-recovery condition
+these methods implicitly rely on; entropic OT follows
+\cite{cuturi2013}.
+
+\paragraph{Indus.} Corpus and sign lists derive from Parpola
+\cite{parpola1994}; our positional-bias analysis replicates
+epigraphic observations with formal tests
+(\cref{sec:experiments}).
+
+\section{Formal framework}
+\label{sec:framework}
+
+Let $\mathcal{V}_X$ be the sign vocabulary ($d=|\mathcal{V}_X|$), $G\le
+S_d$ the relabeling group acting tokenwise on corpora and compatibly on
+hypotheses $\theta\in\Theta$. The model is $G$-equivariant if
+$p(\sigma X\mid\sigma\cdot\theta)=p(X\mid\theta)$; a statistic $T$ is
+$G$-invariant if $T(\sigma X)=T(X)$. Full proofs of everything in this
+section are in \cref{app:proofs}.
+
+\begin{theorem}[T1: orbit-constancy]
+\label{thm:T1-body}
+Under $G$-equivariance and a $G$-invariant prior, the posterior given
+any $G$-invariant statistic satisfies
+$p(\sigma\cdot\theta\mid T)=p(\theta\mid T)$ for all $\sigma\in G$.
+\end{theorem}
+\begin{proofsketch}
+Relabeling is a bijection of corpora; summing the equivariant
+likelihood over the level set of $T$ gives
+$p(T\mid\sigma\cdot\theta)=p(T\mid\theta)$, and Bayes transports the
+equality to the posterior. Any measurable function of $T$ is again
+invariant, so no downstream processing breaks orbit-constancy
+(Cor.~\ref{cor:T1-dpi}).
+\end{proofsketch}
+
+\begin{theorem}[T2: quantified impossibility]
+\label{thm:T2-body}
+For $\theta$ uniform on an indistinguishability class of size $N$, any
+estimator from invariant statistics errs with probability
+$P_e\ge1-\log2/\log N$. With $n$ tokens, the class can be taken as the
+$\varepsilon(n)$-empirical orbit (radius from T3), and achieving
+$P_e\le\delta$ with external knowledge $K$ requires
+$I(\theta;K)\ge(1-\delta)\log N(n)-\log2$.
+\end{theorem}
+
+For the real RR corpus this is not an abstraction: relabelings within
+identical-frequency classes alone give $\log N\ge3{,}727$ nats
+($N\ge10^{1618}$), and \emph{all} of 200 Monte-Carlo-sampled such
+relabelings stay within twice the bigram sampling radius --- so the
+empirical orbit is at least this large, the Fano floor is
+$P_e\ge0.9998$, and reducing error to $0.1$ would require
+$\approx3{,}354$ nats of genuinely anchoring external information
+(script \texttt{estimate\_empirical\_orbit.py}).
+
+\begin{theorem}[T3: spectral concentration]
+\label{thm:T3-body}
+With i.i.d.\ lines of length $\le L$ and window $w$ (boundaries
+respected, as in our pipeline),
+$\|\hat C-\mathbb{E}\hat C\|_2=O\!\big(wL\sqrt{\log d/m}\big)$ with
+high probability; the clipped PPMI map is entrywise Lipschitz, and
+Wedin's $\sin\Theta$ theorem \cite{wedin1972,daviskahan1970} transfers
+the bound to top-$k$ subspaces when the spectral gap dominates
+\cite{tropp2015}.
+\end{theorem}
+
+\begin{theorem}[T4: anchored Procrustes recovery]
+\label{thm:T4-body}
+If $A=B\Omega^*+E$ with anchor matrix $B$, the Procrustes solution
+obeys $\|\hat\Omega-\Omega^*\|_F\le2\|B^\top E\|_F/\sigma_r(B)^2$
+\cite{li1995}, and nearest-neighbour matching is correct for every
+test pair whose margin exceeds
+$2(\|x\|\,\|\hat\Omega-\Omega^*\|+\|e\|)$.
+\end{theorem}
+
+\begin{proposition}[P6: fusion selection bias]
+\label{prop:P6-body}
+For $\hat y_\lambda=\arg\max_{y\in\mathcal C}\,(1-\lambda)\log
+p_{\mathrm{model}}+\lambda\log p_{\mathrm{LM}}$ over a fixed candidate
+set, $\log p_{\mathrm{LM}}(\hat y_\lambda)$ is non-decreasing in
+$\lambda$; if $\mathcal C$ contains one draw of any reference process,
+the decoded LM cross-entropy at $\lambda=1$ is at most that process's.
+Hence a fusion decoder scoring below the real-text mean
+(here $7.31<8.26$ bits/glyph) is expected \emph{by design} and is not
+evidence of authenticity.
+\end{proposition}
+
+\begin{definition}[D7: claim levels]
+\label{def:claims-body}
+\Cone{}: statements about invariant statistics falsifiable by internal
+null ensembles (permutation, frequency-matched, uniform).
+\Ctwo{}: preference orderings induced by $G$-invariant scores ---
+rankable, not internally falsifiable.
+\Cthree{}: statements whose truth varies within an orbit (semantic
+assignments).
+\end{definition}
+
+\begin{proposition}[P7: the protocol is a theorem]
+\label{prop:P7-body}
+No decision procedure over $G$-invariant statistics decides a \Cthree{}
+statement: $\Cthree\cap\{\text{decidable without }K\}=\emptyset$.
+\end{proposition}
+
+\Cref{fig:pipeline} maps the full pipeline onto the claim levels.
+
+\begin{figure}[t]
+\centering
+\begin{tikzpicture}[font=\scriptsize, node distance=3.2mm,
+  box/.style={draw, rounded corners=1pt, minimum height=4.6mm,
+              inner sep=2pt, align=center},
+  c1/.style={box, fill=blue!12},
+  c2/.style={box, fill=orange!18},
+  c3/.style={box, fill=red!14},
+  arr/.style={-{Stealth[length=1.6mm]}, thick, gray}]
+\node[c1] (corpus) {real corpus\\A--F (Barthel)};
+\node[c1, right=of corpus] (ppmi) {co-occ.\\PPMI};
+\node[c1, right=of ppmi] (svd) {SVD\\$r_{\mathrm{eff}}$, spectra};
+\node[c1, right=of svd] (tests) {permutation\\tests + BH};
+\node[c2, below=4mm of ppmi] (classmap) {category$\to$series\\map (hypothesis)};
+\node[c2, right=of classmap] (translator) {Transformer\\+ LM fusion};
+\node[c2, right=of translator] (evalx) {6-metric eval\\vs real stats};
+\node[c3, below=4mm of translator] (semantics) {semantic reading\\\textbf{unreachable} (P7)};
+\draw[arr] (corpus) -- (ppmi);
+\draw[arr] (ppmi) -- (svd);
+\draw[arr] (svd) -- (tests);
+\draw[arr] (corpus.south) |- (classmap.west);
+\draw[arr] (classmap) -- (translator);
+\draw[arr] (translator) -- (evalx);
+\draw[arr, dashed, red!60] (translator.south) -- (semantics.north)
+  node[midway, right, black]{$\times$};
+\node[left=1mm of corpus, c1, minimum width=8mm]{\Cone};
+\node[left=1mm of classmap, c2, minimum width=8mm]{\Ctwo};
+\node[left=1mm of semantics, c3, minimum width=8mm]{\Cthree};
+\end{tikzpicture}
+\caption{F10 --- pipeline with claim-level lanes. Everything above the
+dashed arrow is reachable from internal statistics; the crossed arrow
+is forbidden by \cref{prop:P7-body}, not by editorial caution.}
+\label{fig:pipeline}
+\end{figure}
+
+\section{Data: the real Rongorongo corpus}
+\label{sec:data}
+
+We use the RR corpus (phspaelti transcription) for tablets A--F,
+normalized to tabular form: 107 lines, 5{,}460 glyph tokens, 941 types
+in Barthel numeric encoding with ligature/variant markers preserved
+(type--token ratio $0.172$). Lacuna markers (`\_') and the
+illegible-sign code (`000!', 95 tokens) are excluded from generation
+targets by design --- these are the two uncovered types of the
+941-type inventory. A trigram LM (interpolated,
+add-$k$; $\lambda_{3,2,1}=0.5,0.3,0.2$, $k=0.1$) trained on tablets
+A,\,B,\,C,\,E gives $8.26$ bits/glyph on held-out D,\,F: the realism
+reference. A contamination audit finds \textbf{zero} shared $n$-grams
+($n\ge5$) between the two sides (\cref{sec:experiments}); known
+parallel texts (H/P/Q, Gv/K) lie outside this corpus.
+
+\section{Translator}
+\label{sec:translator}
+
+\paragraph{Parallel corpus, synthetic by necessity.} By
+\cref{thm:T1-body} no verified Rapanui--Rongorongo parallel corpus can
+be constructed from internal evidence, so we build a declared-\Ctwo{}
+one: 60k gloss$\to$glyph pairs where glyph choice is (i) restricted by
+a category$\to$Barthel-series working hypothesis
+(det/particles$\to$001--099, person nouns/names$\to$200--399,
+verbs$\to$400--599, bird domain$\to$600--699, marine
+domain$\to$700--799; \cref{fig:sankey-app}), (ii) weighted by real
+unigram frequencies within the series, (iii) re-sampled with
+probability $0.45$ from real bigram transitions, and (iv) passed
+through the reduplication process observed in the tablets (12\%
+doubling, 3\% tripling). Coverage: 939/941 real types.
+
+\paragraph{Model and decoding.} A 4+4-layer Transformer
+($d_{\mathrm{model}}{=}256$, 8 heads, 5.8M parameters) trained 15
+epochs (AdamW, cosine schedule, masking augmentation; validation PPL
+$51.9\to10.7$). Decoding is beam-5 with shallow fusion
+\cite{gulcehre2015}: $s(y)=(1-\lambda)\log p_{\mathrm{model}}(y\mid
+x)+\lambda\log p_{\mathrm{LM}}(y)$ with $\lambda=0.35$, length
+normalization, and a penalty on third immediate repetitions
+(doubling is a real feature; long runs are degeneracy).
+
+\section{Experiments}
+\label{sec:experiments}
+
+\begin{table*}[t]
+\centering
+\small
+\caption{Six-metric evaluation on 20 test glosses (seed 42). VR:
+fraction of output tokens attested in the real corpus; BA: attested
+bigrams (per-sentence mean); JS: Jensen--Shannon divergence of output
+unigram distribution vs.\ real; D2: distinct-2; RM: max immediate
+repetition run; b/g: bits/glyph under the real trigram LM. Brackets:
+bootstrap 95\% CIs over test sentences (B=1000) for the per-sentence
+means VR, BA, b/g; the pooled statistics JS and D2 have
+resampling-biased CIs (duplicate sentences deflate distinctness) and
+are reported as point estimates. Reference: real held-out mean b/g
+$=8.26$. \emph{Reading guard (P6): lower b/g is not better; proximity
+to the reference from below is expected of a mode-seeking decoder.}}
+\label{tab:eval}
+\begin{tabular}{lcccccc}
+\toprule
+System & VR$\uparrow$ & BA & JS$\downarrow$ & D2$\uparrow$ & RM & b/g\\
+\midrule
+baseline: template (no learning) & 1.00 & 0.15 [.08,.23] & 0.43 & 0.99 & 1 & 8.73 [8.50,8.98]\\
+baseline: lexical+bigram counts & 1.00 & 1.00 [1,1] & 0.79 & 0.03 & 9 & 5.84 [5.69,5.97]\\
+baseline: LSTM (1-layer, d=128) & 1.00 & 0.81 [.73,.89] & 0.95 & 0.02 & 31 & 7.87 [7.76,7.99]\\
+v5 (synthetic codes, greedy) & 0.00 & 0.00 & 1.00 & 0.44 & 48 & ---\\
+v6 greedy & 1.00 & 0.68 [.51,.82] & 0.54 & 0.19 & 50 & 7.21 [6.57,7.86]\\
+\textbf{v6 beam+fusion (full)} & \textbf{1.00} & 0.68 [.59,.77] & \textbf{0.52} & \textbf{0.72} & \textbf{2} & 7.31 [6.98,7.64]\\
+\midrule
+abl.\ $\lambda=0$ (no fusion) & 1.00 & 0.50 [.39,.60] & 0.57 & 0.83 & 2 & 8.03 [7.67,8.37]\\
+abl.\ no repetition penalty & 1.00 & 0.88 [.78,.95] & 0.53 & 0.19 & 40 & 6.33 [5.92,6.80]\\
+abl.\ beam=1 & 1.00 & 0.68 [.58,.76] & 0.51 & 0.73 & 6 & 7.39 [7.08,7.71]\\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\paragraph{Baselines and ablations (\cref{tab:eval}).} No single
+metric is safe to optimize: the count-based baseline achieves a perfect
+attested-bigram score by chaining corpus bigrams while collapsing to
+$\mathrm{D2}=0.03$ and drifting far from the real unigram distribution
+($\mathrm{JS}=0.79$); the small LSTM degenerates into repetition runs
+of 31; the no-penalty ablation recovers high BA at the price of runs of
+40. The full system is the only configuration simultaneously
+non-degenerate ($\mathrm{RM}=2$, matching real reduplication), diverse
+($\mathrm{D2}=0.72$), distribution-close ($\mathrm{JS}=0.52$) and
+inside the realism band. Removing fusion costs $0.7$ bits/glyph and
+$18$ BA points; beam width contributes marginally. Ablations of the
+class-restriction and the masking augmentation (retrained models) are
+in \cref{app:ablations}.
+
+\paragraph{$\lambda$-sweep (\cref{fig:pareto}).} Decoded bits/glyph
+decreases monotonically over $\lambda\in[0,1]$
+($8.03\to5.37$), exactly as \cref{prop:P6-body} predicts, entering a
+mode-collapse zone for $\lambda\ge0.85$ where outputs approach the
+count-baseline's degenerate statistics. The operating point
+$\lambda=0.35$ sits on the plateau: inside the realism band, far from
+collapse.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{figures/fig5_lambda_pareto.pdf}
+\caption{F5 --- fusion-weight sweep with bootstrap 95\% CIs (B=500).
+Left: monotone bits/glyph verifies P6(i); shaded region marks mode
+collapse. Right: fidelity--realism trade-off. \emph{Do not read} low
+bits/glyph as quality: by P6 it measures mode-seeking, not
+authenticity.}
+\label{fig:pareto}
+\end{figure}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{figures/fig6_violin_bits.pdf}
+\caption{F6 --- per-line bits/glyph distributions. Real held-out lines
+are scored by an LM trained only on A,B,C,E; system outputs by the
+full-corpus LM (convention stated in \cref{sec:data}). The
+count-baseline's low tail illustrates P6: extreme LM-probability is a
+degeneracy symptom. \emph{No panel of this figure supports any claim
+about meaning.}}
+\label{fig:violin}
+\end{figure}
+
+\paragraph{Formal tests for positional bias (Indus).} For all signs
+with $n\ge15$ in the real Indus corpus, we test first/last-position
+enrichment by within-inscription permutation (10k permutations,
+BH-corrected). Significant at FDR $\le0.05$: initial bias for P324,
+P086, P217, P000; final bias for P385, P378 --- formalizing the
+descriptive claims of earlier work\claim{\Cone}. Scripts and q-values
+in the repository.
+
+\paragraph{Structure in the real RR corpus --- positive and negative.}
+The bigram network of frequent glyph bases organizes into three Louvain
+communities (\cref{fig:network}); the embedding map shows partial, not
+clean, alignment with Barthel series (\cref{fig:embed}); and the PPMI
+spectrum does \emph{not} separate from frequency-matched controls
+(\cref{fig:spectrum-app}) --- the short-line/large-vocabulary regime
+of T3 where no separation is guaranteed. We report the negative
+result with the same prominence as the positive
+ones\claim{\Cone}.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{figures/fig9_glyph_network.pdf}
+\caption{F9 --- bigram network of the 28 most frequent real glyph
+bases, drawn with the actual corpus glyph tracings; ring color =
+Louvain community, edge width $\propto$ adjacency count.
+\emph{Communities are co-occurrence structure (\Cone); they are not
+semantic groupings, and no reading follows from them.}}
+\label{fig:network}
+\end{figure}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{figures/fig1_embedding_map.pdf}
+\caption{F1 --- spectral embeddings (PPMI+SVD) of all 941 real types,
+colored by Barthel series, point size $\propto$ frequency; right: same
+pipeline on a permuted control. Organization is partial: the geometric
+series spreads along a distinct arm, but the unsupervised geometry does
+\emph{not} cleanly recover the Barthel taxonomy. \emph{Cluster
+proximity does not establish iconic or semantic identity (P7).}}
+\label{fig:embed}
+\end{figure}
+
+\paragraph{Blind discrimination protocol (pre-registered).} We release
+a 40-item blinded sheet (20 real line-windows, 20 v6 outputs, shuffled;
+seed 42), an answer key held separately, and an analysis plan
+(per-judge AUC, Fleiss $\kappa$, bootstrap CIs). Execution requires
+human judges and is reported as pending; no result is claimed.
+
+\section{End-to-end demonstration}
+\label{sec:demo}
+
+As a technical case study, ten gloss lines of a Spanish poem were
+translated by the full system and rendered as a tablet in reverse
+boustrophedon using the corpus' vector glyph tracings; per-line scores
+fall in $6.1$--$7.2$ bits/glyph, within the realism band. Notable
+behaviours: verse-level parallelism is expressed as glyph-level
+mirror structure, and the verb \emph{makemake} consistently triggers
+the formula \texttt{041h 670 580} (attention map in
+\cref{fig:attn-app}). The rendered tablet and full text are in the
+repository; we emphasize its status: a \Ctwo{} demonstration of the
+generator, not a Rongorongo text.
+
+\section{Limitations}
+\label{sec:limitations}
+
+(1) The parallel corpus is synthetic by logical necessity
+(\cref{thm:T1-body}); the translator learns our declared hypothesis
+plus real sequence statistics, nothing more. (2) The gloss lexicon is
+232 types of Rapanui-like vocabulary; no morphology. (3) The Barthel
+transcription embeds segmentation and allography decisions we inherit
+\cite{barthel1958,horley2005}; robustness to alternative
+transcriptions is untested here (planned: cross-transcription
+replication). (4) The corpus is small (5{,}460 tokens); several
+spectral sanity checks fail on it, and we report them. (5) The
+blind-judge test is designed but not executed. (6) Iconic grounding
+experiments (cross-script benchmark on Egyptian/Chinese signs with
+known referents) did not pass our pre-set threshold and remain
+\Ctwo{}.
+
+\section{Ethics and heritage}
+\label{sec:ethics}
+
+Rongorongo is the heritage of the Rapa Nui people, and the tablets'
+history is inseparable from the violence of the 1860s slave raids and
+epidemics. This work makes \textbf{no decipherment claim} and produces
+\textbf{no readings}; by its own central theorem its outputs are
+statistical hypotheses about sign sequences, not statements about Rapa
+Nui language, belief or history. The transcription used derives from
+the public RR-corpus project (phspaelti); provenance and checksums ship
+with the release, and any licensing constraint identified before
+camera-ready will be honored, including withdrawal of the affected
+data. The demonstrative application (\cref{sec:demo}) is declared as a
+personal creative use of a statistical generator --- comparable to
+typesetting a poem in a constructed font --- and not as cultural
+reconstruction or revival. We have no current collaboration with Rapa
+Nui scholars or community institutions; establishing one, and deferring
+to community preferences on data use, is stated future work rather than
+a box checked.
+
+\section{Data and code availability}
+\label{sec:availability}
+
+Code, configs, SHA-256 manifests, seeds (all experiments: seed 42),
+and generated artifacts:
+\url{https://github.com/satisfymath/spectral-submersion}. Key scripts:
+\texttt{generate\_massive\_parallel\_v4.py},
+\texttt{train\_rongorongo\_translator\_v2.py},
+\texttt{translate\_to\_rongorongo\_v6.py},
+\texttt{evaluate\_v3\_suite.py}, \texttt{sweep\_lambda.py},
+\texttt{audit\_heldout\_contamination.py},
+\texttt{positional\_permutation\_tests.py}, and one script per figure
+under \texttt{paper\_v3/scripts/}. Compute: single 16-core CPU node;
+full-system training 3.9\,h; total pipeline $<$12\,h. A Zenodo DOI
+will be minted for the camera-ready release
+[CALCULAR: mint DOI on acceptance].
+
+\section*{Acknowledgments}
+
+This work is dedicated to María Ignacia Xerra --- \emph{te ora e haere
+ki mua ma kou}. The author thanks the maintainers of the public RR
+corpus transcription and of the Tatoeba corpora.
+
+\bibliographystyle{unsrtnat}
+\bibliography{references}
+
+\clearpage
+\appendix
+
+\input{appendix_theorems}
+
+\section{Additional figures}
+\label{app:figures}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=\linewidth]{figures/fig3_spectrum_bootstrap.pdf}
+\caption{F3 --- PPMI spectra with bootstrap bands, real RR corpus vs
+three controls. \emph{The real spectrum does not separate from the
+permuted or frequency-matched controls}: in this short-line regime the
+concentration radius of T3 dominates the spectral gap, and no
+separation is predicted. Only the uniform control separates
+(trivially, by its flat unigram distribution). This is the reported
+negative result referenced in \cref{sec:experiments}.}
+\label{fig:spectrum-app}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=\linewidth]{figures/fig2_ppmi_heatmap.pdf}
+\caption{F2 --- PPMI matrix of the top-120 real types reordered by
+Louvain communities (7 communities), with the permuted control under
+the same ordering. Diagonal blocks evidence co-occurrence communities
+(\Cone); \emph{block membership does not identify meaning}.}
+\label{fig:heatmap-app}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=\linewidth]{figures/fig4_attention_map.pdf}
+\caption{F4 --- cross-attention (last decoder layer, head-averaged)
+for the gloss \emph{makemake au ki a kou i te rau raa}. The formula
+\texttt{041h 670 580} attends to the verb \emph{makemake}.
+\emph{Attention reflects the learned synthetic mapping; it is not
+evidence of any real correspondence.}}
+\label{fig:attn-app}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=\linewidth]{figures/fig7_radar.pdf}
+\caption{F7 --- six-metric profile, normalized to $[0,1]$ (1 = best):
+VR, BA, D2 as-is; JS as $1-\mathrm{JS}$; repetition sanity 1 at
+RM$\le$2 declining to 0 at RM$\ge$50; b/g as proximity to the real
+held-out reference $|b/g-8.26|$ (per P6, raw minimization is not the
+target).}
+\label{fig:radar-app}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=\linewidth]{figures/fig8_sankey_hypothesis.pdf}
+\caption{F8 --- the category$\to$Barthel-series mapping of the
+parallel corpus, labeled as what it is: a \textbf{working hypothesis
+(\Ctwo)}. Flows are counted from the v4 corpus; they encode our
+construction, not a discovered correspondence.}
+\label{fig:sankey-app}
+\end{figure}
+
+\section{Retrained ablations}
+\label{app:ablations}
+
+Two ablations require retraining: \emph{no-class-restriction}
+(parallel corpus regenerated with every category drawing from the full
+Barthel range, seed 42) and \emph{no-augmentation} (masking
+augmentation disabled). \textbf{Budget caveat:} both retrained
+ablations use an 8-epoch budget (val.\ PPL $14.8$) versus 15 epochs
+for the full system (PPL $10.7$); the comparison therefore bounds the
+component's contribution at reduced budget rather than at convergence.
+Both are decoded with the full beam+fusion configuration.
+
+\begin{table}[h]
+\centering
+\small
+\caption{Retrained ablations (metrics as in Table~1; decoded with
+beam-5, $\lambda=0.35$, repetition penalty).}
+\begin{tabular}{lccccc}
+\toprule
+System & BA & JS$\downarrow$ & D2$\uparrow$ & RM & b/g\\
+\midrule
+full (15 ep.) & 0.68 [.59,.77] & \textbf{0.52} & 0.72 & 2 & 7.31\\
+no class restr.\ (8 ep.) & 0.80 [.70,.88] & 0.62 & 0.44 & 2 & 7.02\\
+no augmentation (8 ep.) & 0.74 [.65,.83] & 0.48 & 0.77 & 2 & 7.23\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Removing the class restriction shifts probability mass onto the most
+frequent glyphs and transitions: attested-bigram score rises
+(0.80 vs.\ 0.68) while unigram-distribution match and diversity
+degrade (JS $0.52\to0.62$, D2 $0.72\to0.44$) --- the same trade-off
+direction as the count-based baseline, in milder form. This is
+evidence that the \Ctwo{} class hypothesis contributes distributional
+shape, not just interpretability. Removing augmentation at equal
+budget moves all metrics within CI overlap of the full system;
+augmentation's measurable contribution at this corpus size is small.
+
+\section{Blind-judge protocol}
+\label{app:judges}
+
+Materials (blinded 40-item sheet, sealed key, analysis plan with AUC,
+Fleiss $\kappa$, bootstrap CIs) are in
+\texttt{reports/blind\_judge\_test/}. The test is pre-registered by
+commit hash; results will be reported regardless of outcome.
+
+\end{document}
