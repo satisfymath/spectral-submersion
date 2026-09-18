@@ -1,0 +1,10 @@
+{
+ "real_heldout_mean": 8.256890581241608,
+ "real_heldout_n": 23,
+ "proposal_bits_fullLM": 6.143993632331193,
+ "lambda_035_bits": 7.3133592025524505,
+ "sweep_first_last": [
+  8.025040118199987,
+  5.365762944678374
+ ]
+}

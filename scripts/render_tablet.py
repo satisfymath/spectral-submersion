@@ -29,7 +29,7 @@ def base(tok):
     return m.group(1).zfill(3) if m else None
 
 
-def load_glyph(tok, height_px):
+def load_glyph(tok, height_px, ink="#141414"):
     code = base(tok)
     p = GLYPH_DIR / f"{code}.png"
     if code is None or not p.exists():
@@ -41,19 +41,20 @@ def load_glyph(tok, height_px):
     arr = np.array(im).astype(float)
     alpha = arr[:, :, 3] / 255.0 * (1 - arr[:, :, :3].mean(axis=2) / 255.0)
     out = np.zeros_like(arr)
-    out[:, :, :3] = 20
+    r, gch, b = int(ink[1:3], 16), int(ink[3:5], 16), int(ink[5:7], 16)
+    out[:, :, 0], out[:, :, 1], out[:, :, 2] = r, gch, b
     out[:, :, 3] = np.clip(alpha, 0, 1) * 255
     return Image.fromarray(out.astype(np.uint8))
 
 
 def compose(lines, glyph_h=220, gap=28, margin=120, line_gap=70, labels=True,
-            title=None, boustrophedon=True):
+            title=None, boustrophedon=True, bg=PARCHMENT, ink="#141414"):
     rendered = []
     missing = []
     for seq in lines:
         row = []
         for tok in seq.split():
-            g = load_glyph(tok, glyph_h)
+            g = load_glyph(tok, glyph_h, ink)
             if g is None:
                 missing.append(tok)
                 continue
@@ -65,7 +66,7 @@ def compose(lines, glyph_h=220, gap=28, margin=120, line_gap=70, labels=True,
     line_w = [sum(g.width for g in row) + gap * max(0, len(row) - 1) for row in rendered]
     W = max(line_w) + 2 * margin + (160 if labels else 0)
     H = margin * 2 + len(rendered) * glyph_h + (len(rendered) - 1) * line_gap + (120 if title else 0)
-    canvas = Image.new("RGBA", (W, H), PARCHMENT)
+    canvas = Image.new("RGBA", (W, H), (0, 0, 0, 0) if bg == "none" else bg)
 
     y = margin + (120 if title else 0)
     x0 = margin + (160 if labels else 0)
@@ -90,6 +91,8 @@ def main():
     ap.add_argument("--no-labels", action="store_true")
     ap.add_argument("--no-boustrophedon", action="store_true")
     ap.add_argument("--glyph-height", type=int, default=220)
+    ap.add_argument("--bg", default=PARCHMENT, help="background hex, or 'none' for transparent")
+    ap.add_argument("--ink", default="#141414")
     args = ap.parse_args()
 
     lines = list(args.line)
@@ -100,7 +103,7 @@ def main():
 
     canvas, (labels, title, gh, lg, margin, n) = compose(
         lines, glyph_h=args.glyph_height, labels=not args.no_labels, title=args.title,
-        boustrophedon=not args.no_boustrophedon)
+        boustrophedon=not args.no_boustrophedon, bg=args.bg, ink=args.ink)
 
     # labels/title via matplotlib on top of the PIL canvas
     dpi = 100
@@ -119,7 +122,7 @@ def main():
             y += gh + lg
     out = Path(args.out)
     out.parent.mkdir(parents=True, exist_ok=True)
-    fig.savefig(out, dpi=dpi, facecolor=PARCHMENT)
+    fig.savefig(out, dpi=dpi, facecolor="none" if args.bg == "none" else args.bg, transparent=args.bg == "none")
     print(f"Saved {out} ({canvas.width}x{canvas.height})")
 
 

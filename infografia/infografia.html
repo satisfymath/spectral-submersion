@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8">
+<style>
+:root{
+  --ivory:#f6efe2; --ivory2:#efe4d0; --ink:#2b2118; --ink2:#5a4a3a; --muted:#8c7b68;
+  --burdeos:#8a2f2f; --cobre:#c2702a; --azul:#2a6f9e; --oliva:#8a8a2a; --sand:#d9c59a;
+  --wood:#2a1b12; --wood2:#3a281b; --line:#cdbfa6;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:2000px;min-height:3556px;background:var(--ivory);color:var(--ink);font-family:"Adwaita Sans","Montserrat","DejaVu Sans",sans-serif;font-size:17px;line-height:1.4}
+body{background:
+  radial-gradient(1200px 500px at 50% -80px, rgba(194,112,42,.12), transparent 70%),
+  repeating-linear-gradient(180deg, rgba(120,90,50,.028) 0 2px, transparent 2px 9px),
+  var(--ivory)}
+.page{padding:60px 96px 50px}
+h1,h2,h3,.serif{font-family:"Libertinus Serif Display","Libertinus Serif","Garamond Libre",serif}
+h1{font-size:78px;letter-spacing:.14em;font-weight:600;text-align:center;line-height:1}
+.sub{font-size:28px;text-align:center;color:var(--ink2);margin-top:12px;font-style:italic}
+.byline{text-align:center;font-size:13px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);margin-top:14px}
+.rule{height:1px;background:linear-gradient(90deg,transparent,var(--line) 20%,var(--line) 80%,transparent);margin:20px 0}
+section{margin-top:20px}
+h2{font-size:15px;letter-spacing:.26em;text-transform:uppercase;color:var(--burdeos);font-weight:600;font-family:"Adwaita Sans","Montserrat",sans-serif;display:flex;align-items:center;gap:14px}
+h2::after{content:"";flex:1;height:1px;background:var(--line)}
+h2 .n{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;border:1.5px solid var(--burdeos);font-size:12px;letter-spacing:0}
+p.lead{font-size:19px;margin-top:10px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:34px;margin-top:12px}
+.three{display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px;margin-top:14px}
+.small{font-size:13.5px;color:var(--ink2)}
+.tiny{font-size:12px;color:var(--muted)}
+/* C1 C2 C3 */
+.claims{display:grid;grid-template-columns:1fr 34px 1fr 34px 1fr;align-items:stretch;gap:0;margin-top:14px}
+.claim{border:1.5px solid var(--line);border-radius:10px;padding:14px 16px;background:rgba(255,255,255,.35);position:relative}
+.claim b{display:block;font-size:22px;font-family:"Libertinus Serif Display",serif;margin-bottom:4px}
+.claim.c1 b{color:var(--azul)} .claim.c2 b{color:var(--burdeos)} .claim.c3 b{color:var(--muted)}
+.claim.c2{border-color:var(--burdeos);border-width:2.5px;background:rgba(138,47,47,.06);box-shadow:0 6px 18px rgba(138,47,47,.12)}
+.claim.c3{border-style:dashed}
+.claim .tag{position:absolute;top:-13px;right:14px;background:var(--burdeos);color:#fff;font-size:11px;letter-spacing:.14em;text-transform:uppercase;padding:4px 10px;border-radius:999px}
+.arrow{display:grid;place-items:center;color:var(--muted);font-size:26px}
+/* stat tiles */
+.tiles{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;margin-top:14px}
+.tile{border-top:3px solid var(--cobre);padding:12px 4px 4px}
+.tile .v{font-family:"Libertinus Serif Display",serif;font-size:52px;line-height:1;color:var(--ink)}
+.tile .l{font-size:13px;color:var(--ink2);margin-top:6px}
+/* pipeline */
+.pipe{display:grid;grid-template-columns:1fr 30px 1.15fr 30px 1.15fr 30px 1fr;align-items:center;gap:0;margin-top:14px}
+.pbox{border:1.5px solid var(--line);border-radius:10px;padding:12px 14px;background:rgba(255,255,255,.4);min-height:104px}
+.pbox b{display:block;font-size:15px;margin-bottom:3px}
+.pbox.hi{border-color:var(--cobre);background:rgba(194,112,42,.07)}
+.pbox.out{border-color:var(--burdeos);background:rgba(138,47,47,.06)}
+/* charts */
+.charts{display:grid;grid-template-columns:1fr 1fr;gap:16px 26px;margin-top:12px}
+.chart{background:rgba(255,255,255,.42);border:1px solid var(--line);border-radius:12px;padding:12px 12px 8px}
+.chart img{width:100%;display:block}
+.chart .cap{font-size:12.5px;color:var(--ink2);margin-top:6px;padding:0 4px}
+.chart.neg{border-color:var(--cobre)}
+.chart.neg .cap b{color:var(--cobre)}
+.concl{margin-top:18px;font-family:"Libertinus Serif Display",serif;font-size:28px;text-align:center;color:var(--ink);padding:14px 30px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+/* hero */
+.hero{margin-top:30px;border-radius:18px;padding:36px 50px 30px;color:#f3e6cc;position:relative;overflow:hidden;
+  background:
+   repeating-linear-gradient(94deg, rgba(255,255,255,.035) 0 3px, transparent 3px 11px),
+   repeating-linear-gradient(88deg, rgba(0,0,0,.18) 0 1px, transparent 1px 23px),
+   linear-gradient(180deg,var(--wood2),var(--wood) 55%,#1f140d);
+  box-shadow:0 30px 60px rgba(43,33,24,.28), inset 0 0 0 1px rgba(243,230,204,.18), inset 0 0 120px rgba(0,0,0,.35)}
+.hero .k{font-size:13px;letter-spacing:.3em;text-transform:uppercase;color:#d9c59a;text-align:center}
+.hero .rap{font-family:"Libertinus Serif Display",serif;font-size:54px;text-align:center;margin-top:10px;font-style:italic;color:#f7ecd6;letter-spacing:.01em}
+.hero .glyphs{margin:30px auto 22px;width:1640px;display:block;filter:drop-shadow(0 2px 0 rgba(0,0,0,.5)) drop-shadow(0 0 18px rgba(217,197,154,.18))}
+.hero .es{font-family:"Libertinus Serif Display",serif;font-size:40px;text-align:center;color:#f7ecd6}
+.hero .seq{font-family:"Adwaita Mono","DejaVu Sans Mono",monospace;font-size:15px;letter-spacing:.08em;text-align:center;color:#d9c59a;margin-top:12px}
+.hero .c2{margin-top:16px;text-align:center;font-size:13.5px;color:#cbb58c;letter-spacing:.06em}
+.hero .c2 b{color:#f3e6cc}
+.hero .facts{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:22px;border-top:1px solid rgba(243,230,204,.18);padding-top:16px}
+.hero .facts div{font-size:12.5px;color:#cbb58c;line-height:1.35}
+.hero .facts b{display:block;font-family:"Libertinus Serif Display",serif;font-size:26px;color:#f7ecd6;line-height:1.05;margin-bottom:3px}
+/* know/dont */
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:34px;margin-top:14px}
+.col{border-radius:12px;padding:16px 20px;background:rgba(255,255,255,.4);border:1.5px solid var(--line)}
+.col h3{font-size:16px;letter-spacing:.06em;margin-bottom:8px}
+.col.yes h3{color:var(--azul)} .col.no h3{color:var(--burdeos)}
+.col ul{list-style:none} .col li{padding:4px 0 4px 26px;position:relative;font-size:14.5px}
+.col.yes li::before{content:"✓";position:absolute;left:4px;color:var(--azul);font-weight:700}
+.col.no li::before{content:"✕";position:absolute;left:4px;color:var(--burdeos);font-weight:700}
+.frontier{margin-top:24px;display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:center;border-left:4px solid var(--cobre);padding:8px 0 8px 20px}
+.frontier .k{font-size:13px;letter-spacing:.26em;text-transform:uppercase;color:var(--cobre);font-weight:600}
+.frontier .q{font-family:"Libertinus Serif Display",serif;font-size:22px}
+.final{margin-top:34px;text-align:center;font-family:"Libertinus Serif Display",serif;font-style:italic;font-size:23px;color:var(--ink2)}
+.final small{display:block;font-family:"Adwaita Sans",sans-serif;font-style:normal;font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-top:12px}
+.glyphrow{display:flex;justify-content:center;gap:10px;margin-top:10px;opacity:.55}
+.glyphrow img{height:34px}
+</style></head><body><div class="page">
+
+<h1>SUBMERSIÓN ESPECTRAL</h1>
+<div class="sub">Generación auditable de hipótesis para Rongorongo</div>
+<div class="byline">David Astudillo · Spectral Submersion Project · 2026</div>
+<div class="rule"></div>
+
+<section>
+ <h2><span class="n">1</span>El problema</h2>
+ <div class="two">
+  <p class="lead">El rongorongo de Rapa Nui sigue sin descifrarse. No existe un corpus paralelo verificado rapanui ↔ rongorongo, y sin él ningún método puede aprender qué significa un glifo. El corpus que sobrevive cabe en una página: 5 460 glifos.</p>
+  <p class="lead small">Lo que sí existe es la estadística interna de las tablillas: qué signos aparecen, cuánto se repiten, cuáles se siguen. La pregunta de esta investigación es exacta: <b>¿qué puede y qué no puede concluirse solo desde esa estadística?</b></p>
+ </div>
+</section>
+
+<section>
+ <h2><span class="n">2</span>Lo que las matemáticas permiten saber</h2>
+ <p class="lead">Si a cada glifo se le cambia la etiqueta de forma consistente, todas las estadísticas internas quedan idénticas (teorema T1, <i>orbit-constancy</i>). Por eso la estructura es demostrable, pero el significado absoluto no se puede decidir desde dentro (P7). Eso define tres niveles de afirmación:</p>
+ <div class="claims">
+  <div class="claim c1"><b>C1 · Estructura</b><div class="small">Señal estadística demostrable contra nulos internos (permutación, frecuencia igualada, uniforme).</div></div>
+  <div class="arrow">→</div>
+  <div class="claim c2"><span class="tag">Este sistema está aquí</span><b>C2 · Hipótesis</b><div class="small">Órdenes de preferencia rankeables entre candidatos; auditables, no falsables desde dentro.</div></div>
+  <div class="arrow">→</div>
+  <div class="claim c3"><b>C3 · Significado</b><div class="small">Semántica anclada, traducción real. Inalcanzable sin conocimiento externo independiente.</div></div>
+ </div>
+</section>
+
+<section>
+ <h2><span class="n">3</span>Corpus rongorongo real</h2>
+ <div class="tiles">
+  <div class="tile"><div class="v">6</div><div class="l">tablillas, A–F (transcripción Barthel, corpus RR)</div></div>
+  <div class="tile"><div class="v">107</div><div class="l">líneas</div></div>
+  <div class="tile"><div class="v">5 460</div><div class="l">glifos (tokens)</div></div>
+  <div class="tile"><div class="v">941</div><div class="l">tipos Barthel distintos</div></div>
+  <div class="tile"><div class="v">8.26</div><div class="l">bits/glifo: referencia real held-out (LM trigrama entrenado en A, B, C, E; evaluado en D, F)</div></div>
+ </div>
+</section>
+
+<section>
+ <h2><span class="n">4</span>El modelo</h2>
+ <div class="pipe">
+  <div class="pbox"><b>Glosa rapanui</b><div class="small">Léxico de 232 tipos. Corpus paralelo sintético por necesidad lógica (T1): 60 000 pares glosa → glifo, restringidos por una hipótesis de clase (personas → serie 200–399, verbos → 400–599…). Cobertura 939/941 tipos.</div></div>
+  <div class="arrow">→</div>
+  <div class="pbox hi"><b>Transformer</b><div class="small">Encoder-decoder, d<sub>model</sub> = 256, 8 cabezas, 4 + 4 capas, 5.8 M parámetros, 15 épocas. Salida: códigos Barthel reales, no símbolos inventados.</div></div>
+  <div class="arrow">→</div>
+  <div class="pbox hi"><b>Beam search + LM trigrama real</b><div class="small">Beam 5, fusión superficial con un LM estimado en las tablillas reales (λ = 0.35), penalización a la tercera repetición seguida.</div></div>
+  <div class="arrow">→</div>
+  <div class="pbox out"><b>Secuencia Barthel candidata</b><div class="small">Una hipótesis C2: plausible, medible, auditable con seis métricas frente a la estadística real.</div></div>
+ </div>
+</section>
+
+<section>
+ <h2><span class="n">5</span>Resultados</h2>
+ <div class="charts">
+  <div class="chart"><img src="charts/c1_systems.svg"><div class="cap"><b>Sistema vs. baselines y ablaciones.</b> Quitar la fusión cuesta 0.7 bits/glifo; sin penalización de repetición aparecen rachas de 40; el baseline por conteos logra bigramas perfectos (BA = 1.00) colapsando a distinct-2 = 0.03.</div></div>
+  <div class="chart"><img src="charts/c2_lambda.svg"><div class="cap"><b>Barrido del peso de fusión λ.</b> Predicción de P6 confirmada: los bits/glifo bajan monótonamente y para λ ≥ 0.85 la salida colapsa hacia la estadística degenerada del baseline por conteos.</div></div>
+  <div class="chart"><img src="charts/c3_lines.svg"><div class="cap"><b>Distribuciones por línea.</b> Las salidas del sistema quedan por debajo de la media real (7.31 vs 8.26): sesgo de selección esperado en un decodificador que busca la moda, no evidencia de autenticidad.</div></div>
+  <div class="chart neg"><img src="charts/c4_spectrum.svg"><div class="cap"><b>Resultado negativo reportado.</b> El espectro PPMI del corpus real no se separa de los controles: régimen de líneas cortas y vocabulario grande donde T3 no garantiza separación. También el benchmark icónico (Egipcio/Chino con referentes conocidos) no superó el umbral prefijado.</div></div>
+ </div>
+ <div class="concl">«El sistema no traduce rongorongo: genera hipótesis glíficas estadísticamente plausibles y auditables.»</div>
+</section>
+
+<div class="hero">
+ <div class="k">Petición de mano · línea generada por el sistema</div>
+ <div class="rap">Ko kou taku vahine, e aroha au ki a kou, mo te ora tonu</div>
+ <img class="glyphs" src="hero_glyphs.png">
+ <div class="es">«Tú eres mi esposa; te amo para toda la vida.»</div>
+ <div class="seq">002 002 · 004 004 · 280 280 · 450 · 063 063 · 004 004 · 002 002 · 004 004 · 430 · 022</div>
+ <div class="c2"><b>Hipótesis C2 generada por el modelo — no traducción histórica demostrada.</b><br>Trazados vectoriales de glifos reales del corpus RR. <i>Vahine</i> (esposa) cae en 280 280: figuras humanas de la serie 200–399 de Barthel.</div>
+ <div class="facts">
+  <div><b>16 / 17</b>glifos idénticos entre dos modelos entrenados por separado (v6 y v6 sin aumento)</div>
+  <div><b>24 / 26</b>configuraciones del decodificador (beam 3–20, λ 0.20–0.50) conservan el núcleo 280 280 450 063 063 … 430 022</div>
+  <div><b>15 / 16</b>transiciones entre glifos atestiguadas en las tablillas A–F</div>
+  <div><b>6.14</b>bits/glifo bajo el LM real: en el extremo de mayor probabilidad del sistema (búsqueda de moda, P6), no prueba de autenticidad</div>
+ </div>
+</div>
+
+<section>
+ <h2><span class="n">6</span>Qué sabemos · qué no sabemos</h2>
+ <div class="cols">
+  <div class="col yes"><h3>Sí podemos afirmar</h3><ul>
+   <li>Existe estructura estadística en el corpus real (bigramas, comunidades; C1)</li>
+   <li>Se generan secuencias Barthel plausibles: 100 % de vocabulario atestiguado, repetición máxima 2, distinct-2 0.72</li>
+   <li>El comportamiento es cuantificable con seis métricas e intervalos bootstrap</li>
+   <li>Estabilidad y controles: ablaciones, barrido λ, nulos de permutación con corrección BH</li>
+   <li>Las hipótesis se pueden rankear y auditar (C2)</li>
+  </ul></div>
+  <div class="col no"><h3>Todavía no podemos afirmar</h3><ul>
+   <li>Una traducción semántica de ninguna secuencia</li>
+   <li>Una lectura fonética de los glifos</li>
+   <li>Una equivalencia palabra ↔ glifo: el mapa aprendido es nuestra hipótesis declarada, no un hallazgo</li>
+   <li>Un desciframiento del rongorongo (C3 es indecidible desde la estadística interna, P7)</li>
+  </ul></div>
+ </div>
+ <div class="frontier"><div class="k">Siguiente frontera</div><div class="q">Introducir anclajes externos independientes y probar predicciones verdaderamente fuera de muestra.</div></div>
+</section>
+
+<div class="final">
+ «Entre millones de secuencias posibles, esta fue la que elegimos para decirte que quiero construir mi vida contigo.»
+ <div class="glyphrow"><img src="../data/rongorongo/glyph_svgs/280.png"><img src="../data/rongorongo/glyph_svgs/450.png"><img src="../data/rongorongo/glyph_svgs/430.png"><img src="../data/rongorongo/glyph_svgs/022.png"></div>
+ <small>Fuentes: Astudillo, «Submersión espectral de lenguajes perdidos» (manuscrito consolidado, 2026) · Spectral Submersion v3 (paper_v3) · reports/v3_evaluation_suite.json · reports/lambda_sweep.json · reports/propuesta_certeza.md · github.com/satisfymath/spectral-submersion</small>
+</div>
+
+</div></body></html>
