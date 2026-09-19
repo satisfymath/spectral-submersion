@@ -1,4 +1,5 @@
 """Reading key for the proposal line: glyphs coloured by what we can honestly say."""
+import os
 import sys
 sys.path.insert(0, "scripts")
 from render_tablet import load_glyph
@@ -10,19 +11,21 @@ color = {i: INK for i in range(len(SEQ))}
 for i in (4, 5): color[i] = BURDEOS      # 280 280 vahine
 color[6] = COBRE                          # 450 verb class
 for i in (15, 16): color[i] = AZUL        # 430 022 ora tonu formula
-H, GAP, M = 300, 34, 90
+H, GAP, M = 300, 34, 150
+SC = float(os.environ.get("KEY_SCALE", "1"))
 gl = [load_glyph(t, H, color[i]) for i, t in enumerate(SEQ)]
 W = sum(g.width for g in gl) + GAP * (len(gl) - 1) + 2 * M
-canvas = Image.new("RGBA", (W, H + 400), PARCH)
+canvas = Image.new("RGBA", (W, H + int(400 * SC)), (0, 0, 0, 0) if os.environ.get("KEY_BARE") == "1" else PARCH)
 # subtle grain
 d = ImageDraw.Draw(canvas)
-for y in range(0, canvas.height, 7):
+for y in (range(0, canvas.height, 7) if os.environ.get("KEY_BARE") != "1" else []):
     d.line([(0, y), (W, y)], fill=(120, 90, 50, 6))
 x, y0 = M, 100
 xs = []
 for g in gl:
     canvas.alpha_composite(g, (x, y0)); xs.append((x, x + g.width)); x += g.width + GAP
 def font(sz, bold=False, italic=False):
+    sz = int(sz * SC)
     cands = ["/usr/share/fonts/libertinus/LibertinusSerifDisplay-Regular.otf",
              "/usr/share/fonts/libertinus/LibertinusSerif-Regular.otf"]
     import glob
@@ -37,16 +40,24 @@ def bracket(i0, i1, col, lines, yb):
     yy = yb + 30
     for j, (txt, sz, it) in enumerate(lines):
         f = font(sz, italic=it, bold=(j == 0))
-        w = d.textlength(txt, font=f); d.text((cx - w / 2, yy), txt, fill=col, font=f); yy += sz + 8
+        w = d.textlength(txt, font=f); d.text((cx - w / 2, yy), txt, fill=col, font=f); yy += int(sz * SC) + 8
 yb = y0 + H + 18
-bracket(0, 3, INK, [("ko kou taku…", 30, True), ("partículas y marcas (serie 001–099)", 22, False)], yb)
-bracket(4, 5, BURDEOS, [("vahine · esposa", 34, True), ("dos figuras humanas, serie 200–399 de Barthel:", 22, False), ("la única capa del rongorongo con consenso iconográfico", 22, False)], yb)
-bracket(6, 6, COBRE, [("aroha · amar", 30, True), ("clase verbo (400–599)", 22, False)], yb)
+bracket(0, 3, INK, [("ko kou taku…", 30, True), ("partículas (serie 001–099)", 22, False)], yb)
+bracket(4, 5, BURDEOS, [("vahine · esposa", 34, True), ("dos figuras humanas", 22, False), ("(serie 200–399 de Barthel)", 22, False)], yb)
+bracket(6, 6, COBRE, [("aroha", 30, True), ("verbo", 22, False)], yb)
 bracket(7, 14, INK, [("… e aroha au ki a kou …", 30, True), ("espejo de la apertura: 004 004 · 002 002 · 004 004", 22, False)], yb)
-bracket(15, 16, AZUL, [("mo te ora tonu · toda la vida", 34, True), ("430 022: la misma fórmula que cierra", 22, False), ("«quiero conocerte toda la vida» en el poema", 22, False)], yb)
-ft = font(40, italic=True); t = "Ko kou taku vahine, e aroha au ki a kou, mo te ora tonu"
-d.text(((W - d.textlength(t, font=ft)) / 2, 14), t, fill=INK, font=ft)
-f2 = font(26); t2 = "«Tú eres mi esposa; te amo para toda la vida»  ·  hipótesis C2 generada por el modelo, no traducción histórica demostrada"
-d.text(((W - d.textlength(t2, font=f2)) / 2, canvas.height - 60), t2, fill="#6a5a48", font=f2)
-canvas.convert("RGB").save("reports/figures/clave_lectura_peticion.png", quality=95)
+bracket(15, 16, AZUL, [("mo te ora tonu", 34, True), ("toda la vida · 430 022,", 22, False), ("el mismo cierre del poema", 22, False)], yb)
+import os
+BARE = os.environ.get("KEY_BARE") == "1"
+if not BARE:
+    ft = font(40, italic=True); t = "Ko kou taku vahine, e aroha au ki a kou, mo te ora tonu"
+    d.text(((W - d.textlength(t, font=ft)) / 2, 14), t, fill=INK, font=ft)
+if not BARE:
+    f2 = font(26); t2 = "«Tú eres mi esposa; te amo para toda la vida»  ·  hipótesis C2 generada por el modelo, no traducción histórica demostrada"
+    d.text(((W - d.textlength(t2, font=f2)) / 2, canvas.height - 60), t2, fill="#6a5a48", font=f2)
+if BARE:
+    canvas = canvas.crop((0, 60, W, canvas.height - int(40 * SC)))
+    canvas.save("infografia/clave_bare.png")
+else:
+    canvas.convert("RGB").save("reports/figures/clave_lectura_peticion.png", quality=95)
 print("saved", canvas.size)
