@@ -42,11 +42,19 @@ def bracket(i0, i1, col, lines, yb):
         f = font(sz, italic=it, bold=(j == 0))
         w = d.textlength(txt, font=f); d.text((cx - w / 2, yy), txt, fill=col, font=f); yy += int(sz * SC) + 8
 yb = y0 + H + 18
-bracket(0, 3, INK, [("ko kou taku…", 30, True), ("partículas (serie 001–099)", 22, False)], yb)
-bracket(4, 5, BURDEOS, [("vahine · esposa", 34, True), ("dos figuras humanas", 22, False), ("(serie 200–399 de Barthel)", 22, False)], yb)
-bracket(6, 6, COBRE, [("aroha", 30, True), ("verbo", 22, False)], yb)
-bracket(7, 14, INK, [("… e aroha au ki a kou …", 30, True), ("espejo de la apertura: 004 004 · 002 002 · 004 004", 22, False)], yb)
-bracket(15, 16, AZUL, [("mo te ora tonu", 34, True), ("toda la vida · 430 022,", 22, False), ("el mismo cierre del poema", 22, False)], yb)
+POETIC = os.environ.get("KEY_POETIC") == "1"
+if POETIC:
+    bracket(0, 3, INK, [("ko kou taku…", 30, True), ("tú eres mi…", 22, False)], yb)
+    bracket(4, 5, BURDEOS, [("vahine · esposa", 34, True), ("dos figuras humanas: ella", 22, False)], yb)
+    bracket(6, 6, COBRE, [("aroha", 30, True), ("amar", 22, False)], yb)
+    bracket(7, 14, INK, [("… e aroha au ki a kou …", 30, True), ("un espejo: abre y cierra con los mismos signos", 22, False)], yb)
+    bracket(15, 16, AZUL, [("mo te ora tonu", 34, True), ("para toda la vida", 22, False)], yb)
+else:
+  bracket(0, 3, INK, [("ko kou taku…", 30, True), ("partículas (serie 001–099)", 22, False)], yb)
+  bracket(4, 5, BURDEOS, [("vahine · esposa", 34, True), ("dos figuras humanas", 22, False), ("(serie 200–399 de Barthel)", 22, False)], yb)
+  bracket(6, 6, COBRE, [("aroha", 30, True), ("verbo", 22, False)], yb)
+  bracket(7, 14, INK, [("… e aroha au ki a kou …", 30, True), ("espejo de la apertura: 004 004 · 002 002 · 004 004", 22, False)], yb)
+  bracket(15, 16, AZUL, [("mo te ora tonu", 34, True), ("toda la vida · 430 022,", 22, False), ("el mismo cierre del poema", 22, False)], yb)
 import os
 BARE = os.environ.get("KEY_BARE") == "1"
 if not BARE:
@@ -57,7 +65,7 @@ if not BARE:
     d.text(((W - d.textlength(t2, font=f2)) / 2, canvas.height - 60), t2, fill="#6a5a48", font=f2)
 if BARE:
     canvas = canvas.crop((0, 60, W, canvas.height - int(40 * SC)))
-    canvas.save("infografia/clave_bare.png")
+    canvas.save("infografia/clave_bare_poetic.png" if POETIC else "infografia/clave_bare.png")
 else:
     canvas.convert("RGB").save("reports/figures/clave_lectura_peticion.png", quality=95)
 print("saved", canvas.size)

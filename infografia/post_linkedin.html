@@ -1,46 +1,62 @@
 <!doctype html><html lang="es"><head><meta charset="utf-8"><style>
-:root{--ivory:#f6efe2;--ink:#2b2118;--ink2:#5a4a3a;--muted:#8c7b68;--burdeos:#8a2f2f;--line:#cdbfa6;--wood:#2a1b12;--wood2:#3a281b}
+:root{--ivory:#f7f0e3;--ink:#2b2118;--ink2:#5a4a3a;--muted:#8c7b68;--burdeos:#8a2f2f;--line:#d8cbb1;--sand:#e6d6b2;--wood:#2a1b12;--wood2:#3a281b}
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{width:1350px;background:var(--ivory);color:var(--ink);font-family:"Adwaita Sans","Montserrat",sans-serif}
-body{background:radial-gradient(900px 400px at 50% -60px, rgba(194,112,42,.13), transparent 70%),repeating-linear-gradient(180deg, rgba(120,90,50,.028) 0 2px, transparent 2px 9px),var(--ivory)}
-.page{padding:54px 64px 44px}
+html,body{width:1350px;color:var(--ink);font-family:"Adwaita Sans","Montserrat",sans-serif}
+body{background:
+  radial-gradient(1100px 520px at 50% -120px, rgba(194,112,42,.16), transparent 70%),
+  radial-gradient(900px 600px at 50% 108%, rgba(42,111,158,.10), transparent 70%),
+  repeating-linear-gradient(180deg, rgba(120,90,50,.025) 0 2px, transparent 2px 9px),
+  linear-gradient(180deg,#f9f3e8,var(--ivory) 40%,#f1e6d1)}
+.page{padding:64px 70px 48px}
 .serif{font-family:"Libertinus Serif Display","Libertinus Serif",serif}
-h1{font-family:"Libertinus Serif Display",serif;font-size:86px;font-weight:600;text-align:center;line-height:1;letter-spacing:.01em}
-.sub{text-align:center;font-size:15px;letter-spacing:.28em;text-transform:uppercase;color:var(--muted);margin-top:14px}
-.hero{margin-top:30px;border-radius:18px;padding:34px 40px 28px;color:#f3e6cc;position:relative;
+h1{font-family:"Libertinus Serif Display",serif;font-size:96px;font-weight:600;text-align:center;line-height:1;letter-spacing:.005em}
+.sub{text-align:center;font-family:"Libertinus Serif Display",serif;font-style:italic;font-size:26px;color:var(--ink2);margin-top:14px}
+.orn{display:flex;align-items:center;justify-content:center;gap:22px;margin:20px 0 0;color:var(--muted)}
+.orn i{display:block;width:180px;height:1px;background:linear-gradient(90deg,transparent,var(--line));}
+.orn i.r{background:linear-gradient(90deg,var(--line),transparent)}
+.orn img{height:76px;opacity:.9}
+.hero{margin-top:22px;border-radius:22px;padding:40px 44px 34px;color:#f3e6cc;position:relative;
   background:repeating-linear-gradient(94deg, rgba(255,255,255,.035) 0 3px, transparent 3px 11px),repeating-linear-gradient(88deg, rgba(0,0,0,.18) 0 1px, transparent 1px 23px),linear-gradient(180deg,var(--wood2),var(--wood) 55%,#1f140d);
-  box-shadow:0 24px 50px rgba(43,33,24,.28), inset 0 0 0 1px rgba(243,230,204,.18), inset 0 0 100px rgba(0,0,0,.35)}
-.hero .k{font-size:12.5px;letter-spacing:.3em;text-transform:uppercase;color:#d9c59a;text-align:center}
-.hero img{width:1222px;display:block;margin:18px auto 14px;filter:drop-shadow(0 2px 0 rgba(0,0,0,.5)) drop-shadow(0 0 16px rgba(217,197,154,.18))}
-.hero .rap{font-family:"Libertinus Serif Display",serif;font-style:italic;font-size:38px;text-align:center;color:#f7ecd6}
-.hero .es{font-family:"Libertinus Serif Display",serif;font-size:27px;text-align:center;color:#e6d5b5;margin-top:6px}
-.key{margin-top:30px;text-align:center}
-.key img{width:1240px;display:block;margin:0 auto}
-.key .t{font-size:13px;letter-spacing:.26em;text-transform:uppercase;color:var(--burdeos);font-weight:600;margin-bottom:10px}
-.two{display:grid;grid-template-columns:1fr 1fr;gap:34px;margin-top:30px}
-.card{border:1.5px solid var(--line);border-radius:14px;padding:16px 18px 14px;background:rgba(255,255,255,.42);text-align:center}
-.card img{width:100%;height:auto;display:block;margin:0 auto}
-.card .rap{font-family:"Libertinus Serif Display",serif;font-style:italic;font-size:24px;margin-top:10px}
-.card .es{font-size:16px;color:var(--ink2);margin-top:2px}
-.card .n{font-size:12.5px;color:var(--muted);margin-top:8px}
-.foot{margin-top:34px;display:flex;justify-content:space-between;align-items:flex-end;border-top:1px solid var(--line);padding-top:14px;font-size:12px;color:var(--muted);letter-spacing:.04em}
-.foot .sig{font-family:"Libertinus Serif Display",serif;font-style:italic;font-size:24px;color:var(--ink);white-space:nowrap;margin-left:30px}
+  box-shadow:0 28px 56px rgba(43,33,24,.30), inset 0 0 0 1px rgba(243,230,204,.2), inset 0 0 110px rgba(0,0,0,.35)}
+.hero .k{font-size:12.5px;letter-spacing:.34em;text-transform:uppercase;color:#d9c59a;text-align:center}
+.hero img{width:1200px;display:block;margin:22px auto 18px;filter:drop-shadow(0 2px 0 rgba(0,0,0,.5)) drop-shadow(0 0 18px rgba(217,197,154,.22))}
+.hero .rap{font-family:"Libertinus Serif Display",serif;font-style:italic;font-size:42px;text-align:center;color:#f7ecd6}
+.hero .es{font-family:"Libertinus Serif Display",serif;font-size:29px;text-align:center;color:#e6d5b5;margin-top:8px}
+.key{margin-top:34px;text-align:center}
+.key .t{font-family:"Libertinus Serif Display",serif;font-style:italic;font-size:22px;color:var(--ink2);margin-bottom:6px}
+.key img{width:1210px;display:block;margin:0 auto}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:30px;margin-top:26px}
+.card{border-radius:18px;overflow:hidden;background:rgba(255,255,255,.5);border:1px solid var(--line);box-shadow:0 10px 26px rgba(43,33,24,.08)}
+.card .tab{height:210px;display:grid;place-items:center;background:
+  repeating-linear-gradient(180deg, rgba(120,90,50,.04) 0 1px, transparent 1px 6px),linear-gradient(180deg,#e9dbb9,var(--sand))}
+.card .tab img{height:150px}
+.card .tx{padding:14px 18px 16px;text-align:center}
+.card .rap{font-family:"Libertinus Serif Display",serif;font-style:italic;font-size:26px}
+.card .es{font-size:16.5px;color:var(--ink2);margin-top:2px}
+.card .n{font-size:13px;color:var(--muted);margin-top:8px;font-style:italic}
+.close{margin-top:40px;text-align:center}
+.close .sig{font-family:"Libertinus Serif Display",serif;font-style:italic;font-size:44px;color:var(--ink)}
+.close .sig b{color:var(--burdeos);font-style:normal}
+.close .line{font-family:"Libertinus Serif Display",serif;font-size:19px;color:var(--ink2);margin-top:10px}
+.foot{margin-top:30px;text-align:center;font-size:11px;letter-spacing:.06em;color:var(--muted)}
 </style></head><body><div class="page">
 <h1>Dijo que sí.</h1>
-<div class="sub">Rapa Nui · una pregunta en 17 glifos</div>
+<div class="sub">Rapa Nui, frente al mar, con una pregunta escrita en diecisiete glifos</div>
+<div class="orn"><i></i><img src="orn_280.png"><i class="r"></i></div>
 <div class="hero">
  <div class="k">La tablilla de la petición</div>
  <img src="hero_glyphs.png">
  <div class="rap">Ko kou taku vahine, e aroha au ki a kou, mo te ora tonu</div>
  <div class="es">«Tú eres mi esposa; te amo para toda la vida.»</div>
 </div>
-<div class="key"><div class="t">Clave de lectura</div><img src="clave_bare.png"></div>
+<div class="key"><div class="t">Cómo se lee</div><img src="clave_bare_poetic.png"></div>
 <div class="two">
- <div class="card"><img src="../reports/figures/tablilla_motu_moana.png"><div class="rap">I te motu, i mua o te moana</div><div class="es">«En la isla, frente al mar»</div><div class="n">el mar cayó en la serie de los peces (700)</div></div>
- <div class="card"><img src="../reports/figures/tablilla_mo_te_ora_tonu.png"><div class="rap">Mo te ora tonu</div><div class="es">«Para toda la vida»</div><div class="n">la única frase en la que los dos modelos coincidieron glifo por glifo</div></div>
+ <div class="card"><div class="tab"><img src="card_motu.png"></div><div class="tx"><div class="rap">I te motu, i mua o te moana</div><div class="es">«En la isla, frente al mar»</div><div class="n">el mar apareció escrito con peces</div></div></div>
+ <div class="card"><div class="tab"><img src="card_ora.png"></div><div class="tx"><div class="rap">Mo te ora tonu</div><div class="es">«Para toda la vida»</div><div class="n">la única frase que dos modelos distintos escribieron igual, glifo por glifo</div></div></div>
 </div>
-<div class="foot">
- <div>Glifos: trazados reales del corpus rongorongo (tablillas A–F, transcripción Barthel) · Secuencias: hipótesis C2 generadas por el modelo, no traducción histórica demostrada · github.com/satisfymath/spectral-submersion</div>
- <div class="sig">María Ignacia: mo te ora tonu ❤</div>
+<div class="close">
+ <div class="sig">María Ignacia: <b>mo te ora tonu</b> ❤</div>
+ <div class="line">Nadie sabe qué decían estos glifos hace siglos. Ella los leyó perfecto.</div>
 </div>
+<div class="foot">Glifos: trazados reales del corpus rongorongo (tablillas A–F) · secuencias generadas por un modelo, no traducción histórica · github.com/satisfymath/spectral-submersion</div>
 </div></body></html>
