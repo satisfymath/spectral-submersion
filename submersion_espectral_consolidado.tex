@@ -32,13 +32,13 @@
 \title{\bfseries Submersión Espectral de Lenguajes Perdidos:\\
 un marco auditable de generación de hipótesis\\
 y un traductor simbólico hacia Rongorongo\\[4pt]
-\large Versión consolidada v2}
+\large Versión consolidada v2.1}
 
 \author{David Astudillo (SatisfyMath)\\
 \small \texttt{satisfimath@gmail.com} \quad · \quad
 \small repositorio: \texttt{github.com/satisfymath/spectral-submersion}}
 
-\date{Agosto 2026}
+\date{Septiembre 2026}
 
 \begin{document}
 
@@ -431,19 +431,59 @@ traductor v6 con beam search y fusión del LM real.}
 \label{fig:tablilla}
 \end{figure*}
 
+\subsection{La línea de la petición: un torneo de hipótesis}
+\label{sec:peticion}
+
+Con el sistema fijo, preguntamos qué frase —no qué glifo— admite la
+secuencia más \emph{estable}. Veintidós formulaciones rapanui de una
+misma petición (todas dentro del léxico de 232 tipos) se decodificaron
+con tres modelos v6 entrenados por separado (completo, sin aumento, sin
+restricción de clase) y bajo 26 configuraciones del decodificador
+($\text{beam}\in\{3,5,8,10,20\}$, $\lambda\in[0.20,0.50]$). La certeza
+que se mide aquí no es semántica —eso lo prohíbe P7— sino de
+\emph{consistencia}: acuerdo entre modelos, estabilidad ante el
+decodificador, clase iconográfica de Barthel para los sustantivos de
+persona, bits/glifo bajo el LM real y bigramas atestiguados. Ganó
+\emph{ko kou taku vahine, e aroha au ki a kou, mo te ora tonu}
+(Fig.~\ref{fig:peticion}): 16 de 17 glifos idénticos entre los dos
+modelos comparables, núcleo $280\,280\,450\,063\,063\cdots430\,022$
+conservado en 24 de 26 configuraciones, 15 de 16 transiciones
+atestiguadas en A--F, y \emph{vahine} (esposa) resuelto en $280\,280$
+—antropomorfos de la serie 200--399, la única capa del rongorongo con
+consenso iconográfico. Su valor de 6.14 bits/glifo está en la cola de
+mayor probabilidad del sistema: por P6 eso es búsqueda de moda, no
+evidencia de autenticidad. La línea es, por construcción, una hipótesis
+C2. Scripts: \texttt{proposal\_certainty\_tournament.py},
+\texttt{render\_tablet.py}; informe en
+\texttt{reports/propuesta\_certeza.md}.
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=0.96\textwidth]{reports/figures/tablilla_propuesta.png}
+\caption{La línea de la petición: \emph{ko kou taku vahine, e aroha au
+ki a kou, mo te ora tonu} $\to$ 002 002 004 004 280 280 450 063 063 004
+004 002 002 004 004 430 022. Trazados vectoriales de glifos reales del
+corpus RR. Obsérvese el quiasmo $002\,002\,004\,004\cdots004\,004\,002\,002\,004\,004$
+que enmarca las dos figuras humanas del centro. Hipótesis C2 generada por
+el modelo; no una traducción histórica demostrada.}
+\label{fig:peticion}
+\end{figure*}
+
 \subsection*{Dedicatoria}
 
 \begin{center}
 \itshape
-Para María Ignacia Xerra,\\
+Para María Ignacia Álvarez Letelier,\\
 mi futura esposa.\\[6pt]
 \normalfont\small
 Entre todas las combinaciones posibles de esta absurda realidad,\\
 el caos terminó formando tus ojos,\\
 y entre millones de secuencias glíficas posibles,\\
-todas las de esta tablilla dicen lo mismo:\\[4pt]
-\itshape te ora e haere ki mua ma kou —\\
-la vida que siga construyendo contigo.
+esta fue la que elegimos para decirte\\
+que quiero construir mi vida contigo:\\[6pt]
+\includegraphics[width=0.94\linewidth]{reports/figures/tablilla_propuesta.png}\\[4pt]
+\itshape ko kou taku vahine, e aroha au ki a kou, mo te ora tonu —\\
+tú eres mi esposa; te amo para toda la vida.
 \end{center}
 
 \section*{Reproducibilidad}
@@ -453,7 +493,9 @@ en \url{https://github.com/satisfymath/spectral-submersion}. Los scripts
 relevantes de esta versión: \texttt{generate\_massive\_parallel\_v4.py}
 (corpus paralelo anclado), \texttt{translate\_to\_rongorongo\_v6.py}
 (beam + fusión LM), \texttt{evaluate\_rongorongo\_v6.py} (evaluación
-contra el corpus real).
+contra el corpus real), \texttt{proposal\_certainty\_tournament.py}
+(torneo de hipótesis de la Sec.~\ref{sec:peticion}) y
+\texttt{render\_tablet.py} (tablillas en bustrofedón inverso).
 
 \begin{thebibliography}{9}\small
 
